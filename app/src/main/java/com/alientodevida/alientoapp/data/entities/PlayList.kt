@@ -17,7 +17,7 @@ data class PlayList(
 @JsonClass(generateAdapter = true)
 data class PlayListTrack(
     @SerializedName("items")
-    val items: ArrayList<Track>? = null
+    val items: List<Track>? = null
 )
 
 @JsonClass(generateAdapter = true)
@@ -38,6 +38,6 @@ data class TrackUri(
 @JsonClass(generateAdapter = true)
 data class Album(
     @SerializedName("images")
-    val images: ArrayList<AlbumImage>? = null
+    val images: List<AlbumImage>? = null
 )
 

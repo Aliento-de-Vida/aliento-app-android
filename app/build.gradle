@@ -64,11 +64,16 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit2Version"
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofitCoroutinesAdapterVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$moshiConverterVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
 
     // moshi for parsing the JSON format
     implementation "com.squareup.moshi:moshi:$moshiVersion"
     implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiCodegenVersion"
+
+    // glide for images
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
     // Testing
     testImplementation "junit:junit:$junitVersion"
