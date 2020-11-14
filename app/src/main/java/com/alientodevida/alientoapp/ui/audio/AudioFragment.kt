@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alientodevida.alientoapp.R
+import com.alientodevida.alientoapp.databinding.FragmentAudioBinding
+import com.alientodevida.alientoapp.databinding.FragmentVideoBinding
 
 class AudioFragment : Fragment() {
 
@@ -21,11 +23,9 @@ class AudioFragment : Fragment() {
     ): View? {
         audioViewModel =
                 ViewModelProvider(this).get(AudioViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_notifications, container, false)
-        val textView: TextView = root.findViewById(R.id.text_notifications)
-        audioViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+
+        val binding = FragmentAudioBinding.inflate(layoutInflater)
+
+        return binding.root
     }
 }
