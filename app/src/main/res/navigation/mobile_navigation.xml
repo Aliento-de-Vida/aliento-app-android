@@ -15,11 +15,11 @@
         android:id="@+id/navigation_video"
         android:name="com.alientodevida.alientoapp.ui.video.VideoFragment"
         android:label="@string/title_video"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_video" />
 
     <fragment
         android:id="@+id/navigation_audio"
         android:name="com.alientodevida.alientoapp.ui.audio.AudioFragment"
         android:label="@string/title_audio"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_audio" />
 </navigation>
