@@ -19,7 +19,7 @@ class RepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getToken(): Token? {
+    override suspend fun getToken(): Token {
         // TODO inject as dependencies and put in constants file
         return retrofitService.getToken(
             "https://accounts.spotify.com/api/token/",

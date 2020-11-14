@@ -1,16 +1,20 @@
 package com.alientodevida.alientoapp.data.entities
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.io.Serializable
 
 @JsonClass(generateAdapter = true)
 data class Token (
 
-    @SerializedName("access_token")
-    var access_token: String? = null,
+    @Json(name = "access_token")
+    var accessToken: String,
 
-    @SerializedName("token_type")
-    var token_type: String? = null
+    @Json(name = "token_type")
+    var tokenType: String
 
-): Serializable
+): Serializable {
+    companion object {
+        const val key = "Token"
+    }
+}

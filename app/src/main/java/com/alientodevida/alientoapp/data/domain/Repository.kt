@@ -7,7 +7,7 @@ import com.alientodevida.alientoapp.data.entities.Token
 
 interface Repository {
     suspend fun getImageUrl(authorization: String, folderName: String): ImageUrlResponse
-    suspend fun getToken(): Token?
+    suspend fun getToken(): Token
     suspend fun getPlaylist(authorization: String, playlistId: String): PlayList
     suspend fun getPodcast(authorization: String, podcastId: String): Podcast
 }

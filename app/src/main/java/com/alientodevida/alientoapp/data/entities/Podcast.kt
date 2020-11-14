@@ -1,38 +1,37 @@
 package com.alientodevida.alientoapp.data.entities
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import java.util.*
 
 @JsonClass(generateAdapter = true)
 data class Podcast(
-    @SerializedName("href")
+    @Json(name = "href")
     val href: String? = null,
 
-    @SerializedName("items")
-    val items: ArrayList<Podcasts>? = null
+    @Json(name = "items")
+    val items: List<Podcasts>
 )
 
 @JsonClass(generateAdapter = true)
 data class Podcasts(
-    @SerializedName("uri")
+    @Json(name = "uri")
     val uri: String? = null,
 
-    @SerializedName("name")
+    @Json(name = "name")
     val name: String? = null,
 
-    @SerializedName("release_date")
+    @Json(name = "release_date")
     val releaseDate: String? = null,
 
-    @SerializedName("duration_ms")
+    @Json(name = "duration_ms")
     val duration: Int = 0,
 
-    @SerializedName("images")
-    val images: ArrayList<AlbumImage>? = null
+    @Json(name = "images")
+    val images: List<AlbumImage>? = null
 )
 
 @JsonClass(generateAdapter = true)
 data class AlbumImage(
-    @SerializedName("url")
+    @Json(name = "url")
     val url: String? = null
 )
