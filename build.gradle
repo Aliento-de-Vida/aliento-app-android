@@ -39,6 +39,7 @@ ext {
     appcompatVersion = "1.2.0"
     materialVersion = "1.2.1"
     constraintlayoutVersion = "2.0.4"
+    swipeRefreshVersion = "1.1.0"
 
     // Hilt
     hiltVersion = "2.28-alpha"

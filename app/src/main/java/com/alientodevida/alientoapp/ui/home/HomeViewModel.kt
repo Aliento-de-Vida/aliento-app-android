@@ -6,7 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alientodevida.alientoapp.AppController
 import com.alientodevida.alientoapp.data.domain.Repository
+import com.alientodevida.alientoapp.data.entities.Token
 import kotlinx.coroutines.launch
 
 private const val REUNION_DOMINGOS = "HOME/REUNION_DOMINGOS"
@@ -18,9 +20,6 @@ private const val PRIMERS = "HOME/PRIMERS"
 class HomeViewModel @ViewModelInject constructor(
     private val repository: Repository
 ): ViewModel() {
-
-    private val _text = MutableLiveData<String>()
-    val text: LiveData<String> = _text
 
     private val _reunionDomingos = MutableLiveData<String>()
     val reunionDomingos: LiveData<String> = _reunionDomingos
@@ -39,14 +38,6 @@ class HomeViewModel @ViewModelInject constructor(
 
     private val _isGettingData = MutableLiveData<Boolean>()
     val isGettingData: LiveData<Boolean> = _isGettingData
-
-
-    fun getToken() {
-        viewModelScope.launch {
-            val token = repository.getToken()
-            _text.postValue(token!!.access_token)
-        }
-    }
 
 
     fun getImages() {
