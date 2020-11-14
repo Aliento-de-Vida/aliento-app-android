@@ -52,6 +52,15 @@ ext {
     // GSON
     gsonVersion = "2.8.6"
 
+    // Retrofit
+    retrofit2Version = "2.9.0"
+    retrofitCoroutinesAdapterVersion = "0.9.2"
+    moshiConverterVersion = "2.5.0"
+
+    // Moshi
+    moshiVersion = "1.11.0"
+    moshiCodegenVersion = "1.11.0"
+
     // testing
     junitVersion = "4.13.1"
     junitExtVersion = "1.1.2"
@@ -64,13 +73,9 @@ ext {
     testRulesVersion = "1.1.1"
     mockitoVersion = "2.22.0"
 
+
     okhttp3_version = "4.8.0"
-    retrofit2Version = "2.6.0"
-    moshiConverterVersion = "2.5.0"
-    moshiVersion = "1.11.0"
-    moshiCodegenVersion = "1.11.0"
-    retrofitCoroutinesAdapterVersion = "0.9.2"
-    gsonVersion = "2.8.6"
+
     coroutines = "1.0.1"
 
 
