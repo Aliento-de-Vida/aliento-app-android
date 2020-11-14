@@ -49,6 +49,9 @@ ext {
     lifecycleVersion = "2.2.0"
     roomVersion = "2.2.0"
 
+    // GSON
+    gsonVersion = "2.8.6"
+
     // testing
     junitVersion = "4.13.1"
     junitExtVersion = "1.1.2"
