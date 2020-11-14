@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">aliento app</string>
+    <string name="title_home">Home</string>
+    <string name="title_video">Video</string>
+    <string name="title_audio">Audio</string>
+</resources>
