@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.entities.Podcasts
 import com.alientodevida.alientoapp.databinding.FragmentAudioBinding
+import com.alientodevida.alientoapp.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,9 +27,9 @@ class AudioFragment : Fragment() {
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentAudioBinding.inflate(layoutInflater)
 
@@ -43,8 +45,6 @@ class AudioFragment : Fragment() {
 
     private fun setupUI(binding: FragmentAudioBinding) {
 
-
-        // use a linear layout manager
         mLayoutManager = LinearLayoutManager(context)
         binding.myRecyclerView.layoutManager = mLayoutManager
 
@@ -59,34 +59,34 @@ class AudioFragment : Fragment() {
 
             binding.myRecyclerView.adapter = mAdapter
         })
+
+        binding.cv.setOnClickListener {
+            openArtistPage()
+        }
+
     }
 
+    private fun openArtistPage() {
+        openSpotifyWith(Uri.parse("spotify:artist:" + Constants.SPOTIFY_ARTIST_ID))
+    }
 
     private fun handleOnClick(audio: Podcasts) {
+        openSpotifyWith(Uri.parse(audio.uri))
+    }
+
+    private fun openSpotifyWith(uri: Uri) {
         if (appInstalledOrNot("com.spotify.music")) {
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(audio.uri)
-            intent.putExtra(
-                Intent.EXTRA_REFERRER,
-                Uri.parse("android-app://" + requireContext().packageName)
-            )
+            intent.data = uri
+            intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse("android-app://" + requireContext().packageName))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             requireContext().startActivity(intent)
+
         } else {
             try {
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("market://details?id=com.spotify.music")
-                    )
-                )
-            } catch (anfe: ActivityNotFoundException) {
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://play.google.com/store/apps/details?id=com.spotify.music")
-                    )
-                )
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.spotify.music")))
+            } catch (ex: ActivityNotFoundException) {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.spotify.music")))
             }
         }
     }
