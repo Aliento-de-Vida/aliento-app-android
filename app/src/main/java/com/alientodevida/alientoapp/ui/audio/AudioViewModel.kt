@@ -10,10 +10,9 @@ import com.alientodevida.alientoapp.data.domain.Repository
 import com.alientodevida.alientoapp.data.entities.Podcast
 import com.alientodevida.alientoapp.data.entities.Podcasts
 import com.alientodevida.alientoapp.data.entities.Token
+import com.alientodevida.alientoapp.utils.Constants
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-
-private const val podcastId = "1gTd0GDz0PODVPYqhWmQjN"
 
 class AudioViewModel @ViewModelInject constructor(
     private val repository: Repository
@@ -44,7 +43,7 @@ class AudioViewModel @ViewModelInject constructor(
     }
 
     private suspend fun getPodcasts(token: Token) {
-        val result = repository.getPodcast("Bearer ${token.accessToken}", podcastId)
+        val result = repository.getPodcast("Bearer ${token.accessToken}", Constants.PODCAST_ID)
         _podcasts.postValue(result.items)
         _isGettingData.postValue(false)
     }

@@ -1,16 +1,20 @@
 package com.alientodevida.alientoapp.data.repository
 
 import com.alientodevida.alientoapp.data.domain.Repository
-import com.alientodevida.alientoapp.data.entities.ImageUrlResponse
-import com.alientodevida.alientoapp.data.entities.PlayList
-import com.alientodevida.alientoapp.data.entities.Podcast
-import com.alientodevida.alientoapp.data.entities.Token
+import com.alientodevida.alientoapp.data.entities.*
 import com.alientodevida.alientoapp.data.networking.RetrofitService
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
     private val retrofitService: RetrofitService
 ): Repository {
+
+    override suspend fun getYoutubePlayList(youtubeKey: String, playListId: String): PlayListItems {
+        return retrofitService.getYoutubePlaylist(
+            "https://www.googleapis.com/youtube/v3/playlistItems?key=${youtubeKey}" +
+                    "&playlistId=${playListId}&part=snippet&order=date&maxResults=50"
+        )
+    }
 
     override suspend fun getImageUrl(authorization: String, folderName: String): ImageUrlResponse {
         return retrofitService.getImageUrl(

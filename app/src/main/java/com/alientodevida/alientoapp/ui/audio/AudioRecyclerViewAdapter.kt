@@ -16,18 +16,14 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class MyAdapter(
+class AudioRecyclerViewAdapter(
     private val context: Context,
     audios: ArrayList<Podcasts>,
     private val listener: ItemClickListener
 ) :
-    RecyclerView.Adapter<MyAdapter.AudioViewHolder>() {
+    RecyclerView.Adapter<AudioRecyclerViewAdapter.AudioViewHolder>() {
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    class AudioViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var cv: CardView = itemView.findViewById(R.id.cv)
+    class AudioViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var audioName: TextView = itemView.findViewById(R.id.audio_name)
         var audioAuthor: TextView = itemView.findViewById(R.id.audio_author)
         var audioLength: TextView = itemView.findViewById(R.id.audio_length)
@@ -39,7 +35,7 @@ class MyAdapter(
 
     }
 
-    private var audios: ArrayList<Podcasts> = audios
+    var audios: ArrayList<Podcasts> = audios
     override fun getItemCount(): Int {
         return audios.size
     }
@@ -76,5 +72,9 @@ class MyAdapter(
             .circleCrop()
             .into(audioViewHolder.audioPhoto)
         audioViewHolder.bind(audios[i], listener)
+    }
+
+    interface ItemClickListener {
+        fun onItemClick(item: Podcasts)
     }
 }
