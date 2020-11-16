@@ -74,7 +74,7 @@ class VideoFragment : Fragment() {
     }
 
     fun handleOnClick(VIDEO_ID: String?) {
-        val intent: Intent = YouTubeStandalonePlayer.createVideoIntent(activity, Constants.DEVELOPER_KEY, VIDEO_ID)
+        val intent: Intent = YouTubeStandalonePlayer.createVideoIntent(activity, Constants.YOUTUBE_DEVELOPER_KEY, VIDEO_ID)
         startActivity(intent)
     }
 }

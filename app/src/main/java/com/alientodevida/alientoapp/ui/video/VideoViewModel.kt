@@ -26,7 +26,7 @@ class VideoViewModel @ViewModelInject constructor(
         _isGettingData.postValue(true)
         viewModelScope.launch {
             try {
-                val playlist = repository.getYoutubePlayList(Constants.DEVELOPER_KEY, Constants.YOUTUBE_PREDICAS_PLAYLIST_CODE)
+                val playlist = repository.getYoutubePlayList(Constants.YOUTUBE_DEVELOPER_KEY, Constants.YOUTUBE_PREDICAS_PLAYLIST_CODE)
 
                 val videosData = ArrayList<VideoInfo>()
                 playlist.items.forEach {
