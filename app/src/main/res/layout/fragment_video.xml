@@ -47,6 +47,7 @@
                     android:elevation="2dp"
                     android:text="Abrir canal de Youtube"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textColor="@color/pantone_black_c"
                     app:layout_constraintBottom_toBottomOf="@+id/imageViewYoutube3"
                     app:layout_constraintStart_toEndOf="@+id/imageViewYoutube3"
                     app:layout_constraintTop_toTopOf="@+id/imageViewYoutube3" />
