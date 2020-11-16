@@ -7,9 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alientodevida.alientoapp.AppController
 import com.alientodevida.alientoapp.data.domain.Repository
-import com.alientodevida.alientoapp.data.entities.Podcast
-import com.alientodevida.alientoapp.data.entities.Podcasts
-import com.alientodevida.alientoapp.data.entities.Token
+import com.alientodevida.alientoapp.data.entities.network.Token
 import com.alientodevida.alientoapp.utils.Constants
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -18,14 +16,12 @@ class AudioViewModel @ViewModelInject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private val _podcasts = MutableLiveData<List<Podcasts>>()
-    val podcasts: LiveData<List<Podcasts>> = _podcasts
+    val podcasts = repository.getPodcasts()
 
     private val _isGettingData = MutableLiveData<Boolean>()
     val isGettingData: LiveData<Boolean> = _isGettingData
 
-    fun getContent() {
-
+    fun refreshContent() {
         _isGettingData.postValue(true)
         viewModelScope.launch {
 
@@ -43,8 +39,7 @@ class AudioViewModel @ViewModelInject constructor(
     }
 
     private suspend fun getPodcasts(token: Token) {
-        val result = repository.getPodcast("Bearer ${token.accessToken}", Constants.PODCAST_ID)
-        _podcasts.postValue(result.items)
+         repository.refreshPodcasts("Bearer ${token.accessToken}", Constants.PODCAST_ID)
         _isGettingData.postValue(false)
     }
 

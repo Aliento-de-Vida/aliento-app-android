@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.alientodevida.alientoapp.data.entities.presentation.VideoInfo
+import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
 import com.alientodevida.alientoapp.databinding.FragmentVideoBinding
 import com.alientodevida.alientoapp.utils.Constants
 import com.google.android.youtube.player.YouTubeStandalonePlayer
@@ -44,32 +44,29 @@ class VideoFragment : Fragment() {
 
         setupRecyclerView(binding.myRecyclerView)
 
-        binding.swiperefresh.setOnRefreshListener { viewModel.updateData() }
+        binding.swiperefresh.setOnRefreshListener { viewModel.refreshContent() }
 
         viewModel.videos.observe(viewLifecycleOwner, {
+            if (it.count() == 0) {
+                viewModel.refreshContent()
+            }
+
             mAdapter.videos = it
             mAdapter.notifyDataSetChanged()
             binding.swiperefresh.isRefreshing = false
         })
-
-        viewModel.updateData()
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         recyclerView.setHasFixedSize(true)
         mLayoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = mLayoutManager
-        loadData(recyclerView)
-    }
-
-    private fun loadData(recyclerView: RecyclerView) {
         mAdapter = VideoRecyclerViewAdapter(ArrayList() , object :
             VideoRecyclerViewAdapter.ItemClickListenerYoutube {
-            override fun onItemClick(item: VideoInfo) {
+            override fun onItemClick(item: YoutubePlaylistItemEntity) {
                 handleOnClick(item.id)
             }
         })
-        viewModel.updateData()
         recyclerView.adapter = mAdapter
     }
 

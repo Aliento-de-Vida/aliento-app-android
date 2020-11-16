@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.alientodevida.alientoapp.data.entities.Podcasts
+import com.alientodevida.alientoapp.data.entities.local.PodcastEntity
 import com.alientodevida.alientoapp.databinding.FragmentAudioBinding
 import com.alientodevida.alientoapp.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,8 +37,6 @@ class AudioFragment : Fragment() {
 
         setupUI(binding)
 
-        viewModel.getContent()
-
         return binding.root
     }
 
@@ -46,9 +44,13 @@ class AudioFragment : Fragment() {
 
         setupRecyclerView(binding.myRecyclerView)
 
-        binding.swiperefresh.setOnRefreshListener { viewModel.getContent() }
+        binding.swiperefresh.setOnRefreshListener { viewModel.refreshContent() }
 
         viewModel.podcasts.observe(viewLifecycleOwner, {
+            if (it.count() == 0) {
+                viewModel.refreshContent()
+            }
+
             mAdapter.audios = ArrayList(it)
             mAdapter.notifyDataSetChanged()
             binding.swiperefresh.isRefreshing = false
@@ -63,7 +65,7 @@ class AudioFragment : Fragment() {
         mLayoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = mLayoutManager
         mAdapter = AudioRecyclerViewAdapter(requireContext(), ArrayList(), object : AudioRecyclerViewAdapter.ItemClickListener {
-            override fun onItemClick(item: Podcasts) {
+            override fun onItemClick(item: PodcastEntity) {
                 handleOnClick(item)
             }
         })
@@ -74,7 +76,7 @@ class AudioFragment : Fragment() {
         openSpotifyWith(Uri.parse("spotify:artist:" + Constants.SPOTIFY_ARTIST_ID))
     }
 
-    private fun handleOnClick(audio: Podcasts) {
+    private fun handleOnClick(audio: PodcastEntity) {
         openSpotifyWith(Uri.parse(audio.uri))
     }
 

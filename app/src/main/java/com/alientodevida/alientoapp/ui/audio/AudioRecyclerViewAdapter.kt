@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.R
-import com.alientodevida.alientoapp.data.entities.Podcasts
+import com.alientodevida.alientoapp.data.entities.local.PodcastEntity
 import com.bumptech.glide.Glide
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -18,10 +17,9 @@ import java.util.concurrent.TimeUnit
 
 class AudioRecyclerViewAdapter(
     private val context: Context,
-    audios: ArrayList<Podcasts>,
+    var audios: ArrayList<PodcastEntity>,
     private val listener: ItemClickListener
-) :
-    RecyclerView.Adapter<AudioRecyclerViewAdapter.AudioViewHolder>() {
+) : RecyclerView.Adapter<AudioRecyclerViewAdapter.AudioViewHolder>() {
 
     class AudioViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var audioName: TextView = itemView.findViewById(R.id.audio_name)
@@ -29,13 +27,12 @@ class AudioRecyclerViewAdapter(
         var audioLength: TextView = itemView.findViewById(R.id.audio_length)
         var audioPhoto: ImageView = itemView.findViewById(R.id.audio_photo)
 
-        fun bind(item: Podcasts, listener: ItemClickListener) {
+        fun bind(item: PodcastEntity, listener: ItemClickListener) {
             itemView.setOnClickListener { listener.onItemClick(item) }
         }
 
     }
 
-    var audios: ArrayList<Podcasts> = audios
     override fun getItemCount(): Int {
         return audios.size
     }
@@ -66,7 +63,7 @@ class AudioRecyclerViewAdapter(
         audioViewHolder.audioAuthor.text = stringDate
         audioViewHolder.audioLength.text = "${TimeUnit.MILLISECONDS.toMinutes(audios[i].duration.toLong())}  min"
 
-        val imageUrl: String = audios[i].images?.first()?.url.toString()
+        val imageUrl: String = audios[i].imageUrl
         Glide.with(context)
             .load(imageUrl)
             .circleCrop()
@@ -75,6 +72,6 @@ class AudioRecyclerViewAdapter(
     }
 
     interface ItemClickListener {
-        fun onItemClick(item: Podcasts)
+        fun onItemClick(item: PodcastEntity)
     }
 }

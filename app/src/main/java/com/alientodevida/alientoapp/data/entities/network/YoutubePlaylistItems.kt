@@ -1,9 +1,10 @@
-package com.alientodevida.alientoapp.data.entities
+package com.alientodevida.alientoapp.data.entities.network
 
+import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class PlayListItems(
+data class YoutubePlaylistItems(
     var items: List<Playlistitem>
 )
 
@@ -53,3 +54,19 @@ data class High(
     val width: String,
     val height: String,
 )
+
+
+/**
+ * Convert Network results to domain objects
+ */
+fun YoutubePlaylistItems.asDomainModel(): List<YoutubePlaylistItemEntity> {
+    return items.map {
+        YoutubePlaylistItemEntity(
+            it.snippet.title,
+            it.snippet.resourceId.videoId,
+            it.snippet.description,
+            it.snippet.publishedAt,
+            it.snippet.thumbnails.high.url
+        )
+    }
+}

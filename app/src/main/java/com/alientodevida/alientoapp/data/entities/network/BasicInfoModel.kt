@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.data.entities
+package com.alientodevida.alientoapp.data.entities.network
 
 import com.squareup.moshi.JsonClass
 
