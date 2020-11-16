@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.entities.Podcasts
 import com.alientodevida.alientoapp.databinding.FragmentAudioBinding
 import com.alientodevida.alientoapp.utils.Constants
@@ -23,7 +22,7 @@ class AudioFragment : Fragment() {
 
     private val viewModel by viewModels<AudioViewModel>()
 
-    private lateinit var mAdapter: MyAdapter
+    private lateinit var mAdapter: AudioRecyclerViewAdapter
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
 
     override fun onCreateView(
@@ -45,25 +44,30 @@ class AudioFragment : Fragment() {
 
     private fun setupUI(binding: FragmentAudioBinding) {
 
-        mLayoutManager = LinearLayoutManager(context)
-        binding.myRecyclerView.layoutManager = mLayoutManager
+        setupRecyclerView(binding.myRecyclerView)
+
+        binding.swiperefresh.setOnRefreshListener { viewModel.getContent() }
 
         viewModel.podcasts.observe(viewLifecycleOwner, {
-
-            // specify an adapter (see also next example)
-            mAdapter = MyAdapter(requireContext(), ArrayList(it), object : ItemClickListener {
-                override fun onItemClick(item: Podcasts) {
-                    handleOnClick(item)
-                }
-            })
-
-            binding.myRecyclerView.adapter = mAdapter
+            mAdapter.audios = ArrayList(it)
+            mAdapter.notifyDataSetChanged()
+            binding.swiperefresh.isRefreshing = false
         })
 
         binding.cv.setOnClickListener {
             openArtistPage()
         }
+    }
 
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
+        mLayoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = mLayoutManager
+        mAdapter = AudioRecyclerViewAdapter(requireContext(), ArrayList(), object : AudioRecyclerViewAdapter.ItemClickListener {
+            override fun onItemClick(item: Podcasts) {
+                handleOnClick(item)
+            }
+        })
+        recyclerView.adapter = mAdapter
     }
 
     private fun openArtistPage() {

@@ -1,14 +1,16 @@
 package com.alientodevida.alientoapp.data.networking
 
-import com.alientodevida.alientoapp.data.entities.ImageUrlResponse
-import com.alientodevida.alientoapp.data.entities.PlayList
-import com.alientodevida.alientoapp.data.entities.Podcast
-import com.alientodevida.alientoapp.data.entities.Token
+import com.alientodevida.alientoapp.data.entities.*
 import retrofit2.http.*
 
 const val BASE_URL_SPOTIFY_API = "https://api.spotify.com/"
 
 interface RetrofitService {
+
+    @GET
+    suspend fun getYoutubePlaylist(
+        @Url url: String,
+    ): PlayListItems
 
     @GET
     suspend fun getImageUrl(
