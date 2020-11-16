@@ -6,9 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alientodevida.alientoapp.AppController
 import com.alientodevida.alientoapp.data.domain.Repository
-import com.alientodevida.alientoapp.data.entities.Token
 import kotlinx.coroutines.launch
 
 private const val REUNION_DOMINGOS = "HOME/REUNION_DOMINGOS"

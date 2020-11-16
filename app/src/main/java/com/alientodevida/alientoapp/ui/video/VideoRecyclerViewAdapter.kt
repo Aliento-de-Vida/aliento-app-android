@@ -10,7 +10,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.R
-import com.alientodevida.alientoapp.data.entities.presentation.VideoInfo
+import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -22,7 +22,7 @@ import java.util.*
 
 
 class VideoRecyclerViewAdapter(
-    var videos: List<VideoInfo>,
+    var videos: List<YoutubePlaylistItemEntity>,
     private val listener: ItemClickListenerYoutube
 ) : RecyclerView.Adapter<VideoRecyclerViewAdapter.VideoViewHolder>() {
 
@@ -32,7 +32,7 @@ class VideoRecyclerViewAdapter(
         var description: TextView = itemView.findViewById(R.id.tv_descrption)
         var audioPhoto: ImageView = itemView.findViewById(R.id.audio_photo)
         var progressBar: ProgressBar = itemView.findViewById(R.id.progressBar_picture)
-        fun bind(item: VideoInfo, listener: ItemClickListenerYoutube) {
+        fun bind(item: YoutubePlaylistItemEntity, listener: ItemClickListenerYoutube) {
             itemView.setOnClickListener { listener.onItemClick(item) }
         }
 
@@ -84,6 +84,6 @@ class VideoRecyclerViewAdapter(
     }
 
     interface ItemClickListenerYoutube {
-        fun onItemClick(item: VideoInfo)
+        fun onItemClick(item: YoutubePlaylistItemEntity)
     }
 }

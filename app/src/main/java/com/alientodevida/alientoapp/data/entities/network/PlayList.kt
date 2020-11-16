@@ -1,8 +1,7 @@
-package com.alientodevida.alientoapp.data.entities
+package com.alientodevida.alientoapp.data.entities.network
 
 import com.google.gson.annotations.SerializedName
 import com.squareup.moshi.JsonClass
-import java.util.*
 
 @JsonClass(generateAdapter = true)
 data class PlayList(

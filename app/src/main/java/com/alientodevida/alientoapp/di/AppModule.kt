@@ -1,21 +1,27 @@
 package com.alientodevida.alientoapp.di
 
+import android.content.Context
 import com.alientodevida.alientoapp.BuildConfig
 import com.alientodevida.alientoapp.data.domain.Repository
 import com.alientodevida.alientoapp.data.networking.BASE_URL_SPOTIFY_API
 import com.alientodevida.alientoapp.data.networking.RetrofitService
 import com.alientodevida.alientoapp.data.repository.RepositoryImpl
+import com.alientodevida.alientoapp.data.storage.RoomDao
+import com.alientodevida.alientoapp.data.storage.AppDatabase
+import com.alientodevida.alientoapp.data.storage.getDatabase
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 
 @Module
@@ -31,6 +37,19 @@ abstract class DataModule {
     @Binds
     abstract fun bindRepository(impl: RepositoryImpl): Repository
 
+}
+
+@Module
+@InstallIn(ApplicationComponent::class)
+class LocalModule {
+
+    @Singleton
+    @Provides
+    fun providesDatabase(@ApplicationContext context: Context): AppDatabase = getDatabase(context)
+
+    @Singleton
+    @Provides
+    fun videoDAO(database: AppDatabase): RoomDao = database.roomDao
 }
 
 @Module
