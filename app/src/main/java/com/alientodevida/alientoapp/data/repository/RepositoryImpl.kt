@@ -2,12 +2,11 @@ package com.alientodevida.alientoapp.data.repository
 
 import androidx.lifecycle.LiveData
 import com.alientodevida.alientoapp.data.domain.Repository
-import com.alientodevida.alientoapp.data.entities.network.ImageUrlResponse
-import com.alientodevida.alientoapp.data.entities.network.PlayList
-import com.alientodevida.alientoapp.data.entities.network.Token
-import com.alientodevida.alientoapp.data.entities.network.asDomainModel
+import com.alientodevida.alientoapp.data.entities.local.ImageUrlEntity
 import com.alientodevida.alientoapp.data.entities.local.PodcastEntity
 import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
+import com.alientodevida.alientoapp.data.entities.network.Token
+import com.alientodevida.alientoapp.data.entities.network.asDomainModel
 import com.alientodevida.alientoapp.data.networking.RetrofitService
 import com.alientodevida.alientoapp.data.storage.RoomDao
 import kotlinx.coroutines.Dispatchers
@@ -44,12 +43,24 @@ class RepositoryImpl @Inject constructor(
 
 
 
-    override suspend fun getImageUrl(authorization: String, folderName: String): ImageUrlResponse {
-        return retrofitService.getImageUrl(
-            "https://api.cloudinary.com/api/v1_1/dpeeqsw78/resources/search/?expression=folder=${folderName}",
-            authorization
-        )
+    override suspend fun refreshImageUrl(authorization: String, folderName: String) {
+        withContext(Dispatchers.IO) {
+            val searchUrl = "https://api.cloudinary.com/api/v1_1/dpeeqsw78/resources/search/?expression=folder=${folderName}"
+
+            val response = retrofitService.getImageUrl(
+                searchUrl,
+                authorization
+            )
+            roomDao.insertImageUrl(response.asDomainModel(searchUrl))
+        }
     }
+    override fun getImageUrl(folderName: String): LiveData<ImageUrlEntity> {
+        val url = "https://api.cloudinary.com/api/v1_1/dpeeqsw78/resources/search/?expression=folder=${folderName}"
+        return roomDao.getImageUrl(url)
+    }
+
+
+
 
     override suspend fun getToken(authorization: String, grantType: String): Token {
         return retrofitService.getToken(
@@ -59,7 +70,7 @@ class RepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getPlaylist(authorization: String, playlistId: String): PlayList {
+    /*override suspend fun getPlaylist(authorization: String, playlistId: String): PlayList {
         return retrofitService.getPlaylist(authorization, playlistId)
-    }
+    }*/
 }

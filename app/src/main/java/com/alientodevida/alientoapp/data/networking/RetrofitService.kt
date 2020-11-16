@@ -12,11 +12,19 @@ interface RetrofitService {
         @Url url: String,
     ): YoutubePlaylistItems
 
+    @GET("/v1/shows/{podcast_id}/episodes/?market=MX")
+    suspend fun getPodcast(
+        @Header("Authorization") authorization: String,
+        @Path("podcast_id") podcast_id: String
+    ): Podcast
+
     @GET
     suspend fun getImageUrl(
         @Url url: String,
         @Header("Authorization") authorization: String
     ): ImageUrlResponse
+
+
 
     @POST
     @FormUrlEncoded
@@ -26,15 +34,11 @@ interface RetrofitService {
         @Field("grant_type") grantType: String
         ): Token
 
-    @GET("/v1/playlists/{playlist_id}/")
+    /*@GET("/v1/playlists/{playlist_id}/")
     suspend fun getPlaylist(
         @Header("Authorization") authorization: String,
         @Path("playlist_id") playlistId: String
-    ): PlayList
+    ): PlayList*/
 
-    @GET("/v1/shows/{podcast_id}/episodes/?market=MX")
-    suspend fun getPodcast(
-        @Header("Authorization") authorization: String,
-        @Path("podcast_id") podcast_id: String
-    ): Podcast
+
 }
