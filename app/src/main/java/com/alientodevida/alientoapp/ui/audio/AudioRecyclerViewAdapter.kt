@@ -42,7 +42,7 @@ class AudioRecyclerViewAdapter(
         i: Int
     ): AudioViewHolder {
         val v: View =
-            LayoutInflater.from(viewGroup.context).inflate(R.layout.card_item, viewGroup, false)
+            LayoutInflater.from(viewGroup.context).inflate(R.layout.card_item_audios, viewGroup, false)
         return AudioViewHolder(v)
     }
 
