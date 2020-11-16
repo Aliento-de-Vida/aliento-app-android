@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.alientodevida.alientoapp.data.entities.local.ImageUrlEntity
 import com.alientodevida.alientoapp.data.entities.local.PodcastEntity
 import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
 
@@ -25,4 +26,10 @@ interface RoomDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllPodcasts(items: List<PodcastEntity>)
+
+    @Query("select * from imageurlentity WHERE searchUrl=:searchUrl ")
+    fun getImageUrl(searchUrl: String): LiveData<ImageUrlEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertImageUrl(item: ImageUrlEntity)
 }

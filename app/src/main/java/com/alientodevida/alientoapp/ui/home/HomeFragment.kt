@@ -24,12 +24,48 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        setupUI()
+        setupUI(binding)
 
         return binding.root
     }
 
-    private fun setupUI() {
-        viewModel.getImages()
+    private fun setupUI(binding: FragmentHomeBinding) {
+
+        binding.swiperefresh.setOnRefreshListener {
+            refreshImages()
+        }
+
+        viewModel.reunionDomingos.observe(viewLifecycleOwner, {
+            if (it == null) viewModel.refreshReunionDomingo()
+            binding.swiperefresh.isRefreshing = false
+        })
+
+        viewModel.unoLaCongre.observe(viewLifecycleOwner, {
+            if (it == null) viewModel.refreshUnoLaCongre()
+            binding.swiperefresh.isRefreshing = false
+        })
+
+        viewModel.unoSomos.observe(viewLifecycleOwner, {
+            if (it == null) viewModel.refreshUnoSomos()
+            binding.swiperefresh.isRefreshing = false
+        })
+
+        viewModel.primers.observe(viewLifecycleOwner, {
+            if (it == null) viewModel.refreshPrimers()
+            binding.swiperefresh.isRefreshing = false
+        })
+
+        viewModel.gruposGeneradores.observe(viewLifecycleOwner, {
+            if (it == null) viewModel.refreshGruposGeneradores()
+            binding.swiperefresh.isRefreshing = false
+        })
+    }
+
+    private fun refreshImages() {
+        viewModel.refreshReunionDomingo()
+        viewModel.refreshUnoLaCongre()
+        viewModel.refreshUnoSomos()
+        viewModel.refreshPrimers()
+        viewModel.refreshGruposGeneradores()
     }
 }
