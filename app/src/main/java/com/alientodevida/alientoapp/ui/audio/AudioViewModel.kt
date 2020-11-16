@@ -51,7 +51,7 @@ class AudioViewModel @ViewModelInject constructor(
     private suspend fun getToken(isExpired: Boolean = false): Token {
         var token = AppController.get<Token>(Token.key)
         if (token == null || isExpired) {
-            token = repository.getToken()
+            token = repository.getToken(Constants.SPOTIFY_TOKEN, Constants.SPOTIFY_GRANT_TYPE)
             AppController.save(token, Token.key)
         }
         return token
