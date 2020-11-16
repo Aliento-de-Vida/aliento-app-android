@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.ui
+package com.alientodevida.alientoapp.ui.activities
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
