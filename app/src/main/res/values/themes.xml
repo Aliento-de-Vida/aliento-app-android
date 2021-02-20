@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.AlientoApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.AlientoApp" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/pantone_2199_c</item>
         <item name="colorPrimaryVariant">@color/pantone_663_c</item>
