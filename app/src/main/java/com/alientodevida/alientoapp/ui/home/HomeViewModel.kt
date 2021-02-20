@@ -6,7 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.domain.Repository
+import com.alientodevida.alientoapp.data.entities.local.CarrouselItem
+import com.alientodevida.alientoapp.data.entities.local.CarrouselItemType
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
@@ -19,6 +22,18 @@ private const val PRIMERS = "HOME/PRIMERS"
 class HomeViewModel @ViewModelInject constructor(
     private val repository: Repository
 ): ViewModel() {
+
+    private val _carrouselItems = MutableLiveData<List<CarrouselItem>>()
+    val carrouselItems: LiveData<List<CarrouselItem>>
+        get() = _carrouselItems
+
+    init {
+        _carrouselItems.value = listOf(
+            CarrouselItem(CarrouselItemType.ALIENTO_DE_VIDA, null, R.drawable.carrousel_adv),
+            CarrouselItem(CarrouselItemType.MANOS_EXTENDIDAS, null, R.drawable.carrousel_manos_extendidas),
+            CarrouselItem(CarrouselItemType.CURSOS, null, R.drawable.carrousel_cursos)
+        )
+    }
 
     val reunionDomingos = repository.getImageUrl(REUNION_DOMINGOS)
     val unoLaCongre = repository.getImageUrl(UNO_LA_CONGRE)
