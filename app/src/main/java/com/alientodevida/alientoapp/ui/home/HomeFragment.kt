@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,8 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.entities.local.CarrouselItem
+import com.alientodevida.alientoapp.data.entities.local.CarrouselItemType
 import com.alientodevida.alientoapp.databinding.FragmentHomeBinding
-import com.alientodevida.alientoapp.databinding.ItemCarrouselRecyclerViewBinding
+import com.alientodevida.alientoapp.databinding.ItemCarouselRecyclerViewBinding
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +24,7 @@ class HomeFragment : Fragment() {
 
     private val viewModel by viewModels<HomeViewModel>()
 
-    private lateinit var carrouselRecyclerViewAdapter: CarrouselRecyclerViewAdapter
+    private lateinit var carouselRecyclerViewAdapter: CarouselRecyclerViewAdapter
     private lateinit var devicesRecyclerView: RecyclerView
 
     override fun onCreateView(
@@ -47,64 +49,126 @@ class HomeFragment : Fragment() {
         }
 
         devicesRecyclerView = binding.carrousel
-        setupCarrousel()
+        setupCarousel()
 
-        viewModel.reunionDomingos.observe(viewLifecycleOwner, {
-            if (it == null) viewModel.refreshReunionDomingo()
+        viewModel.sermons.observe(viewLifecycleOwner, {
+            if (it == null) viewModel.refreshSermonsImage()
             binding.swiperefresh.isRefreshing = false
         })
 
-        viewModel.unoLaCongre.observe(viewLifecycleOwner, {
-            if (it == null) viewModel.refreshUnoLaCongre()
+        viewModel.donations.observe(viewLifecycleOwner, {
+            if (it == null) viewModel.refreshDonationsImage()
             binding.swiperefresh.isRefreshing = false
         })
 
-        viewModel.unoSomos.observe(viewLifecycleOwner, {
-            if (it == null) viewModel.refreshUnoSomos()
+        viewModel.webPage.observe(viewLifecycleOwner, {
+            if (it == null) viewModel.refreshWebPageImage()
             binding.swiperefresh.isRefreshing = false
         })
 
-        viewModel.primers.observe(viewLifecycleOwner, {
-            if (it == null) viewModel.refreshPrimers()
+        viewModel.ebook.observe(viewLifecycleOwner, {
+            if (it == null) viewModel.refreshEbookImage()
             binding.swiperefresh.isRefreshing = false
         })
 
-        viewModel.gruposGeneradores.observe(viewLifecycleOwner, {
-            if (it == null) viewModel.refreshGruposGeneradores()
+        viewModel.prayer.observe(viewLifecycleOwner, {
+            if (it == null) viewModel.refreshPrayerImage()
             binding.swiperefresh.isRefreshing = false
         })
+
+
+        binding.sermons.setOnClickListener {
+            showUnderDevelopment()
+        }
+        binding.donations.setOnClickListener {
+            showUnderDevelopment()
+        }
+        binding.prayer.setOnClickListener {
+            showUnderDevelopment()
+        }
+        binding.webPage.setOnClickListener {
+            showUnderDevelopment()
+        }
+        binding.ebook.setOnClickListener {
+            showUnderDevelopment()
+        }
+
+        binding.instagram.setOnClickListener {
+            showUnderDevelopment()
+        }
+        binding.youtube.setOnClickListener {
+            showUnderDevelopment()
+        }
+        binding.facebook.setOnClickListener {
+            showUnderDevelopment()
+        }
+        binding.twitter.setOnClickListener {
+            showUnderDevelopment()
+        }
+        binding.spotify.setOnClickListener {
+            showUnderDevelopment()
+        }
     }
 
-    private fun setupCarrousel() {
 
-        viewModel.carrouselItems.observe(viewLifecycleOwner) { result: List<CarrouselItem> ->
-            carrouselRecyclerViewAdapter = CarrouselRecyclerViewAdapter(ItemClick { item ->
-                // TODO
+    private fun setupCarousel() {
+
+        viewModel.carouseItems.observe(viewLifecycleOwner) { result: List<CarrouselItem> ->
+            carouselRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
+                when (item.type) {
+                    CarrouselItemType.ALIENTO_DE_VIDA -> {
+                        showUnderDevelopment()
+                    }
+                    CarrouselItemType.MANOS_EXTENDIDAS -> {
+                        showComingSoon()
+                    }
+                    CarrouselItemType.CURSOS -> {
+                        showComingSoon()
+                    }
+                }
             })
-            carrouselRecyclerViewAdapter.items = result
+            carouselRecyclerViewAdapter.items = result
             devicesRecyclerView.apply {
 
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                adapter = carrouselRecyclerViewAdapter
+                adapter = carouselRecyclerViewAdapter
             }
         }
     }
 
+    private fun showUnderDevelopment() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage(R.string.under_development)
+            .setPositiveButton(R.string.ok) { _, _ -> }
+        builder.create().show()
+    }
+
+    private fun showComingSoon() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage(R.string.comming_soon)
+            .setPositiveButton(R.string.ok) { _, _ -> }
+        builder.create().show()
+    }
+
     private fun refreshImages() {
-        viewModel.refreshReunionDomingo()
-        viewModel.refreshUnoLaCongre()
-        viewModel.refreshUnoSomos()
-        viewModel.refreshPrimers()
-        viewModel.refreshGruposGeneradores()
+        viewModel.refreshSermonsImage()
+        viewModel.refreshDonationsImage()
+        viewModel.refreshWebPageImage()
+        viewModel.refreshEbookImage()
+        viewModel.refreshPrayerImage()
     }
 }
 
 
+
+/**
+ * Carousel Recycler View Adapter
+ * */
 class ItemClick(val block: (CarrouselItem) -> Unit) {
     fun onClick(device: CarrouselItem) = block(device)
 }
 
-class CarrouselRecyclerViewAdapter(private val callback: ItemClick) : RecyclerView.Adapter<CarrouselItemViewHolder>() {
+class CarouselRecyclerViewAdapter(private val callback: ItemClick) : RecyclerView.Adapter<CarouselItemViewHolder>() {
 
     var items: List<CarrouselItem> = emptyList()
         set(value) {
@@ -112,15 +176,15 @@ class CarrouselRecyclerViewAdapter(private val callback: ItemClick) : RecyclerVi
             notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarrouselItemViewHolder {
-        val withDataBinding: ItemCarrouselRecyclerViewBinding =
-            DataBindingUtil.inflate(LayoutInflater.from(parent.context), CarrouselItemViewHolder.LAYOUT, parent, false)
-        return CarrouselItemViewHolder(withDataBinding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselItemViewHolder {
+        val withDataBinding: ItemCarouselRecyclerViewBinding =
+            DataBindingUtil.inflate(LayoutInflater.from(parent.context), CarouselItemViewHolder.LAYOUT, parent, false)
+        return CarouselItemViewHolder(withDataBinding)
     }
 
     override fun getItemCount() = items.size
 
-    override fun onBindViewHolder(holder: CarrouselItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CarouselItemViewHolder, position: Int) {
         holder.deviceDataBinding.also {
             it.item = items[position]
             it.callback = callback
@@ -164,10 +228,10 @@ class CarrouselRecyclerViewAdapter(private val callback: ItemClick) : RecyclerVi
 
 }
 
-class CarrouselItemViewHolder(val deviceDataBinding: ItemCarrouselRecyclerViewBinding) :
+class CarouselItemViewHolder(val deviceDataBinding: ItemCarouselRecyclerViewBinding) :
     RecyclerView.ViewHolder(deviceDataBinding.root) {
     companion object {
         @LayoutRes
-        val LAYOUT = R.layout.item_carrousel_recycler_view
+        val LAYOUT = R.layout.item_carousel_recycler_view
     }
 }
