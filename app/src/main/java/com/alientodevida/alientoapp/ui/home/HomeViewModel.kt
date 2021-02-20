@@ -13,33 +13,34 @@ import com.alientodevida.alientoapp.data.entities.local.CarrouselItemType
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-private const val REUNION_DOMINGOS = "HOME/REUNION_DOMINGOS"
-private const val UNO_LA_CONGRE = "HOME/UNO_LA_CONGRE"
-private const val GRUPOS_GENERADORES = "HOME/GRUPOS_GENERADORES"
-private const val UNO_SOMOS = "HOME/UNO_SOMOS"
-private const val PRIMERS = "HOME/PRIMERS"
+// TODO rename
+private const val SERMONS = "HOME/REUNION_DOMINGOS"
+private const val DONATIONS = "HOME/UNO_LA_CONGRE"
+private const val PRAYER = "HOME/GRUPOS_GENERADORES"
+private const val WEB_PAGE = "HOME/UNO_SOMOS"
+private const val EBOOK = "HOME/PRIMERS"
 
 class HomeViewModel @ViewModelInject constructor(
     private val repository: Repository
 ): ViewModel() {
 
-    private val _carrouselItems = MutableLiveData<List<CarrouselItem>>()
-    val carrouselItems: LiveData<List<CarrouselItem>>
-        get() = _carrouselItems
+    private val _carouseItems = MutableLiveData<List<CarrouselItem>>()
+    val carouseItems: LiveData<List<CarrouselItem>>
+        get() = _carouseItems
 
     init {
-        _carrouselItems.value = listOf(
+        _carouseItems.value = listOf(
             CarrouselItem(CarrouselItemType.ALIENTO_DE_VIDA, null, R.drawable.carrousel_adv),
             CarrouselItem(CarrouselItemType.MANOS_EXTENDIDAS, null, R.drawable.carrousel_manos_extendidas),
             CarrouselItem(CarrouselItemType.CURSOS, null, R.drawable.carrousel_cursos)
         )
     }
 
-    val reunionDomingos = repository.getImageUrl(REUNION_DOMINGOS)
-    val unoLaCongre = repository.getImageUrl(UNO_LA_CONGRE)
-    val unoSomos = repository.getImageUrl(UNO_SOMOS)
-    val primers = repository.getImageUrl(PRIMERS)
-    val gruposGeneradores = repository.getImageUrl(GRUPOS_GENERADORES)
+    val sermons = repository.getImageUrl(SERMONS)
+    val donations = repository.getImageUrl(DONATIONS)
+    val prayer = repository.getImageUrl(PRAYER)
+    val webPage = repository.getImageUrl(WEB_PAGE)
+    val ebook = repository.getImageUrl(EBOOK)
 
     private val _isGettingData = MutableLiveData<Boolean>()
     val isGettingData: LiveData<Boolean> = _isGettingData
@@ -50,18 +51,18 @@ class HomeViewModel @ViewModelInject constructor(
         )
     ).trim()
 
-    fun refreshReunionDomingo() {
+    fun refreshSermonsImage() {
         viewModelScope.launch {
             _isGettingData.postValue(true)
             try {
-                repository.refreshImageUrl(token, REUNION_DOMINGOS)
+                repository.refreshImageUrl(token, SERMONS)
             } catch (ex: HttpException) {
                 ex.printStackTrace()
             }
             _isGettingData.postValue(false)
         }
     }
-    fun refreshUnoLaCongre() {
+    fun refreshDonationsImage() {
         viewModelScope.launch {
             _isGettingData.postValue(true)
             try {
@@ -69,37 +70,37 @@ class HomeViewModel @ViewModelInject constructor(
             } catch (ex: HttpException) {
                 ex.printStackTrace()
             }
-            repository.refreshImageUrl(token, UNO_LA_CONGRE)
+            repository.refreshImageUrl(token, DONATIONS)
             _isGettingData.postValue(false)
         }
     }
-    fun refreshGruposGeneradores() {
+    fun refreshPrayerImage() {
         viewModelScope.launch {
             _isGettingData.postValue(true)
             try {
-                repository.refreshImageUrl(token, GRUPOS_GENERADORES)
+                repository.refreshImageUrl(token, PRAYER)
             } catch (ex: HttpException) {
                 ex.printStackTrace()
             }
             _isGettingData.postValue(false)
         }
     }
-    fun refreshUnoSomos() {
+    fun refreshWebPageImage() {
         viewModelScope.launch {
             _isGettingData.postValue(true)
             try {
-                repository.refreshImageUrl(token, UNO_SOMOS)
+                repository.refreshImageUrl(token, WEB_PAGE)
             } catch (ex: HttpException) {
                 ex.printStackTrace()
             }
             _isGettingData.postValue(false)
         }
     }
-    fun refreshPrimers() {
+    fun refreshEbookImage() {
         viewModelScope.launch {
             _isGettingData.postValue(true)
             try {
-                repository.refreshImageUrl(token, PRIMERS)
+                repository.refreshImageUrl(token, EBOOK)
             } catch (ex: HttpException) {
                 ex.printStackTrace()
             }

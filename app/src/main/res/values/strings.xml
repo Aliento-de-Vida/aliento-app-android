@@ -3,4 +3,11 @@
     <string name="title_home">Home</string>
     <string name="title_video">Video</string>
     <string name="title_audio">Audio</string>
+    <string name="comming_soon">Próximamente</string>
+    <string name="ok">Ok</string>
+    <string name="under_development">En desarrollo</string>
+    <string name="social_networks">Redes Sociales</string>
+    <string name="home">Inicio</string>
+    <string name="carousel">Carrusel</string>
+    <string name="quick_access">Acceso Rápido</string>
 </resources>
