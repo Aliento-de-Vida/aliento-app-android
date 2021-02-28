@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.ui.activities
+package com.alientodevida.alientoapp.ui._main
 
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog

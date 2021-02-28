@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.ui.audio
+package com.alientodevida.alientoapp.ui.sermons.audio
 
 import android.content.ActivityNotFoundException
 import android.content.Intent

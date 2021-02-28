@@ -29,9 +29,9 @@ data class ResourceId(
 
 @JsonClass(generateAdapter = true)
 data class Thumbnails(
-    val default: Default,
-    val medium: Medium,
-    var high: High
+    val default: Default?,
+    val medium: Medium?,
+    var high: High?
 )
 
 @JsonClass(generateAdapter = true)
@@ -66,7 +66,7 @@ fun YoutubePlaylistItems.asDomainModel(): List<YoutubePlaylistItemEntity> {
             it.snippet.resourceId.videoId,
             it.snippet.description,
             it.snippet.publishedAt,
-            it.snippet.thumbnails.high.url
+            it.snippet.thumbnails.high?.url
         )
     }
 }

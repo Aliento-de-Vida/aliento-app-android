@@ -10,5 +10,5 @@ data class YoutubePlaylistItemEntity(
         val id: String,
         val description: String,
         val date: String,
-        val thumbnilsUrl: String
+        val thumbnilsUrl: String?
 )

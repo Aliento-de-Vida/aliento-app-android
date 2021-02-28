@@ -9,6 +9,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.R
@@ -51,34 +54,29 @@ class HomeFragment : Fragment() {
         devicesRecyclerView = binding.carrousel
         setupCarousel()
 
-        viewModel.sermons.observe(viewLifecycleOwner, {
-            if (it == null) viewModel.refreshSermonsImage()
+        viewModel.sermons.observe(viewLifecycleOwner) {
             binding.swiperefresh.isRefreshing = false
-        })
+        }
 
-        viewModel.donations.observe(viewLifecycleOwner, {
-            if (it == null) viewModel.refreshDonationsImage()
+        viewModel.donations.observe(viewLifecycleOwner) {
             binding.swiperefresh.isRefreshing = false
-        })
+        }
 
-        viewModel.webPage.observe(viewLifecycleOwner, {
-            if (it == null) viewModel.refreshWebPageImage()
+        viewModel.webPage.observe(viewLifecycleOwner) {
             binding.swiperefresh.isRefreshing = false
-        })
+        }
 
-        viewModel.ebook.observe(viewLifecycleOwner, {
-            if (it == null) viewModel.refreshEbookImage()
+        viewModel.ebook.observe(viewLifecycleOwner) {
             binding.swiperefresh.isRefreshing = false
-        })
+        }
 
-        viewModel.prayer.observe(viewLifecycleOwner, {
-            if (it == null) viewModel.refreshPrayerImage()
+        viewModel.prayer.observe(viewLifecycleOwner) {
             binding.swiperefresh.isRefreshing = false
-        })
+        }
 
 
         binding.sermons.setOnClickListener {
-            showUnderDevelopment()
+            goToSermons()
         }
         binding.donations.setOnClickListener {
             showUnderDevelopment()
@@ -110,6 +108,10 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun goToSermons() {
+        val action = HomeFragmentDirections.actionNavigationHomeToNavigationSermons()
+        findNavController().navigate(action)
+    }
 
     private fun setupCarousel() {
 

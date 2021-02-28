@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.ui.video
+package com.alientodevida.alientoapp.ui.sermons.video
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
