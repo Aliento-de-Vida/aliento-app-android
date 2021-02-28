@@ -16,56 +16,6 @@
         android:paddingLeft="4dp"
         android:paddingRight="4dp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:visibility="visible"
-            app:cardCornerRadius="@dimen/card_view_custom_radius"
-            app:cardElevation="@dimen/cardview_custom_elevation"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="8dp">
-
-                <ImageView
-                    android:id="@+id/audio_photo"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="16dp"
-                    app:srcCompat="@drawable/spotify_icon" />
-
-                <TextView
-                    android:id="@+id/audio_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/audio_photo"
-                    android:layout_alignBottom="@+id/audio_photo"
-                    android:layout_toRightOf="@+id/audio_photo"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:text="Abrir canal de Spotify"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textColor="@color/pantone_white_c" />
-
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"
             android:layout_width="0dp"
@@ -73,7 +23,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cv">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/linearLayout"
@@ -106,6 +56,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/spotify_fragment_audios"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/green_spotify"
+                    android:clickable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/spotify_icon" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

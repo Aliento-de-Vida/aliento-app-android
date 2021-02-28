@@ -8,7 +8,7 @@
     <string name="under_development">En desarrollo</string>
     <string name="social_networks">Redes Sociales</string>
     <string name="home">Inicio</string>
-    <string name="carousel">Carrusel</string>
+    <string name="carousel">Categorías</string>
     <string name="quick_access">Acceso Rápido</string>
-    <string name="title_sermons">Sermones</string>
+    <string name="title_sermons">Prédicas</string>
 </resources>

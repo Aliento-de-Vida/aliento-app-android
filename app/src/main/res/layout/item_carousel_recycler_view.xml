@@ -15,8 +15,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
-        android:layout_width="267dp"
-        android:layout_height="400dp">
+        android:layout_width="230dp"
+        android:layout_height="160dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/ReunionDomingos"

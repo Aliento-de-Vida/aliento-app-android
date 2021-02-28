@@ -45,7 +45,7 @@ class HomeViewModel @ViewModelInject constructor(
 
     init {
         _carouseItems.value = listOf(
-            CarrouselItem(CarrouselItemType.ALIENTO_DE_VIDA, null, R.drawable.carrousel_adv),
+            CarrouselItem(CarrouselItemType.CHURCH, null, R.drawable.carrousel_adv),
             CarrouselItem(CarrouselItemType.MANOS_EXTENDIDAS, null, R.drawable.carrousel_manos_extendidas),
             CarrouselItem(CarrouselItemType.CURSOS, null, R.drawable.carrousel_cursos)
         )

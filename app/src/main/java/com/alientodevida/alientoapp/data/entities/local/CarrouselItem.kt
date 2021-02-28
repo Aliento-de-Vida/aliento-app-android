@@ -7,7 +7,7 @@ data class CarrouselItem (
 )
 
 enum class CarrouselItemType {
-    ALIENTO_DE_VIDA,
+    CHURCH,
     MANOS_EXTENDIDAS,
     CURSOS,
 }
