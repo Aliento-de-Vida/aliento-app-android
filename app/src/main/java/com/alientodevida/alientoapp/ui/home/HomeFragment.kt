@@ -10,7 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +18,8 @@ import com.alientodevida.alientoapp.data.entities.local.CarrouselItem
 import com.alientodevida.alientoapp.data.entities.local.CarrouselItemType
 import com.alientodevida.alientoapp.databinding.FragmentHomeBinding
 import com.alientodevida.alientoapp.databinding.ItemCarouselRecyclerViewBinding
+import com.alientodevida.alientoapp.utils.Constants
+import com.alientodevida.alientoapp.utils.Utils
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -85,17 +86,17 @@ class HomeFragment : Fragment() {
             showUnderDevelopment()
         }
         binding.webPage.setOnClickListener {
-            showUnderDevelopment()
+            Utils.goToUrl(requireContext(), Constants.webPageUrl)
         }
         binding.ebook.setOnClickListener {
-            showUnderDevelopment()
+            Utils.goToUrl(requireContext(), Constants.ebookDownloadUrl)
         }
 
         binding.instagram.setOnClickListener {
             showUnderDevelopment()
         }
         binding.youtube.setOnClickListener {
-            showUnderDevelopment()
+            Utils.openYoutubeChannel(requireContext(), Constants.YOUTUBE_CHANNEL_URL)
         }
         binding.facebook.setOnClickListener {
             showUnderDevelopment()
@@ -104,7 +105,7 @@ class HomeFragment : Fragment() {
             showUnderDevelopment()
         }
         binding.spotify.setOnClickListener {
-            showUnderDevelopment()
+            Utils.openSpotifyArtistPage(requireContext(), Constants.SPOTIFY_ARTIST_ID)
         }
     }
 
@@ -113,13 +114,18 @@ class HomeFragment : Fragment() {
         findNavController().navigate(action)
     }
 
+    private fun goToChurch() {
+        val action = HomeFragmentDirections.actionNavigationHomeToChurchFragment()
+        findNavController().navigate(action)
+    }
+
     private fun setupCarousel() {
 
         viewModel.carouseItems.observe(viewLifecycleOwner) { result: List<CarrouselItem> ->
             carouselRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
                 when (item.type) {
-                    CarrouselItemType.ALIENTO_DE_VIDA -> {
-                        showUnderDevelopment()
+                    CarrouselItemType.CHURCH -> {
+                        goToChurch()
                     }
                     CarrouselItemType.MANOS_EXTENDIDAS -> {
                         showComingSoon()

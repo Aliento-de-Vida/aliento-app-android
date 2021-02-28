@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_sermons"
             app:destination="@id/navigation_sermons" />
+        <action
+            android:id="@+id/action_navigation_home_to_churchFragment"
+            app:destination="@id/fragment_church" />
     </fragment>
 
     <fragment
@@ -20,5 +23,11 @@
         android:name="com.alientodevida.alientoapp.ui.sermons.SermonsFragment"
         android:label="@string/title_sermons"
         tools:layout="@layout/fragment_sermons" />
+
+    <fragment
+        android:id="@+id/fragment_church"
+        android:name="com.alientodevida.alientoapp.ui.church.ChurchFragment"
+        android:label="ChurchFragment"
+        tools:layout="@layout/fragment_church" />
 
 </navigation>

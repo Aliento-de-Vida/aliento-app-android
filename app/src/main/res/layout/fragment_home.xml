@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="@string/home"
+                    android:text="@string/title_sermons"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
                     android:textColor="@color/pantone_white_c"
                     app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +112,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/carrousel"
                     android:layout_width="0dp"
-                    android:layout_height="400dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
