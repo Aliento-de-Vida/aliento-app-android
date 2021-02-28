@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.ui.video
+package com.alientodevida.alientoapp.ui.sermons.video
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -60,25 +60,26 @@ class VideoRecyclerViewAdapter(
         videoViewHolder.audioName.text = videos[i].name
         videoViewHolder.description.text = videos[i].description
         val context: Context = videoViewHolder.audioPhoto.context
-        val url: String = videos[i].thumbnilsUrl.replace("hqdefault.jpg", "maxresdefault.jpg")
 
-        Glide.with(context)
-            .load(url)
-            .centerCrop()
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                    videoViewHolder.progressBar.visibility = View.GONE
-                    return true
-                }
+        videos[i].thumbnilsUrl?.replace("hqdefault.jpg", "maxresdefault.jpg")?.let {
+            Glide.with(context)
+                    .load(it)
+                    .centerCrop()
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                            videoViewHolder.progressBar.visibility = View.GONE
+                            return true
+                        }
 
-                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                    videoViewHolder.progressBar.visibility = View.GONE
-                    videoViewHolder.audioPhoto.setImageDrawable(resource)
-                    return true
-                }
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            videoViewHolder.progressBar.visibility = View.GONE
+                            videoViewHolder.audioPhoto.setImageDrawable(resource)
+                            return true
+                        }
 
-            })
-            .into(videoViewHolder.audioPhoto)
+                    })
+                    .into(videoViewHolder.audioPhoto)
+        }
 
         videoViewHolder.bind(videos[i], listener)
     }

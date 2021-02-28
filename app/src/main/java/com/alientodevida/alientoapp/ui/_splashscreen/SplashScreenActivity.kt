@@ -1,10 +1,11 @@
-package com.alientodevida.alientoapp.ui.activities
+package com.alientodevida.alientoapp.ui._splashscreen
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.alientodevida.alientoapp.databinding.ActivitySplashScreenBinding
+import com.alientodevida.alientoapp.ui._main.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay

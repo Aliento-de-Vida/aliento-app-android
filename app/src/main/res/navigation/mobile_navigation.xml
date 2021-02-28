@@ -9,17 +9,16 @@
         android:id="@+id/navigation_home"
         android:name="com.alientodevida.alientoapp.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_sermons"
+            app:destination="@id/navigation_sermons" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_video"
-        android:name="com.alientodevida.alientoapp.ui.video.VideoFragment"
-        android:label="@string/title_video"
-        tools:layout="@layout/fragment_video" />
+        android:id="@+id/navigation_sermons"
+        android:name="com.alientodevida.alientoapp.ui.sermons.SermonsFragment"
+        android:label="@string/title_sermons"
+        tools:layout="@layout/fragment_sermons" />
 
-    <fragment
-        android:id="@+id/navigation_audio"
-        android:name="com.alientodevida.alientoapp.ui.audio.AudioFragment"
-        android:label="@string/title_audio"
-        tools:layout="@layout/fragment_audio" />
 </navigation>

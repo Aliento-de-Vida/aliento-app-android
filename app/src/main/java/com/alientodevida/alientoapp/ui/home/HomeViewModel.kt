@@ -28,13 +28,8 @@ class HomeViewModel @ViewModelInject constructor(
     val carouseItems: LiveData<List<CarrouselItem>>
         get() = _carouseItems
 
-    init {
-        _carouseItems.value = listOf(
-            CarrouselItem(CarrouselItemType.ALIENTO_DE_VIDA, null, R.drawable.carrousel_adv),
-            CarrouselItem(CarrouselItemType.MANOS_EXTENDIDAS, null, R.drawable.carrousel_manos_extendidas),
-            CarrouselItem(CarrouselItemType.CURSOS, null, R.drawable.carrousel_cursos)
-        )
-    }
+    private val _isGettingData = MutableLiveData<Boolean>()
+    val isGettingData: LiveData<Boolean> = _isGettingData
 
     val sermons = repository.getImageUrl(SERMONS)
     val donations = repository.getImageUrl(DONATIONS)
@@ -42,14 +37,19 @@ class HomeViewModel @ViewModelInject constructor(
     val webPage = repository.getImageUrl(WEB_PAGE)
     val ebook = repository.getImageUrl(EBOOK)
 
-    private val _isGettingData = MutableLiveData<Boolean>()
-    val isGettingData: LiveData<Boolean> = _isGettingData
-
     private val token = String.format(
-        "Basic %s", Base64.encodeToString(
+            "Basic %s", Base64.encodeToString(
             String.format("%s:%s", "862563945119256", "RsL-A1Z-JkJL0LKQpyj8f2UmkT8").toByteArray(), Base64.DEFAULT
-        )
+    )
     ).trim()
+
+    init {
+        _carouseItems.value = listOf(
+            CarrouselItem(CarrouselItemType.ALIENTO_DE_VIDA, null, R.drawable.carrousel_adv),
+            CarrouselItem(CarrouselItemType.MANOS_EXTENDIDAS, null, R.drawable.carrousel_manos_extendidas),
+            CarrouselItem(CarrouselItemType.CURSOS, null, R.drawable.carrousel_cursos)
+        )
+    }
 
     fun refreshSermonsImage() {
         viewModelScope.launch {
@@ -66,11 +66,10 @@ class HomeViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             _isGettingData.postValue(true)
             try {
-
+                repository.refreshImageUrl(token, DONATIONS)
             } catch (ex: HttpException) {
                 ex.printStackTrace()
             }
-            repository.refreshImageUrl(token, DONATIONS)
             _isGettingData.postValue(false)
         }
     }

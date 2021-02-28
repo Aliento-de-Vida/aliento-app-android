@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.ui.video
+package com.alientodevida.alientoapp.ui.sermons.video
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
@@ -46,7 +47,7 @@ class VideoFragment : Fragment() {
 
         binding.swiperefresh.setOnRefreshListener { viewModel.refreshContent() }
 
-        viewModel.videos.observe(viewLifecycleOwner, {
+        viewModel.videos.observe(viewLifecycleOwner) {
             if (it.count() == 0) {
                 viewModel.refreshContent()
             }
@@ -54,7 +55,7 @@ class VideoFragment : Fragment() {
             mAdapter.videos = it
             mAdapter.notifyDataSetChanged()
             binding.swiperefresh.isRefreshing = false
-        })
+        }
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {

@@ -6,14 +6,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.alientodevida.alientoapp.ui.video.VideoViewModel" />
+            type="com.alientodevida.alientoapp.ui.sermons.video.VideoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorOnPrimary"
         android:elevation="2dp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp">
@@ -47,7 +46,7 @@
                     android:elevation="2dp"
                     android:text="Abrir canal de Youtube"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textColor="@color/pantone_black_c"
+                    android:textColor="@color/pantone_white_c"
                     app:layout_constraintBottom_toBottomOf="@+id/imageViewYoutube3"
                     app:layout_constraintStart_toEndOf="@+id/imageViewYoutube3"
                     app:layout_constraintTop_toTopOf="@+id/imageViewYoutube3" />
@@ -106,6 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:elevation="4dp"
+                    android:indeterminateTint="@color/pantone_white_c"
                     app:isGettingData="@{viewModel.isGettingData}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

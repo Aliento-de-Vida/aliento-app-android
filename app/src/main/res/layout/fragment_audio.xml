@@ -5,14 +5,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.alientodevida.alientoapp.ui.audio.AudioViewModel" />
+            type="com.alientodevida.alientoapp.ui.sermons.audio.AudioViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorOnPrimary"
         android:elevation="2dp"
         android:paddingLeft="4dp"
         android:paddingRight="4dp">
@@ -25,7 +24,6 @@
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:visibility="visible"
-            app:cardBackgroundColor="@color/cardview_light_background"
             app:cardCornerRadius="@dimen/card_view_custom_radius"
             app:cardElevation="@dimen/cardview_custom_elevation"
             app:cardUseCompatPadding="true"
@@ -62,7 +60,7 @@
                     android:maxLines="1"
                     android:text="Abrir canal de Spotify"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textColor="@color/pantone_black_c" />
+                    android:textColor="@color/pantone_white_c" />
 
             </RelativeLayout>
 
@@ -90,6 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:elevation="4dp"
+                    android:indeterminateTint="@color/pantone_white_c"
                     app:isGettingData="@{viewModel.isGettingData}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
