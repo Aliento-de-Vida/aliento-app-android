@@ -1,10 +1,12 @@
 package com.alientodevida.alientoapp.utils
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import com.google.android.youtube.player.YouTubeStandalonePlayer
 
 
 class Utils {
@@ -49,6 +51,11 @@ class Utils {
         fun goToUrl(context: Context, webPageUrl: String) {
             val openBrowserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(webPageUrl))
             context.startActivity(openBrowserIntent)
+        }
+
+        fun handleOnClick(activity: Activity, VIDEO_ID: String) {
+            val intent: Intent = YouTubeStandalonePlayer.createVideoIntent(activity, Constants.YOUTUBE_DEVELOPER_KEY, VIDEO_ID)
+            activity.startActivity(intent)
         }
     }
 }

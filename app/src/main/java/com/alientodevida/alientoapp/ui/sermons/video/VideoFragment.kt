@@ -71,14 +71,9 @@ class VideoFragment : Fragment() {
         mAdapter = VideoRecyclerViewAdapter(ArrayList() , object :
             VideoRecyclerViewAdapter.ItemClickListenerYoutube {
             override fun onItemClick(item: YoutubePlaylistItemEntity) {
-                handleOnClick(item.id)
+                Utils.handleOnClick(requireActivity(), item.id)
             }
         })
         recyclerView.adapter = mAdapter
-    }
-
-    fun handleOnClick(VIDEO_ID: String?) {
-        val intent: Intent = YouTubeStandalonePlayer.createVideoIntent(activity, Constants.YOUTUBE_DEVELOPER_KEY, VIDEO_ID)
-        startActivity(intent)
     }
 }

@@ -2,14 +2,12 @@ package com.alientodevida.alientoapp.ui.home
 
 import android.util.Base64
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.domain.Repository
 import com.alientodevida.alientoapp.data.entities.local.CarrouselItem
 import com.alientodevida.alientoapp.data.entities.local.CarrouselItemType
+import com.alientodevida.alientoapp.utils.Constants
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
@@ -28,6 +26,14 @@ class HomeViewModel @ViewModelInject constructor(
     val carouseItems: LiveData<List<CarrouselItem>>
         get() = _carouseItems
 
+    private val sermonsItems = repository.getYoutubePlaylist()
+    val sermonsItemsTransformation = Transformations.map(sermonsItems) { items ->
+        items.map {
+            val url = it.thumbnilsUrl?.replace("hqdefault.jpg", "maxresdefault.jpg")
+            CarrouselItem(null, url, null, it.id)
+        }
+    }
+
     private val _isGettingData = MutableLiveData<Boolean>()
     val isGettingData: LiveData<Boolean> = _isGettingData
 
@@ -45,10 +51,24 @@ class HomeViewModel @ViewModelInject constructor(
 
     init {
         _carouseItems.value = listOf(
-            CarrouselItem(CarrouselItemType.CHURCH, null, R.drawable.carrousel_adv),
-            CarrouselItem(CarrouselItemType.MANOS_EXTENDIDAS, null, R.drawable.carrousel_manos_extendidas),
-            CarrouselItem(CarrouselItemType.CURSOS, null, R.drawable.carrousel_cursos)
+            CarrouselItem(CarrouselItemType.CHURCH, null, R.drawable.carrousel_adv, null),
+            CarrouselItem(CarrouselItemType.MANOS_EXTENDIDAS, null, R.drawable.carrousel_manos_extendidas, null),
+            CarrouselItem(CarrouselItemType.CURSOS, null, R.drawable.carrousel_cursos, null)
         )
+    }
+
+    fun refreshContent() {
+        _isGettingData.postValue(true)
+        viewModelScope.launch {
+            try {
+                repository.refreshYoutubePlaylist(Constants.YOUTUBE_DEVELOPER_KEY, Constants.YOUTUBE_PREDICAS_PLAYLIST_CODE)
+                _isGettingData.postValue(false)
+
+            } catch (ex: HttpException) {
+                _isGettingData.postValue(false)
+                ex.printStackTrace()
+            }
+        }
     }
 
     fun refreshSermonsImage() {

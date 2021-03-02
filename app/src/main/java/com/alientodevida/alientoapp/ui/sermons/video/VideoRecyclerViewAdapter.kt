@@ -35,7 +35,6 @@ class VideoRecyclerViewAdapter(
         fun bind(item: YoutubePlaylistItemEntity, listener: ItemClickListenerYoutube) {
             itemView.setOnClickListener { listener.onItemClick(item) }
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -43,7 +42,7 @@ class VideoRecyclerViewAdapter(
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): VideoViewHolder {
-        val v: View = LayoutInflater.from(viewGroup.context).inflate(R.layout.card_item_video, viewGroup, false)
+        val v: View = LayoutInflater.from(viewGroup.context).inflate(R.layout.item_video_card, viewGroup, false)
         return VideoViewHolder(v)
     }
 
