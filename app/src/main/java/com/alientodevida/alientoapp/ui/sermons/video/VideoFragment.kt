@@ -1,7 +1,5 @@
 package com.alientodevida.alientoapp.ui.sermons.video
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +13,6 @@ import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntit
 import com.alientodevida.alientoapp.databinding.FragmentVideoBinding
 import com.alientodevida.alientoapp.utils.Constants
 import com.alientodevida.alientoapp.utils.Utils
-import com.google.android.youtube.player.YouTubeStandalonePlayer
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -53,12 +50,12 @@ class VideoFragment : Fragment() {
             Utils.openYoutubeChannel(requireContext(), Constants.YOUTUBE_CHANNEL_URL)
         }
 
-        viewModel.videos.observe(viewLifecycleOwner) {
-            if (it.count() == 0) {
+        viewModel.videos.observe(viewLifecycleOwner) { items ->
+            if (items.count() == 0) {
                 viewModel.refreshContent()
             }
 
-            mAdapter.videos = it
+            mAdapter.videos = items.filter { it.thumbnilsUrl != null }
             mAdapter.notifyDataSetChanged()
             binding.swiperefresh.isRefreshing = false
         }

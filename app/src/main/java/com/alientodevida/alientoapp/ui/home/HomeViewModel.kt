@@ -5,8 +5,10 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.domain.Repository
-import com.alientodevida.alientoapp.data.entities.local.CarrouselItem
-import com.alientodevida.alientoapp.data.entities.local.CarrouselItemType
+import com.alientodevida.alientoapp.data.entities.local.CarouselItem
+import com.alientodevida.alientoapp.data.entities.local.CategoryItem
+import com.alientodevida.alientoapp.data.entities.local.CategoryItemType
+import com.alientodevida.alientoapp.data.entities.local.YoutubeItem
 import com.alientodevida.alientoapp.utils.Constants
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -22,15 +24,19 @@ class HomeViewModel @ViewModelInject constructor(
     private val repository: Repository
 ): ViewModel() {
 
-    private val _carouseItems = MutableLiveData<List<CarrouselItem>>()
-    val carouseItems: LiveData<List<CarrouselItem>>
+    private val _carouseItems = MutableLiveData<List<CategoryItem>>()
+    val carouseItems: LiveData<List<CategoryItem>>
         get() = _carouseItems
 
     private val sermonsItems = repository.getYoutubePlaylist()
-    val sermonsItemsTransformation = Transformations.map(sermonsItems) { items ->
-        items.map {
-            val url = it.thumbnilsUrl?.replace("hqdefault.jpg", "maxresdefault.jpg")
-            CarrouselItem(null, url, null, it.id)
+    val sermonsItemsTransformation: LiveData<List<CarouselItem>> = Transformations.map(sermonsItems) { items ->
+        val carouselItems = items.filter { it.thumbnilsUrl != null }
+        carouselItems.map {
+            it.thumbnilsUrl?.replace("hqdefault.jpg", "maxresdefault.jpg")?.let {url ->
+                YoutubeItem(it.name, url, it.id)
+            }?: run {
+                throw Exception("Playlist item with no image")
+            }
         }
     }
 
@@ -51,9 +57,9 @@ class HomeViewModel @ViewModelInject constructor(
 
     init {
         _carouseItems.value = listOf(
-            CarrouselItem(CarrouselItemType.CHURCH, null, R.drawable.carrousel_adv, null),
-            CarrouselItem(CarrouselItemType.MANOS_EXTENDIDAS, null, R.drawable.carrousel_manos_extendidas, null),
-            CarrouselItem(CarrouselItemType.CURSOS, null, R.drawable.carrousel_cursos, null)
+            CategoryItem("Aliento de Vida", CategoryItemType.CHURCH, R.drawable.carrousel_adv),
+            CategoryItem("Manos Extendidas", CategoryItemType.MANOS_EXTENDIDAS, R.drawable.carrousel_manos_extendidas),
+            CategoryItem("Cursos", CategoryItemType.CURSOS, R.drawable.carrousel_cursos)
         )
     }
 

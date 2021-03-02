@@ -4,10 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.domain.Repository
-import com.alientodevida.alientoapp.data.entities.local.CarrouselItem
-import com.alientodevida.alientoapp.data.entities.local.CarrouselItemType
 import com.alientodevida.alientoapp.utils.Constants.US_VIDEO
 
 class ChurchViewModel @ViewModelInject constructor(

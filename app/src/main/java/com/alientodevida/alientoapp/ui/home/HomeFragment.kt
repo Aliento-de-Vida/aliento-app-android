@@ -15,10 +15,11 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.alientodevida.alientoapp.R
-import com.alientodevida.alientoapp.data.entities.local.CarrouselItem
-import com.alientodevida.alientoapp.data.entities.local.CarrouselItemType
+import com.alientodevida.alientoapp.data.entities.local.CarouselItem
+import com.alientodevida.alientoapp.data.entities.local.CategoryItem
+import com.alientodevida.alientoapp.data.entities.local.CategoryItemType
+import com.alientodevida.alientoapp.data.entities.local.YoutubeItem
 import com.alientodevida.alientoapp.databinding.FragmentHomeBinding
 import com.alientodevida.alientoapp.databinding.ItemCarouselBinding
 import com.alientodevida.alientoapp.utils.Constants
@@ -61,7 +62,7 @@ class HomeFragment : Fragment() {
         binding.verMas.text = content
         binding.verMas.setOnClickListener { goToSermons() }
 
-        setupSermonsRecyclerView(binding.sermons, binding.swiperefresh)
+        setupSermonsRecyclerView(binding.sermons)
 
         setupCarousel(binding.carrousel)
 
@@ -119,12 +120,12 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupSermonsRecyclerView(recyclerView: RecyclerView, swiperefresh: SwipeRefreshLayout) {
+    private fun setupSermonsRecyclerView(recyclerView: RecyclerView) {
         sermonsRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
-            Utils.handleOnClick(requireActivity(), item.id!!)
+            Utils.handleOnClick(requireActivity(), (item as YoutubeItem).youtubeId)
         })
 
-        viewModel.sermonsItemsTransformation.observe(viewLifecycleOwner) { result: List<CarrouselItem> ->
+        viewModel.sermonsItemsTransformation.observe(viewLifecycleOwner) { result ->
             if (result.count() == 0) {
                 viewModel.refreshContent()
             }
@@ -139,20 +140,20 @@ class HomeFragment : Fragment() {
 
     private fun setupCarousel(carrousel: RecyclerView) {
         carouselRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
-            when (item.type) {
-                CarrouselItemType.CHURCH -> {
+            when ((item as CategoryItem).type) {
+                CategoryItemType.CHURCH -> {
                     goToChurch()
                 }
-                CarrouselItemType.MANOS_EXTENDIDAS -> {
+                CategoryItemType.MANOS_EXTENDIDAS -> {
                     showComingSoon()
                 }
-                CarrouselItemType.CURSOS -> {
+                CategoryItemType.CURSOS -> {
                     showComingSoon()
                 }
             }
         })
 
-        viewModel.carouseItems.observe(viewLifecycleOwner) { result: List<CarrouselItem> ->
+        viewModel.carouseItems.observe(viewLifecycleOwner) { result: List<CategoryItem> ->
             carouselRecyclerViewAdapter.items = result
             carrousel.apply {
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -198,13 +199,13 @@ class HomeFragment : Fragment() {
 /**
  * Carousel Recycler View Adapter
  * */
-class ItemClick(val block: (CarrouselItem) -> Unit) {
-    fun onClick(device: CarrouselItem) = block(device)
+class ItemClick(val block: (CarouselItem) -> Unit) {
+    fun onClick(device: CarouselItem) = block(device)
 }
 
 class CarouselRecyclerViewAdapter(private val callback: ItemClick) : RecyclerView.Adapter<CarouselItemViewHolder>() {
 
-    var items: List<CarrouselItem> = emptyList()
+    var items: List<CarouselItem> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -220,22 +221,27 @@ class CarouselRecyclerViewAdapter(private val callback: ItemClick) : RecyclerVie
 
     override fun onBindViewHolder(holder: CarouselItemViewHolder, position: Int) {
         holder.deviceDataBinding.also {
-            it.item = items[position]
+            val item = items[position]
+
+            it.item = item
             it.callback = callback
 
-            if (it.item!!.imageResource != null) {
-                Glide.with(holder.deviceDataBinding.imageView.context)
-                    .load(it.item!!.imageResource)
-                    .centerCrop()
-                    .into(holder.deviceDataBinding.imageView)
+            it.title.text = item.title
 
-            } else if (it.item!!.imageUrl != null) {
-                Glide.with(holder.deviceDataBinding.imageView.context)
-                    .load(it.item!!.imageUrl)
-                    .centerCrop()
-                    .into(holder.deviceDataBinding.imageView)
+            when (item) {
+                is CategoryItem -> {
+                    Glide.with(holder.deviceDataBinding.imageView.context)
+                            .load(item.imageResource)
+                            .centerCrop()
+                            .into(holder.deviceDataBinding.imageView)
+                }
+                is YoutubeItem -> {
+                    Glide.with(holder.deviceDataBinding.imageView.context)
+                            .load(item.imageUrl)
+                            .centerCrop()
+                            .into(holder.deviceDataBinding.imageView)
+                }
             }
-
 
             when (position) {
                 0 -> {
