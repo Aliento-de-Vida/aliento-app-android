@@ -1,6 +1,8 @@
 package com.alientodevida.alientoapp.ui.home
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,23 +15,25 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.entities.local.CarrouselItem
 import com.alientodevida.alientoapp.data.entities.local.CarrouselItemType
 import com.alientodevida.alientoapp.databinding.FragmentHomeBinding
-import com.alientodevida.alientoapp.databinding.ItemCarouselRecyclerViewBinding
+import com.alientodevida.alientoapp.databinding.ItemCarouselBinding
 import com.alientodevida.alientoapp.utils.Constants
 import com.alientodevida.alientoapp.utils.Utils
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private val viewModel by viewModels<HomeViewModel>()
 
+    private lateinit var sermonsRecyclerViewAdapter: CarouselRecyclerViewAdapter
     private lateinit var carouselRecyclerViewAdapter: CarouselRecyclerViewAdapter
-    private lateinit var devicesRecyclerView: RecyclerView
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -52,8 +56,14 @@ class HomeFragment : Fragment() {
             refreshImages()
         }
 
-        devicesRecyclerView = binding.carrousel
-        setupCarousel()
+        val content = SpannableString("Ver más")
+        content.setSpan(UnderlineSpan(), 0, content.length, 0)
+        binding.verMas.text = content
+        binding.verMas.setOnClickListener { goToSermons() }
+
+        setupSermonsRecyclerView(binding.sermons, binding.swiperefresh)
+
+        setupCarousel(binding.carrousel)
 
         viewModel.sermons.observe(viewLifecycleOwner) {
             binding.swiperefresh.isRefreshing = false
@@ -109,6 +119,48 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setupSermonsRecyclerView(recyclerView: RecyclerView, swiperefresh: SwipeRefreshLayout) {
+        sermonsRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
+            Utils.handleOnClick(requireActivity(), item.id!!)
+        })
+
+        viewModel.sermonsItemsTransformation.observe(viewLifecycleOwner) { result: List<CarrouselItem> ->
+            if (result.count() == 0) {
+                viewModel.refreshContent()
+            }
+
+            sermonsRecyclerViewAdapter.items = result
+            recyclerView.apply {
+                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                adapter = sermonsRecyclerViewAdapter
+            }
+        }
+    }
+
+    private fun setupCarousel(carrousel: RecyclerView) {
+        carouselRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
+            when (item.type) {
+                CarrouselItemType.CHURCH -> {
+                    goToChurch()
+                }
+                CarrouselItemType.MANOS_EXTENDIDAS -> {
+                    showComingSoon()
+                }
+                CarrouselItemType.CURSOS -> {
+                    showComingSoon()
+                }
+            }
+        })
+
+        viewModel.carouseItems.observe(viewLifecycleOwner) { result: List<CarrouselItem> ->
+            carouselRecyclerViewAdapter.items = result
+            carrousel.apply {
+                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                adapter = carouselRecyclerViewAdapter
+            }
+        }
+    }
+
     private fun goToSermons() {
         val action = HomeFragmentDirections.actionNavigationHomeToNavigationSermons()
         findNavController().navigate(action)
@@ -117,31 +169,6 @@ class HomeFragment : Fragment() {
     private fun goToChurch() {
         val action = HomeFragmentDirections.actionNavigationHomeToChurchFragment()
         findNavController().navigate(action)
-    }
-
-    private fun setupCarousel() {
-
-        viewModel.carouseItems.observe(viewLifecycleOwner) { result: List<CarrouselItem> ->
-            carouselRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
-                when (item.type) {
-                    CarrouselItemType.CHURCH -> {
-                        goToChurch()
-                    }
-                    CarrouselItemType.MANOS_EXTENDIDAS -> {
-                        showComingSoon()
-                    }
-                    CarrouselItemType.CURSOS -> {
-                        showComingSoon()
-                    }
-                }
-            })
-            carouselRecyclerViewAdapter.items = result
-            devicesRecyclerView.apply {
-
-                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                adapter = carouselRecyclerViewAdapter
-            }
-        }
     }
 
     private fun showUnderDevelopment() {
@@ -168,7 +195,6 @@ class HomeFragment : Fragment() {
 }
 
 
-
 /**
  * Carousel Recycler View Adapter
  * */
@@ -185,7 +211,7 @@ class CarouselRecyclerViewAdapter(private val callback: ItemClick) : RecyclerVie
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselItemViewHolder {
-        val withDataBinding: ItemCarouselRecyclerViewBinding =
+        val withDataBinding: ItemCarouselBinding =
             DataBindingUtil.inflate(LayoutInflater.from(parent.context), CarouselItemViewHolder.LAYOUT, parent, false)
         return CarouselItemViewHolder(withDataBinding)
     }
@@ -236,10 +262,10 @@ class CarouselRecyclerViewAdapter(private val callback: ItemClick) : RecyclerVie
 
 }
 
-class CarouselItemViewHolder(val deviceDataBinding: ItemCarouselRecyclerViewBinding) :
+class CarouselItemViewHolder(val deviceDataBinding: ItemCarouselBinding) :
     RecyclerView.ViewHolder(deviceDataBinding.root) {
     companion object {
         @LayoutRes
-        val LAYOUT = R.layout.item_carousel_recycler_view
+        val LAYOUT = R.layout.item_carousel
     }
 }

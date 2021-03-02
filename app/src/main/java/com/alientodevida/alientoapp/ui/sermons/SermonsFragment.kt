@@ -38,10 +38,6 @@ class SermonsFragment : Fragment() {
         val fragmentContainer = binding.root.findViewById<View>(R.id.nav_host_fragment_sermons)
         val navController = Navigation.findNavController(fragmentContainer)
 
-
-        //val nestedNavHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_fragment_sermons) as? NavHostFragment
-        //val navController = nestedNavHostFragment!!.navController
-
         val bottomNavigationView = binding.navView
         bottomNavigationView.setupWithNavController(navController)
     }
