@@ -53,8 +53,8 @@ class Utils {
             context.startActivity(openBrowserIntent)
         }
 
-        fun handleOnClick(activity: Activity, VIDEO_ID: String) {
-            val intent: Intent = YouTubeStandalonePlayer.createVideoIntent(activity, Constants.YOUTUBE_DEVELOPER_KEY, VIDEO_ID)
+        fun handleOnClick(activity: Activity, videoId: String) {
+            val intent: Intent = YouTubeStandalonePlayer.createVideoIntent(activity, Constants.YOUTUBE_DEVELOPER_KEY, videoId)
             activity.startActivity(intent)
         }
     }
