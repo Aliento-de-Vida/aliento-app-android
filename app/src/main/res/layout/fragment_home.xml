@@ -155,7 +155,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView5">
 
                     <ImageView
-
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
@@ -285,7 +284,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:backgroundTint="@color/pantone_white_c"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="@dimen/card_view_custom_radius"
                     app:cardElevation="@dimen/cardview_custom_elevation"
                     app:cardUseCompatPadding="true"
