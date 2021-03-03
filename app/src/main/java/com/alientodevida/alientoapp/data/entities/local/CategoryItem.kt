@@ -15,6 +15,7 @@ enum class CategoryItemType {
     CHURCH,
     MANOS_EXTENDIDAS,
     CURSOS,
+    SERMONS
 }
 
 data class YoutubeItem(
