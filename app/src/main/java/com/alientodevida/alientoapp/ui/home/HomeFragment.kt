@@ -120,7 +120,10 @@ class HomeFragment : Fragment() {
 
     private fun setupSermonsRecyclerView(recyclerView: RecyclerView) {
         sermonsRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
-            Utils.handleOnClick(requireActivity(), (item as YoutubeItem).youtubeId)
+            when (item) {
+                is CategoryItem -> goToSermons()
+                is YoutubeItem -> Utils.handleOnClick(requireActivity(), item.youtubeId)
+            }
         })
 
         viewModel.sermonsItemsTransformation.observe(viewLifecycleOwner) { result ->

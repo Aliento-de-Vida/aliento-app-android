@@ -30,14 +30,20 @@ class HomeViewModel @ViewModelInject constructor(
 
     private val sermonsItems = repository.getYoutubePlaylist()
     val sermonsItemsTransformation: LiveData<List<CarouselItem>> = Transformations.map(sermonsItems) { items ->
-        val carouselItems = items.filter { it.thumbnilsUrl != null }
-        carouselItems.map {
-            it.thumbnilsUrl?.replace("hqdefault.jpg", "maxresdefault.jpg")?.let {url ->
-                YoutubeItem(it.name, url, it.id)
-            }?: run {
-                throw Exception("Playlist item with no image")
-            }
-        }
+        val carouselItems = arrayListOf<CarouselItem>(CategoryItem("Prédicas", CategoryItemType.SERMONS, 0))
+
+        carouselItems.addAll(
+                items.filter { it.thumbnilsUrl != null }
+                        .map {
+                            it.thumbnilsUrl?.replace("hqdefault.jpg", "maxresdefault.jpg")?.let {url ->
+                                YoutubeItem(it.name, url, it.id)
+                            }?: run {
+                                throw Exception("Playlist item with no image")
+                            }
+                        }
+        )
+
+        carouselItems
     }
 
     private val _isGettingData = MutableLiveData<Boolean>()
