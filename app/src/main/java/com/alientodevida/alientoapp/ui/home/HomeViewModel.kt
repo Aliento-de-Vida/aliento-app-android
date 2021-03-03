@@ -15,10 +15,10 @@ import retrofit2.HttpException
 
 // TODO rename
 private const val SERMONS = "HOME/REUNION_DOMINGOS"
-private const val DONATIONS = "HOME/UNO_LA_CONGRE"
-private const val PRAYER = "HOME/GRUPOS_GENERADORES"
-private const val WEB_PAGE = "HOME/UNO_SOMOS"
-private const val EBOOK = "HOME/PRIMERS"
+private const val DONATIONS = "adv/DONACIONES"
+private const val PRAYER = "adv/ORACION"
+private const val WEB_PAGE = "adv/PAGINAWEB"
+private const val EBOOK = "adv/EBOOK"
 
 class HomeViewModel @ViewModelInject constructor(
     private val repository: Repository
@@ -44,6 +44,7 @@ class HomeViewModel @ViewModelInject constructor(
     val isGettingData: LiveData<Boolean> = _isGettingData
 
     val sermons = repository.getImageUrl(SERMONS)
+
     val donations = repository.getImageUrl(DONATIONS)
     val prayer = repository.getImageUrl(PRAYER)
     val webPage = repository.getImageUrl(WEB_PAGE)
