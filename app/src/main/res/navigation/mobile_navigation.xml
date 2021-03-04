@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_navigation_home_to_churchFragment"
             app:destination="@id/fragment_church" />
+        <action
+            android:id="@+id/action_navigation_home_to_donationsFragment"
+            app:destination="@id/donations_fragment" />
     </fragment>
 
     <fragment
@@ -29,5 +32,10 @@
         android:name="com.alientodevida.alientoapp.ui.church.ChurchFragment"
         android:label="ChurchFragment"
         tools:layout="@layout/fragment_church" />
+    <fragment
+        android:id="@+id/donations_fragment"
+        android:name="com.alientodevida.alientoapp.ui.donations.DonationsFragment"
+        android:label="DonationsFragment"
+        tools:layout="@layout/fragment_donations" />
 
 </navigation>
