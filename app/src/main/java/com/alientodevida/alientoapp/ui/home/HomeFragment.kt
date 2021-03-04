@@ -89,7 +89,7 @@ class HomeFragment : Fragment() {
             goToSermons()
         }
         binding.donations.setOnClickListener {
-            showUnderDevelopment()
+            goToDonations()
         }
         binding.prayer.setOnClickListener {
             showUnderDevelopment()
@@ -142,15 +142,10 @@ class HomeFragment : Fragment() {
     private fun setupCarousel(carrousel: RecyclerView) {
         carouselRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
             when ((item as CategoryItem).type) {
-                CategoryItemType.CHURCH -> {
-                    goToChurch()
-                }
-                CategoryItemType.MANOS_EXTENDIDAS -> {
-                    showComingSoon()
-                }
-                CategoryItemType.CURSOS -> {
-                    showComingSoon()
-                }
+                CategoryItemType.CHURCH -> goToChurch()
+                CategoryItemType.MANOS_EXTENDIDAS -> showComingSoon()
+                CategoryItemType.CURSOS -> showComingSoon()
+                CategoryItemType.SERMONS -> goToSermons()
             }
         })
 
@@ -170,6 +165,11 @@ class HomeFragment : Fragment() {
 
     private fun goToChurch() {
         val action = HomeFragmentDirections.actionNavigationHomeToChurchFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun goToDonations() {
+        val action = HomeFragmentDirections.actionNavigationHomeToDonationsFragment()
         findNavController().navigate(action)
     }
 

@@ -1,11 +1,11 @@
 package com.alientodevida.alientoapp.utils
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.widget.Toast
+import com.alientodevida.alientoapp.AppController
 import com.google.android.youtube.player.YouTubeStandalonePlayer
 
 
@@ -103,6 +103,16 @@ class Utils {
         fun handleOnClick(activity: Activity, videoId: String) {
             val intent: Intent = YouTubeStandalonePlayer.createVideoIntent(activity, Constants.YOUTUBE_DEVELOPER_KEY, videoId)
             activity.startActivity(intent)
+        }
+
+        fun copyToClipboard(context: Context? = AppController.context, name: String, value: String) {
+            context?.let { it ->
+                val myClipboard = it.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val myClip = ClipData.newPlainText("clipboard", value)
+                myClipboard.setPrimaryClip(myClip)
+
+                Toast.makeText(it, "$name copiado", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
