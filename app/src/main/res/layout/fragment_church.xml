@@ -62,18 +62,58 @@
                 android:paddingBottom="8dp" >
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:id="@+id/textView13"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="32dp"
-                    android:text="Nosotros"
+                    android:layout_marginTop="16dp"
+                    android:text="ALIENTO DE VIDA"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/pantone_white_c"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Aliento de Vida es una congregación creada en el corazón de Dios, para que las personas y familias en Yucatán, México y el mundo de habla hispana, tengan un lugar donde puedan adorar a Jesucristo con libertad, recibir una palabra que transforme su vida y celebrar con nosotros la presencia de Dios. No sentimos honrados con tu visita, la familia de Aliento te da la Bienvenida."
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/pantone_white_c"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
                 <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/pantone_white_c"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView13"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView13"
+                    app:layout_constraintTop_toTopOf="@+id/textView13">
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Nosotros"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/pantone_white_c"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+                <FrameLayout
+                    android:id="@+id/frameLayout3"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
@@ -106,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="Una oportunidad para comenzar de nuevo"
+                    android:text="• Ganar almas para Jesús. \n• Formar líderes.\n• Provocar un avivamiento."
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
                     android:textColor="@color/pantone_white_c"
                     app:layout_constraintEnd_toEndOf="@+id/textView3"
@@ -133,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="Una oportunidad para comenzar de nuevo"
+                    android:text="Ser una iglesia con rostro a la sociedad, que ayude a la comunidad y bendiga a la gente, buscando una transformación día a día a través de principios bíblicos (la palabra de Dios) y el poder del Espíritu Santo."
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
                     android:textColor="@color/pantone_white_c"
                     app:layout_constraintEnd_toEndOf="@+id/textView3"
@@ -157,7 +197,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="32dp"
                     android:text="Mira nuestra transmisión online!"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -198,7 +238,7 @@
                     android:id="@+id/online_transmision"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginBottom="150dp"
                     android:clickable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
