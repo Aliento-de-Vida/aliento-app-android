@@ -5,7 +5,9 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.alientodevida.alientoapp.AppController
+import com.alientodevida.alientoapp.R
 import com.google.android.youtube.player.YouTubeStandalonePlayer
 
 
@@ -114,5 +116,18 @@ class Utils {
                 Toast.makeText(it, "$name copiado", Toast.LENGTH_SHORT).show()
             }
         }
+
+        fun showComingSoon(context: Context) {
+            showDialog(context, context.getString(R.string.comming_soon_title), context.getString(R.string.comming_soon_message))
+        }
+
+        fun showDialog(context: Context, title: String, message: String) {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton(R.string.ok) { _, _ -> }
+            builder.create().show()
+        }
+
     }
 }

@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_navigation_home_to_donationsFragment"
             app:destination="@id/donations_fragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_prayer_fragment"
+            app:destination="@id/prayer_fragment" />
     </fragment>
 
     <fragment
@@ -37,5 +40,10 @@
         android:name="com.alientodevida.alientoapp.ui.donations.DonationsFragment"
         android:label="DonationsFragment"
         tools:layout="@layout/fragment_donations" />
+    <fragment
+        android:id="@+id/prayer_fragment"
+        android:name="com.alientodevida.alientoapp.ui.prayer.PrayerFragment"
+        android:label="PrayerFragment"
+        tools:layout="@layout/fragment_prayer" />
 
 </navigation>

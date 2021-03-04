@@ -92,7 +92,7 @@ class HomeFragment : Fragment() {
             goToDonations()
         }
         binding.prayer.setOnClickListener {
-            showUnderDevelopment()
+            goToPrayer()
         }
         binding.webPage.setOnClickListener {
             Utils.goToUrl(requireContext(), Constants.webPageUrl)
@@ -143,8 +143,8 @@ class HomeFragment : Fragment() {
         carouselRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
             when ((item as CategoryItem).type) {
                 CategoryItemType.CHURCH -> goToChurch()
-                CategoryItemType.MANOS_EXTENDIDAS -> showComingSoon()
-                CategoryItemType.CURSOS -> showComingSoon()
+                CategoryItemType.MANOS_EXTENDIDAS -> Utils.showComingSoon(requireContext())
+                CategoryItemType.CURSOS -> Utils.showComingSoon(requireContext())
                 CategoryItemType.SERMONS -> goToSermons()
             }
         })
@@ -173,18 +173,9 @@ class HomeFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun showUnderDevelopment() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage(R.string.under_development)
-            .setPositiveButton(R.string.ok) { _, _ -> }
-        builder.create().show()
-    }
-
-    private fun showComingSoon() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage(R.string.comming_soon)
-            .setPositiveButton(R.string.ok) { _, _ -> }
-        builder.create().show()
+    private fun goToPrayer() {
+        val action = HomeFragmentDirections.actionNavigationHomeToPrayerFragment()
+        findNavController().navigate(action)
     }
 
     private fun refreshImages() {
