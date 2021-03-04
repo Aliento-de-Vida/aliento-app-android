@@ -102,16 +102,16 @@ class HomeFragment : Fragment() {
         }
 
         binding.instagram.setOnClickListener {
-            showUnderDevelopment()
+            Utils.openInstagramPage(requireContext())
         }
         binding.youtube.setOnClickListener {
             Utils.openYoutubeChannel(requireContext(), Constants.YOUTUBE_CHANNEL_URL)
         }
         binding.facebook.setOnClickListener {
-            showUnderDevelopment()
+            Utils.openFacebookPage(requireContext())
         }
         binding.twitter.setOnClickListener {
-            showUnderDevelopment()
+            Utils.openTwitterPage(requireContext())
         }
         binding.spotify.setOnClickListener {
             Utils.openSpotifyArtistPage(requireContext(), Constants.SPOTIFY_ARTIST_ID)

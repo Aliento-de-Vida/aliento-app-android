@@ -11,9 +11,56 @@ import com.google.android.youtube.player.YouTubeStandalonePlayer
 
 class Utils {
     companion object {
+
+        fun openFacebookPage(context: Context) {
+            val facebookIntent = Intent(Intent.ACTION_VIEW)
+            val facebookUrl: String = getFacebookPageURL(context)
+            facebookIntent.data = Uri.parse(facebookUrl)
+            context.startActivity(facebookIntent)
+        }
+
+        private fun getFacebookPageURL(context: Context): String {
+            val packageManager = context.packageManager
+            return try {
+                val versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode
+                if (versionCode >= 3002850) { //newer versions of fb app
+                    "fb://page/${Constants.FACEBOOK_PAGE_ID}"
+                } else { //older versions of fb app
+                    "fb://page/${Constants.FACEBOOK_PAGE_ID}"
+                }
+            } catch (e: PackageManager.NameNotFoundException) {
+                Constants.FACEBOOK_URL
+            }
+        }
+
         fun openYoutubeChannel(context: Context, url: String) {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
+            context.startActivity(intent)
+        }
+
+        fun openInstagramPage(context: Context) {
+            val uri = Uri.parse(Constants.INSTAGRAM_URL)
+            val likeIng = Intent(Intent.ACTION_VIEW, uri)
+
+            likeIng.setPackage("com.instagram.android")
+
+            try {
+                context.startActivity(likeIng)
+            } catch (e: ActivityNotFoundException) {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.INSTAGRAM_URL)))
+            }
+        }
+
+        fun openTwitterPage(context: Context) {
+            var intent: Intent
+            try {
+                context.packageManager.getPackageInfo("com.twitter.android", 0)
+                intent = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TWITTER_USER_ID))
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            } catch (e: Exception) {
+                intent = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TWITTER_URL))
+            }
             context.startActivity(intent)
         }
 
