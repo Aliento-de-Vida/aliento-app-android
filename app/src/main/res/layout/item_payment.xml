@@ -54,8 +54,10 @@
             app:layout_constraintTop_toBottomOf="@+id/ownerName">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/card_constraint_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient_blue">
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -67,23 +69,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textAlignment="viewEnd"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/pantone_white_c"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/no_de_cuenta_label"
-                    app:layout_constraintTop_toTopOf="@+id/imageView"
-                    tools:ignore="UnusedAttribute"
-                    tools:text="Banamex" />
 
                 <TextView
                     android:id="@+id/no_de_tarjeta"
@@ -192,6 +177,26 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/paypal_logo"
                     tools:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/card_logo"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/no_de_tarjeta"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/mastercard" />
+
+                <ImageView
+                    android:id="@+id/bank_logo"
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:scaleType="fitEnd"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/citibanamex" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
