@@ -1,18 +1,18 @@
 package com.alientodevida.alientoapp.data.entities.local
 
+import javax.annotation.Resource
+
 
 sealed class PaymentItem(
     open val donationType: DonationType,
     open val ownerName: String,
-    open val cardColor: String,
 )
 
 data class Paypal(
     override val donationType: DonationType,
     override val ownerName: String,
-    override val cardColor: String,
     val url: String,
-): PaymentItem(donationType, ownerName, cardColor)
+): PaymentItem(donationType, ownerName)
 
 enum class DonationType {
     DIEZMO,
@@ -22,9 +22,14 @@ enum class DonationType {
 data class BankAccount(
     override val donationType: DonationType,
     override val ownerName: String,
-    override val cardColor: String,
+    @Resource
+    val gradient: Int,
     val bankName: String,
     var cardNumber: String,
     var accountNumber: String,
     var clabe: String,
-): PaymentItem(donationType, ownerName, cardColor)
+    @Resource
+    var bankLogo: Int,
+    @Resource
+    var cardLogo: Int,
+): PaymentItem(donationType, ownerName)

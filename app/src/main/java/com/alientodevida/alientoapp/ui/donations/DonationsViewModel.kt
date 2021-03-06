@@ -3,6 +3,7 @@ package com.alientodevida.alientoapp.ui.donations
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.entities.local.BankAccount
 import com.alientodevida.alientoapp.data.entities.local.DonationType
 import com.alientodevida.alientoapp.data.entities.local.PaymentItem
@@ -23,15 +24,16 @@ class DonationsViewModel : ViewModel() {
             BankAccount(
                 DonationType.DIEZMO,
                 "Abraham Pérez Lara",
-                "EC2023", //104B84
+                    R.drawable.gradient_red,
                 "BANAMEX",
                 "5204 1673 5696 4791",
                 "428921608",
-                "002910428900216088"
+                "002910428900216088",
+                    R.drawable.citibanamex,
+                    R.drawable.mastercard
             ),
             Paypal(DonationType.DIEZMO,
                 "Abraham Pérez Lara",
-                "FFFFFF",
                 "https://www.paypal.com/mx/home"
             )
         )
@@ -40,15 +42,16 @@ class DonationsViewModel : ViewModel() {
             BankAccount(
                 DonationType.DIEZMO,
                 "Aliento de Vida AC",
-                "009EE5",
+                    R.drawable.gradient_blue,
                 "BBVA BANCOMER",
                 "4555 1130 0604 1497",
                 "0113500640",
-                "012910001135006409"
+                "012910001135006409",
+                    R.drawable.bbva,
+                    R.drawable.visa
             ),
             Paypal(DonationType.OFRENDA,
                 "Aliento de Vida AC",
-                "FFFFFF",
                 "https://www.paypal.com/mx/home"
             )
         )

@@ -1,18 +1,20 @@
 package com.alientodevida.alientoapp.ui.donations
 
-import android.app.Application
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.alientodevida.alientoapp.AppController
 import com.alientodevida.alientoapp.R
-import com.alientodevida.alientoapp.data.entities.local.*
+import com.alientodevida.alientoapp.data.entities.local.BankAccount
+import com.alientodevida.alientoapp.data.entities.local.PaymentItem
+import com.alientodevida.alientoapp.data.entities.local.Paypal
 import com.alientodevida.alientoapp.databinding.ItemPaymentBinding
 import com.alientodevida.alientoapp.utils.Utils
+import com.bumptech.glide.Glide
 
 class ItemClick(val block: (PaymentItem) -> Unit) {
     fun onClick(paymentItem: PaymentItem) = block(paymentItem)
@@ -49,11 +51,13 @@ class DonationsRecyclerViewAdapter(private val callback: ItemClick) : RecyclerVi
             it.callback = callback
             it.item = item
             it.ownerName.text = item.ownerName
-            it.card.setCardBackgroundColor(Color.parseColor("#${item.cardColor}"))
 
             when (item) {
                 is Paypal -> {
-                    it.title.visibility = View.GONE
+                    it.cardConstraintLayout.setBackgroundColor(Color.parseColor("#FFFFFF"))
+
+                    it.bankLogo.visibility = View.GONE
+                    it.cardLogo.visibility = View.GONE
                     it.logo.visibility = View.VISIBLE
 
                     it.noDeCuenta.visibility = View.GONE
@@ -65,16 +69,22 @@ class DonationsRecyclerViewAdapter(private val callback: ItemClick) : RecyclerVi
                     it.noDeTarjetaLabel.visibility = View.GONE
                 }
                 is BankAccount -> {
-                    it.title.text = item.bankName
+                    it.cardConstraintLayout.background = ContextCompat.getDrawable(it.card.context, item.gradient)
+
+                    Glide.with(it.bankLogo)
+                            .load(item.bankLogo)
+                            .into(it.bankLogo)
+
+                    Glide.with(it.cardLogo)
+                            .load(item.cardLogo)
+                            .into(it.cardLogo)
+
                     it.logo.visibility = View.GONE
 
                     it.noDeCuenta.text = item.accountNumber
                     it.clabe.text = item.clabe
                     it.noDeTarjeta.text = item.cardNumber
 
-                    it.title.setOnClickListener {
-                        Utils.copyToClipboard(name = "Nombre", value = item.ownerName)
-                    }
                     it.noDeCuenta.setOnClickListener {
                         Utils.copyToClipboard(name = "Número de cuenta", value = item.accountNumber)
                     }
