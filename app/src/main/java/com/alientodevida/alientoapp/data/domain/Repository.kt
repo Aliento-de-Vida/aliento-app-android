@@ -17,7 +17,7 @@ interface Repository {
     fun getPodcasts(): LiveData<List<PodcastEntity>>
 
     suspend fun refreshImageUrl(authorization: String, folderName: String)
-    fun getImageUrl(folderName: String): LiveData<ImageUrlEntity>
+    fun getImageUrl(folderName: String): LiveData<ImageUrlEntity?>
 
     suspend fun getToken(authorization: String, grantType: String): Token
 

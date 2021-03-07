@@ -52,7 +52,7 @@ class HomeFragment : Fragment() {
     private fun setupUI(binding: FragmentHomeBinding) {
 
         binding.swiperefresh.setOnRefreshListener {
-            refreshImages()
+            viewModel.refreshImages()
         }
 
         val content = SpannableString("Ver más")
@@ -64,26 +64,9 @@ class HomeFragment : Fragment() {
 
         setupCarousel(binding.carrousel)
 
-        viewModel.sermons.observe(viewLifecycleOwner) {
-            binding.swiperefresh.isRefreshing = false
+        viewModel.isGettingData.observe(viewLifecycleOwner) { isGettingData ->
+            if (isGettingData.not()) binding.swiperefresh.isRefreshing = false
         }
-
-        viewModel.donations.observe(viewLifecycleOwner) {
-            binding.swiperefresh.isRefreshing = false
-        }
-
-        viewModel.webPage.observe(viewLifecycleOwner) {
-            binding.swiperefresh.isRefreshing = false
-        }
-
-        viewModel.ebook.observe(viewLifecycleOwner) {
-            binding.swiperefresh.isRefreshing = false
-        }
-
-        viewModel.prayer.observe(viewLifecycleOwner) {
-            binding.swiperefresh.isRefreshing = false
-        }
-
 
         binding.sermons.setOnClickListener {
             goToSermons()
@@ -127,8 +110,9 @@ class HomeFragment : Fragment() {
         })
 
         viewModel.sermonsItemsTransformation.observe(viewLifecycleOwner) { result ->
-            if (result.count() == 0) {
+            if (result.count() <= 1) {
                 viewModel.refreshContent()
+                return@observe
             }
 
             sermonsRecyclerViewAdapter.items = result
@@ -176,13 +160,5 @@ class HomeFragment : Fragment() {
     private fun goToPrayer() {
         val action = HomeFragmentDirections.actionNavigationHomeToPrayerFragment()
         findNavController().navigate(action)
-    }
-
-    private fun refreshImages() {
-        viewModel.refreshSermonsImage()
-        viewModel.refreshDonationsImage()
-        viewModel.refreshWebPageImage()
-        viewModel.refreshEbookImage()
-        viewModel.refreshPrayerImage()
     }
 }

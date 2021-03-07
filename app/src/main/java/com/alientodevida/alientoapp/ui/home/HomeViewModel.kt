@@ -14,6 +14,7 @@ import com.alientodevida.alientoapp.data.entities.network.CsrfToken
 import com.alientodevida.alientoapp.data.entities.network.Token
 import com.alientodevida.alientoapp.utils.Constants
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 import retrofit2.HttpException
 
 // TODO rename
@@ -68,6 +69,9 @@ class HomeViewModel @ViewModelInject constructor(
     init {
         getCsrfToken()
 
+        // TODO: 07/03/21 each livedata object gets refreshed 5 times for each image update
+        refreshImages(false)
+
         _carouseItems.value = listOf(
             CategoryItem("Aliento de Vida", CategoryItemType.CHURCH, R.drawable.carrousel_adv),
             CategoryItem("Manos Extendidas", CategoryItemType.MANOS_EXTENDIDAS, R.drawable.carrousel_manos_extendidas),
@@ -99,55 +103,17 @@ class HomeViewModel @ViewModelInject constructor(
         }
     }
 
-    fun refreshSermonsImage() {
+    fun refreshImages(isForceRefresh: Boolean = true) {
         viewModelScope.launch {
             _isGettingData.postValue(true)
             try {
-                repository.refreshImageUrl(token, SERMONS)
-            } catch (ex: HttpException) {
-                ex.printStackTrace()
-            }
-            _isGettingData.postValue(false)
-        }
-    }
-    fun refreshDonationsImage() {
-        viewModelScope.launch {
-            _isGettingData.postValue(true)
-            try {
-                repository.refreshImageUrl(token, DONATIONS)
-            } catch (ex: HttpException) {
-                ex.printStackTrace()
-            }
-            _isGettingData.postValue(false)
-        }
-    }
-    fun refreshPrayerImage() {
-        viewModelScope.launch {
-            _isGettingData.postValue(true)
-            try {
-                repository.refreshImageUrl(token, PRAYER)
-            } catch (ex: HttpException) {
-                ex.printStackTrace()
-            }
-            _isGettingData.postValue(false)
-        }
-    }
-    fun refreshWebPageImage() {
-        viewModelScope.launch {
-            _isGettingData.postValue(true)
-            try {
-                repository.refreshImageUrl(token, WEB_PAGE)
-            } catch (ex: HttpException) {
-                ex.printStackTrace()
-            }
-            _isGettingData.postValue(false)
-        }
-    }
-    fun refreshEbookImage() {
-        viewModelScope.launch {
-            _isGettingData.postValue(true)
-            try {
-                repository.refreshImageUrl(token, EBOOK)
+                if (isForceRefresh) {
+                    refreshAllImages()
+
+                } else {
+                    val sermonsImage = repository.getImageUrl(SERMONS)
+                    sermonsImage.observeOnce(Observer { if (it == null) refreshImages() }) }
+
             } catch (ex: HttpException) {
                 ex.printStackTrace()
             }
@@ -155,19 +121,21 @@ class HomeViewModel @ViewModelInject constructor(
         }
     }
 
-    /*private fun getReunionDomingos() {
-        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-        val myRef: DatabaseReference =
-            database.getReference(this.getString(R.string.realtime_database_reunion_domingo))
+    private suspend fun refreshAllImages() {
+        repository.refreshImageUrl(token, SERMONS)
+        repository.refreshImageUrl(token, DONATIONS)
+        repository.refreshImageUrl(token, PRAYER)
+        repository.refreshImageUrl(token, WEB_PAGE)
+        repository.refreshImageUrl(token, EBOOK)
+    }
+}
 
-        // Read from the database
-        myRef.addListenerForSingleValueEvent(object : ValueEventListener() {
-            fun onDataChange(dataSnapshot: DataSnapshot) {
-                MainActivity.reunionDomingosObject =
-                    dataSnapshot.getValue(ReunionDomingos::class.java)
-            }
 
-            fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }*/
+fun <T> LiveData<T>.observeOnce(observer: Observer<T>) {
+    observeForever(object : Observer<T> {
+        override fun onChanged(t: T?) {
+            observer.onChanged(t)
+            removeObserver(this)
+        }
+    })
 }

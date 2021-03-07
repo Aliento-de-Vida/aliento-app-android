@@ -27,8 +27,8 @@ interface RoomDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllPodcasts(items: List<PodcastEntity>)
 
-    @Query("select * from imageurlentity WHERE searchUrl=:searchUrl ")
-    fun getImageUrl(searchUrl: String): LiveData<ImageUrlEntity>
+    @Query("select * from imageurlentity WHERE searchUrl=:searchUrl")
+    fun getImageUrl(searchUrl: String): LiveData<ImageUrlEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertImageUrl(item: ImageUrlEntity)
