@@ -47,7 +47,7 @@ class ChurchFragment : Fragment() {
         Constants.US_VIDEO
 
         viewModel.transmision.observe(viewLifecycleOwner) {
-            binding.transmisionWv.loadData(Constants.html, "text/html", "UTF-8")
+            binding.transmisionWv.loadData(it.video, "text/html", "UTF-8")
         }
     }
 }

@@ -54,7 +54,7 @@ class RepositoryImpl @Inject constructor(
             roomDao.insertImageUrl(response.asDomainModel(searchUrl))
         }
     }
-    override fun getImageUrl(folderName: String): LiveData<ImageUrlEntity> {
+    override fun getImageUrl(folderName: String): LiveData<ImageUrlEntity?> {
         val url = "https://api.cloudinary.com/api/v1_1/dpeeqsw78/resources/search/?expression=folder=${folderName}"
         return roomDao.getImageUrl(url)
     }
