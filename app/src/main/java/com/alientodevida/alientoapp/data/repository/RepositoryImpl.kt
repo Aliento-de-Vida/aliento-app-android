@@ -5,7 +5,9 @@ import com.alientodevida.alientoapp.data.domain.Repository
 import com.alientodevida.alientoapp.data.entities.local.ImageUrlEntity
 import com.alientodevida.alientoapp.data.entities.local.PodcastEntity
 import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
+import com.alientodevida.alientoapp.data.entities.network.CsrfToken
 import com.alientodevida.alientoapp.data.entities.network.Token
+import com.alientodevida.alientoapp.data.entities.network.Transmision
 import com.alientodevida.alientoapp.data.entities.network.asDomainModel
 import com.alientodevida.alientoapp.data.networking.RetrofitService
 import com.alientodevida.alientoapp.data.storage.RoomDao
@@ -41,8 +43,6 @@ class RepositoryImpl @Inject constructor(
         return roomDao.getPodcasts()
     }
 
-
-
     override suspend fun refreshImageUrl(authorization: String, folderName: String) {
         withContext(Dispatchers.IO) {
             val searchUrl = "https://api.cloudinary.com/api/v1_1/dpeeqsw78/resources/search/?expression=folder=${folderName}"
@@ -59,14 +59,22 @@ class RepositoryImpl @Inject constructor(
         return roomDao.getImageUrl(url)
     }
 
-
-
-
     override suspend fun getToken(authorization: String, grantType: String): Token {
         return retrofitService.getToken(
             "https://accounts.spotify.com/api/token/",
             authorization,
             grantType
+        )
+    }
+
+    override suspend fun getCsrfToken(): CsrfToken {
+        return retrofitService.getCsrfToken(
+                "https://alientodevida.mx/api-adv/get-csrf-token/",
+        )
+    }
+    override suspend fun getTransmision(): Transmision {
+        return retrofitService.getTransmision(
+                "https://alientodevida.mx/api-adv/get-transmision/",
         )
     }
 
