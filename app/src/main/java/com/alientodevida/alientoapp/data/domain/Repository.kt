@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import com.alientodevida.alientoapp.data.entities.local.ImageUrlEntity
 import com.alientodevida.alientoapp.data.entities.local.PodcastEntity
 import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
+import com.alientodevida.alientoapp.data.entities.network.CsrfToken
 import com.alientodevida.alientoapp.data.entities.network.Token
+import com.alientodevida.alientoapp.data.entities.network.Transmision
 
 interface Repository {
 
@@ -17,8 +19,11 @@ interface Repository {
     suspend fun refreshImageUrl(authorization: String, folderName: String)
     fun getImageUrl(folderName: String): LiveData<ImageUrlEntity>
 
-
     suspend fun getToken(authorization: String, grantType: String): Token
+
+    suspend fun getCsrfToken(): CsrfToken
+
+    suspend fun getTransmision(): Transmision
 
     //suspend fun getPlaylist(authorization: String, playlistId: String): PlayList
 }

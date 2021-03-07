@@ -31,4 +31,22 @@ object Constants {
     const val YOUTUBE_PREDICAS_PLAYLIST_CODE = "PLOPR9NDgPuLM8fP0Q_xvhaJ71IErDy21Y"
     const val YOUTUBE_CHANNEL_ID = "UCA5TwiI0Si1-zkgCL6gFk-A"
     const val YOUTUBE_CHANNEL_URL = "https://www.youtube.com/c/AlientoDeVidaTV"
+
+
+
+    const val html =
+            """
+                <html lang="en" style="-ms-overflow-y: auto !important;">
+                <head>
+                    <meta http-equiv="x-ua-compatible" content="IE=Edge,chrome=IE8">
+                    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+                    <meta name="viewport" content="width=device-width">
+                </head>
+                <body>
+                    <iframe width="100%" src="https://www.youtube.com/embed/sze1a93hubs" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </body>
+                </html>
+            """
 }

@@ -3,12 +3,15 @@ package com.alientodevida.alientoapp.ui.home
 import android.util.Base64
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import com.alientodevida.alientoapp.AppController
 import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.domain.Repository
 import com.alientodevida.alientoapp.data.entities.local.CarouselItem
 import com.alientodevida.alientoapp.data.entities.local.CategoryItem
 import com.alientodevida.alientoapp.data.entities.local.CategoryItemType
 import com.alientodevida.alientoapp.data.entities.local.YoutubeItem
+import com.alientodevida.alientoapp.data.entities.network.CsrfToken
+import com.alientodevida.alientoapp.data.entities.network.Token
 import com.alientodevida.alientoapp.utils.Constants
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -63,11 +66,23 @@ class HomeViewModel @ViewModelInject constructor(
     ).trim()
 
     init {
+        getCsrfToken()
+
         _carouseItems.value = listOf(
             CategoryItem("Aliento de Vida", CategoryItemType.CHURCH, R.drawable.carrousel_adv),
             CategoryItem("Manos Extendidas", CategoryItemType.MANOS_EXTENDIDAS, R.drawable.carrousel_manos_extendidas),
             CategoryItem("Cursos", CategoryItemType.CURSOS, R.drawable.carrousel_cursos)
         )
+    }
+
+    private fun getCsrfToken(isExpired: Boolean = true) {
+        var token = AppController.get<CsrfToken>(CsrfToken.key)
+        if (token == null || isExpired) {
+            viewModelScope.launch {
+                token = repository.getCsrfToken()
+                AppController.save(token!!, CsrfToken.key)
+            }
+        }
     }
 
     fun refreshContent() {

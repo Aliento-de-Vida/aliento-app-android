@@ -24,8 +24,6 @@ interface RetrofitService {
         @Header("Authorization") authorization: String
     ): ImageUrlResponse
 
-
-
     @POST
     @FormUrlEncoded
     suspend fun getToken(
@@ -33,6 +31,16 @@ interface RetrofitService {
         @Header("Authorization") authorization: String,
         @Field("grant_type") grantType: String
         ): Token
+
+    @POST
+    suspend fun getCsrfToken(
+        @Url url: String,
+        ): CsrfToken
+
+    @POST
+    suspend fun getTransmision(
+        @Url url: String,
+        ): Transmision
 
     /*@GET("/v1/playlists/{playlist_id}/")
     suspend fun getPlaylist(
