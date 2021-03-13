@@ -14,7 +14,6 @@ import com.alientodevida.alientoapp.data.entities.local.PaymentItem
 import com.alientodevida.alientoapp.data.entities.local.Paypal
 import com.alientodevida.alientoapp.databinding.ItemPaymentBinding
 import com.alientodevida.alientoapp.utils.Utils
-import com.bumptech.glide.Glide
 
 class ItemClick(val block: (PaymentItem) -> Unit) {
     fun onClick(paymentItem: PaymentItem) = block(paymentItem)
@@ -54,10 +53,8 @@ class DonationsRecyclerViewAdapter(private val callback: ItemClick) : RecyclerVi
 
             when (item) {
                 is Paypal -> {
-                    it.cardConstraintLayout.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                    it.cardConstraintLayout.setBackgroundColor(Color.WHITE)
 
-                    it.bankLogo.visibility = View.GONE
-                    it.cardLogo.visibility = View.GONE
                     it.logo.visibility = View.VISIBLE
 
                     it.noDeCuenta.visibility = View.GONE
@@ -69,15 +66,7 @@ class DonationsRecyclerViewAdapter(private val callback: ItemClick) : RecyclerVi
                     it.noDeTarjetaLabel.visibility = View.GONE
                 }
                 is BankAccount -> {
-                    it.cardConstraintLayout.background = ContextCompat.getDrawable(it.card.context, item.gradient)
-
-                    Glide.with(it.bankLogo)
-                            .load(item.bankLogo)
-                            .into(it.bankLogo)
-
-                    Glide.with(it.cardLogo)
-                            .load(item.cardLogo)
-                            .into(it.cardLogo)
+                    it.background.setImageDrawable(ContextCompat.getDrawable(it.card.context, item.backgroundResource))
 
                     it.logo.visibility = View.GONE
 

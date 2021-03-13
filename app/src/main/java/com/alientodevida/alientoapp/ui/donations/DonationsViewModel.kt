@@ -24,17 +24,15 @@ class DonationsViewModel : ViewModel() {
             BankAccount(
                 DonationType.DIEZMO,
                 "Abraham Pérez Lara",
-                    R.drawable.gradient_red,
+                    R.drawable.banamex_card,
                 "BANAMEX",
                 "5204 1673 5696 4791",
                 "428921608",
                 "002910428900216088",
-                    R.drawable.citibanamex,
-                    R.drawable.mastercard
             ),
             Paypal(DonationType.DIEZMO,
                 "Abraham Pérez Lara",
-                "https://www.paypal.com/mx/home"
+                "https://www.paypal.com/paypalme/Abrahampl4"
             )
         )
 
@@ -42,17 +40,15 @@ class DonationsViewModel : ViewModel() {
             BankAccount(
                 DonationType.DIEZMO,
                 "Aliento de Vida AC",
-                    R.drawable.gradient_blue,
+                    R.drawable.bbva_card,
                 "BBVA BANCOMER",
                 "4555 1130 0604 1497",
                 "0113500640",
                 "012910001135006409",
-                    R.drawable.bbva,
-                    R.drawable.visa
             ),
             Paypal(DonationType.OFRENDA,
                 "Aliento de Vida AC",
-                "https://www.paypal.com/mx/home"
+                "https://www.paypal.com/paypalme/AlientoDeVidaMx"
             )
         )
     }

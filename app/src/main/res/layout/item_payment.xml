@@ -16,14 +16,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="320dp"
-        android:layout_height="220dp">
+        android:layout_height="240dp">
 
         <TextView
             android:id="@+id/ownerName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textAlignment="viewStart"
@@ -38,7 +38,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/card"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="180dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
@@ -46,7 +46,7 @@
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:onClick="@{() -> callback.onClick(item)}"
-            app:cardCornerRadius="@dimen/card_view_custom_radius"
+            app:cardCornerRadius="15dp"
             app:cardElevation="@dimen/cardview_custom_elevation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,11 +56,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/card_constraint_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/gradient_blue">
+                android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -74,15 +73,14 @@
                     android:id="@+id/no_de_tarjeta"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginBottom="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/pantone_white_c"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/no_de_cuenta"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:ignore="UnusedAttribute"
                     tools:text="9090 9090 9090 9090" />
@@ -91,16 +89,13 @@
                     android:id="@+id/clabe"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/pantone_white_c"
                     app:layout_constraintBottom_toTopOf="@+id/no_de_tarjeta_label"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/no_de_cuenta"
+                    app:layout_constraintStart_toStartOf="@+id/no_de_cuenta_label"
                     tools:ignore="UnusedAttribute"
                     tools:text="9090 9090 9090 9090" />
 
@@ -108,16 +103,15 @@
                     android:id="@+id/no_de_cuenta"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="16dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/pantone_white_c"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/clabe_label"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/no_de_cuenta_label"
                     tools:ignore="UnusedAttribute"
                     tools:text="9090 9090 9090 9090" />
 
@@ -125,39 +119,35 @@
                     android:id="@+id/no_de_tarjeta_label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="No. de Tarjeta"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/pantone_white_c"
                     app:layout_constraintBottom_toTopOf="@+id/no_de_tarjeta"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/no_de_cuenta"
+                    app:layout_constraintStart_toStartOf="@+id/no_de_cuenta_label"
                     tools:ignore="UnusedAttribute" />
 
                 <TextView
                     android:id="@+id/clabe_label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="Clabe"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/pantone_white_c"
                     app:layout_constraintBottom_toTopOf="@+id/clabe"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/no_de_cuenta"
+                    app:layout_constraintStart_toStartOf="@+id/no_de_cuenta_label"
                     tools:ignore="UnusedAttribute" />
 
                 <TextView
                     android:id="@+id/no_de_cuenta_label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="16dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="No. de Cuenta"
@@ -177,26 +167,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/paypal_logo"
                     tools:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/card_logo"
-                    android:layout_width="80dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/no_de_tarjeta"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:srcCompat="@drawable/mastercard" />
-
-                <ImageView
-                    android:id="@+id/bank_logo"
-                    android:layout_width="200dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:scaleType="fitEnd"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/citibanamex" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

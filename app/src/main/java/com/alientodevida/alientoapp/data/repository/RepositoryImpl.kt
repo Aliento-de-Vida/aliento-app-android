@@ -43,16 +43,17 @@ class RepositoryImpl @Inject constructor(
         return roomDao.getPodcasts()
     }
 
-    override suspend fun refreshImageUrl(authorization: String, folderName: String) {
-        withContext(Dispatchers.IO) {
-            val searchUrl = "https://api.cloudinary.com/api/v1_1/dpeeqsw78/resources/search/?expression=folder=${folderName}"
+    override suspend fun refreshImageUrl(authorization: String, folderName: String): ImageUrlEntity {
+        val searchUrl = "https://api.cloudinary.com/api/v1_1/dpeeqsw78/resources/search/?expression=folder=${folderName}"
 
-            val response = retrofitService.getImageUrl(
+        val response = retrofitService.getImageUrl(
                 searchUrl,
                 authorization
-            )
-            roomDao.insertImageUrl(response.asDomainModel(searchUrl))
-        }
+        )
+
+        val imageUrlEntity = response.asDomainModel(searchUrl)
+        withContext(Dispatchers.IO) { roomDao.insertImageUrl(imageUrlEntity) }
+        return imageUrlEntity
     }
     override fun getImageUrl(folderName: String): LiveData<ImageUrlEntity?> {
         val url = "https://api.cloudinary.com/api/v1_1/dpeeqsw78/resources/search/?expression=folder=${folderName}"

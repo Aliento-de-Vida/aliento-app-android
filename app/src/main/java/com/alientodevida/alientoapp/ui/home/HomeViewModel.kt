@@ -13,12 +13,18 @@ import com.alientodevida.alientoapp.data.entities.local.YoutubeItem
 import com.alientodevida.alientoapp.data.entities.network.CsrfToken
 import com.alientodevida.alientoapp.data.entities.network.Token
 import com.alientodevida.alientoapp.utils.Constants
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.internal.wait
 import retrofit2.HttpException
 
 // TODO rename
-private const val SERMONS = "HOME/REUNION_DOMINGOS"
+private const val SERMONS = "adv/PREDICAS"
+private const val CHURCH = "adv/ALIENTO_DE_VIDA"
+private const val SOCIAL_WORK = "adv/MANOS_EXTENDIDAS"
+private const val COURSES = "adv/CURSOS"
+
 private const val DONATIONS = "adv/DONACIONES"
 private const val PRAYER = "adv/ORACION"
 private const val WEB_PAGE = "adv/PAGINAWEB"
@@ -34,7 +40,7 @@ class HomeViewModel @ViewModelInject constructor(
 
     private val sermonsItems = repository.getYoutubePlaylist()
     val sermonsItemsTransformation: LiveData<List<CarouselItem>> = Transformations.map(sermonsItems) { items ->
-        val carouselItems = arrayListOf<CarouselItem>(CategoryItem("Prédicas", CategoryItemType.SERMONS, 0))
+        val carouselItems = arrayListOf<CarouselItem>(CategoryItem("Prédicas", "", CategoryItemType.SERMONS))
 
         carouselItems.addAll(
                 items.filter { it.thumbnilsUrl != null }
@@ -54,6 +60,9 @@ class HomeViewModel @ViewModelInject constructor(
     val isGettingData: LiveData<Boolean> = _isGettingData
 
     val sermons = repository.getImageUrl(SERMONS)
+    val church = repository.getImageUrl(CHURCH)
+    val socialWork = repository.getImageUrl(SOCIAL_WORK)
+    val courses = repository.getImageUrl(COURSES)
 
     val donations = repository.getImageUrl(DONATIONS)
     val prayer = repository.getImageUrl(PRAYER)
@@ -73,9 +82,9 @@ class HomeViewModel @ViewModelInject constructor(
         refreshImages(false)
 
         _carouseItems.value = listOf(
-            CategoryItem("Aliento de Vida", CategoryItemType.CHURCH, R.drawable.carrousel_adv),
-            CategoryItem("Manos Extendidas", CategoryItemType.MANOS_EXTENDIDAS, R.drawable.carrousel_manos_extendidas),
-            CategoryItem("Cursos", CategoryItemType.CURSOS, R.drawable.carrousel_cursos)
+                CategoryItem("Aliento de Vida", null, CategoryItemType.CHURCH),
+                CategoryItem("Manos Extendidas", null, CategoryItemType.MANOS_EXTENDIDAS),
+                CategoryItem("Cursos", null, CategoryItemType.CURSOS)
         )
     }
 
@@ -111,8 +120,7 @@ class HomeViewModel @ViewModelInject constructor(
                     refreshAllImages()
 
                 } else {
-                    val sermonsImage = repository.getImageUrl(SERMONS)
-                    sermonsImage.observeOnce(Observer { if (it == null) refreshImages() }) }
+                    sermons.observeOnce(Observer { if (it == null) refreshImages() }) }
 
             } catch (ex: HttpException) {
                 ex.printStackTrace()
@@ -123,10 +131,21 @@ class HomeViewModel @ViewModelInject constructor(
 
     private suspend fun refreshAllImages() {
         repository.refreshImageUrl(token, SERMONS)
+        val churchImage = repository.refreshImageUrl(token, CHURCH)
+        val socialWorkImage = repository.refreshImageUrl(token, SOCIAL_WORK)
+        val coursesImage = repository.refreshImageUrl(token, COURSES)
+
+        _carouseItems.value = listOf(
+                CategoryItem("Aliento de Vida", churchImage.imageUrl.replace("http", "https"), CategoryItemType.CHURCH),
+                CategoryItem("Manos Extendidas", socialWorkImage.imageUrl.replace("http", "https"), CategoryItemType.MANOS_EXTENDIDAS),
+                CategoryItem("Cursos", coursesImage.imageUrl.replace("http", "https"), CategoryItemType.CURSOS)
+        )
+
         repository.refreshImageUrl(token, DONATIONS)
         repository.refreshImageUrl(token, PRAYER)
         repository.refreshImageUrl(token, WEB_PAGE)
         repository.refreshImageUrl(token, EBOOK)
+
     }
 }
 
