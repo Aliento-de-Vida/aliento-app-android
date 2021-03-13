@@ -53,6 +53,7 @@ class HomeFragment : Fragment() {
 
         binding.swiperefresh.setOnRefreshListener {
             viewModel.refreshImages()
+            viewModel.refreshContent()
         }
 
         val content = SpannableString("Ver más")
@@ -116,6 +117,7 @@ class HomeFragment : Fragment() {
             }
 
             sermonsRecyclerViewAdapter.items = result
+            sermonsRecyclerViewAdapter.notifyDataSetChanged()
             recyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 adapter = sermonsRecyclerViewAdapter
@@ -135,6 +137,7 @@ class HomeFragment : Fragment() {
 
         viewModel.carouseItems.observe(viewLifecycleOwner) { result: List<CategoryItem> ->
             carouselRecyclerViewAdapter.items = result
+            carouselRecyclerViewAdapter.notifyDataSetChanged()
             carrousel.apply {
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 adapter = carouselRecyclerViewAdapter

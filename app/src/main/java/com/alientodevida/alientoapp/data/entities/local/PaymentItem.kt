@@ -23,13 +23,9 @@ data class BankAccount(
     override val donationType: DonationType,
     override val ownerName: String,
     @Resource
-    val gradient: Int,
+    val backgroundResource: Int,
     val bankName: String,
     var cardNumber: String,
     var accountNumber: String,
     var clabe: String,
-    @Resource
-    var bankLogo: Int,
-    @Resource
-    var cardLogo: Int,
 ): PaymentItem(donationType, ownerName)

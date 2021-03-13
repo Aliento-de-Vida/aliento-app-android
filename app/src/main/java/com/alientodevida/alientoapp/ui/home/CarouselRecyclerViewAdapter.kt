@@ -49,20 +49,10 @@ class CarouselRecyclerViewAdapter(private val callback: ItemClick) : RecyclerVie
 
             it.title.text = item.title
 
-            when (item) {
-                is CategoryItem -> {
-                    Glide.with(holder.deviceDataBinding.imageView.context)
-                            .load(item.imageResource)
-                            .centerCrop()
-                            .into(holder.deviceDataBinding.imageView)
-                }
-                is YoutubeItem -> {
-                    Glide.with(holder.deviceDataBinding.imageView.context)
-                            .load(item.imageUrl)
-                            .centerCrop()
-                            .into(holder.deviceDataBinding.imageView)
-                }
-            }
+            Glide.with(holder.deviceDataBinding.imageView.context)
+                    .load(item.imageUrl)
+                    .centerCrop()
+                    .into(holder.deviceDataBinding.imageView)
 
             when (position) {
                 0 -> {
