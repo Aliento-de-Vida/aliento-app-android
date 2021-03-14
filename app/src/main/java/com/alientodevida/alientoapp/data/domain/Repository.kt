@@ -12,7 +12,6 @@ interface Repository {
 
     suspend fun refreshYoutubePlaylist(youtubeKey: String, playListId: String): List<YoutubePlaylistItemEntity>
     fun getYoutubePlaylist(): List<YoutubePlaylistItemEntity>
-
     suspend fun refreshPodcasts(authorization: String, podcastId: String)
     fun getPodcasts(): LiveData<List<PodcastEntity>>
 
