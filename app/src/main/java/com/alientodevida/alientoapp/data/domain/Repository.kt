@@ -10,14 +10,15 @@ import com.alientodevida.alientoapp.data.entities.network.Transmision
 
 interface Repository {
 
-    suspend fun refreshYoutubePlaylist(youtubeKey: String, playListId: String)
-    fun getYoutubePlaylist(): LiveData<List<YoutubePlaylistItemEntity>>
+    suspend fun refreshYoutubePlaylist(youtubeKey: String, playListId: String): List<YoutubePlaylistItemEntity>
+    fun getYoutubePlaylist(): List<YoutubePlaylistItemEntity>
 
     suspend fun refreshPodcasts(authorization: String, podcastId: String)
     fun getPodcasts(): LiveData<List<PodcastEntity>>
 
     suspend fun refreshImageUrl(authorization: String, folderName: String): ImageUrlEntity
-    fun getImageUrl(folderName: String): LiveData<ImageUrlEntity?>
+    fun getImageUrl(folderName: String): ImageUrlEntity?
+    fun getImageUrlLiveData(folderName: String): LiveData<ImageUrlEntity?>
 
     suspend fun getToken(authorization: String, grantType: String): Token
 
