@@ -10,7 +10,7 @@
             type="com.alientodevida.alientoapp.ui.home.HomeViewModel" />
     </data>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.alientodevida.alientoapp.utils.OnlyVerticalSwipeRefreshLayout
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -671,6 +671,6 @@
 
         </ScrollView>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.alientodevida.alientoapp.utils.OnlyVerticalSwipeRefreshLayout>
 
 </layout>
