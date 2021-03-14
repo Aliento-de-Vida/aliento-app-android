@@ -135,7 +135,7 @@ class Utils {
             return SimpleDateFormat(format, Locale.US).parse(date)!!
         }
         fun format(date: Date, format: String): String {
-            return SimpleDateFormat(format, Locale.US).format(date.time)
+            return SimpleDateFormat(format, Locale("es", "ES")).format(date.time)
         }
 
     }
