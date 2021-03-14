@@ -49,6 +49,9 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshVersion"
 
+    // Carousel
+    implementation 'com.synnapps:carouselview:0.1.5'
+
     // Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
