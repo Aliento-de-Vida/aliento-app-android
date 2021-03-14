@@ -9,6 +9,8 @@ import androidx.appcompat.app.AlertDialog
 import com.alientodevida.alientoapp.AppController
 import com.alientodevida.alientoapp.R
 import com.google.android.youtube.player.YouTubeStandalonePlayer
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class Utils {
@@ -127,6 +129,13 @@ class Utils {
                     .setMessage(message)
                     .setPositiveButton(R.string.ok) { _, _ -> }
             builder.create().show()
+        }
+
+        fun dateFrom(date: String, format: String = "yyyy-MM-dd HH:mm:ss"): Date {
+            return SimpleDateFormat(format, Locale.US).parse(date)!!
+        }
+        fun format(date: Date, format: String): String {
+            return SimpleDateFormat(format, Locale.US).format(date.time)
         }
 
     }

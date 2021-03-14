@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.alientodevida.alientoapp.databinding.FragmentChurchBinding
 import com.alientodevida.alientoapp.utils.Constants
+import com.alientodevida.alientoapp.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,6 +48,7 @@ class ChurchFragment : Fragment() {
         Constants.US_VIDEO
 
         viewModel.transmision.observe(viewLifecycleOwner) {
+            binding.date.text = Utils.format(Utils.dateFrom(it.fechaPublicacion), "dd 'de' MMMM 'de' YYYY")
             binding.transmisionWv.loadData(it.video, "text/html", "UTF-8")
         }
     }
