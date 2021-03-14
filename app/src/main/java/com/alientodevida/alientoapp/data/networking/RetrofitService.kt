@@ -42,6 +42,18 @@ interface RetrofitService {
         @Url url: String,
         ): Transmision
 
+    @POST
+    @FormUrlEncoded
+    suspend fun sendPrayerRequest(
+        @Url url: String,
+        @Field("csrf-token") csrfToken: String,
+        @Field("asunto") asunto: String,
+        @Field("nombre") nombre: String,
+        @Field("email") email: String,
+        @Field("whatsapp") whatsapp: String,
+        @Field("mensaje") mensaje: String
+    ): AskPrayerResponse
+
     /*@GET("/v1/playlists/{playlist_id}/")
     suspend fun getPlaylist(
         @Header("Authorization") authorization: String,
