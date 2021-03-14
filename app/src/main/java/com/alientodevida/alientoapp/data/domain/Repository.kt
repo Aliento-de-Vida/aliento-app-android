@@ -11,6 +11,8 @@ import com.alientodevida.alientoapp.data.entities.network.Transmision
 
 interface Repository {
 
+    // TODO: 14/03/21 need to add error handling in retrofit
+
     suspend fun refreshYoutubePlaylist(youtubeKey: String, playListId: String): List<YoutubePlaylistItemEntity>
     fun getYoutubePlaylist(): List<YoutubePlaylistItemEntity>
     suspend fun refreshPodcasts(authorization: String, podcastId: String)
