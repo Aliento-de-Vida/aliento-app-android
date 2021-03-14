@@ -1,6 +1,7 @@
 package com.alientodevida.alientoapp.ui.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
@@ -53,6 +54,9 @@ class CarouselRecyclerViewAdapter(private val callback: ItemClick) : RecyclerVie
                     .load(item.imageUrl)
                     .centerCrop()
                     .into(holder.deviceDataBinding.imageView)
+
+            it.triangle.visibility = if (item is CategoryItem) View.GONE else View.VISIBLE
+            it.playIcon.visibility = if (item is CategoryItem) View.GONE else View.VISIBLE
 
             when (position) {
                 0 -> {
