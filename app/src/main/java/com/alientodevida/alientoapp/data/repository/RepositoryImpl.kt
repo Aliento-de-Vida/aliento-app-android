@@ -20,16 +20,17 @@ class RepositoryImpl @Inject constructor(
     private val roomDao: RoomDao
 ): Repository {
 
-    override suspend fun refreshYoutubePlaylist(youtubeKey: String, playListId: String) {
-        withContext(Dispatchers.IO) {
+    override suspend fun refreshYoutubePlaylist(youtubeKey: String, playListId: String): List<YoutubePlaylistItemEntity> {
             val playList = retrofitService.getYoutubePlaylist(
                 "https://www.googleapis.com/youtube/v3/playlistItems?key=${youtubeKey}" +
                         "&playlistId=${playListId}&part=snippet&order=date&maxResults=50"
             )
-            roomDao.insertAllYoutubePlaylistitems(playList.asDomainModel())
-        }
+            val items = playList.asDomainModel()
+            withContext(Dispatchers.IO) {roomDao.insertAllYoutubePlaylistitems(items) }
+            return items
     }
-    override fun getYoutubePlaylist(): LiveData<List<YoutubePlaylistItemEntity>> {
+
+    override fun getYoutubePlaylist(): List<YoutubePlaylistItemEntity> {
         return roomDao.getYoutubePlaylistitems()
     }
 
@@ -55,9 +56,13 @@ class RepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) { roomDao.insertImageUrl(imageUrlEntity) }
         return imageUrlEntity
     }
-    override fun getImageUrl(folderName: String): LiveData<ImageUrlEntity?> {
+    override fun getImageUrl(folderName: String): ImageUrlEntity? {
         val url = "https://api.cloudinary.com/api/v1_1/dpeeqsw78/resources/search/?expression=folder=${folderName}"
         return roomDao.getImageUrl(url)
+    }
+    override fun getImageUrlLiveData(folderName: String): LiveData<ImageUrlEntity?> {
+        val url = "https://api.cloudinary.com/api/v1_1/dpeeqsw78/resources/search/?expression=folder=${folderName}"
+        return roomDao.getImageUrlLiveData(url)
     }
 
     override suspend fun getToken(authorization: String, grantType: String): Token {

@@ -6,21 +6,16 @@ import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.alientodevida.alientoapp.R
-import com.alientodevida.alientoapp.data.entities.local.CarouselItem
 import com.alientodevida.alientoapp.data.entities.local.CategoryItem
 import com.alientodevida.alientoapp.data.entities.local.CategoryItemType
 import com.alientodevida.alientoapp.data.entities.local.YoutubeItem
 import com.alientodevida.alientoapp.databinding.FragmentHomeBinding
-import com.alientodevida.alientoapp.databinding.ItemCarouselBinding
 import com.alientodevida.alientoapp.utils.Constants
 import com.alientodevida.alientoapp.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,8 +47,9 @@ class HomeFragment : Fragment() {
     private fun setupUI(binding: FragmentHomeBinding) {
 
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.refreshImages()
-            viewModel.refreshContent()
+            viewModel.refreshSermonItems()
+            viewModel.refreshCategoriesCarousel()
+            viewModel.refreshQuickLinks()
         }
 
         val content = SpannableString("Ver más")
@@ -110,12 +106,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        viewModel.sermonsItemsTransformation.observe(viewLifecycleOwner) { result ->
-            if (result.count() <= 1) {
-                viewModel.refreshContent()
-                return@observe
-            }
-
+        viewModel.sermonsItems.observe(viewLifecycleOwner) { result ->
             sermonsRecyclerViewAdapter.items = result
             sermonsRecyclerViewAdapter.notifyDataSetChanged()
             recyclerView.apply {

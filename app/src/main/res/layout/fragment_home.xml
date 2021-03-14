@@ -140,7 +140,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/donations"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
@@ -233,7 +233,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/prayer"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="16dp"
                     android:clickable="true"
                     android:focusable="true"
@@ -324,7 +324,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/web_page"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="16dp"
                     android:clickable="true"
                     android:focusable="true"
@@ -416,7 +416,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/ebook"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="16dp"
                     android:clickable="true"
                     android:focusable="true"

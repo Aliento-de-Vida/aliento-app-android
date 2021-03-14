@@ -16,7 +16,7 @@ import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntit
 @Dao
 interface RoomDao {
     @Query("select * from youtubeplaylistitementity")
-    fun getYoutubePlaylistitems(): LiveData<List<YoutubePlaylistItemEntity>>
+    fun getYoutubePlaylistitems(): List<YoutubePlaylistItemEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllYoutubePlaylistitems(items: List<YoutubePlaylistItemEntity>)
@@ -28,7 +28,10 @@ interface RoomDao {
     fun insertAllPodcasts(items: List<PodcastEntity>)
 
     @Query("select * from imageurlentity WHERE searchUrl=:searchUrl")
-    fun getImageUrl(searchUrl: String): LiveData<ImageUrlEntity?>
+    fun getImageUrl(searchUrl: String): ImageUrlEntity?
+
+    @Query("select * from imageurlentity WHERE searchUrl=:searchUrl")
+    fun getImageUrlLiveData(searchUrl: String): LiveData<ImageUrlEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertImageUrl(item: ImageUrlEntity)
