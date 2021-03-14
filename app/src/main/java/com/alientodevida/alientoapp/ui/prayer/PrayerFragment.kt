@@ -10,14 +10,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.databinding.FragmentPrayerBinding
 import com.alientodevida.alientoapp.utils.Utils
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PrayerFragment : Fragment() {
 
     private val viewModel by viewModels<PrayerViewModel>()

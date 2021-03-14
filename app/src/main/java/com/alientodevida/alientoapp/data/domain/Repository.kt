@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.alientodevida.alientoapp.data.entities.local.ImageUrlEntity
 import com.alientodevida.alientoapp.data.entities.local.PodcastEntity
 import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
+import com.alientodevida.alientoapp.data.entities.network.AskPrayerResponse
 import com.alientodevida.alientoapp.data.entities.network.CsrfToken
 import com.alientodevida.alientoapp.data.entities.network.Token
 import com.alientodevida.alientoapp.data.entities.network.Transmision
@@ -24,6 +25,15 @@ interface Repository {
     suspend fun getCsrfToken(): CsrfToken
 
     suspend fun getTransmision(): Transmision
+
+    suspend fun sendPrayerRequest(
+        csrfToken: String,
+        asunto: String,
+        nombre: String,
+        email: String,
+        whatsapp: String,
+        mensaje: String
+    ): AskPrayerResponse
 
     //suspend fun getPlaylist(authorization: String, playlistId: String): PlayList
 }

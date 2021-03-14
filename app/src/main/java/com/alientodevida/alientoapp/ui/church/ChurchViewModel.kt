@@ -15,7 +15,7 @@ import com.alientodevida.alientoapp.utils.Constants.US_VIDEO
 import kotlinx.coroutines.launch
 
 class ChurchViewModel @ViewModelInject constructor(
-    private val repository: Repository
+    private val repository: Repository,
 ): ViewModel() {
 
     val usImageUrl: String = "https://img.youtube.com/vi/$US_VIDEO/hqdefault.jpg"

@@ -5,10 +5,7 @@ import com.alientodevida.alientoapp.data.domain.Repository
 import com.alientodevida.alientoapp.data.entities.local.ImageUrlEntity
 import com.alientodevida.alientoapp.data.entities.local.PodcastEntity
 import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
-import com.alientodevida.alientoapp.data.entities.network.CsrfToken
-import com.alientodevida.alientoapp.data.entities.network.Token
-import com.alientodevida.alientoapp.data.entities.network.Transmision
-import com.alientodevida.alientoapp.data.entities.network.asDomainModel
+import com.alientodevida.alientoapp.data.entities.network.*
 import com.alientodevida.alientoapp.data.networking.RetrofitService
 import com.alientodevida.alientoapp.data.storage.RoomDao
 import kotlinx.coroutines.Dispatchers
@@ -81,6 +78,24 @@ class RepositoryImpl @Inject constructor(
     override suspend fun getTransmision(): Transmision {
         return retrofitService.getTransmision(
                 "https://alientodevida.mx/api-adv/get-transmision/",
+        )
+    }
+    override suspend fun sendPrayerRequest(
+        csrfToken: String,
+        asunto: String,
+        nombre: String,
+        email: String,
+        whatsapp: String,
+        mensaje: String
+    ): AskPrayerResponse {
+        return retrofitService.sendPrayerRequest(
+                "https://alientodevida.mx/api-adv/post-mensaje-oracion/",
+            csrfToken,
+            asunto,
+            nombre,
+            email,
+            whatsapp,
+            mensaje,
         )
     }
 

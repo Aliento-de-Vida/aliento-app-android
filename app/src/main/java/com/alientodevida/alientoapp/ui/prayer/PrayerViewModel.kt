@@ -1,17 +1,21 @@
 package com.alientodevida.alientoapp.ui.prayer
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alientodevida.alientoapp.data.entities.local.BankAccount
-import com.alientodevida.alientoapp.data.entities.local.DonationType
-import com.alientodevida.alientoapp.data.entities.local.PaymentItem
-import com.alientodevida.alientoapp.data.entities.local.Paypal
-import kotlinx.coroutines.delay
+import com.alientodevida.alientoapp.AppController
+import com.alientodevida.alientoapp.data.domain.Repository
+import com.alientodevida.alientoapp.data.entities.network.CsrfToken
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.lang.Exception
 
-class PrayerViewModel : ViewModel() {
+class PrayerViewModel @ViewModelInject constructor(
+    private val repository: Repository,
+) : ViewModel() {
+
     private val _isDataValid = MutableLiveData<Boolean>()
     val isDataValid: LiveData<Boolean>
         get() = _isDataValid
@@ -50,8 +54,28 @@ class PrayerViewModel : ViewModel() {
     fun sendPrayerRequest() {
         _isGettingData.value = true
         viewModelScope.launch {
-            delay(2000)
-            _messageToShow.value = Pair("Felicidades!", "Se ha enviado su petición de oración!\nPronto nos pondremos en contacto con usted $name")
+
+            try {
+                val response = repository.sendPrayerRequest(
+                    AppController.get<CsrfToken>(CsrfToken.key)!!.csrfToken,
+                    selectedTopic!!,
+                    name!!,
+                    email!!,
+                    whatsapp!!,
+                    message!!
+                )
+
+                if (response.status == "ok") {
+                    _messageToShow.value = Pair("Felicidades!", "${response.response}\nPronto nos pondremos en contacto con usted $name")
+                } else {
+                    _messageToShow.value = Pair("Lo sentimos", "Ha habido un error, por favor intente más tarde")
+                }
+
+            } catch (ex: HttpException) {
+                ex.printStackTrace()
+                _messageToShow.value = Pair("Lo sentimos", "Ha habido un error, por favor intente más tarde")
+            }
+
             _isGettingData.value = false
         }
     }
