@@ -102,7 +102,7 @@ class HomeFragment : Fragment() {
     private fun setupSermonsRecyclerView(carouselView: CarouselView) {
         viewModel.sermonsItems.observe(viewLifecycleOwner) { result ->
             carouselView.setViewListener(viewListener)
-            carouselView.pageCount = if (result.size < Companion.MAX_ITEMS_CAROUSEL) result.size else Companion.MAX_ITEMS_CAROUSEL
+            carouselView.pageCount = if (result.size < MAX_ITEMS_CAROUSEL) result.size else MAX_ITEMS_CAROUSEL
         }
     }
 
@@ -178,6 +178,6 @@ class HomeFragment : Fragment() {
     }
 
     companion object {
-        private const val MAX_ITEMS_CAROUSEL = 3
+        private const val MAX_ITEMS_CAROUSEL = 5
     }
 }

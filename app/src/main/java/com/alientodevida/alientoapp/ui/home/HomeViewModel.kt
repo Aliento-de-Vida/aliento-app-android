@@ -133,7 +133,7 @@ class HomeViewModel @ViewModelInject constructor(
     private fun createSermonItems(sermonsImage: String?, sermons: List<YoutubePlaylistItemEntity>): List<CarouselItem> {
         val carouselItems = arrayListOf<CarouselItem>(
             CategoryItem(
-                "Prédicas",
+                "",
                 sermonsImage?.replace("http", "https"),
                 CategoryItemType.SERMONS
             )
