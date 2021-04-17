@@ -1,6 +1,9 @@
 package com.alientodevida.alientoapp.data.networking
 
+import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
 import com.alientodevida.alientoapp.data.entities.network.*
+import com.alientodevida.alientoapp.data.entities.network.base.ApiError
+import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
 import retrofit2.http.*
 
 const val BASE_URL_SPOTIFY_API = "https://api.spotify.com/"
@@ -10,19 +13,19 @@ interface RetrofitService {
     @GET
     suspend fun getYoutubePlaylist(
         @Url url: String,
-    ): YoutubePlaylistItems
+    ): ApiResult<YoutubePlaylistItems, ApiError>
 
     @GET("/v1/shows/{podcast_id}/episodes/?market=MX")
     suspend fun getPodcast(
         @Header("Authorization") authorization: String,
         @Path("podcast_id") podcast_id: String
-    ): Podcast
+    ): ApiResult<Podcast, ApiError>
 
     @GET
     suspend fun getImageUrl(
         @Url url: String,
         @Header("Authorization") authorization: String
-    ): ImageUrlResponse
+    ): ApiResult<ImageUrlResponse, ApiError>
 
     @POST
     @FormUrlEncoded
@@ -30,17 +33,17 @@ interface RetrofitService {
         @Url url: String,
         @Header("Authorization") authorization: String,
         @Field("grant_type") grantType: String
-        ): Token
+        ): ApiResult<Token, ApiError>
 
     @POST
     suspend fun getCsrfToken(
         @Url url: String,
-        ): CsrfToken
+        ): ApiResult<CsrfToken, ApiError>
 
     @POST
     suspend fun getTransmision(
         @Url url: String,
-        ): Transmision
+        ): ApiResult<Transmision, ApiError>
 
     @POST
     @FormUrlEncoded
@@ -52,7 +55,7 @@ interface RetrofitService {
         @Field("email") email: String,
         @Field("whatsapp") whatsapp: String,
         @Field("mensaje") mensaje: String
-    ): AskPrayerResponse
+    ): ApiResult<AskPrayerResponse, ApiError>
 
     /*@GET("/v1/playlists/{playlist_id}/")
     suspend fun getPlaylist(

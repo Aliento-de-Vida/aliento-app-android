@@ -5,8 +5,11 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.alientodevida.alientoapp.AppController
 import com.alientodevida.alientoapp.data.domain.Repository
+import com.alientodevida.alientoapp.data.entities.UserFriendlyError
 import com.alientodevida.alientoapp.data.entities.local.*
 import com.alientodevida.alientoapp.data.entities.network.CsrfToken
+import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
+import com.alientodevida.alientoapp.extensions.observeOnce
 import com.alientodevida.alientoapp.utils.Constants
 import kotlinx.coroutines.*
 import retrofit2.HttpException
@@ -26,6 +29,10 @@ class HomeViewModel @ViewModelInject constructor(
     private val repository: Repository
 ): ViewModel() {
 
+    companion object {
+        const val TAG = "HomeViewModel"
+    }
+
     private val _carouseItems = MutableLiveData<List<CategoryItem>>()
     val carouseItems: LiveData<List<CategoryItem>>
         get() = _carouseItems
@@ -37,10 +44,13 @@ class HomeViewModel @ViewModelInject constructor(
     private val _isGettingData = MutableLiveData<Boolean>()
     val isGettingData: LiveData<Boolean> = _isGettingData
 
-    val donations = repository.getImageUrlLiveData(DONATIONS)
-    val prayer = repository.getImageUrlLiveData(PRAYER)
-    val webPage = repository.getImageUrlLiveData(WEB_PAGE)
-    val ebook = repository.getImageUrlLiveData(EBOOK)
+    private val _onError = MutableLiveData<UserFriendlyError>()
+    val onError: LiveData<UserFriendlyError> = _onError
+
+    val donations = repository.getCachedImageUrlLiveData(DONATIONS)
+    val prayer = repository.getCachedImageUrlLiveData(PRAYER)
+    val webPage = repository.getCachedImageUrlLiveData(WEB_PAGE)
+    val ebook = repository.getCachedImageUrlLiveData(EBOOK)
 
     private val token = String.format(
         "Basic %s", Base64.encodeToString(
@@ -50,7 +60,6 @@ class HomeViewModel @ViewModelInject constructor(
     ).trim()
 
     init {
-
         getCsrfToken()
 
         refreshSermonItems(false)
@@ -71,11 +80,14 @@ class HomeViewModel @ViewModelInject constructor(
      * CSRF Token
      */
     private fun getCsrfToken(isExpired: Boolean = true) {
-        var token = AppController.get<CsrfToken>(CsrfToken.key)
-        if (token == null || isExpired) {
-            viewModelScope.launch {
-                token = repository.getCsrfToken()
-                AppController.save(token!!, CsrfToken.key)
+        AppController.get<CsrfToken>(CsrfToken.key) ?: run {
+            if (isExpired) {
+                viewModelScope.launch {
+                    when (val result = repository.getCsrfToken()) {
+                        is ApiResult.Success -> AppController.save(result.body, CsrfToken.key)
+                        else -> _onError.value = UserFriendlyError(result)
+                    }
+                }
             }
         }
     }
@@ -86,44 +98,55 @@ class HomeViewModel @ViewModelInject constructor(
     fun refreshSermonItems(isForceRefresh: Boolean = true) {
         _isGettingData.postValue(true)
         viewModelScope.launch {
-            try {
-                if (isForceRefresh) {
-                    val sermonsImage = async(Dispatchers.Default) {
-                        repository.refreshImageUrl(token, SERMONS)
-                    }
+            if (isForceRefresh) {
 
-                    val sermons = async(Dispatchers.Default) {
-                        repository.refreshYoutubePlaylist(
-                            Constants.YOUTUBE_DEVELOPER_KEY,
-                            Constants.YOUTUBE_PREDICAS_PLAYLIST_CODE
-                        )
-                    }
-
-                    val sermonItems = createSermonItems(sermonsImage.await().imageUrl, sermons.await())
-                    _sermonsItems.value = sermonItems
-
-                } else {
-                    repository.getImageUrlLiveData(SERMONS).observeOnce {
-                        if (it == null) refreshSermonItems(true)
-                        else getCachedSermonItems()
-                    }
+                val sermonsImage = async(Dispatchers.Default) {
+                    repository.refreshImageUrl(token, SERMONS)
                 }
-                _isGettingData.postValue(false)
+                val sermons = async(Dispatchers.Default) {
+                    repository.refreshYoutubePlaylist(
+                        Constants.YOUTUBE_DEVELOPER_KEY,
+                        Constants.YOUTUBE_PREDICAS_PLAYLIST_CODE
+                    )
+                }
 
-            } catch (ex: HttpException) {
-                _isGettingData.postValue(false)
-                ex.printStackTrace()
+                val sermonsItemsResult = sermonsImage.await()
+                val sermonsResult = sermons.await()
+
+                if (sermonsItemsResult !is ApiResult.Success) {
+                    _onError.value = UserFriendlyError(sermonsItemsResult)
+                    _isGettingData.postValue(false)
+                    return@launch
+                }
+                if (sermonsResult !is ApiResult.Success) {
+                    _onError.value = UserFriendlyError(sermonsResult)
+                    _isGettingData.postValue(false)
+                    return@launch
+                }
+
+                val sermonItems = createSermonItems(
+                    sermonsItemsResult.body.imageUrl,
+                    sermonsResult.body
+                )
+                _sermonsItems.value = sermonItems
+
+            } else {
+                repository.getCachedImageUrlLiveData(SERMONS).observeOnce {
+                    if (it == null) refreshSermonItems(true)
+                    else getCachedSermonItems()
+                }
             }
+            _isGettingData.postValue(false)
         }
     }
     private fun getCachedSermonItems() {
         viewModelScope.launch {
             val sermonsImage = async(Dispatchers.IO) {
-                repository.getImageUrl(SERMONS)
+                repository.getCachedImageUrl(SERMONS)
             }
 
             val sermons = async(Dispatchers.IO) {
-                repository.getYoutubePlaylist()
+                repository.getCachedYoutubePlaylist()
             }
 
             val sermonItems = createSermonItems(sermonsImage.await()?.imageUrl, sermons.await())
@@ -171,15 +194,41 @@ class HomeViewModel @ViewModelInject constructor(
                         repository.refreshImageUrl(token, COURSES)
                     }
 
+                    val churchImageResult = churchImage.await()
+                    val socialWorkImageResult = socialWorkImage.await()
+                    val coursesImageResult = coursesImage.await()
+
+                    when (churchImageResult) {
+                        is ApiResult.Success -> { }
+                        else -> {
+                            _onError.value = UserFriendlyError(churchImageResult)
+                            return@launch
+                        }
+                    }
+                    when (socialWorkImageResult) {
+                        is ApiResult.Success -> { }
+                        else -> {
+                            _onError.value = UserFriendlyError(socialWorkImageResult)
+                            return@launch
+                        }
+                    }
+                    when (coursesImageResult) {
+                        is ApiResult.Success -> { }
+                        else -> {
+                            _onError.value = UserFriendlyError(coursesImageResult)
+                            return@launch
+                        }
+                    }
+
                     val categoriesItems = createCategoriesCarouselItems(
-                        churchImage.await().imageUrl,
-                        socialWorkImage.await().imageUrl,
-                        coursesImage.await().imageUrl
+                        churchImageResult.body.imageUrl,
+                        socialWorkImageResult.body.imageUrl,
+                        coursesImageResult.body.imageUrl
                     )
                     _carouseItems.value = categoriesItems
 
                 } else {
-                    repository.getImageUrlLiveData(CHURCH).observeOnce {
+                    repository.getCachedImageUrlLiveData(CHURCH).observeOnce {
                         if (it == null) refreshCategoriesCarousel(true)
                         else getCachedCategoriesCarousel()
                     }
@@ -194,13 +243,13 @@ class HomeViewModel @ViewModelInject constructor(
     private fun getCachedCategoriesCarousel() {
         viewModelScope.launch {
             val churchImage = async(Dispatchers.Default) {
-                repository.getImageUrl(CHURCH)
+                repository.getCachedImageUrl(CHURCH)
             }
             val socialWorkImage = async(Dispatchers.Default) {
-                repository.getImageUrl(SOCIAL_WORK)
+                repository.getCachedImageUrl(SOCIAL_WORK)
             }
             val coursesImage = async(Dispatchers.Default) {
-                repository.getImageUrl(COURSES)
+                repository.getCachedImageUrl(COURSES)
             }
 
             val categoriesItems = createCategoriesCarouselItems(
@@ -239,7 +288,7 @@ class HomeViewModel @ViewModelInject constructor(
     /**
      * Quick links
      */
-    fun refreshQuickLinks(isForceRefresh: Boolean = true) {
+    private fun refreshQuickLinks(isForceRefresh: Boolean = true) {
         viewModelScope.launch {
             _isGettingData.postValue(true)
             try {
@@ -262,14 +311,4 @@ class HomeViewModel @ViewModelInject constructor(
             _isGettingData.postValue(false)
         }
     }
-}
-
-
-private fun <T> LiveData<T>.observeOnce(observer: Observer<T>) {
-    observeForever(object : Observer<T> {
-        override fun onChanged(t: T?) {
-            observer.onChanged(t)
-            removeObserver(this)
-        }
-    })
 }

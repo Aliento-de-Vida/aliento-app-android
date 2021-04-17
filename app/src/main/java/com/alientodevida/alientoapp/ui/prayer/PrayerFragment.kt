@@ -10,13 +10,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.alientodevida.alientoapp.R
+import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
 import com.alientodevida.alientoapp.databinding.FragmentPrayerBinding
 import com.alientodevida.alientoapp.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Exception
 
 @AndroidEntryPoint
 class PrayerFragment : Fragment() {
@@ -28,22 +31,14 @@ class PrayerFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         val binding = FragmentPrayerBinding.inflate(layoutInflater)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
         setupUI(binding)
-
-        viewModel.isDataValid.observe(viewLifecycleOwner) {
-            binding.fabSend.isEnabled = it
-            binding.fabSend.backgroundTintList = ColorStateList.valueOf(if (it) Color.parseColor("#00B8D4") else Color.parseColor("#aaaaaa"))
-        }
-
-        viewModel.messageToShow.observe(viewLifecycleOwner) {
-            Utils.showDialog(requireContext(), it.first, it.second)
-        }
+        observeViewModel(binding)
 
         binding.fabSend.setOnClickListener {
             viewModel.sendPrayerRequest()
@@ -53,58 +48,84 @@ class PrayerFragment : Fragment() {
     }
 
     private fun setupUI(binding: FragmentPrayerBinding) {
-        binding.spinnerTopic.onItemSelectedListener = object: AdapterView.OnItemSelectedListener  {
-            override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
-                viewModel.selectedTopic = if (position != 0) {
-                    viewModel.topics[position]
-                } else {
-                    null
+        with(binding) {
+            spinnerTopic.onItemSelectedListener = object: AdapterView.OnItemSelectedListener  {
+                override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
+                    this@PrayerFragment.viewModel.selectedTopic = if (position != 0) {
+                        this@PrayerFragment.viewModel.topics[position]
+                    } else {
+                        null
+                    }
+                    this@PrayerFragment.viewModel.validation()
                 }
-                viewModel.validation()
+                override fun onNothingSelected(arg0: AdapterView<*>) {}
             }
-            override fun onNothingSelected(arg0: AdapterView<*>) {}
+
+            val topicsAdapter = ArrayAdapter(
+                requireContext(),
+                R.layout.support_simple_spinner_dropdown_item,
+                this@PrayerFragment.viewModel.topics
+            )
+            topicsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinnerTopic.adapter = topicsAdapter
+
+
+            name.addTextChangedListener(object : TextWatcher {
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                override fun afterTextChanged(s: Editable) {
+                    this@PrayerFragment.viewModel.name = name.text.toString()
+                    this@PrayerFragment.viewModel.validation()
+                }
+            })
+
+            email.addTextChangedListener(object : TextWatcher {
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                override fun afterTextChanged(s: Editable) {
+                    this@PrayerFragment.viewModel.email = email.text.toString()
+                    this@PrayerFragment.viewModel.validation()
+                }
+            })
+
+            whatsapp.addTextChangedListener(object : TextWatcher {
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                override fun afterTextChanged(s: Editable) {
+                    this@PrayerFragment.viewModel.whatsapp = binding.whatsapp.text.toString()
+                    this@PrayerFragment.viewModel.validation()
+                }
+            })
+
+            message.addTextChangedListener(object : TextWatcher {
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                override fun afterTextChanged(s: Editable) {
+                    this@PrayerFragment.viewModel.message = message.text.toString()
+                    this@PrayerFragment.viewModel.validation()
+                }
+            })
+        }
+    }
+
+    private fun observeViewModel(binding: FragmentPrayerBinding) {
+        viewModel.isDataValid.observe(owner = viewLifecycleOwner) {
+            binding.fabSend.isEnabled = it
+            binding.fabSend.backgroundTintList = ColorStateList.valueOf(if (it) Color.parseColor("#00B8D4") else Color.parseColor("#aaaaaa"))
         }
 
-        val topicsAdapter = ArrayAdapter(requireContext(), R.layout.support_simple_spinner_dropdown_item, viewModel.topics)
-        topicsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerTopic.adapter = topicsAdapter
+        viewModel.messageToShow.observe(owner = viewLifecycleOwner) {
+            Utils.showDialog(requireContext(), it.first, it.second)
+        }
 
-
-        binding.name.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                viewModel.name = binding.name.text.toString()
-                viewModel.validation()
+        viewModel.onError.observe(owner = viewLifecycleOwner) { onError ->
+            when(onError.result) {
+                is ApiResult.ApiError -> Toast.makeText(requireContext(), "ApiError", Toast.LENGTH_SHORT).show()
+                is ApiResult.NetworkError -> Toast.makeText(requireContext(), "NetworkError", Toast.LENGTH_SHORT).show()
+                is ApiResult.UnknownError -> Toast.makeText(requireContext(), "UnknownError", Toast.LENGTH_SHORT).show()
+                else -> throw Exception("This is not an error")
             }
-        })
-
-        binding.email.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                viewModel.email = binding.email.text.toString()
-                viewModel.validation()
-            }
-        })
-
-        binding.whatsapp.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                viewModel.whatsapp = binding.whatsapp.text.toString()
-                viewModel.validation()
-            }
-        })
-
-        binding.message.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                viewModel.message = binding.message.text.toString()
-                viewModel.validation()
-            }
-        })
+        }
     }
 }
 
