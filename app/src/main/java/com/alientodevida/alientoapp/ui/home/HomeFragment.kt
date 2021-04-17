@@ -59,8 +59,8 @@ class HomeFragment : Fragment() {
 
             swiperefresh.setOnRefreshListener {
                 this@HomeFragment.viewModel.refreshSermonItems()
-                //viewModel.refreshCategoriesCarousel()
-                //viewModel.refreshQuickLinks()
+                this@HomeFragment.viewModel.refreshCategoriesCarousel()
+                this@HomeFragment.viewModel.refreshQuickLinks()
             }
 
             val content = SpannableString("Ver más")

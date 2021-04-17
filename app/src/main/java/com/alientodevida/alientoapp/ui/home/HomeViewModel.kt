@@ -27,7 +27,7 @@ private const val EBOOK = "adv/EBOOK"
 
 class HomeViewModel @ViewModelInject constructor(
     private val repository: Repository
-): ViewModel() {
+) : ViewModel() {
 
     companion object {
         const val TAG = "HomeViewModel"
@@ -139,6 +139,7 @@ class HomeViewModel @ViewModelInject constructor(
             _isGettingData.postValue(false)
         }
     }
+
     private fun getCachedSermonItems() {
         viewModelScope.launch {
             val sermonsImage = async(Dispatchers.IO) {
@@ -153,7 +154,11 @@ class HomeViewModel @ViewModelInject constructor(
             _sermonsItems.value = sermonItems
         }
     }
-    private fun createSermonItems(sermonsImage: String?, sermons: List<YoutubePlaylistItemEntity>): List<CarouselItem> {
+
+    private fun createSermonItems(
+        sermonsImage: String?,
+        sermons: List<YoutubePlaylistItemEntity>
+    ): List<CarouselItem> {
         val carouselItems = arrayListOf<CarouselItem>(
             CategoryItem(
                 "",
@@ -199,21 +204,24 @@ class HomeViewModel @ViewModelInject constructor(
                     val coursesImageResult = coursesImage.await()
 
                     when (churchImageResult) {
-                        is ApiResult.Success -> { }
+                        is ApiResult.Success -> {
+                        }
                         else -> {
                             _onError.value = UserFriendlyError(churchImageResult)
                             return@launch
                         }
                     }
                     when (socialWorkImageResult) {
-                        is ApiResult.Success -> { }
+                        is ApiResult.Success -> {
+                        }
                         else -> {
                             _onError.value = UserFriendlyError(socialWorkImageResult)
                             return@launch
                         }
                     }
                     when (coursesImageResult) {
-                        is ApiResult.Success -> { }
+                        is ApiResult.Success -> {
+                        }
                         else -> {
                             _onError.value = UserFriendlyError(coursesImageResult)
                             return@launch
@@ -240,6 +248,7 @@ class HomeViewModel @ViewModelInject constructor(
             _isGettingData.postValue(false)
         }
     }
+
     private fun getCachedCategoriesCarousel() {
         viewModelScope.launch {
             val churchImage = async(Dispatchers.Default) {
@@ -260,6 +269,7 @@ class HomeViewModel @ViewModelInject constructor(
             _carouseItems.value = categoriesItems
         }
     }
+
     private fun createCategoriesCarouselItems(
         churchImage: String?,
         socialWorkImage: String?,
@@ -288,27 +298,59 @@ class HomeViewModel @ViewModelInject constructor(
     /**
      * Quick links
      */
-    private fun refreshQuickLinks(isForceRefresh: Boolean = true) {
+    fun refreshQuickLinks(isForceRefresh: Boolean = true) {
         viewModelScope.launch {
-            _isGettingData.postValue(true)
-            try {
-                if (isForceRefresh) {
-                    repository.refreshImageUrl(token, DONATIONS)
-                    repository.refreshImageUrl(token, PRAYER)
-                    repository.refreshImageUrl(token, WEB_PAGE)
-                    repository.refreshImageUrl(token, EBOOK)
+            _isGettingData.value = false
+            if (isForceRefresh) {
 
-                } else {
-                    donations.observeOnce {
-                        if (it == null)
-                            refreshQuickLinks(true)
+                when (val response = repository.refreshImageUrl(token, DONATIONS)) {
+                    is ApiResult.Success -> {
+                    }
+                    else -> {
+                        _onError.value = UserFriendlyError(response)
+                        _isGettingData.value = false
+                        return@launch
                     }
                 }
 
-            } catch (ex: HttpException) {
-                ex.printStackTrace()
+                when (val response = repository.refreshImageUrl(token, PRAYER)) {
+                    is ApiResult.Success -> {
+                    }
+                    else -> {
+                        _onError.value = UserFriendlyError(response)
+                        _isGettingData.value = false
+                        return@launch
+                    }
+                }
+
+                when (val response = repository.refreshImageUrl(token, WEB_PAGE)) {
+                    is ApiResult.Success -> {
+                    }
+                    else -> {
+                        _onError.value = UserFriendlyError(response)
+                        _isGettingData.value = false
+                        return@launch
+                    }
+                }
+
+                when (val response = repository.refreshImageUrl(token, EBOOK)) {
+                    is ApiResult.Success -> {
+                    }
+                    else -> {
+                        _onError.value = UserFriendlyError(response)
+                        _isGettingData.value = false
+                        return@launch
+                    }
+                }
+
+            } else {
+                donations.observeOnce {
+                    if (it == null)
+                        refreshQuickLinks(true)
+                }
             }
-            _isGettingData.postValue(false)
+
+            _isGettingData.value = false
         }
     }
 }
