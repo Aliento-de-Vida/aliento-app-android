@@ -6,8 +6,10 @@ import com.alientodevida.alientoapp.data.entities.local.ImageUrlEntity
 import com.alientodevida.alientoapp.data.entities.local.PodcastEntity
 import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
 import com.alientodevida.alientoapp.data.entities.network.*
+import com.alientodevida.alientoapp.data.entities.network.base.ApiError
 import com.alientodevida.alientoapp.data.networking.RetrofitService
 import com.alientodevida.alientoapp.data.storage.RoomDao
+import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -17,52 +19,71 @@ class RepositoryImpl @Inject constructor(
     private val roomDao: RoomDao
 ): Repository {
 
-    override suspend fun refreshYoutubePlaylist(youtubeKey: String, playListId: String): List<YoutubePlaylistItemEntity> {
-            val playList = retrofitService.getYoutubePlaylist(
-                "https://www.googleapis.com/youtube/v3/playlistItems?key=${youtubeKey}" +
-                        "&playlistId=${playListId}&part=snippet&order=date&maxResults=50"
-            )
-            val items = playList.asDomainModel()
-            withContext(Dispatchers.IO) {roomDao.insertAllYoutubePlaylistitems(items) }
-            return items
-    }
+    override suspend fun refreshYoutubePlaylist(youtubeKey: String, playListId: String):
+        ApiResult<List<YoutubePlaylistItemEntity>, ApiError> {
 
-    override fun getYoutubePlaylist(): List<YoutubePlaylistItemEntity> {
+        val response = retrofitService.getYoutubePlaylist(
+            "https://www.googleapis.com/youtube/v3/playlistItems?key=${youtubeKey}" +
+                    "&playlistId=${playListId}&part=snippet&order=date&maxResults=50"
+        )
+
+        return when (response) {
+            is ApiResult.Success -> {
+                val items = response.body.asDomainModel()
+                withContext(Dispatchers.IO) {roomDao.insertAllYoutubePlaylistitems(items) }
+                return ApiResult.Success(items)
+            }
+            is ApiResult.ApiError -> ApiResult.ApiError(response.body, response.code)
+            is ApiResult.NetworkError -> ApiResult.NetworkError(response.error)
+            is ApiResult.UnknownError -> ApiResult.UnknownError(response.error)
+        }
+    }
+    override fun getCachedYoutubePlaylist(): List<YoutubePlaylistItemEntity> {
         return roomDao.getYoutubePlaylistitems()
     }
 
-    override suspend fun refreshPodcasts(authorization: String, podcastId: String) {
-        withContext(Dispatchers.IO) {
-            val items = retrofitService.getPodcast(authorization, podcastId)
-            roomDao.insertAllPodcasts(items.asDomainModel())
+    override suspend fun refreshPodcasts(authorization: String, podcastId: String):
+        ApiResult<List<PodcastEntity>, ApiError> {
+
+        return when (val response = retrofitService.getPodcast(authorization, podcastId)) {
+            is ApiResult.Success -> {
+                val items = response.body.asDomainModel()
+                withContext(Dispatchers.IO) {roomDao.insertAllPodcasts(items) }
+                return ApiResult.Success(items)
+            }
+            is ApiResult.ApiError -> ApiResult.ApiError(response.body, response.code)
+            is ApiResult.NetworkError -> ApiResult.NetworkError(response.error)
+            is ApiResult.UnknownError -> ApiResult.UnknownError(response.error)
         }
     }
-    override fun getPodcasts(): LiveData<List<PodcastEntity>> {
+    override fun getCachedPodcasts(): LiveData<List<PodcastEntity>> {
         return roomDao.getPodcasts()
     }
 
-    override suspend fun refreshImageUrl(authorization: String, folderName: String): ImageUrlEntity {
+    override suspend fun refreshImageUrl(authorization: String, folderName: String): ApiResult<ImageUrlEntity, ApiError> {
         val searchUrl = "https://api.cloudinary.com/api/v1_1/dpeeqsw78/resources/search/?expression=folder=${folderName}"
 
-        val response = retrofitService.getImageUrl(
-                searchUrl,
-                authorization
-        )
-
-        val imageUrlEntity = response.asDomainModel(searchUrl)
-        withContext(Dispatchers.IO) { roomDao.insertImageUrl(imageUrlEntity) }
-        return imageUrlEntity
+        return when (val response = retrofitService.getImageUrl(searchUrl, authorization)) {
+            is ApiResult.Success -> {
+                val result = ApiResult.Success(response.body.asDomainModel(searchUrl))
+                withContext(Dispatchers.IO) { roomDao.insertImageUrl(result.body) }
+                return result
+            }
+            is ApiResult.ApiError -> ApiResult.ApiError(response.body, response.code)
+            is ApiResult.NetworkError -> ApiResult.NetworkError(response.error)
+            is ApiResult.UnknownError -> ApiResult.UnknownError(response.error)
+        }
     }
-    override fun getImageUrl(folderName: String): ImageUrlEntity? {
+    override fun getCachedImageUrl(folderName: String): ImageUrlEntity? {
         val url = "https://api.cloudinary.com/api/v1_1/dpeeqsw78/resources/search/?expression=folder=${folderName}"
         return roomDao.getImageUrl(url)
     }
-    override fun getImageUrlLiveData(folderName: String): LiveData<ImageUrlEntity?> {
+    override fun getCachedImageUrlLiveData(folderName: String): LiveData<ImageUrlEntity?> {
         val url = "https://api.cloudinary.com/api/v1_1/dpeeqsw78/resources/search/?expression=folder=${folderName}"
         return roomDao.getImageUrlLiveData(url)
     }
 
-    override suspend fun getToken(authorization: String, grantType: String): Token {
+    override suspend fun getToken(authorization: String, grantType: String): ApiResult<Token, ApiError> {
         return retrofitService.getToken(
             "https://accounts.spotify.com/api/token/",
             authorization,
@@ -70,12 +91,12 @@ class RepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getCsrfToken(): CsrfToken {
+    override suspend fun getCsrfToken(): ApiResult<CsrfToken, ApiError> {
         return retrofitService.getCsrfToken(
                 "https://alientodevida.mx/api-adv/get-csrf-token/",
         )
     }
-    override suspend fun getTransmision(): Transmision {
+    override suspend fun getTransmision(): ApiResult<Transmision, ApiError> {
         return retrofitService.getTransmision(
                 "https://alientodevida.mx/api-adv/get-transmision/",
         )
@@ -87,7 +108,7 @@ class RepositoryImpl @Inject constructor(
         email: String,
         whatsapp: String,
         mensaje: String
-    ): AskPrayerResponse {
+    ): ApiResult<AskPrayerResponse, ApiError> {
         return retrofitService.sendPrayerRequest(
                 "https://alientodevida.mx/api-adv/post-mensaje-oracion/",
             csrfToken,

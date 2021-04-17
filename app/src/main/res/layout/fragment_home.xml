@@ -114,6 +114,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
+                    android:visibility="gone"
                     app:cardCornerRadius="@dimen/card_view_custom_radius"
                     app:cardElevation="@dimen/cardview_custom_elevation"
                     app:layout_constraintDimensionRatio=""
@@ -206,15 +207,18 @@
                     android:id="@+id/prayer"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
+                    android:visibility="visible"
                     app:cardCornerRadius="@dimen/card_view_custom_radius"
                     app:cardElevation="@dimen/cardview_custom_elevation"
                     app:layout_constraintDimensionRatio=""
-                    app:layout_constraintEnd_toEndOf="@+id/donations"
-                    app:layout_constraintStart_toStartOf="@+id/donations"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/donations">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -303,15 +307,17 @@
                     android:id="@+id/web_page"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="@dimen/card_view_custom_radius"
                     app:cardElevation="@dimen/cardview_custom_elevation"
                     app:layout_constraintDimensionRatio=""
-                    app:layout_constraintEnd_toEndOf="@+id/donations"
-                    app:layout_constraintStart_toStartOf="@+id/donations"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/prayer">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -400,15 +406,17 @@
                     android:id="@+id/ebook"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="@dimen/card_view_custom_radius"
                     app:cardElevation="@dimen/cardview_custom_elevation"
-                    app:layout_constraintEnd_toEndOf="@+id/donations"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="@+id/donations"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/web_page">
 
                     <androidx.constraintlayout.widget.ConstraintLayout

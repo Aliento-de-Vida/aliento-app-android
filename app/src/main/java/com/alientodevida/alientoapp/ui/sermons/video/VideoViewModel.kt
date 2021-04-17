@@ -6,7 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alientodevida.alientoapp.data.domain.Repository
+import com.alientodevida.alientoapp.data.entities.UserFriendlyError
 import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
+import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
 import com.alientodevida.alientoapp.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -24,6 +26,9 @@ class VideoViewModel @ViewModelInject constructor(
     private val _isGettingData = MutableLiveData<Boolean>()
     val isGettingData: LiveData<Boolean> = _isGettingData
 
+    private val _onError = MutableLiveData<UserFriendlyError>()
+    val onError: LiveData<UserFriendlyError> = _onError
+
     init {
         getCachedVideos()
     }
@@ -31,15 +36,21 @@ class VideoViewModel @ViewModelInject constructor(
     fun refreshContent() {
         _isGettingData.postValue(true)
         viewModelScope.launch {
-            try {
-                _videos.value = repository.refreshYoutubePlaylist(Constants.YOUTUBE_DEVELOPER_KEY, Constants.YOUTUBE_PREDICAS_PLAYLIST_CODE)
-                getCachedVideos()
-                _isGettingData.postValue(false)
 
-            } catch (ex: HttpException) {
-                _isGettingData.postValue(false)
-                ex.printStackTrace()
+            when (
+                val result = repository.refreshYoutubePlaylist(
+                    Constants.YOUTUBE_DEVELOPER_KEY,
+                    Constants.YOUTUBE_PREDICAS_PLAYLIST_CODE
+                )) {
+
+                is ApiResult.Success -> getCachedVideos()
+                else -> {
+                    _onError.value = UserFriendlyError(result)
+                    return@launch
+                }
             }
+            _isGettingData.postValue(false)
+
         }
     }
 
@@ -51,7 +62,7 @@ class VideoViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             try {
                 val sermons = async(Dispatchers.IO) {
-                    repository.getYoutubePlaylist()
+                    repository.getCachedYoutubePlaylist()
                 }
 
                 _videos.value = sermons.await()
