@@ -1,19 +1,18 @@
 package com.alientodevida.alientoapp.ui.sermons.audio
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.data.entities.local.PodcastEntity
+import com.alientodevida.alientoapp.data.entities.network.base.ResponseError
 import com.alientodevida.alientoapp.databinding.FragmentAudioBinding
 import com.alientodevida.alientoapp.utils.Constants
 import com.alientodevida.alientoapp.utils.Utils
@@ -31,26 +30,34 @@ class AudioFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentAudioBinding.inflate(layoutInflater)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
         setupUI(binding)
+        observeViewModel(binding)
 
         return binding.root
     }
 
     private fun setupUI(binding: FragmentAudioBinding) {
+        with(binding) {
+            setupRecyclerView(myRecyclerView)
 
-        setupRecyclerView(binding.myRecyclerView)
+            swiperefresh.setOnRefreshListener { this@AudioFragment.viewModel.refreshContent(false) }
 
-        binding.swiperefresh.setOnRefreshListener { viewModel.refreshContent() }
+            spotifyFragmentAudios.setOnClickListener {
+                Utils.openSpotifyArtistPage(requireContext(), Constants.SPOTIFY_ARTIST_ID)
+            }
+        }
+    }
 
-        viewModel.podcasts.observe(viewLifecycleOwner) {
+    private fun observeViewModel(binding: FragmentAudioBinding) {
+        viewModel.podcasts.observe(owner = viewLifecycleOwner) {
             if (it.count() == 0) {
-                viewModel.refreshContent()
+                viewModel.refreshContent(false)
             }
 
             mAdapter.audios = ArrayList(it)
@@ -58,8 +65,19 @@ class AudioFragment : Fragment() {
             binding.swiperefresh.isRefreshing = false
         }
 
-        binding.spotifyFragmentAudios.setOnClickListener {
-            Utils.openSpotifyArtistPage(requireContext(), Constants.SPOTIFY_ARTIST_ID)
+        viewModel.isGettingData.observe(owner = viewLifecycleOwner) { isGettingData ->
+            if (isGettingData.not()) binding.swiperefresh.isRefreshing = false
+        }
+
+        viewModel.onError.observe(owner = viewLifecycleOwner) { onError ->
+            onError?.let {
+                when(onError.result) {
+                    is ResponseError.ApiResponseError -> Toast.makeText(requireContext(), "ApiError", Toast.LENGTH_SHORT).show()
+                    is ResponseError.NetworkResponseError -> Toast.makeText(requireContext(), "NetworkError", Toast.LENGTH_SHORT).show()
+                    is ResponseError.UnknownResponseError -> Toast.makeText(requireContext(), "UnknownError", Toast.LENGTH_SHORT).show()
+                }
+                viewModel.errorHandled()
+            }
         }
     }
 

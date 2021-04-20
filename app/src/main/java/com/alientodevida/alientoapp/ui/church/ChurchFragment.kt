@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.alientodevida.alientoapp.data.entities.network.base.ResponseError
 import com.alientodevida.alientoapp.databinding.FragmentChurchBinding
 import com.alientodevida.alientoapp.utils.Constants
 import com.alientodevida.alientoapp.utils.Utils
@@ -32,6 +33,7 @@ class ChurchFragment : Fragment() {
         binding.viewModel = viewModel
 
         setupUI(binding)
+        observeViewModel(binding)
 
         return binding.root
     }
@@ -46,10 +48,23 @@ class ChurchFragment : Fragment() {
             webViewClient = object : WebViewClient() { }
         }
         Constants.US_VIDEO
+    }
 
-        viewModel.transmision.observe(viewLifecycleOwner) {
+    private fun observeViewModel(binding: FragmentChurchBinding) {
+        viewModel.transmission.observe(owner = viewLifecycleOwner) {
             binding.date.text = Utils.format(Utils.dateFrom(it.fechaPublicacion), "dd 'de' MMMM 'de' YYYY")
             binding.transmisionWv.loadData(it.video, "text/html", "UTF-8")
+        }
+
+        viewModel.onError.observe(owner = viewLifecycleOwner) { onError ->
+            onError?.let {
+                when(onError.result) {
+                    is ResponseError.ApiResponseError -> Toast.makeText(requireContext(), "ApiError", Toast.LENGTH_SHORT).show()
+                    is ResponseError.NetworkResponseError -> Toast.makeText(requireContext(), "NetworkError", Toast.LENGTH_SHORT).show()
+                    is ResponseError.UnknownResponseError -> Toast.makeText(requireContext(), "UnknownError", Toast.LENGTH_SHORT).show()
+                }
+                viewModel.errorHandled()
+            }
         }
     }
 }

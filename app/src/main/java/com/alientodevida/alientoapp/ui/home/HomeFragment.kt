@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -19,11 +20,11 @@ import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.entities.local.CategoryItem
 import com.alientodevida.alientoapp.data.entities.local.CategoryItemType
 import com.alientodevida.alientoapp.data.entities.local.YoutubeItem
+import com.alientodevida.alientoapp.data.entities.network.base.ResponseError
 import com.alientodevida.alientoapp.databinding.FragmentHomeBinding
 import com.alientodevida.alientoapp.utils.Constants
 import com.alientodevida.alientoapp.utils.Utils
 import com.bumptech.glide.Glide
-import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ViewListener
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,64 +47,64 @@ class HomeFragment : Fragment() {
         binding.viewModel = viewModel
 
         setupUI(binding)
+        setupObservers(binding)
 
         return binding.root
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.resetError()
+    }
+
     private fun setupUI(binding: FragmentHomeBinding) {
+        with(binding) {
 
-        binding.swiperefresh.setOnRefreshListener {
-            viewModel.refreshSermonItems()
-            viewModel.refreshCategoriesCarousel()
-            viewModel.refreshQuickLinks()
-        }
+            swiperefresh.setOnRefreshListener {
+                this@HomeFragment.viewModel.resetError()
+                this@HomeFragment.viewModel.refreshSermonItems()
+                this@HomeFragment.viewModel.refreshCategoriesCarousel()
+                this@HomeFragment.viewModel.refreshQuickLinks()
+            }
 
-        val content = SpannableString("Ver más")
-        content.setSpan(UnderlineSpan(), 0, content.length, 0)
+            val content = SpannableString("Ver más")
+            content.setSpan(UnderlineSpan(), 0, content.length, 0)
 
-        setupSermonsRecyclerView(binding.sermonsCarousel)
+            setupCarousel(carrousel)
 
-        setupCarousel(binding.carrousel)
+            donations.setOnClickListener { goToDonations() }
+            prayer.setOnClickListener { goToPrayer() }
+            webPage.setOnClickListener { Utils.goToUrl(requireContext(), Constants.webPageUrl) }
+            ebook.setOnClickListener { Utils.goToUrl(requireContext(), Constants.ebookDownloadUrl) }
 
-        viewModel.isGettingData.observe(viewLifecycleOwner) { isGettingData ->
-            if (isGettingData.not()) binding.swiperefresh.isRefreshing = false
-        }
-
-        binding.donations.setOnClickListener {
-            goToDonations()
-        }
-        binding.prayer.setOnClickListener {
-            goToPrayer()
-        }
-        binding.webPage.setOnClickListener {
-            Utils.goToUrl(requireContext(), Constants.webPageUrl)
-        }
-        binding.ebook.setOnClickListener {
-            Utils.goToUrl(requireContext(), Constants.ebookDownloadUrl)
-        }
-
-        binding.instagram.setOnClickListener {
-            Utils.openInstagramPage(requireContext())
-        }
-        binding.youtube.setOnClickListener {
-            Utils.openYoutubeChannel(requireContext(), Constants.YOUTUBE_CHANNEL_URL)
-        }
-        binding.facebook.setOnClickListener {
-            Utils.openFacebookPage(requireContext())
-        }
-        binding.twitter.setOnClickListener {
-            Utils.openTwitterPage(requireContext())
-        }
-        binding.spotify.setOnClickListener {
-            Utils.openSpotifyArtistPage(requireContext(), Constants.SPOTIFY_ARTIST_ID)
+            instagram.setOnClickListener { Utils.openInstagramPage(requireContext()) }
+            youtube.setOnClickListener { Utils.openYoutubeChannel(requireContext(), Constants.YOUTUBE_CHANNEL_URL) }
+            facebook.setOnClickListener { Utils.openFacebookPage(requireContext()) }
+            twitter.setOnClickListener { Utils.openTwitterPage(requireContext()) }
+            spotify.setOnClickListener { Utils.openSpotifyArtistPage(requireContext(), Constants.SPOTIFY_ARTIST_ID) }
         }
     }
 
-    private fun setupSermonsRecyclerView(carouselView: CarouselView) {
-        viewModel.sermonsItems.observe(viewLifecycleOwner) { result ->
-            carouselView.setViewListener(viewListener)
-            carouselView.pageCount = if (result.size < Companion.MAX_ITEMS_CAROUSEL) result.size else Companion.MAX_ITEMS_CAROUSEL
+    private fun setupObservers(binding: FragmentHomeBinding) {
+
+        viewModel.sermonsItems.observe(owner = viewLifecycleOwner) { result ->
+            binding.sermonsCarousel.setViewListener(viewListener)
+            binding.sermonsCarousel.pageCount = if (result.size < MAX_ITEMS_CAROUSEL) result.size else MAX_ITEMS_CAROUSEL
         }
+
+        viewModel.isGettingData.observe(owner = viewLifecycleOwner) { isGettingData ->
+            if (isGettingData.not()) binding.swiperefresh.isRefreshing = false
+        }
+        viewModel.onError.observe(owner = viewLifecycleOwner) { onError ->
+            onError?.let {
+                when(onError.result) {
+                    is ResponseError.ApiResponseError -> Toast.makeText(requireContext(), "ApiError", Toast.LENGTH_SHORT).show()
+                    is ResponseError.NetworkResponseError -> Toast.makeText(requireContext(), "NetworkError", Toast.LENGTH_SHORT).show()
+                    is ResponseError.UnknownResponseError -> Toast.makeText(requireContext(), "UnknownError", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
     }
 
     private var viewListener: ViewListener = ViewListener { position ->
@@ -178,6 +179,6 @@ class HomeFragment : Fragment() {
     }
 
     companion object {
-        private const val MAX_ITEMS_CAROUSEL = 3
+        private const val MAX_ITEMS_CAROUSEL = 5
     }
 }
