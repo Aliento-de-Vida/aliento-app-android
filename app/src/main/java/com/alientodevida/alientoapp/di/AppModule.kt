@@ -4,12 +4,12 @@ import android.content.Context
 import com.alientodevida.alientoapp.BuildConfig
 import com.alientodevida.alientoapp.data.domain.Repository
 import com.alientodevida.alientoapp.data.networking.BASE_URL_SPOTIFY_API
+import com.alientodevida.alientoapp.data.networking.NetworkResponseAdapterFactory
 import com.alientodevida.alientoapp.data.networking.RetrofitService
 import com.alientodevida.alientoapp.data.repository.RepositoryImpl
-import com.alientodevida.alientoapp.data.storage.RoomDao
 import com.alientodevida.alientoapp.data.storage.AppDatabase
+import com.alientodevida.alientoapp.data.storage.RoomDao
 import com.alientodevida.alientoapp.data.storage.getDatabase
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -70,7 +70,7 @@ class NetworkModule {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL_SPOTIFY_API)
             .addConverterFactory(MoshiConverterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .client(httpClient)
             .build()
 

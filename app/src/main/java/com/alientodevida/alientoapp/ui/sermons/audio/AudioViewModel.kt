@@ -7,48 +7,80 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alientodevida.alientoapp.AppController
 import com.alientodevida.alientoapp.data.domain.Repository
+import com.alientodevida.alientoapp.data.entities.UserFriendlyError
 import com.alientodevida.alientoapp.data.entities.network.Token
+import com.alientodevida.alientoapp.data.entities.network.base.ApiError
+import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
+import com.alientodevida.alientoapp.data.entities.network.base.ResponseError
 import com.alientodevida.alientoapp.utils.Constants
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 
 class AudioViewModel @ViewModelInject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    val podcasts = repository.getPodcasts()
+    val podcasts = repository.getCachedPodcasts()
 
     private val _isGettingData = MutableLiveData<Boolean>()
     val isGettingData: LiveData<Boolean> = _isGettingData
 
-    fun refreshContent() {
-        _isGettingData.postValue(true)
+    private val _onError = MutableLiveData<UserFriendlyError?>()
+    val onError: LiveData<UserFriendlyError?> = _onError
+
+    fun errorHandled() {
+        _onError.value = null
+    }
+
+    fun refreshContent(isExpired: Boolean) {
+        _isGettingData.value = true
         viewModelScope.launch {
 
-            var token = getToken()
+            val result = getTokenOrError(isExpired)
+            when (result) {
+                is ApiResult.Success -> {
+                    AppController.save(result.body, Token.key)
+                }
+                is ApiResult.Failure -> {
+                    _isGettingData.value = false
+                    _onError.value = UserFriendlyError(result.responseError)
+                    return@launch
+                }
+            }
 
-            try {
-                getPodcasts(token)
-            } catch (ex: HttpException) {
-                if (ex.code() == 401) {
-                    token = getToken(true)
-                    getPodcasts(token)
+            when (val podcastsResult = repository.refreshPodcasts(
+                "Bearer ${result.body.accessToken}",
+                Constants.PODCAST_ID
+            )) {
+                is ApiResult.Success -> {
+                    _isGettingData.value = false
+                }
+                is ApiResult.Failure -> {
+
+                    if ((podcastsResult.responseError is ResponseError.ApiResponseError) && podcastsResult.responseError.code == 401 && isExpired.not()) {
+                        refreshContent(true)
+                    } else {
+                        _onError.value = UserFriendlyError(podcastsResult.responseError)
+                        _isGettingData.value = false
+                    }
                 }
             }
         }
     }
 
-    private suspend fun getPodcasts(token: Token) {
-         repository.refreshPodcasts("Bearer ${token.accessToken}", Constants.PODCAST_ID)
-        _isGettingData.postValue(false)
-    }
+    private suspend fun getTokenOrError(isExpired: Boolean = false): ApiResult<Token, ApiError> {
+        val token = AppController.get<Token>(Token.key)
 
-    private suspend fun getToken(isExpired: Boolean = false): Token {
-        var token = AppController.get<Token>(Token.key)
-        if (token == null || isExpired) {
-            token = repository.getToken(Constants.SPOTIFY_TOKEN, Constants.SPOTIFY_GRANT_TYPE)
-            AppController.save(token, Token.key)
+        return if (isExpired || token == null) {
+            when (val result = repository.getToken(Constants.SPOTIFY_TOKEN, Constants.SPOTIFY_GRANT_TYPE)) {
+                is ApiResult.Success -> {
+                    ApiResult.Success(result.body)
+                }
+                else -> {
+                    result
+                }
+            }
+        } else {
+            ApiResult.Success(token)
         }
-        return token
     }
 }

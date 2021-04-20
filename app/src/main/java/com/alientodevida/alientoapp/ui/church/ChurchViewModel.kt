@@ -5,12 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alientodevida.alientoapp.AppController
 import com.alientodevida.alientoapp.data.domain.Repository
-import com.alientodevida.alientoapp.data.entities.network.CsrfToken
-import com.alientodevida.alientoapp.data.entities.network.Token
+import com.alientodevida.alientoapp.data.entities.UserFriendlyError
 import com.alientodevida.alientoapp.data.entities.network.Transmision
-import com.alientodevida.alientoapp.utils.Constants
+import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
 import com.alientodevida.alientoapp.utils.Constants.US_VIDEO
 import kotlinx.coroutines.launch
 
@@ -20,22 +18,37 @@ class ChurchViewModel @ViewModelInject constructor(
 
     val usImageUrl: String = "https://img.youtube.com/vi/$US_VIDEO/hqdefault.jpg"
 
-    private val _transmision = MutableLiveData<Transmision>()
-    val transmision: LiveData<Transmision> = _transmision
+    private val _transmission = MutableLiveData<Transmision>()
+    val transmission: LiveData<Transmision> = _transmission
 
     private val _isGettingData = MutableLiveData<Boolean>()
     val isGettingData: LiveData<Boolean> = _isGettingData
 
+    private val _onError = MutableLiveData<UserFriendlyError?>()
+    val onError: LiveData<UserFriendlyError?> = _onError
+
     init {
-        getTransmision()
+        getTransmission()
     }
 
-    private fun getTransmision() {
+    fun errorHandled() {
+        _onError.value = null
+    }
+
+    private fun getTransmission() {
         _isGettingData.value = true
         viewModelScope.launch {
-            val transmision = repository.getTransmision()
+
+            when (val result = repository.getTransmision()) {
+                is ApiResult.Success -> {
+                    _transmission.value = result.body
+                }
+                is ApiResult.Failure -> {
+                    _onError.value = UserFriendlyError(result.responseError)
+                }
+            }
+
             _isGettingData.value = false
-            _transmision.value = transmision
         }
     }
 }

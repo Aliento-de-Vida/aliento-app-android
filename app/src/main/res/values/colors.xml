@@ -17,4 +17,6 @@
 
     <color name="red_youtube">#F61B0B</color>
     <color name="green_spotify">#1DD760</color>
+
+    <color name="background_color">#FF000000</color>
 </resources>

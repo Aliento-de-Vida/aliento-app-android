@@ -33,12 +33,14 @@
                     android:id="@+id/sermonsCarousel"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
+                    app:indicatorMarginVertical="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:radius="6dp"
+                    app:strokeColor="@color/pantone_446_c"
+                    app:pageColor="@color/pantone_446_c"
                     app:slideInterval="3500"
-                    app:strokeColor="#FF777777"
+                    app:radius="4dp"
                     app:strokeWidth="1dp" />
 
                 <FrameLayout
@@ -63,6 +65,7 @@
                     android:text="@string/carousel"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
                     android:textColor="@color/pantone_white_c"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/sermonsCarousel" />
 
@@ -97,19 +100,21 @@
                     android:text="@string/quick_access"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
                     android:textColor="@color/pantone_white_c"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/carrousel" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/donations"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="16dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
+                    android:visibility="gone"
                     app:cardCornerRadius="@dimen/card_view_custom_radius"
                     app:cardElevation="@dimen/cardview_custom_elevation"
                     app:layout_constraintDimensionRatio=""
@@ -119,7 +124,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
+                        android:layout_height="match_parent">
 
                         <ImageView
                             android:id="@+id/imageView2"
@@ -136,6 +141,7 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:background="#4D000000"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -146,6 +152,7 @@
                             android:layout_width="25dp"
                             android:layout_height="0dp"
                             android:background="@drawable/triangulo"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/frameLayout5"
                             app:layout_constraintTop_toTopOf="parent">
@@ -157,6 +164,7 @@
                             android:layout_width="50dp"
                             android:layout_height="0dp"
                             android:background="@color/pantone_446_c"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -168,9 +176,10 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
                             android:scaleType="centerInside"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/frameLayout6"
                             app:layout_constraintStart_toStartOf="parent"
@@ -185,6 +194,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textColor="@color/pantone_white_c"
                             android:textSize="24sp"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/imageView2"
                             app:layout_constraintStart_toEndOf="@+id/frameLayout6"
@@ -196,16 +206,19 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/prayer"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
+                    android:visibility="visible"
                     app:cardCornerRadius="@dimen/card_view_custom_radius"
                     app:cardElevation="@dimen/cardview_custom_elevation"
                     app:layout_constraintDimensionRatio=""
-                    app:layout_constraintEnd_toEndOf="@+id/donations"
-                    app:layout_constraintStart_toStartOf="@+id/donations"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/donations">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -217,6 +230,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
+                            android:visibility="visible"
                             app:imageUrl="@{viewModel.prayer.imageUrl}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -227,6 +241,7 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:background="#4D000000"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -237,6 +252,7 @@
                             android:layout_width="50dp"
                             android:layout_height="0dp"
                             android:background="@color/pantone_446_c"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -248,6 +264,7 @@
                             android:layout_width="25dp"
                             android:layout_height="0dp"
                             android:background="@drawable/triangulo"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/frameLayout500"
                             app:layout_constraintTop_toTopOf="parent">
@@ -262,6 +279,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textColor="@color/pantone_white_c"
                             android:textSize="24sp"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/imageView20"
                             app:layout_constraintStart_toEndOf="@+id/frameLayout600"
@@ -272,9 +290,10 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
                             android:scaleType="centerInside"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/frameLayout500"
                             app:layout_constraintStart_toStartOf="parent"
@@ -287,16 +306,18 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/web_page"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="@dimen/card_view_custom_radius"
                     app:cardElevation="@dimen/cardview_custom_elevation"
                     app:layout_constraintDimensionRatio=""
-                    app:layout_constraintEnd_toEndOf="@+id/donations"
-                    app:layout_constraintStart_toStartOf="@+id/donations"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/prayer">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -318,6 +339,7 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:background="#4D000000"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -328,6 +350,7 @@
                             android:layout_width="25dp"
                             android:layout_height="0dp"
                             android:background="@drawable/triangulo"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/frameLayout5000"
                             app:layout_constraintTop_toTopOf="parent">
@@ -339,6 +362,7 @@
                             android:layout_width="50dp"
                             android:layout_height="0dp"
                             android:background="@color/pantone_446_c"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -350,9 +374,10 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
                             android:scaleType="centerInside"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/frameLayout5000"
                             app:layout_constraintStart_toStartOf="parent"
@@ -366,6 +391,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textColor="@color/pantone_white_c"
                             android:textSize="24sp"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/imageView30"
                             app:layout_constraintStart_toEndOf="@+id/frameLayout6000"
@@ -379,16 +405,18 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/ebook"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="@dimen/card_view_custom_radius"
                     app:cardElevation="@dimen/cardview_custom_elevation"
-                    app:layout_constraintEnd_toEndOf="@+id/donations"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="@+id/donations"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/web_page">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -410,6 +438,7 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:background="#4D000000"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -420,6 +449,7 @@
                             android:layout_width="25dp"
                             android:layout_height="0dp"
                             android:background="@drawable/triangulo"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/frameLayout50"
                             app:layout_constraintTop_toTopOf="parent">
@@ -431,6 +461,7 @@
                             android:layout_width="50dp"
                             android:layout_height="0dp"
                             android:background="@color/pantone_446_c"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -442,9 +473,10 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
                             android:scaleType="centerInside"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/frameLayout50"
                             app:layout_constraintStart_toStartOf="parent"
@@ -458,6 +490,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textColor="@color/pantone_white_c"
                             android:textSize="24sp"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/imageView40"
                             app:layout_constraintStart_toEndOf="@+id/frameLayout60"
@@ -477,6 +510,7 @@
                     android:text="@string/social_networks"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
                     android:textColor="@color/pantone_white_c"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ebook" />
 
@@ -510,21 +544,20 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="@color/background_color">
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="16dp"
                             android:layout_marginEnd="8dp"
-                            android:layout_marginBottom="16dp"
+                            android:baselineAligned="false"
                             android:orientation="horizontal"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:baselineAligned="false">
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <FrameLayout
                                 android:layout_width="match_parent"
@@ -533,11 +566,11 @@
 
                                 <ImageView
                                     android:id="@+id/instagram"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
                                     android:layout_gravity="center_horizontal|center_vertical"
                                     android:elevation="2dp"
-                                    android:scaleType="fitXY"
+                                    android:scaleType="centerInside"
                                     app:srcCompat="@drawable/instagram_icon" />
                             </FrameLayout>
 
@@ -548,11 +581,11 @@
 
                                 <ImageView
                                     android:id="@+id/youtube"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
                                     android:layout_gravity="center_horizontal|center_vertical"
                                     android:elevation="2dp"
-                                    android:scaleType="fitXY"
+                                    android:scaleType="centerInside"
                                     app:srcCompat="@drawable/youtube_icon" />
                             </FrameLayout>
 
@@ -563,11 +596,11 @@
 
                                 <ImageView
                                     android:id="@+id/facebook"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
                                     android:layout_gravity="center_horizontal|center_vertical"
                                     android:elevation="2dp"
-                                    android:scaleType="fitXY"
+                                    android:scaleType="centerInside"
                                     app:srcCompat="@drawable/facebook_icon" />
                             </FrameLayout>
 
@@ -578,11 +611,11 @@
 
                                 <ImageView
                                     android:id="@+id/twitter"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
                                     android:layout_gravity="center_horizontal|center_vertical"
                                     android:elevation="2dp"
-                                    android:scaleType="fitXY"
+                                    android:scaleType="centerInside"
                                     app:srcCompat="@drawable/twitter_icon" />
                             </FrameLayout>
 
@@ -593,11 +626,11 @@
 
                                 <ImageView
                                     android:id="@+id/spotify"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
                                     android:layout_gravity="center_horizontal|center_vertical"
                                     android:elevation="2dp"
-                                    android:scaleType="fitXY"
+                                    android:scaleType="centerInside"
                                     app:srcCompat="@drawable/spotify_icon_2" />
                             </FrameLayout>
 
@@ -622,7 +655,7 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
+                    android:layout_height="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cv"
