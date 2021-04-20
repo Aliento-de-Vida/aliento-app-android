@@ -24,11 +24,15 @@ class ChurchViewModel @ViewModelInject constructor(
     private val _isGettingData = MutableLiveData<Boolean>()
     val isGettingData: LiveData<Boolean> = _isGettingData
 
-    private val _onError = MutableLiveData<UserFriendlyError>()
-    val onError: LiveData<UserFriendlyError> = _onError
+    private val _onError = MutableLiveData<UserFriendlyError?>()
+    val onError: LiveData<UserFriendlyError?> = _onError
 
     init {
         getTransmission()
+    }
+
+    fun errorHandled() {
+        _onError.value = null
     }
 
     private fun getTransmission() {
@@ -39,8 +43,8 @@ class ChurchViewModel @ViewModelInject constructor(
                 is ApiResult.Success -> {
                     _transmission.value = result.body
                 }
-                else -> {
-                    _onError.value = UserFriendlyError(result)
+                is ApiResult.Failure -> {
+                    _onError.value = UserFriendlyError(result.responseError)
                 }
             }
 

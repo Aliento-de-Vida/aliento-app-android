@@ -20,15 +20,13 @@ import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.entities.local.CategoryItem
 import com.alientodevida.alientoapp.data.entities.local.CategoryItemType
 import com.alientodevida.alientoapp.data.entities.local.YoutubeItem
-import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
+import com.alientodevida.alientoapp.data.entities.network.base.ResponseError
 import com.alientodevida.alientoapp.databinding.FragmentHomeBinding
 import com.alientodevida.alientoapp.utils.Constants
 import com.alientodevida.alientoapp.utils.Utils
 import com.bumptech.glide.Glide
-import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ViewListener
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Exception
 
 
 @AndroidEntryPoint
@@ -54,10 +52,16 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.resetError()
+    }
+
     private fun setupUI(binding: FragmentHomeBinding) {
         with(binding) {
 
             swiperefresh.setOnRefreshListener {
+                this@HomeFragment.viewModel.resetError()
                 this@HomeFragment.viewModel.refreshSermonItems()
                 this@HomeFragment.viewModel.refreshCategoriesCarousel()
                 this@HomeFragment.viewModel.refreshQuickLinks()
@@ -92,11 +96,12 @@ class HomeFragment : Fragment() {
             if (isGettingData.not()) binding.swiperefresh.isRefreshing = false
         }
         viewModel.onError.observe(owner = viewLifecycleOwner) { onError ->
-            when(onError.result) {
-                is ApiResult.ApiError -> Toast.makeText(requireContext(), "ApiError", Toast.LENGTH_SHORT).show()
-                is ApiResult.NetworkError -> Toast.makeText(requireContext(), "NetworkError", Toast.LENGTH_SHORT).show()
-                is ApiResult.UnknownError -> Toast.makeText(requireContext(), "UnknownError", Toast.LENGTH_SHORT).show()
-                else -> throw Exception("This is not an error")
+            onError?.let {
+                when(onError.result) {
+                    is ResponseError.ApiResponseError -> Toast.makeText(requireContext(), "ApiError", Toast.LENGTH_SHORT).show()
+                    is ResponseError.NetworkResponseError -> Toast.makeText(requireContext(), "NetworkError", Toast.LENGTH_SHORT).show()
+                    is ResponseError.UnknownResponseError -> Toast.makeText(requireContext(), "UnknownError", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

@@ -26,17 +26,20 @@ class VideoViewModel @ViewModelInject constructor(
     private val _isGettingData = MutableLiveData<Boolean>()
     val isGettingData: LiveData<Boolean> = _isGettingData
 
-    private val _onError = MutableLiveData<UserFriendlyError>()
-    val onError: LiveData<UserFriendlyError> = _onError
+    private val _onError = MutableLiveData<UserFriendlyError?>()
+    val onError: LiveData<UserFriendlyError?> = _onError
 
     init {
         getCachedVideos()
     }
 
-    fun refreshContent() {
-        _isGettingData.postValue(true)
-        viewModelScope.launch {
+    fun errorHandled() {
+        _onError.value = null
+    }
 
+    fun refreshContent() {
+        _isGettingData.value = true
+        viewModelScope.launch {
             when (
                 val result = repository.refreshYoutubePlaylist(
                     Constants.YOUTUBE_DEVELOPER_KEY,
@@ -44,13 +47,11 @@ class VideoViewModel @ViewModelInject constructor(
                 )) {
 
                 is ApiResult.Success -> getCachedVideos()
-                else -> {
-                    _onError.value = UserFriendlyError(result)
-                    return@launch
+                is ApiResult.Failure -> {
+                    _onError.value = UserFriendlyError(result.responseError)
                 }
             }
-            _isGettingData.postValue(false)
-
+            _isGettingData.value = false
         }
     }
 
@@ -58,7 +59,7 @@ class VideoViewModel @ViewModelInject constructor(
      * Sermon items
      */
     private fun getCachedVideos() {
-        _isGettingData.postValue(true)
+        _isGettingData.value = true
         viewModelScope.launch {
             try {
                 val sermons = async(Dispatchers.IO) {
@@ -66,10 +67,10 @@ class VideoViewModel @ViewModelInject constructor(
                 }
 
                 _videos.value = sermons.await()
-                _isGettingData.postValue(false)
+                _isGettingData.value = false
 
             } catch (ex: HttpException) {
-                _isGettingData.postValue(false)
+                _isGettingData.value = false
                 ex.printStackTrace()
             }
         }

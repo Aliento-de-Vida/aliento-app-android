@@ -11,6 +11,7 @@ import com.alientodevida.alientoapp.data.entities.UserFriendlyError
 import com.alientodevida.alientoapp.data.entities.network.Token
 import com.alientodevida.alientoapp.data.entities.network.base.ApiError
 import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
+import com.alientodevida.alientoapp.data.entities.network.base.ResponseError
 import com.alientodevida.alientoapp.utils.Constants
 import kotlinx.coroutines.launch
 
@@ -23,8 +24,12 @@ class AudioViewModel @ViewModelInject constructor(
     private val _isGettingData = MutableLiveData<Boolean>()
     val isGettingData: LiveData<Boolean> = _isGettingData
 
-    private val _onError = MutableLiveData<UserFriendlyError>()
-    val onError: LiveData<UserFriendlyError> = _onError
+    private val _onError = MutableLiveData<UserFriendlyError?>()
+    val onError: LiveData<UserFriendlyError?> = _onError
+
+    fun errorHandled() {
+        _onError.value = null
+    }
 
     fun refreshContent(isExpired: Boolean) {
         _isGettingData.value = true
@@ -35,9 +40,9 @@ class AudioViewModel @ViewModelInject constructor(
                 is ApiResult.Success -> {
                     AppController.save(result.body, Token.key)
                 }
-                else -> {
+                is ApiResult.Failure -> {
                     _isGettingData.value = false
-                    _onError.value = UserFriendlyError(result)
+                    _onError.value = UserFriendlyError(result.responseError)
                     return@launch
                 }
             }
@@ -49,17 +54,14 @@ class AudioViewModel @ViewModelInject constructor(
                 is ApiResult.Success -> {
                     _isGettingData.value = false
                 }
-                is ApiResult.ApiError -> {
-                    if (podcastsResult.code == 401 && isExpired.not()) {
+                is ApiResult.Failure -> {
+
+                    if ((podcastsResult.responseError is ResponseError.ApiResponseError) && podcastsResult.responseError.code == 401 && isExpired.not()) {
                         refreshContent(true)
                     } else {
-                        _onError.value = UserFriendlyError(podcastsResult)
+                        _onError.value = UserFriendlyError(podcastsResult.responseError)
                         _isGettingData.value = false
                     }
-                }
-                else -> {
-                    _onError.value = UserFriendlyError(podcastsResult)
-                    _isGettingData.value = false
                 }
             }
         }
