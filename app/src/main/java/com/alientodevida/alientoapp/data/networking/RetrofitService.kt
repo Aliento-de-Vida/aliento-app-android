@@ -1,6 +1,5 @@
 package com.alientodevida.alientoapp.data.networking
 
-import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
 import com.alientodevida.alientoapp.data.entities.network.*
 import com.alientodevida.alientoapp.data.entities.network.base.ApiError
 import com.alientodevida.alientoapp.data.entities.network.base.ApiResult

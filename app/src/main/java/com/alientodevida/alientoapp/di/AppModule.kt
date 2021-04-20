@@ -7,10 +7,9 @@ import com.alientodevida.alientoapp.data.networking.BASE_URL_SPOTIFY_API
 import com.alientodevida.alientoapp.data.networking.NetworkResponseAdapterFactory
 import com.alientodevida.alientoapp.data.networking.RetrofitService
 import com.alientodevida.alientoapp.data.repository.RepositoryImpl
-import com.alientodevida.alientoapp.data.storage.RoomDao
 import com.alientodevida.alientoapp.data.storage.AppDatabase
+import com.alientodevida.alientoapp.data.storage.RoomDao
 import com.alientodevida.alientoapp.data.storage.getDatabase
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

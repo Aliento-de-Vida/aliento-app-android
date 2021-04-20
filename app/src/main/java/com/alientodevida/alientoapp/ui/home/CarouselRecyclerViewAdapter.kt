@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.entities.local.CarouselItem
 import com.alientodevida.alientoapp.data.entities.local.CategoryItem
-import com.alientodevida.alientoapp.data.entities.local.YoutubeItem
 import com.alientodevida.alientoapp.databinding.ItemCarouselBinding
 import com.bumptech.glide.Glide
 

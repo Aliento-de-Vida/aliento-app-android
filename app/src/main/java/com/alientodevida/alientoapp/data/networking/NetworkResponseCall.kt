@@ -1,6 +1,7 @@
 package com.alientodevida.alientoapp.data.networking
 
 import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
+import com.alientodevida.alientoapp.data.entities.network.base.ResponseError
 import okhttp3.Request
 import okhttp3.ResponseBody
 import okio.Timeout
@@ -25,15 +26,18 @@ internal class NetworkResponseCall<S : Any, E : Any>(
 
                 if (response.isSuccessful) {
                     if (body != null) {
+                        val result: ApiResult<S,E> = ApiResult.Success(body)
                         callback.onResponse(
                             this@NetworkResponseCall,
-                            Response.success(ApiResult.Success(body))
+                            Response.success(result)
                         )
                     } else {
                         // Response is successful but the body is null
                         callback.onResponse(
                             this@NetworkResponseCall,
-                            Response.success(ApiResult.UnknownError(null))
+                            Response.success(
+                                ApiResult.Failure(ResponseError.UnknownResponseError(null))
+                            )
                         )
                     }
                 } else {
@@ -48,22 +52,30 @@ internal class NetworkResponseCall<S : Any, E : Any>(
                     }
                     when {
                         errorBody != null -> {
+                            val aaa: ResponseError<E> = ResponseError.ApiResponseError(errorBody, code)
+                            val result: ApiResult<S,E> = ApiResult.Failure(aaa)
                             callback.onResponse(
                                 this@NetworkResponseCall,
-                                Response.success(ApiResult.ApiError(errorBody, code))
+                                Response.success(
+                                    result
+                                )
                             )
                         }
-                        // TODO: 17/04/21 how to get error codes or parse error?
+                        // TODO: how to get error codes or parse error?
                         code != null -> {
                             callback.onResponse(
                                 this@NetworkResponseCall,
-                                Response.success(ApiResult.ApiError(null, code))
+                                Response.success(ApiResult.Failure(
+                                    ResponseError.ApiResponseError(null, code)
+                                ))
                             )
                         }
                         else -> {
                             callback.onResponse(
                                 this@NetworkResponseCall,
-                                Response.success(ApiResult.UnknownError(null))
+                                Response.success(ApiResult.Failure(
+                                    ResponseError.UnknownResponseError(null)
+                                ))
                             )
                         }
                     }
@@ -72,8 +84,8 @@ internal class NetworkResponseCall<S : Any, E : Any>(
 
             override fun onFailure(call: Call<S>, throwable: Throwable) {
                 val networkResponse = when (throwable) {
-                    is IOException -> ApiResult.NetworkError(throwable)
-                    else -> ApiResult.UnknownError(throwable)
+                    is IOException -> ApiResult.Failure(ResponseError.NetworkResponseError(throwable))
+                    else -> ApiResult.Failure(ResponseError.UnknownResponseError(throwable))
                 }
                 callback.onResponse(this@NetworkResponseCall, Response.success(networkResponse))
             }

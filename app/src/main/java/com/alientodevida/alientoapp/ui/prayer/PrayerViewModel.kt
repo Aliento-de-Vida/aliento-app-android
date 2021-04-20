@@ -11,8 +11,6 @@ import com.alientodevida.alientoapp.data.entities.UserFriendlyError
 import com.alientodevida.alientoapp.data.entities.network.CsrfToken
 import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.lang.Exception
 
 class PrayerViewModel @ViewModelInject constructor(
     private val repository: Repository,
@@ -29,8 +27,8 @@ class PrayerViewModel @ViewModelInject constructor(
     private val _isGettingData = MutableLiveData<Boolean>()
     val isGettingData: LiveData<Boolean> = _isGettingData
 
-    private val _onError = MutableLiveData<UserFriendlyError>()
-    val onError: LiveData<UserFriendlyError> = _onError
+    private val _onError = MutableLiveData<UserFriendlyError?>()
+    val onError: LiveData<UserFriendlyError?> = _onError
 
     var name: String? = null
     var email: String? = null
@@ -46,6 +44,10 @@ class PrayerViewModel @ViewModelInject constructor(
     )
 
     var selectedTopic: String? = null
+
+    fun errorHandled() {
+        _onError.value = null
+    }
 
     fun validation() {
         _isDataValid.value = (
@@ -80,8 +82,8 @@ class PrayerViewModel @ViewModelInject constructor(
                             Pair("Lo sentimos", "Ha habido un error, por favor intente más tarde")
                     }
                 }
-                else -> {
-                    _onError.value = UserFriendlyError(response)
+                is ApiResult.Failure -> {
+                    _onError.value = UserFriendlyError(response.responseError)
                 }
             }
 

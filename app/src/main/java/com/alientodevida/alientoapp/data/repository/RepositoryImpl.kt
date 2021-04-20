@@ -7,9 +7,9 @@ import com.alientodevida.alientoapp.data.entities.local.PodcastEntity
 import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
 import com.alientodevida.alientoapp.data.entities.network.*
 import com.alientodevida.alientoapp.data.entities.network.base.ApiError
+import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
 import com.alientodevida.alientoapp.data.networking.RetrofitService
 import com.alientodevida.alientoapp.data.storage.RoomDao
-import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -33,9 +33,7 @@ class RepositoryImpl @Inject constructor(
                 withContext(Dispatchers.IO) {roomDao.insertAllYoutubePlaylistitems(items) }
                 return ApiResult.Success(items)
             }
-            is ApiResult.ApiError -> ApiResult.ApiError(response.body, response.code)
-            is ApiResult.NetworkError -> ApiResult.NetworkError(response.error)
-            is ApiResult.UnknownError -> ApiResult.UnknownError(response.error)
+            is ApiResult.Failure -> ApiResult.Failure(response.responseError)
         }
     }
     override fun getCachedYoutubePlaylist(): List<YoutubePlaylistItemEntity> {
@@ -51,9 +49,7 @@ class RepositoryImpl @Inject constructor(
                 withContext(Dispatchers.IO) {roomDao.insertAllPodcasts(items) }
                 return ApiResult.Success(items)
             }
-            is ApiResult.ApiError -> ApiResult.ApiError(response.body, response.code)
-            is ApiResult.NetworkError -> ApiResult.NetworkError(response.error)
-            is ApiResult.UnknownError -> ApiResult.UnknownError(response.error)
+            is ApiResult.Failure -> ApiResult.Failure(response.responseError)
         }
     }
     override fun getCachedPodcasts(): LiveData<List<PodcastEntity>> {
@@ -69,9 +65,7 @@ class RepositoryImpl @Inject constructor(
                 withContext(Dispatchers.IO) { roomDao.insertImageUrl(result.body) }
                 return result
             }
-            is ApiResult.ApiError -> ApiResult.ApiError(response.body, response.code)
-            is ApiResult.NetworkError -> ApiResult.NetworkError(response.error)
-            is ApiResult.UnknownError -> ApiResult.UnknownError(response.error)
+            is ApiResult.Failure -> ApiResult.Failure(response.responseError)
         }
     }
     override fun getCachedImageUrl(folderName: String): ImageUrlEntity? {

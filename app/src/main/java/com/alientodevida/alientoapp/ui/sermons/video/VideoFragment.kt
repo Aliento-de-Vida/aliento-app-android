@@ -11,12 +11,11 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.data.entities.local.YoutubePlaylistItemEntity
-import com.alientodevida.alientoapp.data.entities.network.base.ApiResult
+import com.alientodevida.alientoapp.data.entities.network.base.ResponseError
 import com.alientodevida.alientoapp.databinding.FragmentVideoBinding
 import com.alientodevida.alientoapp.utils.Constants
 import com.alientodevida.alientoapp.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Exception
 
 
 @AndroidEntryPoint
@@ -59,11 +58,13 @@ class VideoFragment : Fragment() {
         }
 
         viewModel.onError.observe(owner = viewLifecycleOwner) { onError ->
-            when(onError.result) {
-                is ApiResult.ApiError -> Toast.makeText(requireContext(), "ApiError", Toast.LENGTH_SHORT).show()
-                is ApiResult.NetworkError -> Toast.makeText(requireContext(), "NetworkError", Toast.LENGTH_SHORT).show()
-                is ApiResult.UnknownError -> Toast.makeText(requireContext(), "UnknownError", Toast.LENGTH_SHORT).show()
-                else -> throw Exception("This is not an error")
+            onError?.let {
+                when(onError.result) {
+                    is ResponseError.ApiResponseError -> Toast.makeText(requireContext(), "ApiError", Toast.LENGTH_SHORT).show()
+                    is ResponseError.NetworkResponseError -> Toast.makeText(requireContext(), "NetworkError", Toast.LENGTH_SHORT).show()
+                    is ResponseError.UnknownResponseError -> Toast.makeText(requireContext(), "UnknownError", Toast.LENGTH_SHORT).show()
+                }
+                viewModel.errorHandled()
             }
         }
     }

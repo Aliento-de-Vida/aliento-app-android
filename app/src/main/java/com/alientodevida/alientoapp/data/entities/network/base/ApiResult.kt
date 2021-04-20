@@ -1,7 +1,5 @@
 package com.alientodevida.alientoapp.data.entities.network.base
 
-import java.io.IOException
-
 sealed class ApiResult<out T : Any, out U : Any> {
     /**
      * Success response with body
@@ -9,17 +7,7 @@ sealed class ApiResult<out T : Any, out U : Any> {
     data class Success<T : Any>(val body: T) : ApiResult<T, Nothing>()
 
     /**
-     * Failure response with body
+     * Failure response
      */
-    data class ApiError<U : Any>(val body: U?, val code: Int) : ApiResult<Nothing, U>()
-
-    /**
-     * Network error
-     */
-    data class NetworkError(val error: IOException) : ApiResult<Nothing, Nothing>()
-
-    /**
-     * For example, json parsing error
-     */
-    data class UnknownError(val error: Throwable?) : ApiResult<Nothing, Nothing>()
+    data class Failure<U : Any>(val responseError: ResponseError<U>) : ApiResult<Nothing, U>()
 }
