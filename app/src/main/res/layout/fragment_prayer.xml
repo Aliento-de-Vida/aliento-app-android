@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView15"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -32,12 +32,12 @@
                     android:text="Queremos orar por ti"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView17"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                     android:text="Por favor escribenos tú petición de oración."
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView15" />
@@ -59,6 +59,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="80dp"
                     android:layout_marginEnd="16dp"
+                    android:textColor="?attr/colorOnBackground"
+                    android:background="?attr/colorSurface"
+                    android:backgroundTint="?attr/colorSurface"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView17" />
@@ -78,6 +81,7 @@
                         android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="?attr/colorOnBackground"
                         android:hint="Nombre" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,6 +98,7 @@
                         android:id="@+id/email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="?attr/colorOnBackground"
                         android:hint="Email"
                         android:inputType="textEmailAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -111,6 +116,7 @@
                         android:id="@+id/whatsapp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="?attr/colorOnBackground"
                         android:hint="Whatsapp"
                         android:inputType="phone" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -130,6 +136,7 @@
                         android:id="@+id/message"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="?attr/colorOnBackground"
                         android:hint="Mensaje" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -143,7 +150,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="4dp"
-            android:indeterminateTint="@color/pantone_white_c"
+            android:indeterminateTint="?attr/colorOnBackground"
             app:isGettingData="@{viewModel.isGettingData}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -5,6 +5,7 @@
     tools:ignore="ContentDescription">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.alientodevida.alientoapp.ui.home.HomeViewModel" />
@@ -37,10 +38,11 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:strokeColor="@color/pantone_446_c"
-                    app:pageColor="@color/pantone_446_c"
-                    app:slideInterval="3500"
+                    app:pageColor="?attr/carousel_indicator_background_color"
+                    app:strokeColor="?attr/carousel_indicator_background_color"
+                    app:fillColor="?attr/colorOnSurface"
                     app:radius="4dp"
+                    app:slideInterval="3500"
                     app:strokeWidth="1dp" />
 
                 <FrameLayout
@@ -48,7 +50,7 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintBottom_toBottomOf="@+id/textView4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView4"
@@ -56,7 +58,7 @@
 
                 </FrameLayout>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,7 +66,7 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/carousel"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/sermonsCarousel" />
@@ -83,7 +85,7 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintBottom_toBottomOf="@+id/textView5"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView5"
@@ -91,7 +93,7 @@
 
                 </FrameLayout>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -99,12 +101,12 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/quick_access"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/carrousel" />
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/donations"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
@@ -122,88 +124,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView5">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <ImageView
+                        android:id="@+id/imageView2"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:imageUrl="@{viewModel.donations.imageUrl}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
-                            android:id="@+id/imageView2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            app:imageUrl="@{viewModel.donations.imageUrl}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                </com.google.android.material.card.MaterialCardView>
 
-                        <FrameLayout
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:background="#4D000000"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <FrameLayout
-                            android:id="@+id/frameLayout6"
-                            android:layout_width="25dp"
-                            android:layout_height="0dp"
-                            android:background="@drawable/triangulo"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/frameLayout5"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                        </FrameLayout>
-
-                        <FrameLayout
-                            android:id="@+id/frameLayout5"
-                            android:layout_width="50dp"
-                            android:layout_height="0dp"
-                            android:background="@color/pantone_446_c"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                        </FrameLayout>
-
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:scaleType="centerInside"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/frameLayout6"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_baseline_credit_card_96" />
-
-                        <TextView
-                            android:id="@+id/textView18"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/donations"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                            android:textColor="@color/pantone_white_c"
-                            android:textSize="24sp"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@+id/imageView2"
-                            app:layout_constraintStart_toEndOf="@+id/frameLayout6"
-                            app:layout_constraintTop_toTopOf="@+id/imageView2" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/prayer"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
@@ -221,89 +155,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/donations">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <ImageView
+                        android:id="@+id/imageView20"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:visibility="visible"
+                        app:imageUrl="@{viewModel.prayer.imageUrl}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
-                            android:id="@+id/imageView20"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:visibility="visible"
-                            app:imageUrl="@{viewModel.prayer.imageUrl}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                </com.google.android.material.card.MaterialCardView>
 
-                        <FrameLayout
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:background="#4D000000"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <FrameLayout
-                            android:id="@+id/frameLayout500"
-                            android:layout_width="50dp"
-                            android:layout_height="0dp"
-                            android:background="@color/pantone_446_c"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                        </FrameLayout>
-
-                        <FrameLayout
-                            android:id="@+id/frameLayout600"
-                            android:layout_width="25dp"
-                            android:layout_height="0dp"
-                            android:background="@drawable/triangulo"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/frameLayout500"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                        </FrameLayout>
-
-                        <TextView
-                            android:id="@+id/textView19"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Peticiones de oración"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                            android:textColor="@color/pantone_white_c"
-                            android:textSize="24sp"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@+id/imageView20"
-                            app:layout_constraintStart_toEndOf="@+id/frameLayout600"
-                            app:layout_constraintTop_toTopOf="@+id/imageView20" />
-
-                        <ImageView
-                            android:id="@+id/imageView5"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:scaleType="centerInside"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@+id/frameLayout500"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_baseline_emoji_people_96" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/web_page"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
@@ -320,89 +186,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/prayer">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <ImageView
+                        android:id="@+id/imageView30"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:imageUrl="@{viewModel.webPage.imageUrl}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
-                            android:id="@+id/imageView30"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            app:imageUrl="@{viewModel.webPage.imageUrl}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                </com.google.android.material.card.MaterialCardView>
 
-                        <FrameLayout
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:background="#4D000000"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <FrameLayout
-                            android:id="@+id/frameLayout6000"
-                            android:layout_width="25dp"
-                            android:layout_height="0dp"
-                            android:background="@drawable/triangulo"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/frameLayout5000"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                        </FrameLayout>
-
-                        <FrameLayout
-                            android:id="@+id/frameLayout5000"
-                            android:layout_width="50dp"
-                            android:layout_height="0dp"
-                            android:background="@color/pantone_446_c"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                        </FrameLayout>
-
-                        <ImageView
-                            android:id="@+id/imageView6"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:scaleType="centerInside"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@+id/frameLayout5000"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_baseline_web_96" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Página web"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                            android:textColor="@color/pantone_white_c"
-                            android:textSize="24sp"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@+id/imageView30"
-                            app:layout_constraintStart_toEndOf="@+id/frameLayout6000"
-                            app:layout_constraintTop_toTopOf="@+id/imageView30" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/ebook"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
@@ -419,88 +216,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/web_page">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <ImageView
+                        android:id="@+id/imageView40"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:imageUrl="@{viewModel.ebook.imageUrl}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
-                            android:id="@+id/imageView40"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            app:imageUrl="@{viewModel.ebook.imageUrl}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <FrameLayout
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:background="#4D000000"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <FrameLayout
-                            android:id="@+id/frameLayout60"
-                            android:layout_width="25dp"
-                            android:layout_height="0dp"
-                            android:background="@drawable/triangulo"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/frameLayout50"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                        </FrameLayout>
-
-                        <FrameLayout
-                            android:id="@+id/frameLayout50"
-                            android:layout_width="50dp"
-                            android:layout_height="0dp"
-                            android:background="@color/pantone_446_c"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                        </FrameLayout>
-
-                        <ImageView
-                            android:id="@+id/imageView7"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:scaleType="centerInside"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@+id/frameLayout50"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_baseline_book_96" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ebook"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                            android:textColor="@color/pantone_white_c"
-                            android:textSize="24sp"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@+id/imageView40"
-                            app:layout_constraintStart_toEndOf="@+id/frameLayout60"
-                            app:layout_constraintTop_toTopOf="@+id/imageView40" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -509,7 +239,7 @@
                     android:elevation="2dp"
                     android:text="@string/social_networks"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ebook" />
@@ -519,7 +249,7 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintBottom_toBottomOf="@+id/textView2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView2"
@@ -527,7 +257,7 @@
 
                 </FrameLayout>
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -544,8 +274,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/background_color">
+                        android:layout_height="wrap_content">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -571,7 +300,8 @@
                                     android:layout_gravity="center_horizontal|center_vertical"
                                     android:elevation="2dp"
                                     android:scaleType="centerInside"
-                                    app:srcCompat="@drawable/instagram_icon" />
+                                    app:srcCompat="@drawable/instagram_icon"
+                                    app:tint="?attr/colorOnSurface" />
                             </FrameLayout>
 
                             <FrameLayout
@@ -586,7 +316,8 @@
                                     android:layout_gravity="center_horizontal|center_vertical"
                                     android:elevation="2dp"
                                     android:scaleType="centerInside"
-                                    app:srcCompat="@drawable/youtube_icon" />
+                                    app:srcCompat="@drawable/youtube_icon"
+                                    app:tint="?attr/colorOnSurface" />
                             </FrameLayout>
 
                             <FrameLayout
@@ -601,7 +332,8 @@
                                     android:layout_gravity="center_horizontal|center_vertical"
                                     android:elevation="2dp"
                                     android:scaleType="centerInside"
-                                    app:srcCompat="@drawable/facebook_icon" />
+                                    app:srcCompat="@drawable/facebook_icon"
+                                    app:tint="?attr/colorOnSurface" />
                             </FrameLayout>
 
                             <FrameLayout
@@ -616,7 +348,8 @@
                                     android:layout_gravity="center_horizontal|center_vertical"
                                     android:elevation="2dp"
                                     android:scaleType="centerInside"
-                                    app:srcCompat="@drawable/twitter_icon" />
+                                    app:srcCompat="@drawable/twitter_icon"
+                                    app:tint="?attr/colorOnSurface" />
                             </FrameLayout>
 
                             <FrameLayout
@@ -631,14 +364,15 @@
                                     android:layout_gravity="center_horizontal|center_vertical"
                                     android:elevation="2dp"
                                     android:scaleType="centerInside"
-                                    app:srcCompat="@drawable/spotify_icon_2" />
+                                    app:srcCompat="@drawable/spotify_icon_2"
+                                    app:tint="?attr/colorOnSurface" />
                             </FrameLayout>
 
                         </LinearLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -646,7 +380,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:elevation="4dp"
-                    android:indeterminateTint="@color/pantone_white_c"
+                    android:indeterminateTint="?attr/colorOnBackground"
                     app:isGettingData="@{viewModel.isGettingData}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
