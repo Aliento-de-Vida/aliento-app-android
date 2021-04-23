@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Platform.V26.Theme.Splashscreen" parent="Platform.V23.Theme.Splashscreen" >
+        <item name="android:windowSplashscreenContent">@drawable/splashscreen</item>
+    </style>
+    <style name="Platform.Theme.Splashscreen" parent="Platform.V26.Theme.Splashscreen" />
+</resources>

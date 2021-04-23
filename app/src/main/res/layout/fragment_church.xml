@@ -61,7 +61,7 @@
                 android:layout_height="match_parent"
                 android:paddingBottom="8dp" >
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView13"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -69,20 +69,21 @@
                     android:layout_marginTop="16dp"
                     android:text="ALIENTO DE VIDA"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
+                    android:textColor="?attr/colorOnBackground"
                     android:text="Aliento de Vida es una congregación creada en el corazón de Dios, para que las personas y familias en Yucatán, México y el mundo de habla hispana, tengan un lugar donde puedan adorar a Jesucristo con libertad, recibir una palabra que transforme su vida y celebrar con nosotros la presencia de Dios. Nos sentimos honrados con tu visita, la familia de Aliento te da la bienvenida."
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/pantone_white_c"
+
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView13" />
@@ -92,7 +93,7 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@color/pantone_white_c"
+                    android:background="?attr/colorOnBackground"
                     app:layout_constraintBottom_toBottomOf="@+id/textView13"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView13"
@@ -100,7 +101,7 @@
 
                 </FrameLayout>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -108,7 +109,7 @@
                     android:layout_marginTop="16dp"
                     android:text="Nosotros"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
@@ -118,7 +119,7 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@color/pantone_white_c"
+                    android:background="?attr/colorOnBackground"
                     app:layout_constraintBottom_toBottomOf="@+id/textView10"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView10"
@@ -126,7 +127,7 @@
 
                 </FrameLayout>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -135,12 +136,12 @@
                     android:layout_marginEnd="16dp"
                     android:text="Misión"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView8"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -148,12 +149,12 @@
                     android:layout_marginTop="8dp"
                     android:text="• Ganar almas para Jesús. \n• Formar líderes.\n• Provocar un avivamiento."
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintEnd_toEndOf="@+id/textView3"
                     app:layout_constraintStart_toStartOf="@+id/textView3"
                     app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView7"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -162,12 +163,12 @@
                     android:layout_marginEnd="16dp"
                     android:text="Visión"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -175,12 +176,12 @@
                     android:layout_marginTop="8dp"
                     android:text="Ser una iglesia con rostro a la sociedad, que ayude a la comunidad y bendiga a la gente, buscando una transformación día a día a través de principios bíblicos (la palabra de Dios) y el poder del Espíritu Santo."
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintEnd_toEndOf="@+id/textView3"
                     app:layout_constraintStart_toStartOf="@+id/textView3"
                     app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView9"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -188,11 +189,11 @@
                     android:layout_marginTop="32dp"
                     android:text="Horarios"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView12"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -201,19 +202,19 @@
                     android:text="Mira nuestra transmisión online!"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintEnd_toEndOf="@+id/textView11"
                     app:layout_constraintStart_toStartOf="@+id/textView11"
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintEnd_toEndOf="@+id/textView11"
                     app:layout_constraintStart_toStartOf="@+id/textView11"
                     app:layout_constraintTop_toBottomOf="@+id/textView12" />
@@ -224,7 +225,7 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@color/pantone_white_c"
+                    android:background="?attr/colorOnBackground"
                     app:layout_constraintBottom_toBottomOf="@+id/textView9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView9"
@@ -232,7 +233,7 @@
 
                 </FrameLayout>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView11"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -241,7 +242,7 @@
                     android:layout_marginEnd="16dp"
                     android:text="Domingos 10 am y 12 pm"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/pantone_white_c"
+                    android:textColor="?attr/colorOnBackground"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView9" />

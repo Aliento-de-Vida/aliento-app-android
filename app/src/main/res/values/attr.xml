@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="MyLayout">
+        <attr name="themed_icon" format="integer" />
+        <attr name="carousel_indicator_background_color" format="color" />
+    </declare-styleable>
+</resources>

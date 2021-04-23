@@ -49,7 +49,7 @@ class PrayerFragment : Fragment() {
     private fun setupUI(binding: FragmentPrayerBinding) {
         with(binding) {
             spinnerTopic.onItemSelectedListener = object: AdapterView.OnItemSelectedListener  {
-                override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
+                override fun onItemSelected(arg0: AdapterView<*>, arg1: View?, position: Int, id: Long) {
                     this@PrayerFragment.viewModel.selectedTopic = if (position != 0) {
                         this@PrayerFragment.viewModel.topics[position]
                     } else {
@@ -62,10 +62,10 @@ class PrayerFragment : Fragment() {
 
             val topicsAdapter = ArrayAdapter(
                 requireContext(),
-                R.layout.support_simple_spinner_dropdown_item,
+                R.layout.spinner_simple_item,
                 this@PrayerFragment.viewModel.topics
             )
-            topicsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            topicsAdapter.setDropDownViewResource(R.layout.spinner_simple_item)
             spinnerTopic.adapter = topicsAdapter
 
 
