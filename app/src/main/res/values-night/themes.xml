@@ -1,16 +1,56 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.AlientoApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
+
+    <!-- Theme specific-->
+
+    <!-- App Theme-->
+    <style name="Theme.AlientoApp" parent="Base.Theme.AlientoApp">
+        <!--Material color attributes (light theme) -->
+        <!--colorPrimary colors map to components and elements, such as app bars and buttons. -->
+        <!--colorSecondary colors are most often used as accents on components, such as FABs and -->
+        <!--selection controls.-->
         <item name="colorPrimary">@color/pantone_2199_c</item>
         <item name="colorPrimaryVariant">@color/pantone_663_c</item>
-        <item name="colorOnPrimary">@color/pantone_white_c</item>
-        <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/pantone_446_c</item>
         <item name="colorSecondaryVariant">@color/pantone_black_c</item>
+        <!--colorBackground appears behind scrollable content and is used for the default window-->
+        <!--background. colorSurface is mapped to the surface of components such as cards, sheets-->
+        <!--and menus. colorError is used to indicate an error state for components such as-->
+        <!--text fields.-->
+        <item name="android:colorBackground">@color/black</item>
+        <item name="colorSurface">@color/pantone_446_c</item>
+        <item name="colorError">@color/pantone_black_c</item>
+        <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
+        <!--on which they appear.-->
+        <item name="colorOnPrimary">@color/pantone_white_c</item>
         <item name="colorOnSecondary">@color/pantone_white_c</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorSecondary</item>
-        <!-- Customize your theme here. -->
+        <item name="colorOnBackground">@color/pantone_white_c</item>
+        <item name="colorOnSurface">@color/pantone_white_c</item>
+        <item name="colorOnError">@color/pantone_white_c</item>
+
+        <item name="carousel_indicator_background_color">@color/pantone_446_c</item>
+        <item name="themed_icon">@drawable/logo_blanco</item>
     </style>
+
+
+    <!-- Splashscreen-->
+    <style name="AppTheme.Splashscreen" parent="Base.Theme.Splashscreen">
+        <item name="colorPrimary">@color/pantone_2199_c</item>
+        <item name="colorPrimaryVariant">@color/pantone_663_c</item>
+        <item name="colorSecondary">@color/pantone_446_c</item>
+        <item name="colorSecondaryVariant">@color/pantone_black_c</item>
+
+        <item name="android:colorBackground">@color/black</item>
+        <item name="colorSurface">@color/pantone_446_c</item>
+        <item name="colorError">@color/pantone_black_c</item>
+
+        <item name="colorOnPrimary">@color/pantone_white_c</item>
+        <item name="colorOnSecondary">@color/pantone_white_c</item>
+        <item name="colorOnBackground">@color/pantone_white_c</item>
+        <item name="colorOnSurface">@color/pantone_white_c</item>
+        <item name="colorOnError">@color/pantone_white_c</item>
+
+        <item name="android:statusBarColor">?android:colorBackground</item>
+        <item name="themed_icon">@drawable/logo_blanco</item>
+    </style>
+
 </resources>

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
@@ -10,13 +7,12 @@
     <color name="transparent">#00000000</color>
 
     <color name="pantone_2199_c">#00B8D4</color>
+    <color name="pantone_663_c">#007385</color>
     <color name="pantone_black_c">#2B2B2B</color>
     <color name="pantone_white_c">#F2F2F2</color>
     <color name="pantone_446_c">#3D4248</color>
-    <color name="pantone_663_c">#007385</color>
 
     <color name="red_youtube">#F61B0B</color>
     <color name="green_spotify">#1DD760</color>
 
-    <color name="background_color">#FF000000</color>
 </resources>
