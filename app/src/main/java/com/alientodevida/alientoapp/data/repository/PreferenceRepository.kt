@@ -20,7 +20,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.alientodevida.alientoapp.data.domain.Repository
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -66,12 +66,18 @@ class PreferenceRepository @Inject constructor(
         }
 
     init {
+        if (!sharedPreferences.contains(PREFERENCE_NIGHT_MODE)) {
+            isDarkTheme = getRandomBoolean()
+        }
+
         // Init preference LiveData objects.
         _nightModeLive.value = nightMode
         _isDarkThemeLive.value = isDarkTheme
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(preferenceChangedListener)
     }
+
+    private fun getRandomBoolean() = (Random().nextInt(2) + 1) == 1
 
     companion object {
         private const val PREFERENCE_NIGHT_MODE = "preference_night_mode"
