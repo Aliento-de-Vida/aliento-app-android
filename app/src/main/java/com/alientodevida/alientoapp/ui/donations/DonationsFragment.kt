@@ -33,10 +33,18 @@ class DonationsFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        setupTithesRecyclerView(binding.tithes)
-        setupOfferingsRecyclerView(binding.offerings)
+        setUpUi(binding)
 
         return binding.root
+    }
+
+    private fun setUpUi(binding: FragmentDonationsBinding) {
+        with(binding) {
+            toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
+
+            setupTithesRecyclerView(tithes)
+            setupOfferingsRecyclerView(offerings)
+        }
     }
 
     private fun setupTithesRecyclerView(recyclerView: RecyclerView) {

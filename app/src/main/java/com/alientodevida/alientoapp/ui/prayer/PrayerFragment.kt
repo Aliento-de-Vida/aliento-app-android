@@ -46,7 +46,7 @@ class PrayerFragment : Fragment() {
 
     private fun setupUI(binding: FragmentPrayerBinding) {
         with(binding) {
-            toolbarView.icSettings.setOnClickListener { goToSettings() }
+            toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
 
             spinnerTopic.onItemSelectedListener = object: AdapterView.OnItemSelectedListener  {
                 override fun onItemSelected(arg0: AdapterView<*>, arg1: View?, position: Int, id: Long) {
@@ -131,11 +131,6 @@ class PrayerFragment : Fragment() {
                 viewModel.errorHandled()
             }
         }
-    }
-
-    private fun goToSettings() {
-        val action = PrayerFragmentDirections.actionPrayerFragmentToSettingsFragment()
-        findNavController().navigate(action)
     }
 }
 
