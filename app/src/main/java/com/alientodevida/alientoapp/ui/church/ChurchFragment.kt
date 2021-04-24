@@ -11,8 +11,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import com.alientodevida.alientoapp.data.entities.network.base.ResponseError
 import com.alientodevida.alientoapp.databinding.FragmentChurchBinding
+import com.alientodevida.alientoapp.ui.home.HomeFragmentDirections
 import com.alientodevida.alientoapp.utils.Constants
 import com.alientodevida.alientoapp.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,14 +42,16 @@ class ChurchFragment : Fragment() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupUI(binding: FragmentChurchBinding) {
+        with(binding) {
+            toolbarView.icSettings.setOnClickListener { goToSettings() }
 
-        binding.transmisionWv.apply {
-            setBackgroundColor(Color.TRANSPARENT)
-            settings.useWideViewPort = true
-            settings.javaScriptEnabled = true
-            webViewClient = object : WebViewClient() { }
+            transmisionWv.apply {
+                setBackgroundColor(Color.TRANSPARENT)
+                settings.useWideViewPort = true
+                settings.javaScriptEnabled = true
+                webViewClient = object : WebViewClient() { }
+            }
         }
-        Constants.US_VIDEO
     }
 
     private fun observeViewModel(binding: FragmentChurchBinding) {
@@ -66,5 +70,10 @@ class ChurchFragment : Fragment() {
                 viewModel.errorHandled()
             }
         }
+    }
+
+    private fun goToSettings() {
+        val action = ChurchFragmentDirections.actionFragmentChurchToSettingsFragment()
+        findNavController().navigate(action)
     }
 }
