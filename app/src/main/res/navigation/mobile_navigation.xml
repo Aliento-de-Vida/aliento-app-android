@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/fragment_home">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/fragment_home"
         android:name="com.alientodevida.alientoapp.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
@@ -22,28 +22,52 @@
         <action
             android:id="@+id/action_navigation_home_to_prayer_fragment"
             app:destination="@id/prayer_fragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_sermons"
         android:name="com.alientodevida.alientoapp.ui.sermons.SermonsFragment"
         android:label="@string/title_sermons"
-        tools:layout="@layout/fragment_sermons" />
+        tools:layout="@layout/fragment_sermons" >
+        <action
+            android:id="@+id/action_navigation_sermons_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/fragment_church"
         android:name="com.alientodevida.alientoapp.ui.church.ChurchFragment"
         android:label="ChurchFragment"
-        tools:layout="@layout/fragment_church" />
+        tools:layout="@layout/fragment_church" >
+        <action
+            android:id="@+id/action_fragment_church_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/donations_fragment"
         android:name="com.alientodevida.alientoapp.ui.donations.DonationsFragment"
         android:label="DonationsFragment"
-        tools:layout="@layout/fragment_donations" />
+        tools:layout="@layout/fragment_donations" >
+        <action
+            android:id="@+id/action_donations_fragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/prayer_fragment"
         android:name="com.alientodevida.alientoapp.ui.prayer.PrayerFragment"
         android:label="PrayerFragment"
-        tools:layout="@layout/fragment_prayer" />
+        tools:layout="@layout/fragment_prayer" >
+        <action
+            android:id="@+id/action_prayer_fragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.alientodevida.alientoapp.ui.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings"/>
 
 </navigation>

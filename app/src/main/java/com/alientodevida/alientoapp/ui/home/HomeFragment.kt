@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,6 @@ import com.alientodevida.alientoapp.utils.Utils
 import com.bumptech.glide.Glide
 import com.synnapps.carouselview.ViewListener
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -59,6 +59,10 @@ class HomeFragment : Fragment() {
 
     private fun setupUI(binding: FragmentHomeBinding) {
         with(binding) {
+
+            toolbarView.icSettings.setOnClickListener {
+                goToSettings()
+            }
 
             swiperefresh.setOnRefreshListener {
                 this@HomeFragment.viewModel.resetError()
@@ -148,7 +152,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        viewModel.carouseItems.observe(viewLifecycleOwner) { result: List<CategoryItem> ->
+        viewModel.carouseItems.observe(owner = viewLifecycleOwner) { result: List<CategoryItem> ->
             carouselRecyclerViewAdapter.items = result
             carouselRecyclerViewAdapter.notifyDataSetChanged()
             carrousel.apply {
@@ -156,6 +160,11 @@ class HomeFragment : Fragment() {
                 adapter = carouselRecyclerViewAdapter
             }
         }
+    }
+
+    private fun goToSettings() {
+        val action = HomeFragmentDirections.actionNavigationHomeToSettingsFragment()
+        findNavController().navigate(action)
     }
 
     private fun goToSermons() {
