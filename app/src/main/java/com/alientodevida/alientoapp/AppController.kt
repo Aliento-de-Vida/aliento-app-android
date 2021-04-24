@@ -3,12 +3,9 @@ package com.alientodevida.alientoapp
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatDelegate
-import com.alientodevida.alientoapp.data.repository.PreferenceRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.HiltAndroidApp
-import java.util.*
 import javax.inject.Inject
 
 const val PREFS_NAME = "SHARED_PREFERENCES"

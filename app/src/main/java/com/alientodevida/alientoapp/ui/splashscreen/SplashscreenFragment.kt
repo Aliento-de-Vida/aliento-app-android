@@ -9,10 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.alientodevida.alientoapp.databinding.FragmentSplashscreenBinding
-import com.alientodevida.alientoapp.ui._main.MainActivity
-import com.alientodevida.alientoapp.ui.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SplashscreenFragment : Fragment() {
