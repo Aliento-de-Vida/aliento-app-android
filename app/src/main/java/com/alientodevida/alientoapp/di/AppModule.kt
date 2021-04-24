@@ -1,7 +1,9 @@
 package com.alientodevida.alientoapp.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.alientodevida.alientoapp.BuildConfig
+import com.alientodevida.alientoapp.PREFS_NAME
 import com.alientodevida.alientoapp.data.domain.Repository
 import com.alientodevida.alientoapp.data.networking.BASE_URL_SPOTIFY_API
 import com.alientodevida.alientoapp.data.networking.NetworkResponseAdapterFactory
@@ -50,6 +52,11 @@ class LocalModule {
     @Singleton
     @Provides
     fun videoDAO(database: AppDatabase): RoomDao = database.roomDao
+
+    @Provides
+    fun providesSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    }
 }
 
 @Module

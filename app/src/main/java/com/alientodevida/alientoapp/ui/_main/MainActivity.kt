@@ -1,33 +1,43 @@
 package com.alientodevida.alientoapp.ui._main
 
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
-import androidx.appcompat.app.AlertDialog
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import com.alientodevida.alientoapp.R
+import com.alientodevida.alientoapp.data.repository.PreferenceRepository
 import com.alientodevida.alientoapp.databinding.ActivityMainBinding
+import com.alientodevida.alientoapp.databinding.ToolbarBinding
+import com.alientodevida.alientoapp.ui.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
+    @Inject
+    lateinit var preferenceRepository: PreferenceRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
 
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
-        binding.toolbarView.icSettings.setOnClickListener {
-            showUnderDevelopment()
-        }
+        observe()
+
+        setContentView(binding.root)
     }
 
-    private fun showUnderDevelopment() {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage(R.string.under_development)
-            .setPositiveButton(R.string.ok) { _, _ -> }
-        builder.create().show()
+    private fun observe() {
+        preferenceRepository.nightModeLive.observe(this) { nightMode ->
+            nightMode?.let { delegate.localNightMode = it }
+        }
     }
 }
