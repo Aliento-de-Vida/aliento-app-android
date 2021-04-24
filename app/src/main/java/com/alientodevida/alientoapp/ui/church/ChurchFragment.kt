@@ -43,7 +43,7 @@ class ChurchFragment : Fragment() {
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupUI(binding: FragmentChurchBinding) {
         with(binding) {
-            toolbarView.icSettings.setOnClickListener { goToSettings() }
+            toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
 
             transmisionWv.apply {
                 setBackgroundColor(Color.TRANSPARENT)
@@ -70,10 +70,5 @@ class ChurchFragment : Fragment() {
                 viewModel.errorHandled()
             }
         }
-    }
-
-    private fun goToSettings() {
-        val action = ChurchFragmentDirections.actionFragmentChurchToSettingsFragment()
-        findNavController().navigate(action)
     }
 }

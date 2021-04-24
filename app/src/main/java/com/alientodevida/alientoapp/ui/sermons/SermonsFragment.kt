@@ -36,7 +36,7 @@ class SermonsFragment : Fragment() {
 
     private fun setupUI(binding: FragmentSermonsBinding) {
         with(binding) {
-            toolbarView.icSettings.setOnClickListener { goToSettings() }
+            toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
 
             val fragmentContainer = root.findViewById<View>(R.id.nav_host_fragment_sermons)
             val navController = Navigation.findNavController(fragmentContainer)
@@ -44,10 +44,5 @@ class SermonsFragment : Fragment() {
             val bottomNavigationView = navView
             bottomNavigationView.setupWithNavController(navController)
         }
-    }
-
-    private fun goToSettings() {
-        val action = SermonsFragmentDirections.actionNavigationSermonsToSettingsFragment()
-        findNavController().navigate(action)
     }
 }
