@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.data.storage
+package com.alientodevida.alientoapp.data.storage
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.alientodevida.alientoapp.app.databinding.FragmentSettingsBinding
-import com.alientodevida.alientoapp.app.data.repository.PreferenceRepository
+import com.alientodevida.alientoapp.data.repository.PreferenceRepository
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
