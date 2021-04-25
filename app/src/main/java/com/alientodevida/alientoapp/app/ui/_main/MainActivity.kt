@@ -6,7 +6,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.databinding.ActivityMainBinding
-import com.alientodevida.alientoapp.app.data.repository.PreferenceRepository
+import com.alientodevida.alientoapp.data.repository.PreferenceRepository
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

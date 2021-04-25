@@ -1,9 +1,9 @@
-package com.alientodevida.alientoapp.app.data.repository
+package com.alientodevida.alientoapp.data.repository
 
 import androidx.lifecycle.LiveData
 import com.alientodevida.alientoapp.domain.Repository
-import com.alientodevida.alientoapp.app.data.networking.RetrofitService
-import com.alientodevida.alientoapp.app.data.storage.RoomDao
+import com.alientodevida.alientoapp.data.networking.RetrofitService
+import com.alientodevida.alientoapp.data.storage.RoomDao
 import com.alientodevida.alientoapp.domain.entities.local.ImageUrlEntity
 import com.alientodevida.alientoapp.domain.entities.local.PodcastEntity
 import com.alientodevida.alientoapp.domain.entities.local.YoutubePlaylistItemEntity

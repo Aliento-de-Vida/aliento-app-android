@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.data.repository
+package com.alientodevida.alientoapp.data.repository
 
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate

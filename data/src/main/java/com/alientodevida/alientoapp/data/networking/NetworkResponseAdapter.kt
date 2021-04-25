@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.data.networking
+package com.alientodevida.alientoapp.data.networking
 
 import com.alientodevida.alientoapp.domain.entities.network.base.ApiResult
 import okhttp3.ResponseBody
