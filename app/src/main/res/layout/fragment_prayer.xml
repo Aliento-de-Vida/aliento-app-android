@@ -5,10 +5,9 @@
     tools:ignore="ContentDescription">
 
     <data>
-
         <variable
             name="viewModel"
-            type="com.alientodevida.alientoapp.ui.prayer.PrayerViewModel" />
+            type="com.alientodevida.alientoapp.app.ui.prayer.PrayerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

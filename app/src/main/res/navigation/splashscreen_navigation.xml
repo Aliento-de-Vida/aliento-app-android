@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_splashscreen"
-        android:name="com.alientodevida.alientoapp.ui.splashscreen.SplashscreenFragment"
+        android:name="com.alientodevida.alientoapp.app.ui.splashscreen.SplashscreenFragment"
         android:label="@string/title_splashscreen"
         tools:layout="@layout/fragment_splashscreen">
         <action

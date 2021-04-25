@@ -14,7 +14,7 @@ android {
         applicationId "com.alientodevida.alientoapp"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 7
+        versionCode 8
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -41,6 +41,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(path: ':domain')
 
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'

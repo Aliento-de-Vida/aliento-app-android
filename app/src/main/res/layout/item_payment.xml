@@ -6,11 +6,11 @@
     <data>
         <variable
             name="item"
-            type="com.alientodevida.alientoapp.data.entities.local.PaymentItem" />
+            type="com.alientodevida.alientoapp.domain.entities.local.PaymentItem" />
 
         <variable
             name="callback"
-            type="com.alientodevida.alientoapp.ui.donations.ItemClick" />
+            type="com.alientodevida.alientoapp.app.ui.donations.ItemClick" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
