@@ -34,26 +34,13 @@
         <item name="android:statusBarColor">?android:colorBackground</item>
     </style>
 
-
     <!-- Splashscreen-->
-    <style name="AppTheme.Splashscreen" parent="Base.Theme.Splashscreen">
-        <item name="colorPrimary">@color/pantone_2199_c</item>
-        <item name="colorPrimaryVariant">@color/pantone_663_c</item>
-        <item name="colorSecondary">@color/pantone_white_c</item>
-        <item name="colorSecondaryVariant">@color/pantone_white_c</item>
-
+    <style name="AppTheme.Splashscreen" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:colorBackground">@color/white</item>
-        <item name="colorSurface">@color/pantone_white_c</item>
-        <item name="colorError">@color/pantone_white_c</item>
-
-        <item name="colorOnPrimary">@color/pantone_black_c</item>
-        <item name="colorOnSecondary">@color/pantone_black_c</item>
-        <item name="colorOnBackground">@color/pantone_black_c</item>
-        <item name="colorOnSurface">@color/pantone_black_c</item>
-        <item name="colorOnError">@color/pantone_black_c</item>
-
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="themed_icon">@drawable/logo_negro</item>
+        <item name="android:windowBackground">@drawable/splashscreen</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
 
 
@@ -65,25 +52,13 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <!-- Splashscreen-->
-    <style name="Base.Theme.Splashscreen" parent="Platform.Theme.Splashscreen">
-        <!-- Customize your theme here. -->
-    </style>
-
 
 
     <!-- Platform specific-->
 
     <!-- App Theme-->
-    <style name="Platform.V21.Theme.AlientoApp" parent="Theme.MaterialComponents.NoActionBar" >
-        <!-- Customize your theme here. -->
+    <style name="Platform.Theme.AlientoApp" parent="Theme.MaterialComponents.NoActionBar" >
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
-    <style name="Platform.Theme.AlientoApp" parent="Platform.V21.Theme.AlientoApp" />
-
-    <!-- Splashscreen-->
-    <style name="Platform.V21.Theme.Splashscreen" parent="Theme.MaterialComponents.NoActionBar" >
-        <item name="android:windowBackground">@drawable/splashscreen</item>
-    </style>
-    <style name="Platform.Theme.Splashscreen" parent="Platform.V21.Theme.Splashscreen" />
 
 </resources>

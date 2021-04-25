@@ -12,18 +12,38 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_navigation_home_to_navigation_sermons"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right"
             app:destination="@id/navigation_sermons" />
         <action
             android:id="@+id/action_navigation_home_to_churchFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right"
             app:destination="@id/fragment_church" />
         <action
             android:id="@+id/action_navigation_home_to_donationsFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right"
             app:destination="@id/donations_fragment" />
         <action
             android:id="@+id/action_navigation_home_to_prayer_fragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right"
             app:destination="@id/prayer_fragment" />
         <action
             android:id="@+id/action_navigation_home_to_settingsFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right"
             app:destination="@id/settingsFragment" />
     </fragment>
 
@@ -32,9 +52,6 @@
         android:name="com.alientodevida.alientoapp.ui.sermons.SermonsFragment"
         android:label="@string/title_sermons"
         tools:layout="@layout/fragment_sermons" >
-        <action
-            android:id="@+id/action_navigation_sermons_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
     </fragment>
 
     <fragment
@@ -42,27 +59,18 @@
         android:name="com.alientodevida.alientoapp.ui.church.ChurchFragment"
         android:label="ChurchFragment"
         tools:layout="@layout/fragment_church" >
-        <action
-            android:id="@+id/action_fragment_church_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/donations_fragment"
         android:name="com.alientodevida.alientoapp.ui.donations.DonationsFragment"
         android:label="DonationsFragment"
         tools:layout="@layout/fragment_donations" >
-        <action
-            android:id="@+id/action_donations_fragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/prayer_fragment"
         android:name="com.alientodevida.alientoapp.ui.prayer.PrayerFragment"
         android:label="PrayerFragment"
         tools:layout="@layout/fragment_prayer" >
-        <action
-            android:id="@+id/action_prayer_fragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

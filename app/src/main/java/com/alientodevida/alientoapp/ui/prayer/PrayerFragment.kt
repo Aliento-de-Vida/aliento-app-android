@@ -14,11 +14,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
 import com.alientodevida.alientoapp.R
 import com.alientodevida.alientoapp.data.entities.network.base.ResponseError
 import com.alientodevida.alientoapp.databinding.FragmentPrayerBinding
-import com.alientodevida.alientoapp.ui.sermons.SermonsFragmentDirections
 import com.alientodevida.alientoapp.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,7 +44,7 @@ class PrayerFragment : Fragment() {
 
     private fun setupUI(binding: FragmentPrayerBinding) {
         with(binding) {
-            toolbarView.icSettings.setOnClickListener { goToSettings() }
+            toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
 
             spinnerTopic.onItemSelectedListener = object: AdapterView.OnItemSelectedListener  {
                 override fun onItemSelected(arg0: AdapterView<*>, arg1: View?, position: Int, id: Long) {
@@ -131,11 +129,6 @@ class PrayerFragment : Fragment() {
                 viewModel.errorHandled()
             }
         }
-    }
-
-    private fun goToSettings() {
-        val action = PrayerFragmentDirections.actionPrayerFragmentToSettingsFragment()
-        findNavController().navigate(action)
     }
 }
 

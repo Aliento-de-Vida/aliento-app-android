@@ -33,24 +33,18 @@
 
 
     <!-- Splashscreen-->
-    <style name="AppTheme.Splashscreen" parent="Base.Theme.Splashscreen">
-        <item name="colorPrimary">@color/pantone_2199_c</item>
-        <item name="colorPrimaryVariant">@color/pantone_663_c</item>
-        <item name="colorSecondary">@color/pantone_446_c</item>
-        <item name="colorSecondaryVariant">@color/pantone_black_c</item>
-
+    <style name="AppTheme.Splashscreen" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:colorBackground">@color/black</item>
-        <item name="colorSurface">@color/pantone_446_c</item>
-        <item name="colorError">@color/pantone_black_c</item>
-
-        <item name="colorOnPrimary">@color/pantone_white_c</item>
-        <item name="colorOnSecondary">@color/pantone_white_c</item>
-        <item name="colorOnBackground">@color/pantone_white_c</item>
-        <item name="colorOnSurface">@color/pantone_white_c</item>
-        <item name="colorOnError">@color/pantone_white_c</item>
-
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="themed_icon">@drawable/logo_blanco</item>
+        <item name="android:windowBackground">@drawable/splashscreen</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+
+
+    <!-- App Theme-->
+    <style name="Platform.Theme.AlientoApp" parent="Theme.MaterialComponents.NoActionBar" >
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
 
 </resources>
