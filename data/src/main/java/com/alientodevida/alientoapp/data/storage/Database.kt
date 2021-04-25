@@ -1,7 +1,6 @@
-package com.alientodevida.alientoapp.app.data.storage
+package com.alientodevida.alientoapp.data.storage
 
 import android.content.Context
-import android.os.Parcelable
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -13,7 +12,6 @@ import com.alientodevida.alientoapp.domain.entities.local.YoutubePlaylistItemEnt
 abstract class AppDatabase: RoomDatabase() {
     abstract val roomDao: RoomDao
 }
-
 
 private lateinit var INSTANCE: AppDatabase
 
