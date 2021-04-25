@@ -2,15 +2,19 @@ package com.alientodevida.alientoapp
 
 import android.app.Application
 import android.content.Context
-import androidx.appcompat.app.AppCompatDelegate
+import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
 const val PREFS_NAME = "SHARED_PREFERENCES"
 
 @HiltAndroidApp
 class AppController: Application() {
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     init {
         instance = this
@@ -27,8 +31,7 @@ class AppController: Application() {
 
 
         fun save(data: Any, key: String) {
-            val prefs = instance.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            val editor = prefs?.edit()
+            val editor = instance.sharedPreferences.edit()
             val stringJson = Gson().toJson(data)
             editor?.putString(key, stringJson)?.apply()
         }
