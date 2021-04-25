@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.alientodevida.alientoapp.ui.home.HomeViewModel" />
+            type="com.alientodevida.alientoapp.app.ui.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.alientodevida.alientoapp.utils.OnlyVerticalSwipeRefreshLayout
+        <com.alientodevida.alientoapp.app.utils.OnlyVerticalSwipeRefreshLayout
             android:id="@+id/swiperefresh"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -413,7 +413,7 @@
 
             </ScrollView>
 
-        </com.alientodevida.alientoapp.utils.OnlyVerticalSwipeRefreshLayout>
+        </com.alientodevida.alientoapp.app.utils.OnlyVerticalSwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
