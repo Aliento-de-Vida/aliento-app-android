@@ -18,15 +18,9 @@ default_platform(:android)
 platform :android do
 
 
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
-
-
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
-    gradle(task: 'assemble', build_type: 'Release')
+    gradle(task: "clean assembleRelease")
     firebase_app_distribution(
       app: "1:222473625001:android:2cfdb3925dad04a02db8b8", 
       groups: "qa-team",
@@ -37,7 +31,7 @@ platform :android do
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
-    gradle(task: "clean bundleDebug")
+    gradle(task: "clean bundleRelease")
     upload_to_play_store(
       track: 'production', 
       aab: 'app/build/outputs/bundle/release/app-release.aab'
