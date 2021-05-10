@@ -16,23 +16,33 @@
 default_platform(:android)
 
 platform :android do
+
+
   desc "Runs all the tests"
   lane :test do
     gradle(task: "test")
   end
 
+
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
+    gradle(task: 'assemble', build_type: 'Release')
+    firebase_app_distribution(
+      app: "1:222473625001:android:2cfdb3925dad04a02db8b8", 
+      groups: "qa-team",
+      firebase_cli_token: "1//050z45YBYFAzACgYIARAAGAUSNwF-L9IrzD8AIazZMAlXr2kspGTbGpq3SkFfKu9Ih1hzRj-UXS58bTCEKU_n1863syZWCeTZAxc"
+    )
   end
+
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
-    gradle(task: "clean bundleRelease")
-    upload_to_play_store(track: 'production', aab: 'app/build/outputs/bundle/release/app-release.aab')
+    gradle(task: "clean bundleDebug")
+    upload_to_play_store(
+      track: 'production', 
+      aab: 'app/build/outputs/bundle/release/app-release.aab'
+    )
   end
+
+
 end
