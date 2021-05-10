@@ -16,5 +16,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install fastlane
+        run: bundle install
+        
       - name: Firebase distribution using fastlane
         run: bundle exec fastlane beta
