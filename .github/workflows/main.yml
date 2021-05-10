@@ -17,4 +17,4 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Firebase distribution using fastlane
-        run: fastlane beta
+        run: bundle exec fastlane beta
