@@ -19,7 +19,7 @@ android {
         applicationId "com.alientodevida.app"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 10
+        versionCode 11
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
