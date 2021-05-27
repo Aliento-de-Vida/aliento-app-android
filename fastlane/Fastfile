@@ -22,7 +22,7 @@ platform :android do
   lane :beta do
     gradle(task: "clean assembleRelease")
     firebase_app_distribution(
-      app: "1:222473625001:android:2cfdb3925dad04a02db8b8", 
+      app: "1:222473625001:android:2cfdb3925dad04a02db8b8",
       groups: "qa-team",
       firebase_cli_token: "1//050z45YBYFAzACgYIARAAGAUSNwF-L9IrzD8AIazZMAlXr2kspGTbGpq3SkFfKu9Ih1hzRj-UXS58bTCEKU_n1863syZWCeTZAxc"
     )
@@ -33,7 +33,7 @@ platform :android do
   lane :deploy do
     gradle(task: "clean bundleRelease")
     upload_to_play_store(
-      track: 'production', 
+      track: 'production',
       aab: 'app/build/outputs/bundle/release/app-release.aab'
     )
   end
