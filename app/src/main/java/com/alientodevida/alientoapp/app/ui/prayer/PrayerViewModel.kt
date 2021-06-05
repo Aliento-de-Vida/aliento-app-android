@@ -64,7 +64,7 @@ class PrayerViewModel @ViewModelInject constructor(
         viewModelScope.launch {
 
             when (val response = repository.sendPrayerRequest(
-                AppController.get<CsrfToken>(CsrfToken.key)!!.csrfToken,
+	            AppController.get<CsrfToken>(CsrfToken.key)?.csrfToken ?: "",
                 selectedTopic!!,
                 name!!,
                 email!!,

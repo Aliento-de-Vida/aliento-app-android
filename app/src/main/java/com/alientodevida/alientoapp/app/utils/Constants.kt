@@ -7,11 +7,14 @@ object Constants {
     val ebookDownloadUrl = "https://alientodevida.mx/uploads/ebooks/ebook-adv.pdf"
 
     // Twitter
-    val TWITTER_USER_ID = "twitter://user?user_id=489975902"
-    val TWITTER_URL = "https://twitter.com/brahamPerez"
+    val TWITTER_USER_ID = "twitter://user?user_id=621332668"
+    val TWITTER_URL = "https://twitter.com/AlientoMX"
+    //val TWITTER_USER_ID = "twitter://user?user_id=489975902"
+    //val TWITTER_URL = "https://twitter.com/brahamPerez"
 
     // Instagram
-    val INSTAGRAM_URL = "https://www.instagram.com/abrahampl4"
+    val INSTAGRAM_URL = "https://www.instagram.com/alientomerida"
+	//val INSTAGRAM_URL = "https://www.instagram.com/abrahampl4"
 
     // Facebook
     val FACEBOOK_PAGE_ID = "323027047774785"

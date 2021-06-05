@@ -279,8 +279,11 @@ class HomeViewModel @ViewModelInject constructor(
             viewModelScope.launch {
                 when (val result = repository.getCsrfToken()) {
                     is ApiResult.Success -> AppController.save(result.body, CsrfToken.key)
-                    is ApiResult.Failure -> if (onError.value == null) _onError.value =
-                        UserFriendlyError(result.responseError)
+                    is ApiResult.Failure -> {
+	                    // TODO - backend is not working
+	                    // if (onError.value == null) _onError.value =
+		                //    UserFriendlyError(result.responseError)
+                    }
                 }
             }
         }
