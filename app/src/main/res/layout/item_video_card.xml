@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
         android:paddingStart="8dp"
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
         app:cardCornerRadius="@dimen/card_view_custom_radius"
         app:cardElevation="@dimen/cardview_custom_elevation"
-        android:foreground="?android:attr/selectableItemBackground"
         app:cardUseCompatPadding="true">
 
 
@@ -31,7 +31,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:elevation="2dp"
-                android:indeterminateTint="@color/pantone_white_c"
+                android:indeterminateTint="?attr/colorOnBackground"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -42,7 +42,6 @@
                 android:id="@+id/audio_photo"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@android:color/background_dark"
                 android:contentDescription="video_image"
                 android:scaleType="centerCrop"
                 app:layout_constraintDimensionRatio="16:9"
@@ -51,7 +50,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/audio_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -60,13 +59,13 @@
                 android:layout_marginEnd="12dp"
                 android:maxLines="1"
                 android:text="Título"
-                android:textColor="@color/pantone_white_c"
                 android:textSize="14sp"
+                android:textColor="?attr/colorOnPrimarySurface"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView4"
                 app:layout_constraintTop_toBottomOf="@+id/audio_photo" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/audio_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,8 +74,8 @@
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
                 android:text="Fecha"
-                android:textColor="@color/pantone_white_c"
                 android:textSize="12sp"
+                android:textColor="?attr/colorOnPrimarySurface"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/audio_name"
                 app:layout_constraintTop_toBottomOf="@+id/tv_descrption" />
@@ -93,13 +92,13 @@
                 app:layout_constraintTop_toTopOf="@+id/audio_name"
                 app:srcCompat="@mipmap/ic_launcher_round" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_descrption"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:textSize="12sp"
-                android:textColor="@color/pantone_white_c"
+                android:textColor="?attr/colorOnPrimarySurface"
                 app:layout_constraintEnd_toEndOf="@+id/audio_name"
                 app:layout_constraintStart_toStartOf="@+id/audio_name"
                 app:layout_constraintTop_toBottomOf="@+id/audio_name"
@@ -121,12 +120,13 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="4dp"
+                android:background="@color/transparent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/triangle"
                 app:srcCompat="@android:drawable/ic_media_play" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

@@ -7,13 +7,13 @@
 
 <fragment
         android:id="@+id/navigation_video"
-        android:name="com.alientodevida.alientoapp.ui.sermons.video.VideoFragment"
+        android:name="com.alientodevida.alientoapp.app.ui.sermons.video.VideoFragment"
         android:label="@string/title_video"
         tools:layout="@layout/fragment_video" />
 
     <fragment
         android:id="@+id/navigation_audio"
-        android:name="com.alientodevida.alientoapp.ui.sermons.audio.AudioFragment"
+        android:name="com.alientodevida.alientoapp.app.ui.sermons.audio.AudioFragment"
         android:label="@string/title_audio"
         tools:layout="@layout/fragment_audio" />
 

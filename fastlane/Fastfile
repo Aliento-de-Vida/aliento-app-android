@@ -1,0 +1,42 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    gradle(task: "clean assembleRelease")
+    firebase_app_distribution(
+      app: "1:222473625001:android:2cfdb3925dad04a02db8b8",
+      groups: "qa-team",
+      firebase_cli_token: "1//050z45YBYFAzACgYIARAAGAUSNwF-L9IrzD8AIazZMAlXr2kspGTbGpq3SkFfKu9Ih1hzRj-UXS58bTCEKU_n1863syZWCeTZAxc"
+    )
+  end
+
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "clean bundleRelease")
+    upload_to_play_store(
+      track: 'production',
+      aab: 'app/build/outputs/bundle/release/app-release.aab'
+    )
+  end
+
+
+end
