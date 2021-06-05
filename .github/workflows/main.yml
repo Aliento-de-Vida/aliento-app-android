@@ -1,0 +1,23 @@
+name: CI
+ 
+#on:
+  push:
+    branches: [ develop ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+ 
+  deploy-qa:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install fastlane
+        run: bundle install
+        
+      - name: Firebase distribution using fastlane
+        run: bundle exec fastlane beta

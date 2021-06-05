@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.alientodevida.alientoapp.ui.sermons.audio.AudioViewModel" />
+            type="com.alientodevida.alientoapp.app.ui.sermons.audio.AudioViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:elevation="4dp"
-                    android:indeterminateTint="@color/pantone_white_c"
+                    android:indeterminateTint="?attr/colorOnBackground"
                     app:isGettingData="@{viewModel.isGettingData}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +62,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
+                    app:borderWidth="0dp"
                     android:backgroundTint="@color/green_spotify"
+                    app:tint="@color/white"
                     android:clickable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
