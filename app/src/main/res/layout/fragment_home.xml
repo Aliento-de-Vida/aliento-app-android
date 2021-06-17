@@ -222,7 +222,7 @@
 		                android:clickable="true"
 		                android:focusable="true"
 		                android:foreground="?android:attr/selectableItemBackground"
-		                android:visibility="gone"
+		                android:visibility="visible"
 		                app:cardCornerRadius="@dimen/card_view_custom_radius"
 		                app:cardElevation="@dimen/cardview_custom_elevation"
 		                app:layout_constraintEnd_toEndOf="parent"
