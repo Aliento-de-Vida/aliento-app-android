@@ -2,9 +2,10 @@ package com.alientodevida.alientoapp.app.utils
 
 object Constants {
 
-    // Web page
+	// Web page
     val webPageUrl = "https://alientodevida.mx/inicio"
-    val ebookDownloadUrl = "https://alientodevida.mx/uploads/ebooks/ebook-adv.pdf"
+    val ebookDownloadUrl = "https://drive.google.com/file/d/1GmhbCtpol8xT2JpmfexnhniKi3UW5t0z/view?usp=sharing"
+    //val ebookDownloadUrl = "https://alientodevida.mx/uploads/ebooks/ebook-adv.pdf"
 
     // Twitter
     val TWITTER_USER_ID = "twitter://user?user_id=621332668"
@@ -20,7 +21,7 @@ object Constants {
     val FACEBOOK_PAGE_ID = "323027047774785"
     val FACEBOOK_URL = "https://www.facebook.com/AlientoDeVidaMerida/"
 
-    // Spotify
+	// Spotify
     const val SPOTIFY_TOKEN = "Basic ZTBlNDMyMWYxNTI4NGU5YzkwNzRmMDFjNjAwOTdkOGY6YTQyNjk2MzViYzMyNDkxNjlkNjRhZWYzZTgwNGM1NGM="
     const val SPOTIFY_GRANT_TYPE = "client_credentials"
 
@@ -35,6 +36,7 @@ object Constants {
     const val YOUTUBE_CHANNEL_ID = "UCA5TwiI0Si1-zkgCL6gFk-A"
     const val YOUTUBE_CHANNEL_URL = "https://www.youtube.com/c/AlientoDeVidaTV"
 
+	const val PRAYER_EMAIL = "infolineadebatalla@gmail.com"
 
 
     const val html =
