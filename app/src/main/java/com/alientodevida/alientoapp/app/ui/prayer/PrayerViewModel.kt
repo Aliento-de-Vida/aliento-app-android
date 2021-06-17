@@ -24,7 +24,11 @@ class PrayerViewModel @ViewModelInject constructor(
     val messageToShow: LiveData<Pair<String, String>>
         get() = _messageToShow
 
-    private val _isGettingData = MutableLiveData<Boolean>()
+	private val _sendEmail = MutableLiveData<Pair<String, String>?>()
+	val sendEmail: LiveData<Pair<String, String>?>
+		get() = _sendEmail
+
+	private val _isGettingData = MutableLiveData<Boolean>()
     val isGettingData: LiveData<Boolean> = _isGettingData
 
     private val _onError = MutableLiveData<UserFriendlyError?>()
@@ -45,9 +49,9 @@ class PrayerViewModel @ViewModelInject constructor(
 
     var selectedTopic: String? = null
 
-    fun errorHandled() {
-        _onError.value = null
-    }
+    fun errorHandled() { _onError.value = null }
+
+	fun emailSent() { _sendEmail.value = null }
 
     fun validation() {
         _isDataValid.value = (
@@ -78,13 +82,15 @@ class PrayerViewModel @ViewModelInject constructor(
                             "${response.body.response}\nPronto nos pondremos en contacto con usted $name"
                         )
                     } else {
-                        _messageToShow.value =
-                            Pair("Lo sentimos", "Ha habido un error, por favor intente más tarde")
+                    	sendEmail()
+	                    /* _messageToShow.value =
+		                    Pair("Lo sentimos", "Ha habido un error, por favor intente más tarde") */
                     }
                 }
                 is ApiResult.Failure -> {
-                    _onError.value =
-                        UserFriendlyError(response.responseError)
+	                sendEmail()
+                    // _onError.value =
+                    //    UserFriendlyError(response.responseError)
                 }
             }
 
@@ -92,4 +98,17 @@ class PrayerViewModel @ViewModelInject constructor(
         }
     }
 
+	fun sendEmail() {
+		_sendEmail.value = Pair("Petición de oración: $selectedTopic", """
+							Datos de contacto:
+							
+							nombre: ${name!!}
+							email: ${email!!}
+							whatsapp: ${whatsapp!!}
+							
+							mensaje:
+							
+							${message!!}							
+						""".trimIndent())
+	}
 }
