@@ -1,6 +1,5 @@
 package com.alientodevida.alientoapp.app.ui.sermons.video
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,12 +9,15 @@ import com.alientodevida.alientoapp.domain.entities.local.YoutubePlaylistItemEnt
 import com.alientodevida.alientoapp.domain.entities.UserFriendlyError
 import com.alientodevida.alientoapp.domain.entities.network.base.ApiResult
 import com.alientodevida.alientoapp.app.utils.Constants
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class VideoViewModel @ViewModelInject constructor(
+@HiltViewModel
+class VideoViewModel @Inject constructor(
         private val repository: Repository
 ) : ViewModel() {
 

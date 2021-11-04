@@ -1,6 +1,5 @@
 package com.alientodevida.alientoapp.app.ui.prayer
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,9 +9,12 @@ import com.alientodevida.alientoapp.domain.Repository
 import com.alientodevida.alientoapp.domain.entities.UserFriendlyError
 import com.alientodevida.alientoapp.domain.entities.network.CsrfToken
 import com.alientodevida.alientoapp.domain.entities.network.base.ApiResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PrayerViewModel @ViewModelInject constructor(
+@HiltViewModel
+class PrayerViewModel @Inject constructor(
     private val repository: Repository,
 ) : ViewModel() {
 

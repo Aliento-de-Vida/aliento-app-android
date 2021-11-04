@@ -1,7 +1,6 @@
 package com.alientodevida.alientoapp.app.ui.home
 
 import android.util.Base64
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.alientodevida.alientoapp.app.AppController
 import com.alientodevida.alientoapp.domain.Repository
@@ -11,8 +10,10 @@ import com.alientodevida.alientoapp.domain.entities.local.*
 import com.alientodevida.alientoapp.app.utils.Constants
 import com.alientodevida.alientoapp.domain.entities.network.CsrfToken
 import com.alientodevida.alientoapp.domain.entities.network.base.ApiResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import retrofit2.HttpException
+import javax.inject.Inject
 
 // TODO rename
 private const val SERMONS = "adv/PREDICAS"
@@ -25,7 +26,8 @@ private const val PRAYER = "adv/ORACION"
 private const val WEB_PAGE = "adv/PAGINAWEB"
 private const val EBOOK = "adv/EBOOK"
 
-class HomeViewModel @ViewModelInject constructor(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
