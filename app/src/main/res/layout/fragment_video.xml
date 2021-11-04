@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.alientodevida.alientoapp.app.ui.sermons.video.VideoViewModel" />
+            type="com.alientodevida.alientoapp.app.features.sermons.video.VideoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
