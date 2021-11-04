@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.ui._main
+package com.alientodevida.alientoapp.app.ui
 
 import android.content.SharedPreferences
 import android.os.Bundle

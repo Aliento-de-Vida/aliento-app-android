@@ -1,6 +1,5 @@
 package com.alientodevida.alientoapp.app.ui.church
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,9 +9,12 @@ import com.alientodevida.alientoapp.domain.entities.UserFriendlyError
 import com.alientodevida.alientoapp.domain.entities.network.Transmision
 import com.alientodevida.alientoapp.domain.entities.network.base.ApiResult
 import com.alientodevida.alientoapp.app.utils.Constants.US_VIDEO
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ChurchViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ChurchViewModel @Inject constructor(
     private val repository: Repository,
 ): ViewModel() {
 

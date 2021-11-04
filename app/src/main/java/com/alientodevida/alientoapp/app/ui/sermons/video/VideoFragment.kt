@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.app.databinding.FragmentVideoBinding
@@ -43,7 +42,7 @@ class VideoFragment : Fragment() {
     }
 
     private fun observeViewModel(binding: FragmentVideoBinding) {
-        viewModel.videos.observe(owner = viewLifecycleOwner) { items ->
+        viewModel.videos.observe(viewLifecycleOwner) { items ->
             if (items.count() == 0) {
                 viewModel.refreshContent()
             }
@@ -53,11 +52,11 @@ class VideoFragment : Fragment() {
             binding.swiperefresh.isRefreshing = false
         }
 
-        viewModel.isGettingData.observe(owner = viewLifecycleOwner) { isGettingData ->
+        viewModel.isGettingData.observe(viewLifecycleOwner) { isGettingData ->
             if (isGettingData.not()) binding.swiperefresh.isRefreshing = false
         }
 
-        viewModel.onError.observe(owner = viewLifecycleOwner) { onError ->
+        viewModel.onError.observe(viewLifecycleOwner) { onError ->
             onError?.let {
                 when(onError.result) {
                     is ResponseError.ApiResponseError<*> -> Toast.makeText(requireContext(), "ApiError", Toast.LENGTH_SHORT).show()

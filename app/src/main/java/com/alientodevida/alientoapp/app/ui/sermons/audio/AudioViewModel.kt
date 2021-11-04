@@ -1,6 +1,5 @@
 package com.alientodevida.alientoapp.app.ui.sermons.audio
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,9 +12,12 @@ import com.alientodevida.alientoapp.domain.entities.network.base.ApiError
 import com.alientodevida.alientoapp.domain.entities.network.base.ApiResult
 import com.alientodevida.alientoapp.domain.entities.network.base.ResponseError
 import com.alientodevida.alientoapp.app.utils.Constants
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AudioViewModel @ViewModelInject constructor(
+@HiltViewModel
+class AudioViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 

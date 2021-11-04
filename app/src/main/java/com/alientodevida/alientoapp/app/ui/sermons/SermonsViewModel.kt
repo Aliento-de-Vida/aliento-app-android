@@ -1,8 +1,9 @@
 package com.alientodevida.alientoapp.app.ui.sermons
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-
-class SermonsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SermonsViewModel @Inject constructor(
 ): ViewModel()
