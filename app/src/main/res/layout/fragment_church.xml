@@ -5,9 +5,6 @@
     tools:ignore="ContentDescription">
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.alientodevida.alientoapp.app.ui.church.ChurchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +47,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:scaleType="centerCrop"
-                        app:imageUrl="@{viewModel.usImageUrl}"
                         app:layout_collapseMode="parallax" />
 
                     <androidx.appcompat.widget.Toolbar

@@ -14,4 +14,10 @@
     <string name="title_sermons">Prédicas</string>
     <string name="donations">Donaciones</string>
     <string name="title_splashscreen">Splashscreen</string>
+
+    <string name="error_generic_title">Error</string>
+    <string name="error_generic_message">Something went wrong!</string>
+    <string name="error_api_title">Error</string>
+    <string name="error_server_message">Ups, Something went wrong!</string>
+
 </resources>

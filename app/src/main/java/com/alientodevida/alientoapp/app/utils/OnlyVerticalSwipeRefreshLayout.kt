@@ -11,10 +11,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlin.math.abs
 
 class OnlyVerticalSwipeRefreshLayout(context: Context, attrs: AttributeSet?) :
-        SwipeRefreshLayout(context, attrs) {
+    SwipeRefreshLayout(context, attrs) {
     private val touchSlop: Int = ViewConfiguration.get(context).scaledTouchSlop
     private var prevX = 0f
     private var declined = false
+
     @SuppressLint("Recycle")
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {

@@ -26,7 +26,8 @@ class Utils {
         private fun getFacebookPageURL(context: Context): String {
             val packageManager = context.packageManager
             return try {
-                val versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode
+                val versionCode =
+                    packageManager.getPackageInfo("com.facebook.katana", 0).versionCode
                 if (versionCode >= 3002850) { //newer versions of fb app
                     "fb://page/${Constants.FACEBOOK_PAGE_ID}"
                 } else { //older versions of fb app
@@ -52,7 +53,12 @@ class Utils {
             try {
                 context.startActivity(likeIng)
             } catch (e: ActivityNotFoundException) {
-                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.INSTAGRAM_URL)))
+                context.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(Constants.INSTAGRAM_URL)
+                    )
+                )
             }
         }
 
@@ -76,15 +82,28 @@ class Utils {
             if (appInstalledOrNot(context, "com.spotify.music")) {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = uri
-                intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse("android-app://${context.packageName}"))
+                intent.putExtra(
+                    Intent.EXTRA_REFERRER,
+                    Uri.parse("android-app://${context.packageName}")
+                )
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 context.startActivity(intent)
 
             } else {
                 try {
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.spotify.music")))
+                    context.startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=com.spotify.music")
+                        )
+                    )
                 } catch (ex: ActivityNotFoundException) {
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.spotify.music")))
+                    context.startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=com.spotify.music")
+                        )
+                    )
                 }
             }
         }
@@ -105,11 +124,19 @@ class Utils {
         }
 
         fun handleOnClick(activity: Activity, videoId: String) {
-            val intent: Intent = YouTubeStandalonePlayer.createVideoIntent(activity, Constants.YOUTUBE_DEVELOPER_KEY, videoId)
+            val intent: Intent = YouTubeStandalonePlayer.createVideoIntent(
+                activity,
+                Constants.YOUTUBE_DEVELOPER_KEY,
+                videoId
+            )
             activity.startActivity(intent)
         }
 
-        fun copyToClipboard(context: Context? = AppController.context, name: String, value: String) {
+        fun copyToClipboard(
+            context: Context? = AppController.context,
+            name: String,
+            value: String
+        ) {
             context?.let { it ->
                 val myClipboard = it.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val myClip = ClipData.newPlainText("clipboard", value)
@@ -120,20 +147,25 @@ class Utils {
         }
 
         fun showComingSoon(context: Context) {
-            showDialog(context, context.getString(R.string.comming_soon_title), context.getString(R.string.comming_soon_message))
+            showDialog(
+                context,
+                context.getString(R.string.comming_soon_title),
+                context.getString(R.string.comming_soon_message)
+            )
         }
 
         fun showDialog(context: Context, title: String, message: String) {
             val builder = AlertDialog.Builder(context)
             builder.setTitle(title)
-                    .setMessage(message)
-                    .setPositiveButton(R.string.ok) { _, _ -> }
+                .setMessage(message)
+                .setPositiveButton(R.string.ok) { _, _ -> }
             builder.create().show()
         }
 
         fun dateFrom(date: String, format: String = "yyyy-MM-dd HH:mm:ss"): Date {
             return SimpleDateFormat(format, Locale.US).parse(date)!!
         }
+
         fun format(date: Date, format: String): String {
             return SimpleDateFormat(format, Locale("es", "ES")).format(date.time)
         }

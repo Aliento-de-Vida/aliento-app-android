@@ -5,9 +5,6 @@
 	tools:ignore="ContentDescription">
 
 	<data>
-		<variable
-			name="viewModel"
-			type="com.alientodevida.alientoapp.app.ui.donations.DonationsViewModel" />
 	</data>
 
 	<androidx.constraintlayout.widget.ConstraintLayout

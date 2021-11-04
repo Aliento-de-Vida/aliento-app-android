@@ -10,7 +10,7 @@
 
         <variable
             name="callback"
-            type="com.alientodevida.alientoapp.app.ui.donations.ItemClick" />
+            type="com.alientodevida.alientoapp.app.features.donations.ItemClick" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -4,15 +4,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.alientodevida.alientoapp.app.BuildConfig
 import com.alientodevida.alientoapp.app.PREFS_NAME
-import com.alientodevida.alientoapp.domain.Repository
+import com.alientodevida.alientoapp.app.logger.LoggerImpl
 import com.alientodevida.alientoapp.data.networking.BASE_URL_SPOTIFY_API
-import com.alientodevida.alientoapp.data.networking.NetworkResponseAdapterFactory
 import com.alientodevida.alientoapp.data.networking.RetrofitService
-import com.alientodevida.alientoapp.data.repository.RepositoryImpl
 import com.alientodevida.alientoapp.data.storage.AppDatabase
 import com.alientodevida.alientoapp.data.storage.RoomDao
 import com.alientodevida.alientoapp.data.storage.getDatabase
-import dagger.Binds
+import com.alientodevida.alientoapp.domain.logger.Logger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,15 +32,6 @@ abstract class AppModule {
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataModule {
-
-    @Binds
-    abstract fun bindRepository(impl: RepositoryImpl): Repository
-
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
 class LocalModule {
 
     @Singleton
@@ -57,36 +46,8 @@ class LocalModule {
     fun providesSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-class NetworkModule {
 
     @Provides
-    fun providesRetrofitService(): RetrofitService {
-        val httpBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
-
-        addLoggingInterceptor(httpBuilder)
-
-        val httpClient = httpBuilder
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(10, TimeUnit.SECONDS)
-            .build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL_SPOTIFY_API)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .addCallAdapterFactory(NetworkResponseAdapterFactory())
-            .client(httpClient)
-            .build()
-
-        return retrofit.create(RetrofitService::class.java)
-    }
-
-    private fun addLoggingInterceptor(httpBuilder: OkHttpClient.Builder) {
-        val logging = HttpLoggingInterceptor()
-        logging.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-        httpBuilder.addInterceptor(logging)
-    }
+    @Singleton
+    fun logger(): Logger = LoggerImpl()
 }
