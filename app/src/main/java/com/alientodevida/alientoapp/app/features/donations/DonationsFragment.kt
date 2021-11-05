@@ -69,7 +69,7 @@ class DonationsFragment : BaseFragment<FragmentDonationsBinding>(R.layout.fragme
         when (item) {
             is Paypal -> Utils.goToUrl(requireContext(), item.url)
             is BankAccount -> {
-                Utils.copyToClipboard(name = "Número de tarjeta", value = item.cardNumber)
+                Utils.copyToClipboard(context = requireContext(), name = "Número de tarjeta", value = item.cardNumber)
             }
         }
     }

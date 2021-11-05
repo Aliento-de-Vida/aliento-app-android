@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.alientodevida.alientoapp.app.AppController
 import com.alientodevida.alientoapp.app.R
 import com.google.android.youtube.player.YouTubeStandalonePlayer
 import java.text.SimpleDateFormat
@@ -133,17 +132,15 @@ class Utils {
         }
 
         fun copyToClipboard(
-            context: Context? = AppController.context,
+            context: Context,
             name: String,
             value: String
         ) {
-            context?.let { it ->
-                val myClipboard = it.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val myClip = ClipData.newPlainText("clipboard", value)
-                myClipboard.setPrimaryClip(myClip)
-
-                Toast.makeText(it, "$name copiado", Toast.LENGTH_SHORT).show()
-            }
+            val myClipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val myClip = ClipData.newPlainText("clipboard", value)
+            myClipboard.setPrimaryClip(myClip)
+            context
+            Toast.makeText(context, "$name copiado", Toast.LENGTH_SHORT).show()
         }
 
         fun showComingSoon(context: Context) {

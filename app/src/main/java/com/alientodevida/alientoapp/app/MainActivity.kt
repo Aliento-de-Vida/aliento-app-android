@@ -1,12 +1,10 @@
-package com.alientodevida.alientoapp.app.features
+package com.alientodevida.alientoapp.app
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.databinding.ActivityMainBinding
-import com.alientodevida.alientoapp.data.repository.PreferenceRepository
+import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -16,10 +14,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     @Inject
-    lateinit var preferenceRepository: PreferenceRepository
-
-    @Inject
-    lateinit var sharedPreferences: SharedPreferences
+    lateinit var preferences: Preferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -38,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observe() {
-        preferenceRepository.nightModeLive.observe(this) { nightMode ->
+        preferences.nightModeLive.observe(this) { nightMode ->
             nightMode?.let { delegate.localNightMode = it }
         }
     }

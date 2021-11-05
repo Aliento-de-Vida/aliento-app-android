@@ -14,6 +14,7 @@ import com.alientodevida.alientoapp.domain.entities.local.DonationType
 import com.alientodevida.alientoapp.domain.entities.local.PaymentItem
 import com.alientodevida.alientoapp.domain.entities.local.Paypal
 import com.alientodevida.alientoapp.domain.logger.Logger
+import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -23,12 +24,14 @@ class DonationsViewModel @Inject constructor(
     coroutineDispatchers: CoroutineDispatchers,
     errorParser: ErrorParser,
     logger: Logger,
+    preferences: Preferences,
     savedStateHandle: SavedStateHandle,
     application: Application,
 ) : BaseViewModel(
     coroutineDispatchers,
     errorParser,
     logger,
+    preferences,
     savedStateHandle,
     application,
 ) {

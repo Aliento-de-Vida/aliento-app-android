@@ -9,12 +9,14 @@ import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.app.state.ViewModelResult
+import com.alientodevida.alientoapp.domain.preferences.Preferences
 import kotlinx.coroutines.*
 
 abstract class BaseViewModel(
     protected val coroutineDispatchers: CoroutineDispatchers,
     protected val errorParser: ErrorParser,
     protected val logger: Logger,
+    protected val preferences: Preferences,
     protected val savedStateHandle: SavedStateHandle,
     application: Application,
 ) : ViewModel() {

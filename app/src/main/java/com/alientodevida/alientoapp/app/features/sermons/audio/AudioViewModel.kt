@@ -13,6 +13,7 @@ import com.alientodevida.alientoapp.domain.Repository
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.entities.network.Token
 import com.alientodevida.alientoapp.domain.logger.Logger
+import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,12 +24,14 @@ class AudioViewModel @Inject constructor(
     coroutineDispatchers: CoroutineDispatchers,
     errorParser: ErrorParser,
     logger: Logger,
+    preferences: Preferences,
     savedStateHandle: SavedStateHandle,
     application: Application,
 ) : BaseViewModel(
     coroutineDispatchers,
     errorParser,
     logger,
+    preferences,
     savedStateHandle,
     application,
 ) {
@@ -42,7 +45,7 @@ class AudioViewModel @Inject constructor(
         viewModelScope.launch {
 
             val result = getTokenOrError(isExpired)
-            AppController.save(result, Token.key)
+            preferences.jwtToken = result
 
             try {
                 val podcastsResult = repository.refreshPodcasts(
@@ -58,7 +61,7 @@ class AudioViewModel @Inject constructor(
     }
 
     private suspend fun getTokenOrError(isExpired: Boolean = false): Token {
-        val token = AppController.get<Token>(Token.key)
+        val token = preferences.jwtToken
 
         return if (isExpired || token == null) {
             repository.getToken(Constants.SPOTIFY_TOKEN, Constants.SPOTIFY_GRANT_TYPE)

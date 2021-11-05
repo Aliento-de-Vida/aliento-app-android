@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.alientodevida.alientoapp.app.databinding.FragmentSettingsBinding
-import com.alientodevida.alientoapp.data.repository.PreferenceRepository
+import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SettingsFragment : Fragment() {
 
     @Inject
-    lateinit var preferenceRepository: PreferenceRepository
+    lateinit var preferences: Preferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,19 +36,19 @@ class SettingsFragment : Fragment() {
 
             toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
 
-            preferenceRepository.isDarkThemeLive.observe(viewLifecycleOwner) { isDarkTheme ->
+            preferences.isDarkThemeLive.observe(viewLifecycleOwner) { isDarkTheme ->
                 theme.text = if (isDarkTheme) "Dark Theme" else "Light Theme"
                 isDarkTheme?.let { themeSwitch.isChecked = it }
             }
 
             themeSwitch.setOnCheckedChangeListener { _, checked ->
-                preferenceRepository.isDarkTheme = checked
+                preferences.isDarkTheme = checked
             }
         }
     }
 
     private fun observe() {
-        preferenceRepository.nightModeLive.observe(viewLifecycleOwner) { nightMode ->
+        preferences.nightModeLive.observe(viewLifecycleOwner) { nightMode ->
             nightMode?.let {
                 (activity as AppCompatActivity).delegate.localNightMode = it
             }
