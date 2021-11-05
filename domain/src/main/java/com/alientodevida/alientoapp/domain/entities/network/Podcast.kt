@@ -1,39 +1,30 @@
 package com.alientodevida.alientoapp.domain.entities.network
 
 import com.alientodevida.alientoapp.domain.entities.local.PodcastEntity
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Podcast(
-    @Json(name = "href")
+    @Serializable
     val href: String? = null,
-
-    @Json(name = "items")
+    @Serializable
     val items: List<Podcasts>
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Podcasts(
-    @Json(name = "uri")
     val uri: String,
-
-    @Json(name = "name")
     val name: String,
-
-    @Json(name = "release_date")
+    @SerialName("release_date")
     val releaseDate: String,
-
-    @Json(name = "duration_ms")
+    @SerialName("duration_ms")
     val duration: Int = 0,
-
-    @Json(name = "images")
     val images: List<AlbumImage>? = null
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class AlbumImage(
-    @Json(name = "url")
     val url: String? = null
 )
 

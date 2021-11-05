@@ -1,18 +1,19 @@
 package com.alientodevida.alientoapp.domain.entities.network
 
 import com.alientodevida.alientoapp.domain.entities.local.YoutubePlaylistItemEntity
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class YoutubePlaylistItems(
     var items: List<Playlistitem>
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Playlistitem(
     val snippet: Snippet
 )
-@JsonClass(generateAdapter = true)
+
+@Serializable
 class Snippet(
     val publishedAt: String,
     val title: String,
@@ -21,34 +22,34 @@ class Snippet(
     val resourceId: ResourceId
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ResourceId(
     val kind: String,
     val videoId: String
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Thumbnails(
-    val default: Default?,
-    val medium: Medium?,
-    var high: High?
+    val default: Default? = null,
+    val medium: Medium,
+    var high: High,
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Default(
     val url: String,
     val width: String,
     val height: String,
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Medium(
     val url: String,
     val width: String,
     val height: String,
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class High(
     val url: String,
     val width: String,
@@ -66,7 +67,7 @@ fun YoutubePlaylistItems.asDomainModel(): List<YoutubePlaylistItemEntity> {
             it.snippet.resourceId.videoId,
             it.snippet.description,
             it.snippet.publishedAt,
-            it.snippet.thumbnails.high?.url
+            it.snippet.thumbnails.high.url
         )
     }
 }

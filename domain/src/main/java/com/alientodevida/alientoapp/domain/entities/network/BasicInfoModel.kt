@@ -1,8 +1,8 @@
 package com.alientodevida.alientoapp.domain.entities.network
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class BasicInfoModel(
     var image: String? = null,
     var video: String? = null,

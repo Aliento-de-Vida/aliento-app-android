@@ -1,14 +1,14 @@
 package com.alientodevida.alientoapp.domain.entities.network
 
 import com.alientodevida.alientoapp.domain.entities.local.ImageUrlEntity
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ImageUrlResponse(
     val resources: List<Resources>
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Resources(
     val url: String
 )

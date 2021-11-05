@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -97,10 +98,9 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:$moshiConverterVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
 
-    // moshi for parsing the JSON format
-    implementation "com.squareup.moshi:moshi:$moshiVersion"
-    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiCodegenVersion"
+    // Serialization
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$kotlinxSerializationConverterVersion"
 
     // glide for images
     implementation "com.github.bumptech.glide:glide:$glideVersion"
