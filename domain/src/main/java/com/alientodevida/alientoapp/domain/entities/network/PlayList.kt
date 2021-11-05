@@ -1,42 +1,31 @@
 package com.alientodevida.alientoapp.domain.entities.network
 
-import com.google.gson.annotations.SerializedName
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class PlayList(
-
-    @SerializedName("id")
     val id: String? = null,
-
-    @SerializedName("tracks")
     val tracks: PlayListTrack? = null
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class PlayListTrack(
-    @SerializedName("items")
     val items: List<Track>? = null
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Track(
-    @SerializedName("track")
     val track: TrackUri? = null
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class TrackUri(
-    @SerializedName("album")
     val album: Album? = null,
-
-    @SerializedName("uri")
     val uri: String? = null
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Album(
-    @SerializedName("images")
     val images: List<AlbumImage>? = null
 )
 

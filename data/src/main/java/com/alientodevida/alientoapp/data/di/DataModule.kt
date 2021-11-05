@@ -10,23 +10,23 @@ import com.alientodevida.alientoapp.data.storage.RoomDao
 import com.alientodevida.alientoapp.data.storage.getDatabase
 import com.alientodevida.alientoapp.domain.Repository
 import com.alientodevida.alientoapp.domain.preferences.Preferences
-import dagger.Binds
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class DataModule {
-
 	@Singleton
 	@Provides
 	fun providesDatabase(@ApplicationContext context: Context): AppDatabase = getDatabase(context)
@@ -41,38 +41,6 @@ class DataModule {
 		retrofitService: RetrofitService,
 		roomDao: RoomDao
 	): Repository = RepositoryImpl(retrofitService, roomDao)
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-class NetworkModule {
-
-	@Provides
-	fun providesRetrofitService(): RetrofitService {
-		val httpBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
-
-		addLoggingInterceptor(httpBuilder)
-
-		val httpClient = httpBuilder
-			.connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(10, TimeUnit.SECONDS)
-			.build()
-
-		val retrofit = Retrofit.Builder()
-			.baseUrl(BASE_URL_SPOTIFY_API)
-			.addConverterFactory(MoshiConverterFactory.create())
-			.client(httpClient)
-			.build()
-
-		return retrofit.create(RetrofitService::class.java)
-	}
-
-	private fun addLoggingInterceptor(httpBuilder: OkHttpClient.Builder) {
-		val logging = HttpLoggingInterceptor()
-		logging.level =
-			if (true) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-		httpBuilder.addInterceptor(logging) // TODO BuildConfig.DEBUG
-	}
 
 	@Provides
 	@Singleton
@@ -84,5 +52,40 @@ class NetworkModule {
 			preferences = context.getSharedPreferences("mobile-preferences", Context.MODE_PRIVATE),
 		)
 	}
+}
 
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
+	private val contentType = "application/json".toMediaType()
+
+	@Provides
+	@Singleton
+	fun json(): Json = Json { ignoreUnknownKeys = true }
+
+	@Provides
+	@Singleton
+	fun okHttpClient(): OkHttpClient =
+		OkHttpClient.Builder()
+			.connectTimeout(15, TimeUnit.SECONDS)
+			.writeTimeout(15, TimeUnit.SECONDS)
+			.readTimeout(15, TimeUnit.SECONDS)
+			.retryOnConnectionFailure(false)
+			.apply {
+				if (true /*BuildConfig.DEBUG*/) addInterceptor(
+					HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+				)
+			}.build()
+
+	@Provides
+	@Singleton
+	fun api(
+		client: OkHttpClient,
+		json: Json,
+	): RetrofitService = Retrofit.Builder()
+		.client(client)
+		.baseUrl(BASE_URL_SPOTIFY_API)
+		.addConverterFactory(json.asConverterFactory(contentType))
+		.build()
+		.create(RetrofitService::class.java)
 }
