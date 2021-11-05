@@ -84,13 +84,13 @@ class DonationsRecyclerViewAdapter(private val callback: ItemClick) :
                     it.noDeTarjeta.text = item.cardNumber
 
                     it.noDeCuenta.setOnClickListener {
-                        Utils.copyToClipboard(name = "Número de cuenta", value = item.accountNumber)
+                        Utils.copyToClipboard(context = it.context, name = "Número de cuenta", value = item.accountNumber)
                     }
                     it.clabe.setOnClickListener {
-                        Utils.copyToClipboard(name = "Clabe", value = item.clabe)
+                        Utils.copyToClipboard(context = it.context, name = "Clabe", value = item.clabe)
                     }
                     it.noDeTarjeta.setOnClickListener {
-                        Utils.copyToClipboard(name = "Número de tarjeta", value = item.cardNumber)
+                        Utils.copyToClipboard(context = it.context, name = "Número de tarjeta", value = item.cardNumber)
                     }
                 }
             }

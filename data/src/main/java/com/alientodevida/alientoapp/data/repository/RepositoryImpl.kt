@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class RepositoryImpl @Inject constructor(
+class RepositoryImpl (
     private val retrofitService: RetrofitService,
     private val roomDao: RoomDao
 ) : Repository {
