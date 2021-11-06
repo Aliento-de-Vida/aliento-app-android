@@ -1,27 +1,23 @@
 package com.alientodevida.alientoapp.app.features.home
 
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentHomeBinding
+import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.Constants
 import com.alientodevida.alientoapp.app.utils.Utils
+import com.alientodevida.alientoapp.app.utils.extensions.load
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItem
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
 import com.alientodevida.alientoapp.domain.entities.local.YoutubeItem
-import com.bumptech.glide.Glide
 import com.synnapps.carouselview.ViewListener
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,33 +31,109 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupUI(binding)
-        setupObservers(binding)
+        setupUI()
+        setupObservers()
     }
 
-    private fun setupUI(binding: FragmentHomeBinding) {
+    private fun setupUI() {
         with(binding) {
+            toolbarView.icSettings.setOnClickListener { goToSettings() }
 
-            toolbarView.icSettings.setOnClickListener {
-                goToSettings()
+            swiperefresh.setOnRefreshListener { this@HomeFragment.viewModel.getSermonItems() }
+
+            setupCarousel()
+            setupQuickAccess()
+            setupSocialMedia()
+        }
+    }
+
+    private fun setupObservers() {
+
+        viewModel.sermonsItems.observe(viewLifecycleOwner) { result ->
+            viewModelResult(
+                result = result,
+                progressBar = binding.progressBar,
+            ) { items ->
+                binding.swiperefresh.isRefreshing = false
+
+                binding.sermonsCarousel.setViewListener(viewListener)
+                binding.sermonsCarousel.pageCount =
+                    if (items.size < MAX_ITEMS_CAROUSEL) items.size else MAX_ITEMS_CAROUSEL
+            }
+        }
+    }
+
+    private var viewListener: ViewListener = ViewListener { position ->
+        val customView = layoutInflater.inflate(R.layout.item_sermons_carrousel, null)
+
+        (viewModel.sermonsItems.value as? ViewModelResult.Success)?.data?.get(position)?.let {
+            it.imageUrl?.let {
+                customView.findViewById<ImageView>(R.id.imageView).load(it)
             }
 
-            swiperefresh.setOnRefreshListener {
-                this@HomeFragment.viewModel.refreshSermonItems()
-                this@HomeFragment.viewModel.refreshCategoriesCarousel()
-                this@HomeFragment.viewModel.refreshQuickLinks()
+            when (it) {
+                is CategoryItem -> {
+                    (customView.findViewById(R.id.play_icon) as ImageView).visibility = View.GONE
+                    (customView.findViewById(R.id.triangle) as FrameLayout).visibility = View.GONE
+                    (customView.findViewById(R.id.title) as TextView).text = it.title
+                    customView.setOnClickListener { goToSermons() }
+
+                }
+                is YoutubeItem -> {
+                    (customView.findViewById(R.id.play_icon) as ImageView).visibility = View.VISIBLE
+                    (customView.findViewById(R.id.triangle) as FrameLayout).visibility = View.VISIBLE
+                    (customView.findViewById(R.id.title) as TextView).visibility = View.GONE
+                    customView.setOnClickListener { _ ->
+                        Utils.handleOnClick(
+                            requireActivity(),
+                            it.youtubeId
+                        )
+                    }
+                }
             }
 
-            val content = SpannableString("Ver más")
-            content.setSpan(UnderlineSpan(), 0, content.length, 0)
+        }
 
-            setupCarousel(carrousel)
+        customView
+    }
 
+    private fun setupCarousel() {
+        carouselRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
+            when ((item as CategoryItem).type) {
+                CategoryItemType.CHURCH -> goToChurch()
+                CategoryItemType.SOCIAL_WORK -> Utils.showComingSoon(requireContext())
+                CategoryItemType.COURSES -> Utils.showComingSoon(requireContext())
+                CategoryItemType.SERMONS -> goToSermons()
+            }
+        })
+
+        carouselRecyclerViewAdapter.items = viewModel.carouseItems
+        carouselRecyclerViewAdapter.notifyDataSetChanged()
+        binding.carrousel.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = carouselRecyclerViewAdapter
+        }
+    }
+
+    private fun setupQuickAccess() {
+        with(binding) {
             donations.setOnClickListener { goToDonations() }
-            prayer.setOnClickListener { goToPrayer() }
-            webPage.setOnClickListener { Utils.goToUrl(requireContext(), Constants.webPageUrl) }
-            ebook.setOnClickListener { Utils.goToUrl(requireContext(), Constants.ebookDownloadUrl) }
+            ivDonations.load(Constants.DONATIONS_IMAGE)
 
+            prayer.setOnClickListener { goToPrayer() }
+            ivPrayer.load(Constants.PRAYER_IMAGE)
+
+            //            webPage.setOnClickListener { Utils.goToUrl(requireContext(), Constants.webPageUrl) }
+            //            ivDonations.load("https://todoserver-peter.herokuapp.com/v1/files/donaciones.png")
+
+            ebook.setOnClickListener { Utils.goToUrl(requireContext(), Constants.ebookDownloadUrl) }
+            ivEbook.load(Constants.EBOOK_IMAGE)
+        }
+    }
+
+    private fun setupSocialMedia() {
+        with(binding) {
             instagram.setOnClickListener { Utils.openInstagramPage(requireContext()) }
             youtube.setOnClickListener {
                 Utils.openYoutubeChannel(
@@ -80,77 +152,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
     }
 
-    private fun setupObservers(binding: FragmentHomeBinding) {
-
-        viewModel.sermonsItems.observe(owner = viewLifecycleOwner) { result ->
-            binding.sermonsCarousel.setViewListener(viewListener)
-            binding.sermonsCarousel.pageCount =
-                if (result.size < MAX_ITEMS_CAROUSEL) result.size else MAX_ITEMS_CAROUSEL
-        }
-
-        viewModel.isGettingData.observe(owner = viewLifecycleOwner) { isGettingData ->
-            if (isGettingData.not()) binding.swiperefresh.isRefreshing = false
-        }
-
-    }
-
-    private var viewListener: ViewListener = ViewListener { position ->
-        val customView = layoutInflater.inflate(R.layout.item_sermons_carrousel, null)
-
-        viewModel.sermonsItems.value?.get(position)?.let {
-
-            Glide.with(customView)
-                .load(it.imageUrl)
-                .centerCrop()
-                .into(customView.findViewById(R.id.imageView))
-
-            when (it) {
-                is CategoryItem -> {
-                    (customView.findViewById(R.id.play_icon) as ImageView).visibility = View.GONE
-                    (customView.findViewById(R.id.triangle) as FrameLayout).visibility = View.GONE
-                    (customView.findViewById(R.id.title) as TextView).text = it.title
-                    customView.setOnClickListener { _ -> goToSermons() }
-
-                }
-                is YoutubeItem -> {
-                    (customView.findViewById(R.id.play_icon) as ImageView).visibility = View.VISIBLE
-                    (customView.findViewById(R.id.triangle) as FrameLayout).visibility =
-                        View.VISIBLE
-                    (customView.findViewById(R.id.title) as TextView).visibility = View.GONE
-                    customView.setOnClickListener { _ ->
-                        Utils.handleOnClick(
-                            requireActivity(),
-                            it.youtubeId
-                        )
-                    }
-                }
-            }
-
-        }
-
-        customView
-    }
-
-    private fun setupCarousel(carrousel: RecyclerView) {
-        carouselRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
-            when ((item as CategoryItem).type) {
-                CategoryItemType.CHURCH -> goToChurch()
-                CategoryItemType.MANOS_EXTENDIDAS -> Utils.showComingSoon(requireContext())
-                CategoryItemType.CURSOS -> Utils.showComingSoon(requireContext())
-                CategoryItemType.SERMONS -> goToSermons()
-            }
-        })
-
-        viewModel.carouseItems.observe(owner = viewLifecycleOwner) { result: List<CategoryItem> ->
-            carouselRecyclerViewAdapter.items = result
-            carouselRecyclerViewAdapter.notifyDataSetChanged()
-            carrousel.apply {
-                layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                adapter = carouselRecyclerViewAdapter
-            }
-        }
-    }
 
     private fun goToSettings() {
         val action = HomeFragmentDirections.actionNavigationHomeToSettingsFragment()

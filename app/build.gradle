@@ -40,6 +40,11 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 	        signingConfig signingConfigs.release
+            buildConfigField "String", "YOUTUBE_DEVELOPER_KEY", "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\""
+        }
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "YOUTUBE_DEVELOPER_KEY", "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\""
         }
     }
     buildFeatures {

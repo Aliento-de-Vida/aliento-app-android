@@ -73,7 +73,7 @@ class PreferencesImpl(
     override var pushToken: String by _pushToken
 
 
-    override var jwtToken: Token?
+    override var spotifyJwtToken: Token?
         get() = get(JWT_TOKEN_KEY, preferences)
         set(value) = value?.let { save(it, JWT_TOKEN_KEY) }
             ?: run { clear(JWT_TOKEN_KEY) }

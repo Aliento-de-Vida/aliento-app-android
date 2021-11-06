@@ -13,8 +13,8 @@ data class CategoryItem(
 
 enum class CategoryItemType {
     CHURCH,
-    MANOS_EXTENDIDAS,
-    CURSOS,
+    SOCIAL_WORK,
+    COURSES,
     SERMONS
 }
 

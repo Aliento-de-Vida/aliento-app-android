@@ -7,7 +7,6 @@ import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
-import com.alientodevida.alientoapp.domain.Repository
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.entities.local.BankAccount
 import com.alientodevida.alientoapp.domain.entities.local.DonationType
@@ -20,7 +19,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DonationsViewModel @Inject constructor(
-    private val repository: Repository,
     coroutineDispatchers: CoroutineDispatchers,
     errorParser: ErrorParser,
     logger: Logger,
