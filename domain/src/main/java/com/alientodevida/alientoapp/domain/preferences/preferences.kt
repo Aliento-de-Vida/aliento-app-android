@@ -17,7 +17,7 @@ interface Preferences {
 	val isDarkThemeLive: LiveData<Boolean>
 
 	var pushToken: String
-	var jwtToken: Token?
+	var spotifyJwtToken: Token?
 
 	suspend fun clear()
 }

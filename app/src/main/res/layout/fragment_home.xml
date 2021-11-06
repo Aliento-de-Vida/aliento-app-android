@@ -137,7 +137,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView5">
 
                         <ImageView
-                            android:id="@+id/imageView2"
+                            android:id="@+id/iv_donations"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
@@ -167,7 +167,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/donations">
 
                         <ImageView
-                            android:id="@+id/imageView20"
+                            android:id="@+id/iv_prayer"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
@@ -198,7 +198,7 @@
 		                app:layout_constraintTop_toBottomOf="@+id/prayer">
 
 		                <ImageView
-			                android:id="@+id/imageView30"
+			                android:id="@+id/iv_web"
 			                android:layout_width="match_parent"
 			                android:layout_height="match_parent"
 			                android:scaleType="centerCrop"
@@ -228,7 +228,7 @@
 		                app:layout_constraintTop_toBottomOf="@+id/web_page">
 
 		                <ImageView
-			                android:id="@+id/imageView40"
+			                android:id="@+id/iv_ebook"
 			                android:layout_width="match_parent"
 			                android:layout_height="match_parent"
 			                android:scaleType="centerCrop"

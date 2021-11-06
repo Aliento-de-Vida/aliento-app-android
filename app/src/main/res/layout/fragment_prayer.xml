@@ -166,6 +166,8 @@
                 android:layout_height="wrap_content"
                 android:elevation="4dp"
                 android:indeterminateTint="?attr/colorOnBackground"
+                android:visibility="gone"
+                tools:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

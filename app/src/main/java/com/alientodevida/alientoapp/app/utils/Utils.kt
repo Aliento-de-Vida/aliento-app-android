@@ -6,7 +6,9 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.alientodevida.alientoapp.app.BuildConfig
 import com.alientodevida.alientoapp.app.R
+import com.alientodevida.alientoapp.data.youtube.YoutubeRepositoryImpl.Companion.YOUTUBE_DEVELOPER_KEY
 import com.google.android.youtube.player.YouTubeStandalonePlayer
 import java.text.SimpleDateFormat
 import java.util.*
@@ -125,7 +127,7 @@ class Utils {
         fun handleOnClick(activity: Activity, videoId: String) {
             val intent: Intent = YouTubeStandalonePlayer.createVideoIntent(
                 activity,
-                Constants.YOUTUBE_DEVELOPER_KEY,
+                BuildConfig.YOUTUBE_DEVELOPER_KEY,
                 videoId
             )
             activity.startActivity(intent)

@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentChurchBinding
-import com.alientodevida.alientoapp.app.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

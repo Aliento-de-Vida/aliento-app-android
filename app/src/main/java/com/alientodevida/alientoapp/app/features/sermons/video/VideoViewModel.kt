@@ -1,12 +1,16 @@
 package com.alientodevida.alientoapp.app.features.sermons.video
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
+import com.alientodevida.alientoapp.app.base.BaseViewModel
+import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.Constants
-import com.alientodevida.alientoapp.domain.Repository
+import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
+import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.entities.local.YoutubePlaylistItemEntity
+import com.alientodevida.alientoapp.domain.logger.Logger
+import com.alientodevida.alientoapp.domain.preferences.Preferences
+import com.alientodevida.alientoapp.domain.youtube.YoutubeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -16,50 +20,42 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VideoViewModel @Inject constructor(
-    private val repository: Repository
-) : ViewModel() {
+    private val youtubeRepository: YoutubeRepository,
+    coroutineDispatchers: CoroutineDispatchers,
+    errorParser: ErrorParser,
+    logger: Logger,
+    preferences: Preferences,
+    savedStateHandle: SavedStateHandle,
+    application: Application,
+) : BaseViewModel(
+    coroutineDispatchers,
+    errorParser,
+    logger,
+    preferences,
+    savedStateHandle,
+    application,
+) {
 
-    private val _videos = MutableLiveData<List<YoutubePlaylistItemEntity>>()
-    val videos: LiveData<List<YoutubePlaylistItemEntity>>
+    private val _videos = MutableLiveData<ViewModelResult<List<YoutubePlaylistItemEntity>>>()
+    val videos: LiveData<ViewModelResult<List<YoutubePlaylistItemEntity>>>
         get() = _videos
-
-    private val _isGettingData = MutableLiveData<Boolean>()
-    val isGettingData: LiveData<Boolean> = _isGettingData
 
     init {
         getCachedVideos()
     }
 
     fun refreshContent() {
-        _isGettingData.value = true
-        viewModelScope.launch {
-            val result = repository.refreshYoutubePlaylist(
-                Constants.YOUTUBE_DEVELOPER_KEY,
-                Constants.YOUTUBE_PREDICAS_PLAYLIST_CODE
-            )
-            getCachedVideos()
-            _isGettingData.value = false
+        liveDataResult(_videos) {
+            youtubeRepository.refreshYoutubePlaylist(Constants.YOUTUBE_PREDICAS_PLAYLIST_CODE)
         }
     }
 
-    /**
-     * Sermon items
-     */
     private fun getCachedVideos() {
-        _isGettingData.value = true
-        viewModelScope.launch {
-            try {
-                val sermons = async(Dispatchers.IO) {
-                    repository.getCachedYoutubePlaylist()
-                }
-
-                _videos.value = sermons.await()
-                _isGettingData.value = false
-
-            } catch (ex: HttpException) {
-                _isGettingData.value = false
-                ex.printStackTrace()
-            }
+        liveDataResult(
+            liveData = _videos,
+            dispatcher = coroutineDispatchers.io
+        ) {
+            youtubeRepository.getCachedYoutubePlaylist()
         }
     }
 }

@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alientodevida.alientoapp.app.R
+import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentVideoBinding
 import com.alientodevida.alientoapp.app.utils.Constants
 import com.alientodevida.alientoapp.app.utils.Utils
@@ -17,44 +18,36 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class VideoFragment : Fragment() {
+class VideoFragment : BaseFragment<FragmentVideoBinding>(R.layout.fragment_video) {
 
     private val viewModel by viewModels<VideoViewModel>()
 
     private lateinit var mAdapter: VideoRecyclerViewAdapter
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val binding = FragmentVideoBinding.inflate(layoutInflater)
-
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setupUI(binding)
         observeViewModel(binding)
-
-        return binding.root
     }
 
     private fun observeViewModel(binding: FragmentVideoBinding) {
-        viewModel.videos.observe(viewLifecycleOwner) { items ->
-            if (items.count() == 0) {
-                viewModel.refreshContent()
+        viewModel.videos.observe(viewLifecycleOwner) { result ->
+            viewModelResult(
+                result,
+                binding.progressBar
+            ) { items ->
+                binding.swiperefresh.isRefreshing = false
+
+                if (items.count() == 0) {
+                    viewModel.refreshContent()
+                }
+
+                mAdapter.videos = items.filter { it.thumbnilsUrl != null }
+                mAdapter.notifyDataSetChanged()
             }
-
-            mAdapter.videos = items.filter { it.thumbnilsUrl != null }
-            mAdapter.notifyDataSetChanged()
-            binding.swiperefresh.isRefreshing = false
         }
-
-        viewModel.isGettingData.observe(viewLifecycleOwner) { isGettingData ->
-            if (isGettingData.not()) binding.swiperefresh.isRefreshing = false
-        }
-
     }
 
 

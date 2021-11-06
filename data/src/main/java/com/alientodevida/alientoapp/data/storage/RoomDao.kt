@@ -22,7 +22,7 @@ interface RoomDao {
     fun insertAllYoutubePlaylistitems(items: List<YoutubePlaylistItemEntity>)
 
     @Query("select * from podcastentity")
-    fun getPodcasts(): LiveData<List<PodcastEntity>>
+    fun getPodcasts(): List<PodcastEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllPodcasts(items: List<PodcastEntity>)

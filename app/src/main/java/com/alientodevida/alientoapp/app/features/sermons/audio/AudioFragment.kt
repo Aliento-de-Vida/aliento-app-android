@@ -33,7 +33,7 @@ class AudioFragment : BaseFragment<FragmentAudioBinding>(R.layout.fragment_audio
         with(binding) {
             setupRecyclerView(myRecyclerView)
 
-            swiperefresh.setOnRefreshListener { this@AudioFragment.viewModel.refreshContent(false) }
+            swiperefresh.setOnRefreshListener { this@AudioFragment.viewModel.refreshContent() }
 
             spotifyFragmentAudios.setOnClickListener {
                 Utils.openSpotifyArtistPage(requireContext(), Constants.SPOTIFY_ARTIST_ID)
@@ -43,19 +43,15 @@ class AudioFragment : BaseFragment<FragmentAudioBinding>(R.layout.fragment_audio
 
     private fun observeViewModel(binding: FragmentAudioBinding) {
         viewModel.podcasts.observe(viewLifecycleOwner) {
-            if (it.count() == 0) {
-                viewModel.refreshContent(false)
+            viewModelResult(it, binding.progressBar) {
+                binding.swiperefresh.isRefreshing = false
+
+                if (it.count() == 0) viewModel.refreshContent()
+
+                mAdapter.audios = ArrayList(it)
+                mAdapter.notifyDataSetChanged()
             }
-
-            mAdapter.audios = ArrayList(it)
-            mAdapter.notifyDataSetChanged()
-            binding.swiperefresh.isRefreshing = false
         }
-
-        viewModel.isGettingData.observe(viewLifecycleOwner) { isGettingData ->
-            if (isGettingData.not()) binding.swiperefresh.isRefreshing = false
-        }
-
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {

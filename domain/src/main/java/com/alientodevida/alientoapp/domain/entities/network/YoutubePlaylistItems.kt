@@ -31,29 +31,29 @@ data class ResourceId(
 @Serializable
 data class Thumbnails(
     val default: Default? = null,
-    val medium: Medium,
-    var high: High,
+    val medium: Medium? = null,
+    var high: High? = null,
 )
 
 @Serializable
 data class Default(
     val url: String,
-    val width: String,
-    val height: String,
+    val width: Int,
+    val height: Int,
 )
 
 @Serializable
 data class Medium(
     val url: String,
-    val width: String,
-    val height: String,
+    val width: Int,
+    val height: Int,
 )
 
 @Serializable
 data class High(
     val url: String,
-    val width: String,
-    val height: String,
+    val width: Int,
+    val height: Int,
 )
 
 
@@ -67,7 +67,7 @@ fun YoutubePlaylistItems.asDomainModel(): List<YoutubePlaylistItemEntity> {
             it.snippet.resourceId.videoId,
             it.snippet.description,
             it.snippet.publishedAt,
-            it.snippet.thumbnails.high.url
+            it.snippet.thumbnails.high?.url
         )
     }
 }

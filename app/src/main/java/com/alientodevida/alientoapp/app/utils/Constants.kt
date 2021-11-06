@@ -2,6 +2,19 @@ package com.alientodevida.alientoapp.app.utils
 
 object Constants {
 
+    const val BASE_URL = "https://todoserver-peter.herokuapp.com"
+    const val BASE_IMAGES_URL = "$BASE_URL/v1/files"
+
+    const val SERMONS_IMAGE = "$BASE_IMAGES_URL/predicas.jpeg"
+
+    const val CHURCH_IMAGE = "$BASE_IMAGES_URL/aliento_de_vida.jpeg"
+    const val SOCIAL_WORK_IMAGE = "$BASE_IMAGES_URL/manos_extendidas.jpg"
+    const val COURSES_IMAGE = "$BASE_IMAGES_URL/cursos.png"
+
+    const val DONATIONS_IMAGE = "$BASE_IMAGES_URL/donaciones.png"
+    const val PRAYER_IMAGE = "$BASE_IMAGES_URL/oraciones.png"
+    const val EBOOK_IMAGE = "$BASE_IMAGES_URL/ebook.png"
+
     // Web page
     val webPageUrl = "https://alientodevida.mx/inicio"
     val ebookDownloadUrl =
@@ -22,16 +35,10 @@ object Constants {
     val FACEBOOK_PAGE_ID = "323027047774785"
     val FACEBOOK_URL = "https://www.facebook.com/AlientoDeVidaMerida/"
 
-    // Spotify
-    const val SPOTIFY_TOKEN =
-        "Basic ZTBlNDMyMWYxNTI4NGU5YzkwNzRmMDFjNjAwOTdkOGY6YTQyNjk2MzViYzMyNDkxNjlkNjRhZWYzZTgwNGM1NGM="
-    const val SPOTIFY_GRANT_TYPE = "client_credentials"
-
     const val SPOTIFY_ARTIST_ID = "4VYxusCiKsWxcfUveymGU5"
     const val PODCAST_ID = "6ib0Zcjx4PwHcn9S15EuAY"
 
     // Youtube
-    const val YOUTUBE_DEVELOPER_KEY = "AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0"
 
     const val US_VIDEO = "uBdoDNUF2_I"
     const val YOUTUBE_PREDICAS_PLAYLIST_CODE = "PLOPR9NDgPuLM8fP0Q_xvhaJ71IErDy21Y"
