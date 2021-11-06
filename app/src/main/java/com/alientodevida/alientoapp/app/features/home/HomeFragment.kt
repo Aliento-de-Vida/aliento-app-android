@@ -22,7 +22,7 @@ import com.synnapps.carouselview.ViewListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val viewModel by viewModels<HomeViewModel>()
 
@@ -36,15 +36,13 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun setupUI() {
-        with(binding) {
-            toolbarView.icSettings.setOnClickListener { goToSettings() }
+        binding.toolbarView.icSettings.setOnClickListener { goToSettings() }
 
-            swiperefresh.setOnRefreshListener { this@HomeFragment.viewModel.getSermonItems() }
+        binding.swiperefresh.setOnRefreshListener { this@HomeFragment.viewModel.getSermonItems() }
 
-            setupCarousel()
-            setupQuickAccess()
-            setupSocialMedia()
-        }
+        setupCarousel()
+        setupQuickAccess()
+        setupSocialMedia()
     }
 
     private fun setupObservers() {
@@ -81,7 +79,8 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }
                 is YoutubeItem -> {
                     (customView.findViewById(R.id.play_icon) as ImageView).visibility = View.VISIBLE
-                    (customView.findViewById(R.id.triangle) as FrameLayout).visibility = View.VISIBLE
+                    (customView.findViewById(R.id.triangle) as FrameLayout).visibility =
+                        View.VISIBLE
                     (customView.findViewById(R.id.title) as TextView).visibility = View.GONE
                     customView.setOnClickListener { _ ->
                         Utils.handleOnClick(
