@@ -4,8 +4,6 @@ import com.alientodevida.alientoapp.domain.entities.network.Podcast
 import com.alientodevida.alientoapp.domain.entities.network.Token
 import retrofit2.http.*
 
-const val BASE_URL_SPOTIFY_API = "https://api.spotify.com/"
-
 interface SpotifyApi {
 
     @GET("/v1/shows/{podcast_id}/episodes/?market=MX")

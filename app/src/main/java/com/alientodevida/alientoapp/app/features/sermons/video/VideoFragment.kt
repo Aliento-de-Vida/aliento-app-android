@@ -58,7 +58,7 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>(R.layout.fragment_video
             setupRecyclerView(myRecyclerView)
 
             youtubeFragmentVideos.setOnClickListener {
-                Utils.openYoutubeChannel(requireContext(), Constants.YOUTUBE_CHANNEL_URL)
+                openYoutubeChannel(Constants.YOUTUBE_CHANNEL_URL)
             }
         }
     }

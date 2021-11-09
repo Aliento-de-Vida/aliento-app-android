@@ -36,7 +36,7 @@ class AudioFragment : BaseFragment<FragmentAudioBinding>(R.layout.fragment_audio
             swiperefresh.setOnRefreshListener { this@AudioFragment.viewModel.refreshContent() }
 
             spotifyFragmentAudios.setOnClickListener {
-                Utils.openSpotifyArtistPage(requireContext(), Constants.SPOTIFY_ARTIST_ID)
+                openSpotifyArtistPage(Constants.SPOTIFY_ARTIST_ID)
             }
         }
     }
@@ -69,6 +69,6 @@ class AudioFragment : BaseFragment<FragmentAudioBinding>(R.layout.fragment_audio
     }
 
     private fun handleOnClick(audio: PodcastEntity) {
-        Utils.openSpotifyWith(requireContext(), Uri.parse(audio.uri))
+        openSpotifyWith(Uri.parse(audio.uri))
     }
 }

@@ -46,7 +46,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun setupObservers() {
-
         viewModel.sermonsItems.observe(viewLifecycleOwner) { result ->
             viewModelResult(
                 result = result,
@@ -133,20 +132,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun setupSocialMedia() {
         with(binding) {
-            instagram.setOnClickListener { Utils.openInstagramPage(requireContext()) }
-            youtube.setOnClickListener {
-                Utils.openYoutubeChannel(
-                    requireContext(),
-                    Constants.YOUTUBE_CHANNEL_URL
-                )
+            instagram.setOnClickListener {
+                (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
+                    openInstagramPage(it.socialMedia.instagramUrl)
+                }
             }
-            facebook.setOnClickListener { Utils.openFacebookPage(requireContext()) }
-            twitter.setOnClickListener { Utils.openTwitterPage(requireContext()) }
+            youtube.setOnClickListener {
+                (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
+                    openYoutubeChannel(it.socialMedia.youtubeChannelUrl)
+                }
+            }
+            facebook.setOnClickListener {
+                (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
+                    openFacebookPage(it.socialMedia.facebookPageId)
+                }
+            }
+            twitter.setOnClickListener {
+                (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
+                    openTwitterPage(it.socialMedia.twitterUserId, it.socialMedia.twitterUrl)
+                }
+            }
             spotify.setOnClickListener {
-                Utils.openSpotifyArtistPage(
-                    requireContext(),
-                    Constants.SPOTIFY_ARTIST_ID
-                )
+                (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
+                    openSpotifyArtistPage(it.socialMedia.spotifyArtistId)
+                }
             }
         }
     }
