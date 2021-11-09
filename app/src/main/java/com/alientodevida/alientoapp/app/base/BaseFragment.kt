@@ -1,6 +1,10 @@
 package com.alientodevida.alientoapp.app.base
 
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +19,7 @@ import androidx.fragment.app.Fragment
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.state.ViewModelResult
+import com.alientodevida.alientoapp.app.utils.Constants
 
 abstract class BaseFragment<VDB : ViewDataBinding>(
     @LayoutRes protected val layoutId: Int,
@@ -94,5 +99,107 @@ abstract class BaseFragment<VDB : ViewDataBinding>(
             },
             Toast.LENGTH_LONG
         ).show()
+    }
+
+    fun openInstagramPage(instagramUrl: String) {
+        val uri = Uri.parse(instagramUrl)
+        val likeIng = Intent(Intent.ACTION_VIEW, uri)
+
+        likeIng.setPackage("com.instagram.android")
+
+        try {
+            requireContext().startActivity(likeIng)
+        } catch (e: ActivityNotFoundException) {
+            requireContext().startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(Constants.INSTAGRAM_URL)
+                )
+            )
+        }
+    }
+
+    fun openYoutubeChannel(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        requireContext().startActivity(intent)
+    }
+
+    fun openFacebookPage(pageId: String) {
+        val facebookIntent = Intent(Intent.ACTION_VIEW)
+        val facebookUrl: String = getFacebookPageURL(pageId)
+        facebookIntent.data = Uri.parse(facebookUrl)
+        requireContext().startActivity(facebookIntent)
+    }
+
+    private fun getFacebookPageURL(pageId: String): String {
+        val packageManager = requireContext().packageManager
+        return try {
+            val versionCode =
+                packageManager.getPackageInfo("com.facebook.katana", 0).versionCode
+            if (versionCode >= 3002850) { //newer versions of fb app
+                "fb://page/$pageId"
+            } else { //older versions of fb app
+                "fb://page/$pageId"
+            }
+        } catch (e: PackageManager.NameNotFoundException) {
+            Constants.FACEBOOK_URL
+        }
+    }
+
+    fun openTwitterPage(twitterUserId: String, twitterUrl: String) {
+        var intent: Intent
+        try {
+            requireContext().packageManager.getPackageInfo("com.twitter.android", 0)
+            intent = Intent(Intent.ACTION_VIEW, Uri.parse(twitterUserId))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        } catch (e: Exception) {
+            intent = Intent(Intent.ACTION_VIEW, Uri.parse(twitterUrl))
+        }
+        requireContext().startActivity(intent)
+    }
+
+    fun openSpotifyArtistPage(artistId: String) {
+        openSpotifyWith(Uri.parse("spotify:artist:$artistId"))
+    }
+
+    fun openSpotifyWith(uri: Uri) {
+        if (appInstalledOrNot("com.spotify.music")) {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = uri
+            intent.putExtra(
+                Intent.EXTRA_REFERRER,
+                Uri.parse("android-app://${requireContext().packageName}")
+            )
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            requireContext().startActivity(intent)
+
+        } else {
+            try {
+                requireContext().startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=com.spotify.music")
+                    )
+                )
+            } catch (ex: ActivityNotFoundException) {
+                requireContext().startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/store/apps/details?id=com.spotify.music")
+                    )
+                )
+            }
+        }
+    }
+
+    private fun appInstalledOrNot(uri: String): Boolean {
+        val pm = requireContext().packageManager
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
+            return true
+        } catch (e: PackageManager.NameNotFoundException) {
+        }
+        return false
     }
 }

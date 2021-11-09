@@ -13,6 +13,8 @@ import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItem
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
 import com.alientodevida.alientoapp.domain.entities.local.YoutubeItem
+import com.alientodevida.alientoapp.domain.home.Home
+import com.alientodevida.alientoapp.domain.home.HomeRepository
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.alientodevida.alientoapp.domain.youtube.YoutubeRepository
@@ -22,6 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val youtubeRepository: YoutubeRepository,
+    private val homeRepository: HomeRepository,
     coroutineDispatchers: CoroutineDispatchers,
     errorParser: ErrorParser,
     logger: Logger,
@@ -59,11 +62,22 @@ class HomeViewModel @Inject constructor(
     val sermonsItems: LiveData<ViewModelResult<List<CarouselItem>>>
         get() = _sermonsItems
 
+    private val _home = MutableLiveData<ViewModelResult<Home>>()
+    val home: LiveData<ViewModelResult<Home>>
+        get() = _home
+
     init {
         _sermonsItems.value = ViewModelResult.Success(
             listOf(CategoryItem("Prédicas", Constants.SERMONS_IMAGE, CategoryItemType.SERMONS))
         )
         getSermonItems()
+        getHome()
+    }
+
+    private fun getHome() {
+        liveDataResult(_home) {
+            homeRepository.getHome()
+        }
     }
 
     fun getSermonItems() {

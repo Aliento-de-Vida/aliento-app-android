@@ -48,10 +48,12 @@ object SpotifyModule {
         json: Json,
     ): SpotifyApi = Retrofit.Builder()
         .client(okHttpClient)
-        .baseUrl("https://accounts.spotify.com")
+        .baseUrl(BASE_URL_SPOTIFY_API)
         .addConverterFactory(json.asConverterFactory(DataModule.contentType))
         .build()
         .create(SpotifyApi::class.java)
+
+    const val BASE_URL_SPOTIFY_API = "https://api.spotify.com/"
 
     @Singleton
     @Provides
