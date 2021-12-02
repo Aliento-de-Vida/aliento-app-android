@@ -3,9 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.alientodevida.alientoapp.app.features.sermons.audio.AudioViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

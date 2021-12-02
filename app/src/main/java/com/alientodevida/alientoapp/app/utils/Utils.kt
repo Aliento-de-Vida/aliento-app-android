@@ -1,14 +1,15 @@
 package com.alientodevida.alientoapp.app.utils
 
 import android.app.Activity
-import android.content.*
-import android.content.pm.PackageManager
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.alientodevida.alientoapp.app.BuildConfig
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.data.youtube.YoutubeRepositoryImpl.Companion.YOUTUBE_DEVELOPER_KEY
 import com.google.android.youtube.player.YouTubeStandalonePlayer
 import java.text.SimpleDateFormat
 import java.util.*

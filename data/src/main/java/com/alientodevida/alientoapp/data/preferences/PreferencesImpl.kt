@@ -7,6 +7,7 @@ import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alientodevida.alientoapp.domain.entities.network.Token
+import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -17,6 +18,7 @@ class PreferencesImpl(
 ) : Preferences {
     companion object {
         const val JWT_TOKEN_KEY = "jwt-token"
+        const val HOME_KEY = "home"
         private const val NIGHT_MODE_KEY = "night_mode"
         private const val NIGHT_MODE_DEF_VAL = AppCompatDelegate.MODE_NIGHT_NO
     }
@@ -77,6 +79,11 @@ class PreferencesImpl(
         get() = get(JWT_TOKEN_KEY, preferences)
         set(value) = value?.let { save(it, JWT_TOKEN_KEY) }
             ?: run { clear(JWT_TOKEN_KEY) }
+
+    override var home: Home?
+        get() = get(HOME_KEY, preferences)
+        set(value) = value?.let { save(it, HOME_KEY) }
+            ?: run { clear(HOME_KEY) }
 
     override suspend fun clear() {
         clear(JWT_TOKEN_KEY)

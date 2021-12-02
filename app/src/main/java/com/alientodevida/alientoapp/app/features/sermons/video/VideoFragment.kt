@@ -1,18 +1,15 @@
 package com.alientodevida.alientoapp.app.features.sermons.video
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentVideoBinding
-import com.alientodevida.alientoapp.app.utils.Constants
 import com.alientodevida.alientoapp.app.utils.Utils
+import com.alientodevida.alientoapp.app.utils.extensions.openYoutubeChannel
 import com.alientodevida.alientoapp.domain.entities.local.YoutubePlaylistItemEntity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -58,7 +55,9 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>(R.layout.fragment_video
             setupRecyclerView(myRecyclerView)
 
             youtubeFragmentVideos.setOnClickListener {
-                openYoutubeChannel(Constants.YOUTUBE_CHANNEL_URL)
+                viewModel.home?.socialMedia?.youtubeChannelUrl?.let {
+                    requireActivity().openYoutubeChannel(it)
+                }
             }
         }
     }

@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentAudioBinding
-import com.alientodevida.alientoapp.app.utils.Constants
-import com.alientodevida.alientoapp.app.utils.Utils
+import com.alientodevida.alientoapp.app.utils.extensions.openSpotifyArtistPage
+import com.alientodevida.alientoapp.app.utils.extensions.openSpotifyWith
 import com.alientodevida.alientoapp.domain.entities.local.PodcastEntity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,7 +36,9 @@ class AudioFragment : BaseFragment<FragmentAudioBinding>(R.layout.fragment_audio
             swiperefresh.setOnRefreshListener { this@AudioFragment.viewModel.refreshContent() }
 
             spotifyFragmentAudios.setOnClickListener {
-                openSpotifyArtistPage(Constants.SPOTIFY_ARTIST_ID)
+                viewModel.home?.socialMedia?.spotifyArtistId?.let {
+                    requireActivity().openSpotifyArtistPage(it)
+                }
             }
         }
     }
@@ -69,6 +71,6 @@ class AudioFragment : BaseFragment<FragmentAudioBinding>(R.layout.fragment_audio
     }
 
     private fun handleOnClick(audio: PodcastEntity) {
-        openSpotifyWith(Uri.parse(audio.uri))
+        requireActivity().openSpotifyWith(Uri.parse(audio.uri))
     }
 }

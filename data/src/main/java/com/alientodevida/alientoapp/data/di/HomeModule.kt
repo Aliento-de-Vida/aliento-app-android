@@ -2,13 +2,7 @@ package com.alientodevida.alientoapp.data.di
 
 import com.alientodevida.alientoapp.data.home.HomeApi
 import com.alientodevida.alientoapp.data.home.HomeRepositoryImpl
-import com.alientodevida.alientoapp.data.spotify.SpotifyAuthenticator
-import com.alientodevida.alientoapp.data.spotify.SpotifyAuthenticatorInterceptor
-import com.alientodevida.alientoapp.data.storage.RoomDao
-import com.alientodevida.alientoapp.data.youtube.YoutubeApi
-import com.alientodevida.alientoapp.data.youtube.YoutubeRepositoryImpl
 import com.alientodevida.alientoapp.domain.home.HomeRepository
-import com.alientodevida.alientoapp.domain.youtube.YoutubeRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -16,9 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
