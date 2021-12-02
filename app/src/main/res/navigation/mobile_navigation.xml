@@ -45,6 +45,9 @@
             app:popEnterAnim="@anim/wait_anim"
             app:popExitAnim="@anim/slide_right"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_fragment_home_to_campusFragment"
+            app:destination="@id/fragment_campus" />
     </fragment>
 
     <fragment
@@ -77,5 +80,10 @@
         android:name="com.alientodevida.alientoapp.app.features.settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings"/>
+    <fragment
+        android:id="@+id/fragment_campus"
+        android:name="com.alientodevida.alientoapp.app.features.campus.CampusFragment"
+        android:label="CampusFragment"
+        tools:layout="@layout/fragment_campus"/>
 
 </navigation>

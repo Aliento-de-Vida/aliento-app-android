@@ -6,5 +6,4 @@ class HomeRepositoryImpl (
     private val homeApi: HomeApi,
 ) : HomeRepository {
     override suspend fun getHome() = homeApi.getHome()
-
 }
