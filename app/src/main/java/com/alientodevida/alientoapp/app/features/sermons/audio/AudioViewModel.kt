@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.ViewModelResult
-import com.alientodevida.alientoapp.app.utils.Constants
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.entities.local.PodcastEntity
@@ -32,6 +31,8 @@ class AudioViewModel @Inject constructor(
     savedStateHandle,
     application,
 ) {
+    val home = preferences.home
+
     private val _podcasts = MutableLiveData<ViewModelResult<List<PodcastEntity>>>()
     val podcasts = _podcasts
 
@@ -49,8 +50,10 @@ class AudioViewModel @Inject constructor(
     }
 
     fun refreshContent() {
-        liveDataResult(_podcasts) {
-            spotifyRepository.refreshPodcasts(Constants.PODCAST_ID)
+        preferences.home?.spotifyPlaylistId?.let {
+            liveDataResult(_podcasts) {
+                spotifyRepository.refreshPodcasts(it)
+            }
         }
     }
 }

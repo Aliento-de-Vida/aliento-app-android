@@ -2,6 +2,7 @@ package com.alientodevida.alientoapp.domain.preferences
 
 import androidx.lifecycle.LiveData
 import com.alientodevida.alientoapp.domain.entities.network.Token
+import com.alientodevida.alientoapp.domain.home.Home
 
 interface Preferences {
 	companion object {
@@ -18,6 +19,8 @@ interface Preferences {
 
 	var pushToken: String
 	var spotifyJwtToken: Token?
+
+	var home: Home?
 
 	suspend fun clear()
 }

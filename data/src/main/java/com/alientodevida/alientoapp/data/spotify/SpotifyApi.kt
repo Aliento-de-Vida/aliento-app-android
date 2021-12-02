@@ -1,8 +1,8 @@
 package com.alientodevida.alientoapp.data.spotify
 
 import com.alientodevida.alientoapp.domain.entities.network.Podcast
-import com.alientodevida.alientoapp.domain.entities.network.Token
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface SpotifyApi {
 

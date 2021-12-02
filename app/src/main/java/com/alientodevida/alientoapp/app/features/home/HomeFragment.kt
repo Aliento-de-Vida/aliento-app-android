@@ -14,7 +14,7 @@ import com.alientodevida.alientoapp.app.databinding.FragmentHomeBinding
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.Constants
 import com.alientodevida.alientoapp.app.utils.Utils
-import com.alientodevida.alientoapp.app.utils.extensions.load
+import com.alientodevida.alientoapp.app.utils.extensions.*
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItem
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
 import com.alientodevida.alientoapp.domain.entities.local.YoutubeItem
@@ -38,7 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun setupUI() {
         binding.toolbarView.icSettings.setOnClickListener { goToSettings() }
 
-        binding.swiperefresh.setOnRefreshListener { this@HomeFragment.viewModel.getSermonItems() }
+        binding.swiperefresh.setOnRefreshListener { this@HomeFragment.viewModel.getHome() }
 
         setupCarousel()
         setupQuickAccess()
@@ -125,7 +125,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             //            webPage.setOnClickListener { Utils.goToUrl(requireContext(), Constants.webPageUrl) }
             //            ivDonations.load("https://todoserver-peter.herokuapp.com/v1/files/donaciones.png")
 
-            ebook.setOnClickListener { Utils.goToUrl(requireContext(), Constants.ebookDownloadUrl) }
+            ebook.setOnClickListener {
+                (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
+                    Utils.goToUrl(requireContext(), it.ebook)
+                }
+            }
             ivEbook.load(Constants.EBOOK_IMAGE)
         }
     }
@@ -134,27 +138,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         with(binding) {
             instagram.setOnClickListener {
                 (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
-                    openInstagramPage(it.socialMedia.instagramUrl)
+                    requireActivity().openInstagramPage(it.socialMedia.instagramUrl)
                 }
             }
             youtube.setOnClickListener {
                 (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
-                    openYoutubeChannel(it.socialMedia.youtubeChannelUrl)
+                    requireActivity().openYoutubeChannel(it.socialMedia.youtubeChannelUrl)
                 }
             }
             facebook.setOnClickListener {
                 (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
-                    openFacebookPage(it.socialMedia.facebookPageId)
+                    requireActivity().openFacebookPage(it.socialMedia.facebookPageId, it.socialMedia.facebookPageUrl)
                 }
             }
             twitter.setOnClickListener {
                 (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
-                    openTwitterPage(it.socialMedia.twitterUserId, it.socialMedia.twitterUrl)
+                    requireActivity().openTwitterPage(it.socialMedia.twitterUserId, it.socialMedia.twitterUrl)
                 }
             }
             spotify.setOnClickListener {
                 (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
-                    openSpotifyArtistPage(it.socialMedia.spotifyArtistId)
+                    requireActivity().openSpotifyArtistPage(it.socialMedia.spotifyArtistId)
                 }
             }
         }

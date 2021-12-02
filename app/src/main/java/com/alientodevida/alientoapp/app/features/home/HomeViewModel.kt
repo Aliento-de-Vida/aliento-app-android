@@ -1,7 +1,6 @@
 package com.alientodevida.alientoapp.app.features.home
 
 import android.app.Application
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.base.BaseViewModel
@@ -59,31 +58,31 @@ class HomeViewModel @Inject constructor(
     )
 
     private val _sermonsItems = MutableLiveData<ViewModelResult<List<CarouselItem>>>()
-    val sermonsItems: LiveData<ViewModelResult<List<CarouselItem>>>
-        get() = _sermonsItems
+    val sermonsItems = _sermonsItems
 
     private val _home = MutableLiveData<ViewModelResult<Home>>()
-    val home: LiveData<ViewModelResult<Home>>
-        get() = _home
+    val home = _home
 
     init {
         _sermonsItems.value = ViewModelResult.Success(
             listOf(CategoryItem("Prédicas", Constants.SERMONS_IMAGE, CategoryItemType.SERMONS))
         )
-        getSermonItems()
         getHome()
     }
 
-    private fun getHome() {
+    fun getHome() {
         liveDataResult(_home) {
-            homeRepository.getHome()
+            val home = homeRepository.getHome()
+            preferences.home = home
+            getSermonItems(home.youtubePlaylistId)
+            home
         }
     }
 
-    fun getSermonItems() {
+    private fun getSermonItems(playlistId: String) {
         liveDataResult(_sermonsItems) {
             val sermons =
-                youtubeRepository.refreshYoutubePlaylist(Constants.YOUTUBE_PREDICAS_PLAYLIST_CODE)
+                youtubeRepository.refreshYoutubePlaylist(playlistId)
 
             val carouselItems = arrayListOf<CarouselItem>()
             carouselItems += CategoryItem("", Constants.SERMONS_IMAGE, CategoryItemType.SERMONS)

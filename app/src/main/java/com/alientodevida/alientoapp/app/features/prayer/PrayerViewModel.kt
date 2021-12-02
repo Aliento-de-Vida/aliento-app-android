@@ -28,6 +28,7 @@ class PrayerViewModel @Inject constructor(
     savedStateHandle,
     application,
 ) {
+    val home = preferences.home
 
     private val _isDataValid = MutableLiveData<Boolean>()
     val isDataValid: LiveData<Boolean>

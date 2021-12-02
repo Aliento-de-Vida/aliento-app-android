@@ -7,6 +7,7 @@ data class Home(
     val ebook: String,
     val youtubePlaylistId: String,
     val spotifyPlaylistId: String,
+    val prayerEmail: String,
     val socialMedia: SocialMedia,
 )
 
@@ -15,6 +16,7 @@ data class SocialMedia(
     val instagramUrl: String,
     val youtubeChannelUrl: String,
     val facebookPageId: String,
+    val facebookPageUrl: String,
     val twitterUserId: String,
     val twitterUrl: String,
     val spotifyArtistId: String,

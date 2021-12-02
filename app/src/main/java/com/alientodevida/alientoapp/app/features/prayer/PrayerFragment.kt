@@ -1,10 +1,7 @@
 package com.alientodevida.alientoapp.app.features.prayer
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,8 +12,8 @@ import androidx.fragment.app.viewModels
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentPrayerBinding
-import com.alientodevida.alientoapp.app.utils.Constants
 import com.alientodevida.alientoapp.app.utils.Utils
+import com.alientodevida.alientoapp.app.utils.extensions.sendEmail
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -152,22 +149,8 @@ class PrayerFragment : BaseFragment<FragmentPrayerBinding>(R.layout.fragment_pra
     }
 
     private fun sendEmail(subject: String, message: String) {
-        val emailIntent = Intent(Intent.ACTION_SEND)
-
-        emailIntent.data = Uri.parse("mailto:")
-        emailIntent.type = "text/plain"
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(Constants.PRAYER_EMAIL))
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
-        emailIntent.putExtra(Intent.EXTRA_TEXT, message)
-
-        try {
-            startActivity(Intent.createChooser(emailIntent, "Send mail..."))
-        } catch (ex: ActivityNotFoundException) {
-            Utils.showDialog(
-                requireContext(),
-                "Lo sentimos",
-                "Ha habido un error, por favor intente más tarde"
-            )
+        viewModel.home?.prayerEmail?.let {
+            requireActivity().sendEmail(it, subject, message)
         }
     }
 }
