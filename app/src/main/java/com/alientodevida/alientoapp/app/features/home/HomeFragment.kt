@@ -99,7 +99,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         carouselRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
             when ((item as CategoryItem).type) {
                 CategoryItemType.CHURCH -> goToChurch()
-                CategoryItemType.SOCIAL_WORK -> Utils.showComingSoon(requireContext())
+                CategoryItemType.SOCIAL_WORK -> goToCampus()
                 CategoryItemType.COURSES -> Utils.showComingSoon(requireContext())
                 CategoryItemType.SERMONS -> goToSermons()
             }
@@ -164,6 +164,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
     }
 
+    private fun goToCampus() {
+        val action = HomeFragmentDirections.actionFragmentHomeToCampusFragment()
+        findNavController().navigate(action)
+    }
 
     private fun goToSettings() {
         val action = HomeFragmentDirections.actionNavigationHomeToSettingsFragment()
