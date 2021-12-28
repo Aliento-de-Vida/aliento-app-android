@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.alientodevida.alientoapp.domain.entities.local.ImageUrlEntity
 import com.alientodevida.alientoapp.domain.entities.local.PodcastEntity
-import com.alientodevida.alientoapp.domain.entities.local.YoutubePlaylistItemEntity
+import com.alientodevida.alientoapp.domain.entities.local.YoutubeVideo
 
 /**
  * MoviesDao to access our get insert methods.
@@ -15,11 +15,11 @@ import com.alientodevida.alientoapp.domain.entities.local.YoutubePlaylistItemEnt
 
 @Dao
 interface RoomDao {
-    @Query("select * from youtubeplaylistitementity")
-    fun getYoutubePlaylistitems(): List<YoutubePlaylistItemEntity>
+    @Query("select * from youtubevideo")
+    fun getYoutubePlaylistitems(): List<YoutubeVideo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllYoutubePlaylistitems(items: List<YoutubePlaylistItemEntity>)
+    fun insertAllYoutubePlaylistitems(items: List<YoutubeVideo>)
 
     @Query("select * from podcastentity")
     fun getPodcasts(): List<PodcastEntity>

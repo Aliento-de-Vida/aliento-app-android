@@ -2,15 +2,18 @@ package com.alientodevida.alientoapp.app.features.sermons.video
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.os.Build
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.domain.entities.local.YoutubePlaylistItemEntity
+import com.alientodevida.alientoapp.domain.entities.local.YoutubeVideo
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -22,7 +25,7 @@ import java.util.*
 
 
 class VideoRecyclerViewAdapter(
-    var videos: List<YoutubePlaylistItemEntity>,
+    var videos: List<YoutubeVideo>,
     private val listener: ItemClickListenerYoutube
 ) : RecyclerView.Adapter<VideoRecyclerViewAdapter.VideoViewHolder>() {
 
@@ -32,7 +35,8 @@ class VideoRecyclerViewAdapter(
         var description: TextView = itemView.findViewById(R.id.tv_descrption)
         var audioPhoto: ImageView = itemView.findViewById(R.id.audio_photo)
         var progressBar: ProgressBar = itemView.findViewById(R.id.progressBar_picture)
-        fun bind(item: YoutubePlaylistItemEntity, listener: ItemClickListenerYoutube) {
+        var authorImage: ImageView = itemView.findViewById(R.id.iv_author)
+        fun bind(item: YoutubeVideo, listener: ItemClickListenerYoutube) {
             itemView.setOnClickListener { listener.onItemClick(item) }
         }
     }
@@ -57,9 +61,19 @@ class VideoRecyclerViewAdapter(
             e.printStackTrace()
         }
 
-        videoViewHolder.audioName.text = videos[i].name
+        videoViewHolder.audioName.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(videos[i].name, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        } else {
+            Html.fromHtml(videos[i].name)
+        }
+
         videoViewHolder.description.text = videos[i].description
         val context: Context = videoViewHolder.audioPhoto.context
+
+        Glide.with(context)
+            .load(R.mipmap.ic_launcher_round)
+            .circleCrop()
+            .into(videoViewHolder.authorImage)
 
         videos[i].thumbnilsUrl?.replace("hqdefault.jpg", "maxresdefault.jpg")?.let {
             Glide.with(context)
@@ -96,6 +110,6 @@ class VideoRecyclerViewAdapter(
     }
 
     interface ItemClickListenerYoutube {
-        fun onItemClick(item: YoutubePlaylistItemEntity)
+        fun onItemClick(item: YoutubeVideo)
     }
 }

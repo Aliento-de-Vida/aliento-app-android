@@ -16,13 +16,13 @@ import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.home.HomeRepository
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
-import com.alientodevida.alientoapp.domain.youtube.YoutubeRepository
+import com.alientodevida.alientoapp.domain.youtube.VideoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val youtubeRepository: YoutubeRepository,
+    private val videoRepository: VideoRepository,
     private val homeRepository: HomeRepository,
     coroutineDispatchers: CoroutineDispatchers,
     errorParser: ErrorParser,
@@ -74,15 +74,15 @@ class HomeViewModel @Inject constructor(
         liveDataResult(_home) {
             val home = homeRepository.getHome()
             preferences.home = home
-            getSermonItems(home.youtubePlaylistId)
+            getSermonItems("UC3C9WqYJUp3SVDr6yrzeZVg")
             home
         }
     }
 
-    private fun getSermonItems(playlistId: String) {
+    private fun getSermonItems(channel: String) {
         liveDataResult(_sermonsItems) {
             val sermons =
-                youtubeRepository.refreshYoutubePlaylist(playlistId)
+                videoRepository.getYoutubeChannelVideos(channel)
 
             val carouselItems = arrayListOf<CarouselItem>()
             carouselItems += CategoryItem("Ver Prédicas", Constants.SERMONS_IMAGE, CategoryItemType.SERMONS)

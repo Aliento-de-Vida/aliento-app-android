@@ -2,7 +2,7 @@ package com.alientodevida.alientoapp.data.spotify
 
 import com.alientodevida.alientoapp.data.storage.RoomDao
 import com.alientodevida.alientoapp.domain.entities.local.PodcastEntity
-import com.alientodevida.alientoapp.domain.entities.network.asDomainModel
+import com.alientodevida.alientoapp.domain.entities.network.asDomain
 import com.alientodevida.alientoapp.domain.spotify.SpotifyRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,7 +15,7 @@ class SpotifyRepositoryImpl (
     override suspend fun refreshPodcasts(podcastId: String):
             List<PodcastEntity> {
         val response = spotifyApi.getPodcast(podcastId)
-        val items = response.asDomainModel()
+        val items = response.asDomain()
         withContext(Dispatchers.IO) { roomDao.insertAllPodcasts(items) }
         return items
     }
