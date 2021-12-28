@@ -29,6 +29,8 @@
 
         <item name="carousel_indicator_background_color">@color/pantone_446_c</item>
         <item name="themed_icon">@drawable/logo_blanco</item>
+
+        <item name="bottomSheetDialogTheme">@style/Theme.Design.BottomSheetDialog</item>
     </style>
 
 

@@ -29,6 +29,8 @@
 
         <item name="carousel_indicator_background_color">@color/pantone_446_c_40</item>
         <item name="themed_icon">@drawable/logo_negro</item>
+
+        <item name="bottomSheetDialogTheme">@style/Theme.Design.Light.BottomSheetDialog</item>
     </style>
     <style name="AppTheme" parent="Theme.AlientoApp" >
         <item name="android:statusBarColor">?android:colorBackground</item>

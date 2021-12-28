@@ -5,6 +5,7 @@ import com.alientodevida.alientoapp.app.databinding.ItemCampusBinding
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffCallback
 import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
 import com.alientodevida.alientoapp.app.utils.Constants
+import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.campus.Campus
 import com.bumptech.glide.Glide
 
@@ -30,7 +31,7 @@ class CampusViewHolder(
 
             item.imageUrl?.let {
                 Glide.with(ivBackground.context)
-                    .load("${Constants.BASE_IMAGES_URL}/${item.imageUrl}")
+                    .load(it.toImageUrl())
                     .centerCrop()
                     .into(ivBackground)
             }

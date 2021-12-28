@@ -1,11 +1,8 @@
 package com.alientodevida.alientoapp.app.features.campus.detail
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.base.BaseViewModel
-import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.campus.Campus
 import com.alientodevida.alientoapp.domain.campus.CampusRepository
@@ -32,15 +29,5 @@ class CampusDetailViewModel @Inject constructor(
     savedStateHandle,
     application,
 ) {
-    private val _campus = MutableLiveData<ViewModelResult<List<Campus>>>()
-    val campus: LiveData<ViewModelResult<List<Campus>>> = _campus
-    init {
-        getCampus()
-    }
-
-    private fun getCampus() {
-        liveDataResult(_campus) {
-            campusRepository.getCampus()
-        }
-    }
+    val campus = savedStateHandle.get<Campus>("campus")!!
 }
