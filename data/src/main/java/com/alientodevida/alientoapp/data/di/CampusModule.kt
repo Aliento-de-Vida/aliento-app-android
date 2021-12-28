@@ -2,10 +2,7 @@ package com.alientodevida.alientoapp.data.di
 
 import com.alientodevida.alientoapp.data.campus.CampusApi
 import com.alientodevida.alientoapp.data.campus.CampusRepositoryImpl
-import com.alientodevida.alientoapp.data.home.HomeApi
-import com.alientodevida.alientoapp.data.home.HomeRepositoryImpl
 import com.alientodevida.alientoapp.domain.campus.CampusRepository
-import com.alientodevida.alientoapp.domain.home.HomeRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

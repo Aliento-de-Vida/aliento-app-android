@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.features.campus
+package com.alientodevida.alientoapp.app.features.campus.detail
 
 import android.app.Application
 import androidx.lifecycle.LiveData
@@ -10,15 +10,13 @@ import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.campus.Campus
 import com.alientodevida.alientoapp.domain.campus.CampusRepository
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
-import com.alientodevida.alientoapp.domain.entities.local.PodcastEntity
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
-import com.alientodevida.alientoapp.domain.spotify.SpotifyRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CampusViewModel @Inject constructor(
+class CampusDetailViewModel @Inject constructor(
     private val campusRepository: CampusRepository,
     coroutineDispatchers: CoroutineDispatchers,
     errorParser: ErrorParser,
