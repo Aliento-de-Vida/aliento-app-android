@@ -1,28 +1,23 @@
-package com.alientodevida.alientoapp.app.features.campus
+package com.alientodevida.alientoapp.app.features.campus.list
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
-import com.alientodevida.alientoapp.app.databinding.FragmentAudioBinding
-import com.alientodevida.alientoapp.app.databinding.FragmentCampusBinding
+import com.alientodevida.alientoapp.app.databinding.FragmentCampusesBinding
 import com.alientodevida.alientoapp.app.databinding.ItemCampusBinding
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffAdapter
 import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
-import com.alientodevida.alientoapp.app.utils.extensions.openSpotifyArtistPage
-import com.alientodevida.alientoapp.app.utils.extensions.openSpotifyWith
 import com.alientodevida.alientoapp.domain.campus.Campus
-import com.alientodevida.alientoapp.domain.entities.local.PodcastEntity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CampusFragment : BaseFragment<FragmentCampusBinding>(R.layout.fragment_campus) {
+class CampusesFragment : BaseFragment<FragmentCampusesBinding>(R.layout.fragment_campuses) {
 
-    private val viewModel by viewModels<CampusViewModel>()
+    private val viewModel by viewModels<CampusesViewModel>()
 
     private val campusAdapter = BaseDiffAdapter(campusDiffCallback)
 
@@ -34,6 +29,8 @@ class CampusFragment : BaseFragment<FragmentCampusBinding>(R.layout.fragment_cam
     }
 
     private fun setupUI() {
+        binding.toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
+
         setupRecyclerView()
     }
 
@@ -46,7 +43,9 @@ class CampusFragment : BaseFragment<FragmentCampusBinding>(R.layout.fragment_cam
     }
 
     private fun setupRecyclerView() {
-        val resourceListener = BaseViewHolder.Listener { resource: Campus, _ -> }
+        val resourceListener = BaseViewHolder.Listener { campus: Campus, _ ->
+            findNavController().navigate(CampusesFragmentDirections.actionFragmentCampusToCampusDetailFragment(campus))
+        }
         campusAdapter.register<Campus, ItemCampusBinding, CampusViewHolder>(
             R.layout.item_campus,
             resourceListener,
@@ -60,7 +59,4 @@ class CampusFragment : BaseFragment<FragmentCampusBinding>(R.layout.fragment_cam
         binding.rvCampus.adapter = campusAdapter
     }
 
-    private fun handleOnClick(audio: PodcastEntity) {
-        requireActivity().openSpotifyWith(Uri.parse(audio.uri))
-    }
 }

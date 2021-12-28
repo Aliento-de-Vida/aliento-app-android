@@ -1,10 +1,11 @@
-package com.alientodevida.alientoapp.app.features.campus
+package com.alientodevida.alientoapp.app.features.campus.list
 
+import com.alientodevida.alientoapp.app.BR
 import com.alientodevida.alientoapp.app.databinding.ItemCampusBinding
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffCallback
 import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
+import com.alientodevida.alientoapp.app.utils.Constants
 import com.alientodevida.alientoapp.domain.campus.Campus
-import com.alientodevida.alientoapp.app.BR
 import com.bumptech.glide.Glide
 
 val campusDiffCallback = object : BaseDiffCallback() {
@@ -27,10 +28,12 @@ class CampusViewHolder(
         with(binding) {
             tvTitle.text = item.name
 
-            Glide.with(ivBackground.context)
-                .load(item.imageUrl)
-                .centerCrop()
-                .into(ivBackground)
+            item.imageUrl?.let {
+                Glide.with(ivBackground.context)
+                    .load("${Constants.BASE_IMAGES_URL}/${item.imageUrl}")
+                    .centerCrop()
+                    .into(ivBackground)
+            }
         }
     }
 

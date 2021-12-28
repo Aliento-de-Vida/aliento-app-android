@@ -1,7 +1,6 @@
 package com.alientodevida.alientoapp.data.campus
 
 import com.alientodevida.alientoapp.domain.campus.Campus
-import com.alientodevida.alientoapp.domain.home.Home
 import retrofit2.http.GET
 
 interface CampusApi {

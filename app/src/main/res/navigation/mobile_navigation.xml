@@ -82,8 +82,21 @@
         tools:layout="@layout/fragment_settings"/>
     <fragment
         android:id="@+id/fragment_campus"
-        android:name="com.alientodevida.alientoapp.app.features.campus.CampusFragment"
+        android:name="com.alientodevida.alientoapp.app.features.campus.list.CampusesFragment"
         android:label="CampusFragment"
-        tools:layout="@layout/fragment_campus"/>
+        tools:layout="@layout/fragment_campuses">
+        <action
+            android:id="@+id/action_fragment_campus_to_campusDetailFragment"
+            app:destination="@id/fragment_campus_detail" />
+    </fragment>
+    <dialog
+        android:id="@+id/fragment_campus_detail"
+        android:name="com.alientodevida.alientoapp.app.features.campus.detail.CampusDetailFragment"
+        android:label="CampusDetailFragment"
+        tools:layout="@layout/fragment_campus_detail">
+        <argument
+            android:name="campus"
+            app:argType="com.alientodevida.alientoapp.domain.campus.Campus" />
+    </dialog>
 
 </navigation>

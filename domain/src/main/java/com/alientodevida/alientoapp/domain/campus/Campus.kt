@@ -1,7 +1,10 @@
 package com.alientodevida.alientoapp.domain.campus
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
+@Parcelize
 @Serializable
 data class Campus(
     val id: Int,
@@ -13,10 +16,11 @@ data class Campus(
     val location: Location,
     val images: List<String>,
     val contact: String,
-)
+): Parcelable
 
+@Parcelize
 @Serializable
 data class Location(
     val latitude: String,
     val longitude: String,
-)
+): Parcelable
