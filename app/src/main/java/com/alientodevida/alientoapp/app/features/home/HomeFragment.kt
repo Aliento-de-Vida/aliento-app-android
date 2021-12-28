@@ -82,10 +82,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                         View.VISIBLE
                     (customView.findViewById(R.id.title) as TextView).visibility = View.GONE
                     customView.setOnClickListener { _ ->
-                        Utils.handleOnClick(
-                            requireActivity(),
-                            it.youtubeId
-                        )
+                        Utils.handleOnClick(requireActivity(), it.youtubeId)
                     }
                 }
             }
@@ -99,7 +96,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         carouselRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
             when ((item as CategoryItem).type) {
                 CategoryItemType.CHURCH -> goToChurch()
-                CategoryItemType.SOCIAL_WORK -> goToCampus()
+                CategoryItemType.CAMPUSES -> goToCampus()
                 CategoryItemType.COURSES -> Utils.showComingSoon(requireContext())
                 CategoryItemType.SERMONS -> goToSermons()
             }
@@ -195,6 +192,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     companion object {
-        private const val MAX_ITEMS_CAROUSEL = 5
+        private const val MAX_ITEMS_CAROUSEL = 3
     }
 }

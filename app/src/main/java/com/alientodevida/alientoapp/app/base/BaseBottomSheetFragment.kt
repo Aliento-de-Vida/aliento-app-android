@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 abstract class BaseBottomSheetFragment<VDB : ViewDataBinding>(
@@ -22,6 +24,18 @@ abstract class BaseBottomSheetFragment<VDB : ViewDataBinding>(
 	): View {
 		binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
 		binding.lifecycleOwner = viewLifecycleOwner
+
+		setOnlyExpanded()
 		return binding.root
 	}
+
+	private fun setOnlyExpanded() {
+		dialog?.setOnShowListener {
+			val bottomSheet: View? =
+				(it as BottomSheetDialog).findViewById(com.google.android.material.R.id.design_bottom_sheet)
+			BottomSheetBehavior.from(bottomSheet!!).state = BottomSheetBehavior.STATE_EXPANDED
+			BottomSheetBehavior.from(bottomSheet).skipCollapsed = true
+		}
+	}
+
 }

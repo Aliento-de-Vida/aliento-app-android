@@ -44,7 +44,7 @@
                 android:maxLines="1"
                 android:text="title"
                 android:textColor="?attr/colorOnPrimarySurface"
-                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                 app:layout_constraintEnd_toEndOf="@+id/audio_length"
                 app:layout_constraintStart_toEndOf="@+id/audio_photo"
                 app:layout_constraintTop_toTopOf="@+id/audio_photo" />
@@ -58,7 +58,7 @@
                 android:paddingTop="4dp"
                 android:paddingRight="8dp"
                 android:text="hola hola"
-                android:textSize="12sp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 android:textColor="?attr/colorOnPrimarySurface"
                 app:layout_constraintBottom_toBottomOf="@+id/audio_author"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -70,6 +70,7 @@
                 android:maxLines="1"
                 android:text="TextView"
                 android:textColor="?attr/colorOnPrimarySurface"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 app:layout_constraintBottom_toBottomOf="@+id/audio_photo"
                 app:layout_constraintEnd_toStartOf="@+id/audio_length"
                 app:layout_constraintStart_toStartOf="@+id/audio_name"

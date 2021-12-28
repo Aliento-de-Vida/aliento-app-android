@@ -46,9 +46,9 @@ class HomeViewModel @Inject constructor(
             CategoryItemType.CHURCH
         ),
         CategoryItem(
-            "Manos Extendidas",
-            Constants.SOCIAL_WORK_IMAGE,
-            CategoryItemType.SOCIAL_WORK
+            "Campus",
+            Constants.CAMPUS_IMAGE,
+            CategoryItemType.CAMPUSES
         ),
         CategoryItem(
             "Cursos",
@@ -65,7 +65,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         _sermonsItems.value = ViewModelResult.Success(
-            listOf(CategoryItem("Prédicas", Constants.SERMONS_IMAGE, CategoryItemType.SERMONS))
+            listOf(CategoryItem("Ver Prédicas", Constants.SERMONS_IMAGE, CategoryItemType.SERMONS))
         )
         getHome()
     }
@@ -85,7 +85,7 @@ class HomeViewModel @Inject constructor(
                 youtubeRepository.refreshYoutubePlaylist(playlistId)
 
             val carouselItems = arrayListOf<CarouselItem>()
-            carouselItems += CategoryItem("", Constants.SERMONS_IMAGE, CategoryItemType.SERMONS)
+            carouselItems += CategoryItem("Ver Prédicas", Constants.SERMONS_IMAGE, CategoryItemType.SERMONS)
             carouselItems += sermons
                 .filter { it.thumbnilsUrl != null }
                 .map {

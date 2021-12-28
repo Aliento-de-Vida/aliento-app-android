@@ -13,13 +13,18 @@ data class CategoryItem(
 
 enum class CategoryItemType {
     CHURCH,
-    SOCIAL_WORK,
+    CAMPUSES,
     COURSES,
-    SERMONS
+    SERMONS,
 }
 
 data class YoutubeItem(
         override val title: String,
         override val imageUrl: String?,
         var youtubeId: String,
+): CarouselItem(title, imageUrl)
+
+data class ImageItem(
+    override val title: String,
+    override val imageUrl: String?,
 ): CarouselItem(title, imageUrl)

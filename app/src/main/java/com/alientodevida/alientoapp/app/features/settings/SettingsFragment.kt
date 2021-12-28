@@ -37,7 +37,6 @@ class SettingsFragment : Fragment() {
             toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
 
             preferences.isDarkThemeLive.observe(viewLifecycleOwner) { isDarkTheme ->
-                theme.text = if (isDarkTheme) "Dark Theme" else "Light Theme"
                 isDarkTheme?.let { themeSwitch.isChecked = it }
             }
 

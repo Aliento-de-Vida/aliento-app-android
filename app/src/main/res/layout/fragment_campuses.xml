@@ -47,8 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/nuestros_campus"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:text="@string/our_campuses"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:textColor="?attr/colorOnBackground"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_view" />
