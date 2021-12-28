@@ -6,9 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.alientodevida.alientoapp.domain.entities.local.ImageUrlEntity
 import com.alientodevida.alientoapp.domain.entities.local.PodcastEntity
-import com.alientodevida.alientoapp.domain.entities.local.YoutubePlaylistItemEntity
+import com.alientodevida.alientoapp.domain.entities.local.YoutubeVideo
 
-@Database(entities = [YoutubePlaylistItemEntity::class, PodcastEntity::class, ImageUrlEntity::class], version = 1)
+@Database(entities = [YoutubeVideo::class, PodcastEntity::class, ImageUrlEntity::class], version = 1)
 abstract class AppDatabase: RoomDatabase() {
     abstract val roomDao: RoomDao
 }

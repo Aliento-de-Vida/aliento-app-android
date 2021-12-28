@@ -8,16 +8,16 @@ import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
-import com.alientodevida.alientoapp.domain.entities.local.YoutubePlaylistItemEntity
+import com.alientodevida.alientoapp.domain.entities.local.YoutubeVideo
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
-import com.alientodevida.alientoapp.domain.youtube.YoutubeRepository
+import com.alientodevida.alientoapp.domain.youtube.VideoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class VideoViewModel @Inject constructor(
-    private val youtubeRepository: YoutubeRepository,
+    private val videoRepository: VideoRepository,
     coroutineDispatchers: CoroutineDispatchers,
     errorParser: ErrorParser,
     logger: Logger,
@@ -34,8 +34,8 @@ class VideoViewModel @Inject constructor(
 ) {
     val home = preferences.home
 
-    private val _videos = MutableLiveData<ViewModelResult<List<YoutubePlaylistItemEntity>>>()
-    val videos: LiveData<ViewModelResult<List<YoutubePlaylistItemEntity>>>
+    private val _videos = MutableLiveData<ViewModelResult<List<YoutubeVideo>>>()
+    val videos: LiveData<ViewModelResult<List<YoutubeVideo>>>
         get() = _videos
 
     init {
@@ -44,7 +44,7 @@ class VideoViewModel @Inject constructor(
 
     fun refreshContent() {
         liveDataResult(_videos) {
-            youtubeRepository.refreshYoutubePlaylist("Constants.YOUTUBE_PREDICAS_PLAYLIST_CODE")
+            videoRepository.getYoutubeChannelVideos("UC3C9WqYJUp3SVDr6yrzeZVg")
         }
     }
 
@@ -53,7 +53,7 @@ class VideoViewModel @Inject constructor(
             liveData = _videos,
             dispatcher = coroutineDispatchers.io
         ) {
-            youtubeRepository.getCachedYoutubePlaylist()
+            videoRepository.getCachedVideos()
         }
     }
 }

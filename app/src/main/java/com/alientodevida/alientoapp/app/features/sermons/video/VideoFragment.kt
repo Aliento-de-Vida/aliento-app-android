@@ -10,7 +10,7 @@ import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentVideoBinding
 import com.alientodevida.alientoapp.app.utils.Utils
 import com.alientodevida.alientoapp.app.utils.extensions.openYoutubeChannel
-import com.alientodevida.alientoapp.domain.entities.local.YoutubePlaylistItemEntity
+import com.alientodevida.alientoapp.domain.entities.local.YoutubeVideo
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -68,7 +68,7 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>(R.layout.fragment_video
         recyclerView.layoutManager = mLayoutManager
         mAdapter = VideoRecyclerViewAdapter(ArrayList(), object :
             VideoRecyclerViewAdapter.ItemClickListenerYoutube {
-            override fun onItemClick(item: YoutubePlaylistItemEntity) {
+            override fun onItemClick(item: YoutubeVideo) {
                 Utils.handleOnClick(requireActivity(), item.id)
             }
         })

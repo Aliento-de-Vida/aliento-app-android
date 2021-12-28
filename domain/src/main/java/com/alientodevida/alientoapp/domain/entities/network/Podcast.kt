@@ -31,7 +31,7 @@ data class AlbumImage(
 /**
  * Convert Network results to domain objects
  */
-fun Podcast.asDomainModel(): List<PodcastEntity> {
+fun Podcast.asDomain(): List<PodcastEntity> {
     return items.map {
         PodcastEntity(
             it.uri,

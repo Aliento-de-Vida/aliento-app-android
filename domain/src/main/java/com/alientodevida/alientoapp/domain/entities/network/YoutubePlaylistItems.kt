@@ -1,17 +1,15 @@
 package com.alientodevida.alientoapp.domain.entities.network
 
-import com.alientodevida.alientoapp.domain.entities.local.YoutubePlaylistItemEntity
+import com.alientodevida.alientoapp.domain.entities.local.YoutubeVideo
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class YoutubePlaylistItems(
-    var items: List<Playlistitem>
+    var items: List<PlaylistItem>
 )
 
 @Serializable
-data class Playlistitem(
-    val snippet: Snippet
-)
+data class PlaylistItem(val snippet: Snippet)
 
 @Serializable
 class Snippet(
@@ -19,7 +17,7 @@ class Snippet(
     val title: String,
     val description: String,
     val thumbnails: Thumbnails,
-    val resourceId: ResourceId
+    val resourceId: ResourceId? = null,
 )
 
 @Serializable
@@ -60,11 +58,11 @@ data class High(
 /**
  * Convert Network results to domain objects
  */
-fun YoutubePlaylistItems.asDomainModel(): List<YoutubePlaylistItemEntity> {
+fun YoutubePlaylistItems.asDomain(): List<YoutubeVideo> {
     return items.map {
-        YoutubePlaylistItemEntity(
+        YoutubeVideo(
             it.snippet.title,
-            it.snippet.resourceId.videoId,
+            it.snippet.resourceId!!.videoId,
             it.snippet.description,
             it.snippet.publishedAt,
             it.snippet.thumbnails.high?.url

@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class YoutubePlaylistItemEntity(
+data class YoutubeVideo(
         var name: String,
         @PrimaryKey
         val id: String,

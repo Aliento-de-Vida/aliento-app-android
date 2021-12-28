@@ -16,7 +16,7 @@ data class Resources(
 /**
  * Convert Network results to domain objects
  */
-fun ImageUrlResponse.asDomainModel(searchUrl: String): ImageUrlEntity {
+fun ImageUrlResponse.asDomain(searchUrl: String): ImageUrlEntity {
     return ImageUrlEntity(
         resources.first().url,
         searchUrl
