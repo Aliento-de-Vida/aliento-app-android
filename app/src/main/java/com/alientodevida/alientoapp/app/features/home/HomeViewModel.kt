@@ -51,8 +51,8 @@ class HomeViewModel @Inject constructor(
       CategoryItemType.CAMPUSES
     ),
     CategoryItem(
-      "Cursos",
-      Constants.COURSES_IMAGE,
+      "Galería",
+      Constants.GALLERY_IMAGE,
       CategoryItemType.GALLERY
     )
   )
@@ -74,7 +74,7 @@ class HomeViewModel @Inject constructor(
     liveDataResult(_home) {
       val home = homeRepository.getHome()
       preferences.home = home
-      getSermonItems("UC3C9WqYJUp3SVDr6yrzeZVg")
+      getSermonItems(home.youtubeChannelId)
       home
     }
   }

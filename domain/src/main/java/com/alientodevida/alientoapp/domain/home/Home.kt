@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 data class Home(
     val ebook: String,
     val youtubePlaylistId: String,
+    val youtubeChannelId: String,
     val spotifyPlaylistId: String,
     val prayerEmail: String,
     val socialMedia: SocialMedia,

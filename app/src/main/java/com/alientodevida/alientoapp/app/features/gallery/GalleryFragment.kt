@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alientodevida.alientoapp.app.R
+import com.alientodevida.alientoapp.app.base.BaseBottomSheetFragment
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentGalleryBinding
 import com.alientodevida.alientoapp.app.databinding.ItemGalleryImageBinding
@@ -17,7 +18,7 @@ import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GalleryFragment : BaseFragment<FragmentGalleryBinding>(R.layout.fragment_gallery) {
+class GalleryFragment : BaseBottomSheetFragment<FragmentGalleryBinding>(R.layout.fragment_gallery) {
   
   private val viewModel by viewModels<GalleryViewModel>()
   
@@ -30,36 +31,34 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(R.layout.fragment_g
     setUpUi()
   }
   
-  private fun setUpUi() {
-    with(binding) {
-      toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
-      
-      galleryAdapter.register<Image, ItemGalleryImageBinding>(
-        itemClass = Image::class.java,
-        viewType = R.layout.item_gallery_image,
-        factory = ImageViewHolderFactory(
-          imageSelected = { image, index, imageView ->
-            viewer =
-              StfalconImageViewer.Builder(requireContext(), viewModel.images) { view, imageUrl ->
-                view.load(imageUrl.name.toImageUrl())
-              }
-                .withStartPosition(index)
-                .withTransitionFrom(imageView).show()
-          },
-        ),
-      )
-      
-      binding.rvGallery.layoutManager = GridLayoutManager(
-        requireContext(),
-        3,
-        LinearLayoutManager.VERTICAL,
-        false,
-      )
-      binding.rvGallery.adapter = galleryAdapter
-      
-      galleryAdapter.submitList(viewModel.images)
-    }
-  }
+  private fun setUpUi() { with(binding) {
+    tvTitle.text = viewModel.gallery.name
+    
+    galleryAdapter.register<Image, ItemGalleryImageBinding>(
+      itemClass = Image::class.java,
+      viewType = R.layout.item_gallery_image,
+      factory = ImageViewHolderFactory(
+        imageSelected = { image, index, imageView ->
+          viewer =
+            StfalconImageViewer.Builder(requireContext(), viewModel.gallery.images) { view, imageUrl ->
+              view.load(imageUrl.name.toImageUrl(), false)
+            }
+              .withStartPosition(index)
+              .withTransitionFrom(imageView).show()
+        },
+      ),
+    )
+    
+    rvGallery.layoutManager = GridLayoutManager(
+      requireContext(),
+      3,
+      LinearLayoutManager.VERTICAL,
+      false,
+    )
+    rvGallery.adapter = galleryAdapter
+    
+    galleryAdapter.submitList(viewModel.gallery.images)
+  }}
   
 }
 

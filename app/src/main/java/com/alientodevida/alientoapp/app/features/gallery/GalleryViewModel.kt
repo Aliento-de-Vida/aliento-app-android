@@ -6,6 +6,7 @@ import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.common.Image
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
+import com.alientodevida.alientoapp.domain.gallery.Gallery
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,18 +28,5 @@ class GalleryViewModel @Inject constructor(
   savedStateHandle,
   application,
 ) {
-  val images = listOf(
-    Image("aliento_de_vida.jpeg"),
-    Image("cursos.png"),
-    Image("aliento_de_vida.jpeg"),
-    Image("cursos.png"),
-    Image("aliento_de_vida.jpeg"),
-    Image("cursos.png"),
-    Image("aliento_de_vida.jpeg"),
-    Image("cursos.png"),
-    Image("aliento_de_vida.jpeg"),
-    Image("cursos.png"),
-    Image("aliento_de_vida.jpeg"),
-    Image("cursos.png"),
-  )
+  val gallery = savedStateHandle.get<Gallery>("gallery")!!
 }
