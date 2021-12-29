@@ -53,7 +53,7 @@ class HomeViewModel @Inject constructor(
         CategoryItem(
             "Cursos",
             Constants.COURSES_IMAGE,
-            CategoryItemType.COURSES
+            CategoryItemType.GALLERY
         )
     )
 

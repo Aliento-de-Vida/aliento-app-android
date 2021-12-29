@@ -14,7 +14,7 @@ data class CategoryItem(
 enum class CategoryItemType {
     CHURCH,
     CAMPUSES,
-    COURSES,
+    GALLERY,
     SERMONS,
 }
 

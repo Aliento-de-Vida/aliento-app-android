@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_fragment_home_to_campusFragment"
             app:destination="@id/fragment_campus" />
+        <action
+            android:id="@+id/action_fragment_home_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
     </fragment>
 
     <fragment
@@ -98,5 +101,10 @@
             android:name="campus"
             app:argType="com.alientodevida.alientoapp.domain.campus.Campus" />
     </dialog>
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.alientodevida.alientoapp.app.features.gallery.GalleryFragment"
+        android:label="GalleryFragment"
+        tools:layout="@layout/fragment_gallery" />
 
 </navigation>
