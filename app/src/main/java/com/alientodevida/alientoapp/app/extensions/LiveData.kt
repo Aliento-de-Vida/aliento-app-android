@@ -5,10 +5,10 @@ import androidx.lifecycle.Observer
 
 // TODO
 fun <T> LiveData<T>.observeOnce(observer: Observer<T>) {
-    observeForever(object : Observer<T> {
-        override fun onChanged(t: T?) {
-            observer.onChanged(t)
-            removeObserver(this)
-        }
-    })
+  observeForever(object : Observer<T> {
+    override fun onChanged(t: T?) {
+      observer.onChanged(t)
+      removeObserver(this)
+    }
+  })
 }

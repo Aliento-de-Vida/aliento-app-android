@@ -45,7 +45,7 @@
 
 
     <!-- App Theme-->
-    <style name="Platform.Theme.AlientoApp" parent="Theme.MaterialComponents.NoActionBar" >
+    <style name="Platform.Theme.AlientoApp" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
 

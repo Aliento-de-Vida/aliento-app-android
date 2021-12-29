@@ -32,7 +32,8 @@
 
         <item name="bottomSheetDialogTheme">@style/Theme.Design.Light.BottomSheetDialog</item>
     </style>
-    <style name="AppTheme" parent="Theme.AlientoApp" >
+
+    <style name="AppTheme" parent="Theme.AlientoApp">
         <item name="android:statusBarColor">?android:colorBackground</item>
     </style>
 
@@ -46,7 +47,6 @@
     </style>
 
 
-
     <!-- Base specific-->
 
     <!-- App Theme-->
@@ -55,11 +55,10 @@
     </style>
 
 
-
     <!-- Platform specific-->
 
     <!-- App Theme-->
-    <style name="Platform.Theme.AlientoApp" parent="Theme.MaterialComponents.NoActionBar" >
+    <style name="Platform.Theme.AlientoApp" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
 

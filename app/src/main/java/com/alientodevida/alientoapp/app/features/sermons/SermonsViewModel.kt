@@ -12,17 +12,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SermonsViewModel @Inject constructor(
-    coroutineDispatchers: CoroutineDispatchers,
-    errorParser: ErrorParser,
-    logger: Logger,
-    preferences: Preferences,
-    savedStateHandle: SavedStateHandle,
-    application: Application,
+  coroutineDispatchers: CoroutineDispatchers,
+  errorParser: ErrorParser,
+  logger: Logger,
+  preferences: Preferences,
+  savedStateHandle: SavedStateHandle,
+  application: Application,
 ) : BaseViewModel(
-    coroutineDispatchers,
-    errorParser,
-    logger,
-    preferences,
-    savedStateHandle,
-    application,
-) { }
+  coroutineDispatchers,
+  errorParser,
+  logger,
+  preferences,
+  savedStateHandle,
+  application,
+) {}

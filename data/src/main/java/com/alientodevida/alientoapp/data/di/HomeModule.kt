@@ -17,24 +17,24 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object HomeModule {
-
-	@Singleton
-	@Provides
-	fun homeApi(
-		@Named("Client")
-		okHttpClient: OkHttpClient,
-		json: Json,
-	): HomeApi = Retrofit.Builder()
-		.client(okHttpClient)
-		.baseUrl("https://todoserver-peter.herokuapp.com")
-		.addConverterFactory(json.asConverterFactory(DataModule.contentType))
-		.build()
-		.create(HomeApi::class.java)
-
-	@Singleton
-	@Provides
-	fun homeRepository(
-		homeApi: HomeApi,
-	): HomeRepository = HomeRepositoryImpl(homeApi)
-
+  
+  @Singleton
+  @Provides
+  fun homeApi(
+    @Named("Client")
+    okHttpClient: OkHttpClient,
+    json: Json,
+  ): HomeApi = Retrofit.Builder()
+    .client(okHttpClient)
+    .baseUrl("https://todoserver-peter.herokuapp.com")
+    .addConverterFactory(json.asConverterFactory(DataModule.contentType))
+    .build()
+    .create(HomeApi::class.java)
+  
+  @Singleton
+  @Provides
+  fun homeRepository(
+    homeApi: HomeApi,
+  ): HomeRepository = HomeRepositoryImpl(homeApi)
+  
 }

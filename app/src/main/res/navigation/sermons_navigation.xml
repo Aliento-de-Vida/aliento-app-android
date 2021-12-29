@@ -5,7 +5,7 @@
     android:id="@+id/sermons_navigation"
     app:startDestination="@+id/navigation_video">
 
-<fragment
+    <fragment
         android:id="@+id/navigation_video"
         android:name="com.alientodevida.alientoapp.app.features.sermons.video.VideoFragment"
         android:label="@string/title_video"

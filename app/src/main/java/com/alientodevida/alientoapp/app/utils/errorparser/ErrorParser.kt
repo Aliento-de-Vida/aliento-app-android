@@ -8,13 +8,13 @@ import javax.inject.Singleton
 
 @Singleton
 class ErrorParser @Inject constructor() {
-	operator fun invoke(ex: Exception?): Message {
-		if (ex is ApiException) return Message.Resource.Error(
-			title = R.string.error_api_title,
-			message = R.string.error_server_message,
-			arguments = listOf()
-		)
-
-		return Message.Resource.Error()
-	}
+  operator fun invoke(ex: Exception?): Message {
+    if (ex is ApiException) return Message.Resource.Error(
+      title = R.string.error_api_title,
+      message = R.string.error_server_message,
+      arguments = listOf()
+    )
+    
+    return Message.Resource.Error()
+  }
 }

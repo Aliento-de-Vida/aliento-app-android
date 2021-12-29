@@ -10,31 +10,31 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
-
-    @Inject
-    lateinit var preferences: Preferences
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
-        super.onCreate(savedInstanceState)
-
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-
-        observe()
-
-        setContentView(binding.root)
+  
+  private lateinit var binding: ActivityMainBinding
+  
+  @Inject
+  lateinit var preferences: Preferences
+  
+  override fun onCreate(savedInstanceState: Bundle?) {
+    setTheme(R.style.AppTheme)
+    super.onCreate(savedInstanceState)
+    
+    window.setFlags(
+      WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+      WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+    )
+    
+    binding = ActivityMainBinding.inflate(layoutInflater)
+    
+    observe()
+    
+    setContentView(binding.root)
+  }
+  
+  private fun observe() {
+    preferences.nightModeLive.observe(this) { nightMode ->
+      nightMode?.let { delegate.localNightMode = it }
     }
-
-    private fun observe() {
-        preferences.nightModeLive.observe(this) { nightMode ->
-            nightMode?.let { delegate.localNightMode = it }
-        }
-    }
+  }
 }

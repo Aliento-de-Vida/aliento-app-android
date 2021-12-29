@@ -11,9 +11,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
-
-    @Provides
-    @Singleton
-    fun logger(): Logger = LoggerImpl()
-
+  
+  @Provides
+  @Singleton
+  fun logger(): Logger = LoggerImpl()
+  
 }

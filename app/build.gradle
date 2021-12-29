@@ -29,17 +29,17 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-	signingConfigs {
-		/*release {
-			storeFile file(keystoreProperties['storeFile'])
-			storePassword keystoreProperties['storePassword']
-			keyAlias keystoreProperties['keyAlias']
-			keyPassword keystoreProperties['keyPassword']
-		}*/
+    signingConfigs {
+        /*release {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }*/
         debug {
 
         }
-	}
+    }
 
     buildTypes {
         release {

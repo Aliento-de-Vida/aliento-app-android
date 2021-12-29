@@ -14,45 +14,45 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
-    @Inject
-    lateinit var preferences: Preferences
+  @Inject
+  lateinit var preferences: Preferences
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val binding = FragmentSettingsBinding.inflate(layoutInflater)
+  override fun onCreateView(
+    inflater: LayoutInflater, container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View {
+    val binding = FragmentSettingsBinding.inflate(layoutInflater)
 
-        binding.lifecycleOwner = viewLifecycleOwner
+    binding.lifecycleOwner = viewLifecycleOwner
 
-        setupUI(binding)
-        observe()
+    setupUI(binding)
+    observe()
 
-        return binding.root
+    return binding.root
+  }
+
+  private fun setupUI(binding: FragmentSettingsBinding) {
+    with(binding) {
+
+      toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
+
+      preferences.isDarkThemeLive.observe(viewLifecycleOwner) { isDarkTheme ->
+        isDarkTheme?.let { themeSwitch.isChecked = it }
+      }
+
+      themeSwitch.setOnCheckedChangeListener { _, checked ->
+        preferences.isDarkTheme = checked
+      }
     }
+  }
 
-    private fun setupUI(binding: FragmentSettingsBinding) {
-        with(binding) {
-
-            toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
-
-            preferences.isDarkThemeLive.observe(viewLifecycleOwner) { isDarkTheme ->
-                isDarkTheme?.let { themeSwitch.isChecked = it }
-            }
-
-            themeSwitch.setOnCheckedChangeListener { _, checked ->
-                preferences.isDarkTheme = checked
-            }
-        }
+  private fun observe() {
+    preferences.nightModeLive.observe(viewLifecycleOwner) { nightMode ->
+      nightMode?.let {
+        (activity as AppCompatActivity).delegate.localNightMode = it
+      }
     }
-
-    private fun observe() {
-        preferences.nightModeLive.observe(viewLifecycleOwner) { nightMode ->
-            nightMode?.let {
-                (activity as AppCompatActivity).delegate.localNightMode = it
-            }
-        }
-    }
+  }
 }
 
 

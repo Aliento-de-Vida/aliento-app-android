@@ -16,62 +16,62 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class VideoFragment : BaseFragment<FragmentVideoBinding>(R.layout.fragment_video) {
-
-    private val viewModel by viewModels<VideoViewModel>()
-
-    private lateinit var mAdapter: VideoRecyclerViewAdapter
-    private lateinit var mLayoutManager: RecyclerView.LayoutManager
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupUI(binding)
-        observeViewModel(binding)
-    }
-
-    private fun observeViewModel(binding: FragmentVideoBinding) {
-        viewModel.videos.observe(viewLifecycleOwner) { result ->
-            viewModelResult(
-                result,
-                binding.progressBar
-            ) { items ->
-                binding.swiperefresh.isRefreshing = false
-
-                if (items.count() == 0) {
-                    viewModel.refreshContent()
-                }
-
-                mAdapter.videos = items.filter { it.thumbnilsUrl != null }
-                mAdapter.notifyDataSetChanged()
-            }
+  
+  private val viewModel by viewModels<VideoViewModel>()
+  
+  private lateinit var mAdapter: VideoRecyclerViewAdapter
+  private lateinit var mLayoutManager: RecyclerView.LayoutManager
+  
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    
+    setupUI(binding)
+    observeViewModel(binding)
+  }
+  
+  private fun observeViewModel(binding: FragmentVideoBinding) {
+    viewModel.videos.observe(viewLifecycleOwner) { result ->
+      viewModelResult(
+        result,
+        binding.progressBar
+      ) { items ->
+        binding.swiperefresh.isRefreshing = false
+        
+        if (items.count() == 0) {
+          viewModel.refreshContent()
         }
+        
+        mAdapter.videos = items.filter { it.thumbnilsUrl != null }
+        mAdapter.notifyDataSetChanged()
+      }
     }
-
-
-    private fun setupUI(binding: FragmentVideoBinding) {
-        with(binding) {
-            swiperefresh.setOnRefreshListener { this@VideoFragment.viewModel.refreshContent() }
-
-            setupRecyclerView(myRecyclerView)
-
-            youtubeFragmentVideos.setOnClickListener {
-                viewModel.home?.socialMedia?.youtubeChannelUrl?.let {
-                    requireActivity().openYoutubeChannel(it)
-                }
-            }
+  }
+  
+  
+  private fun setupUI(binding: FragmentVideoBinding) {
+    with(binding) {
+      swiperefresh.setOnRefreshListener { this@VideoFragment.viewModel.refreshContent() }
+      
+      setupRecyclerView(myRecyclerView)
+      
+      youtubeFragmentVideos.setOnClickListener {
+        viewModel.home?.socialMedia?.youtubeChannelUrl?.let {
+          requireActivity().openYoutubeChannel(it)
         }
+      }
     }
-
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.setHasFixedSize(true)
-        mLayoutManager = LinearLayoutManager(context)
-        recyclerView.layoutManager = mLayoutManager
-        mAdapter = VideoRecyclerViewAdapter(ArrayList(), object :
-            VideoRecyclerViewAdapter.ItemClickListenerYoutube {
-            override fun onItemClick(item: YoutubeVideo) {
-                Utils.handleOnClick(requireActivity(), item.id)
-            }
-        })
-        recyclerView.adapter = mAdapter
-    }
+  }
+  
+  private fun setupRecyclerView(recyclerView: RecyclerView) {
+    recyclerView.setHasFixedSize(true)
+    mLayoutManager = LinearLayoutManager(context)
+    recyclerView.layoutManager = mLayoutManager
+    mAdapter = VideoRecyclerViewAdapter(ArrayList(), object :
+      VideoRecyclerViewAdapter.ItemClickListenerYoutube {
+      override fun onItemClick(item: YoutubeVideo) {
+        Utils.handleOnClick(requireActivity(), item.id)
+      }
+    })
+    recyclerView.adapter = mAdapter
+  }
 }

@@ -5,6 +5,7 @@
     tools:ignore="ContentDescription">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.alientodevida.alientoapp.app.features.sermons.SermonsViewModel" />
