@@ -98,7 +98,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             when ((item as CategoryItem).type) {
                 CategoryItemType.CHURCH -> goToChurch()
                 CategoryItemType.CAMPUSES -> goToCampus()
-                CategoryItemType.COURSES -> Utils.showComingSoon(requireContext())
+                CategoryItemType.GALLERY -> goToGallery()
                 CategoryItemType.SERMONS -> goToSermons()
             }
         })
@@ -160,6 +160,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }
             }
         }
+    }
+
+    private fun goToGallery() {
+        val action = HomeFragmentDirections.actionFragmentHomeToGalleryFragment()
+        findNavController().navigate(action)
     }
 
     private fun goToCampus() {
