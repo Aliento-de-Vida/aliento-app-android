@@ -4,7 +4,6 @@ import com.alientodevida.alientoapp.app.BR
 import com.alientodevida.alientoapp.app.databinding.ItemCampusBinding
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffCallback
 import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
-import com.alientodevida.alientoapp.app.utils.Constants
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.campus.Campus
 import com.bumptech.glide.Glide

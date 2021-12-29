@@ -1,8 +1,8 @@
 package com.alientodevida.alientoapp.domain.entities.network
 
-import com.alientodevida.alientoapp.domain.entities.local.PodcastEntity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import com.alientodevida.alientoapp.domain.entities.local.Podcast as DomainPodcast
 
 @Serializable
 data class Podcast(
@@ -28,12 +28,9 @@ data class AlbumImage(
     val url: String? = null
 )
 
-/**
- * Convert Network results to domain objects
- */
-fun Podcast.asDomain(): List<PodcastEntity> {
+fun Podcast.asDomain(): List<DomainPodcast> {
     return items.map {
-        PodcastEntity(
+        DomainPodcast(
             it.uri,
             it.releaseDate,
             it.name,

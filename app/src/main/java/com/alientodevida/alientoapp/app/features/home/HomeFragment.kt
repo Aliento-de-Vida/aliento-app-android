@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -80,7 +81,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     (customView.findViewById(R.id.play_icon) as ImageView).visibility = View.VISIBLE
                     (customView.findViewById(R.id.triangle) as FrameLayout).visibility =
                         View.VISIBLE
-                    (customView.findViewById(R.id.title) as TextView).visibility = View.GONE
+                    (customView.findViewById(R.id.cl_title) as ConstraintLayout).visibility = View.GONE
                     customView.setOnClickListener { _ ->
                         Utils.handleOnClick(requireActivity(), it.youtubeId)
                     }

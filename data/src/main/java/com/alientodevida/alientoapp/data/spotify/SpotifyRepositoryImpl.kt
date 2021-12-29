@@ -1,7 +1,7 @@
 package com.alientodevida.alientoapp.data.spotify
 
 import com.alientodevida.alientoapp.data.storage.RoomDao
-import com.alientodevida.alientoapp.domain.entities.local.PodcastEntity
+import com.alientodevida.alientoapp.domain.entities.local.Podcast
 import com.alientodevida.alientoapp.domain.entities.network.asDomain
 import com.alientodevida.alientoapp.domain.spotify.SpotifyRepository
 import kotlinx.coroutines.Dispatchers
@@ -13,18 +13,15 @@ class SpotifyRepositoryImpl (
 ) : SpotifyRepository {
 
     override suspend fun refreshPodcasts(podcastId: String):
-            List<PodcastEntity> {
+            List<Podcast> {
         val response = spotifyApi.getPodcast(podcastId)
         val items = response.asDomain()
-        withContext(Dispatchers.IO) { roomDao.insertAllPodcasts(items) }
+        withContext(Dispatchers.IO) { roomDao.insertPodcasts(items) }
         return items
     }
 
-    override fun getCachedPodcasts(): List<PodcastEntity> {
+    override fun getCachedPodcasts(): List<Podcast> {
         return roomDao.getPodcasts()
     }
 
-    /*override suspend fun getPlaylist(authorization: String, playlistId: String): PlayList {
-        return retrofitService.getPlaylist(authorization, playlistId)
-    }*/
 }

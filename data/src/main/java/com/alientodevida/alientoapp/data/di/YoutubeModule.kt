@@ -1,8 +1,8 @@
 package com.alientodevida.alientoapp.data.di
 
 import com.alientodevida.alientoapp.data.storage.RoomDao
-import com.alientodevida.alientoapp.data.youtube.YoutubeApi
 import com.alientodevida.alientoapp.data.youtube.VideoRepositoryImpl
+import com.alientodevida.alientoapp.data.youtube.YoutubeApi
 import com.alientodevida.alientoapp.domain.youtube.VideoRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module

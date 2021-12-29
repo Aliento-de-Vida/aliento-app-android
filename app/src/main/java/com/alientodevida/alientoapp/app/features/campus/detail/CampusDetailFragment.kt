@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseBottomSheetFragment
@@ -65,7 +65,7 @@ class CampusDetailFragment :
 
         (customView.findViewById(R.id.play_icon) as ImageView).visibility = View.GONE
         (customView.findViewById(R.id.triangle) as FrameLayout).visibility = View.GONE
-        (customView.findViewById(R.id.title) as TextView).visibility = View.GONE
+        (customView.findViewById(R.id.cl_title) as ConstraintLayout).visibility = View.GONE
         customView.setOnClickListener { openImage(item) }
 
         customView

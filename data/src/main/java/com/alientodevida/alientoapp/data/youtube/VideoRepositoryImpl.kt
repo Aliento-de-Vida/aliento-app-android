@@ -30,7 +30,7 @@ class VideoRepositoryImpl (
         )
 
         val items = response.asDomain()
-        withContext(Dispatchers.IO) { roomDao.insertAllYoutubePlaylistitems(items) }
+        withContext(Dispatchers.IO) { roomDao.insertYoutubeVideos(items) }
         return items
     }
 
@@ -49,12 +49,12 @@ class VideoRepositoryImpl (
         )
 
         val items = response.asDomain()
-        withContext(Dispatchers.IO) { roomDao.insertAllYoutubePlaylistitems(items) }
+        withContext(Dispatchers.IO) { roomDao.insertYoutubeVideos(items) }
         return items
     }
 
     override fun getCachedVideos(): List<YoutubeVideo> {
-        return roomDao.getYoutubePlaylistitems()
+        return roomDao.getYoutubeVideos()
     }
 
 }
