@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentChurchBinding
+import com.alientodevida.alientoapp.app.utils.Constants
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,14 +21,18 @@ class ChurchFragment: BaseFragment<FragmentChurchBinding>(R.layout.fragment_chur
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupUI(binding)
-        observeViewModel(binding)
+        setupUI()
+        observeViewModel()
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private fun setupUI(binding: FragmentChurchBinding) {
+    private fun setupUI() {
         with(binding) {
             toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
+
+            Glide.with(requireContext())
+                .load(Constants.CHURCH_IMAGE)
+                .into(videoView)
 
             transmisionWv.apply {
                 setBackgroundColor(Color.TRANSPARENT)
@@ -37,7 +43,7 @@ class ChurchFragment: BaseFragment<FragmentChurchBinding>(R.layout.fragment_chur
         }
     }
 
-    private fun observeViewModel(binding: FragmentChurchBinding) {
+    private fun observeViewModel() {
 
     }
 }

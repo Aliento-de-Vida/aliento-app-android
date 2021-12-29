@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.domain.entities.local.PodcastEntity
+import com.alientodevida.alientoapp.domain.entities.local.Podcast
 import com.bumptech.glide.Glide
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 
 class AudioRecyclerViewAdapter(
     private val context: Context,
-    var audios: ArrayList<PodcastEntity>,
+    var audios: ArrayList<Podcast>,
     private val listener: ItemClickListener
 ) : RecyclerView.Adapter<AudioRecyclerViewAdapter.AudioViewHolder>() {
 
@@ -27,7 +27,7 @@ class AudioRecyclerViewAdapter(
         var audioLength: TextView = itemView.findViewById(R.id.audio_length)
         var audioPhoto: ImageView = itemView.findViewById(R.id.audio_photo)
 
-        fun bind(item: PodcastEntity, listener: ItemClickListener) {
+        fun bind(item: Podcast, listener: ItemClickListener) {
             itemView.setOnClickListener { listener.onItemClick(item) }
         }
 
@@ -74,6 +74,6 @@ class AudioRecyclerViewAdapter(
     }
 
     interface ItemClickListener {
-        fun onItemClick(item: PodcastEntity)
+        fun onItemClick(item: Podcast)
     }
 }

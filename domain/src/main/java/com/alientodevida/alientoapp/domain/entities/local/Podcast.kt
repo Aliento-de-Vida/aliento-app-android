@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class PodcastEntity(
+data class Podcast(
     @PrimaryKey
     val uri: String,
     val releaseDate: String,
