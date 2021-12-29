@@ -1,8 +1,9 @@
-package com.alientodevida.alientoapp.app.features.notifications
+package com.alientodevida.alientoapp.app.features.notifications.list
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
@@ -10,7 +11,6 @@ import com.alientodevida.alientoapp.app.databinding.FragmentNotificationsBinding
 import com.alientodevida.alientoapp.app.databinding.ItemNotificationBinding
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffAdapter
 import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
-import com.alientodevida.alientoapp.domain.gallery.Gallery
 import com.alientodevida.alientoapp.domain.home.Notification
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,7 +44,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>(R.layou
   
   private fun setupRecyclerView() {
     val resourceListener = BaseViewHolder.Listener { notification: Notification, _ ->
-      //findNavController().navigate(GalleriesFragmentDirections.actionGalleriesFragmentToGalleryFragment(gallery))
+      findNavController().navigate(NotificationsFragmentDirections.actionFragmentNotificationsToFragmentNotificationDetail(notification))
     }
     notificationsAdapter.register<Notification, ItemNotificationBinding, NotificationsViewHolder>(
       R.layout.item_notification,
