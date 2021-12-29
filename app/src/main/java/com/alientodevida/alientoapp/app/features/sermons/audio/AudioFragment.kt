@@ -16,61 +16,61 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AudioFragment : BaseFragment<FragmentAudioBinding>(R.layout.fragment_audio) {
-
-    private val viewModel by viewModels<AudioViewModel>()
-
-    private lateinit var mAdapter: AudioRecyclerViewAdapter
-    private lateinit var mLayoutManager: RecyclerView.LayoutManager
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupUI(binding)
-        observeViewModel(binding)
-    }
-
-    private fun setupUI(binding: FragmentAudioBinding) {
-        with(binding) {
-            setupRecyclerView(myRecyclerView)
-
-            swiperefresh.setOnRefreshListener { this@AudioFragment.viewModel.refreshContent() }
-
-            spotifyFragmentAudios.setOnClickListener {
-                viewModel.home?.socialMedia?.spotifyArtistId?.let {
-                    requireActivity().openSpotifyArtistPage(it)
-                }
-            }
+  
+  private val viewModel by viewModels<AudioViewModel>()
+  
+  private lateinit var mAdapter: AudioRecyclerViewAdapter
+  private lateinit var mLayoutManager: RecyclerView.LayoutManager
+  
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    
+    setupUI(binding)
+    observeViewModel(binding)
+  }
+  
+  private fun setupUI(binding: FragmentAudioBinding) {
+    with(binding) {
+      setupRecyclerView(myRecyclerView)
+      
+      swiperefresh.setOnRefreshListener { this@AudioFragment.viewModel.refreshContent() }
+      
+      spotifyFragmentAudios.setOnClickListener {
+        viewModel.home?.socialMedia?.spotifyArtistId?.let {
+          requireActivity().openSpotifyArtistPage(it)
         }
+      }
     }
-
-    private fun observeViewModel(binding: FragmentAudioBinding) {
-        viewModel.podcasts.observe(viewLifecycleOwner) {
-            viewModelResult(it, binding.progressBar) {
-                binding.swiperefresh.isRefreshing = false
-
-                if (it.count() == 0) viewModel.refreshContent()
-
-                mAdapter.audios = ArrayList(it)
-                mAdapter.notifyDataSetChanged()
-            }
+  }
+  
+  private fun observeViewModel(binding: FragmentAudioBinding) {
+    viewModel.podcasts.observe(viewLifecycleOwner) {
+      viewModelResult(it, binding.progressBar) {
+        binding.swiperefresh.isRefreshing = false
+        
+        if (it.count() == 0) viewModel.refreshContent()
+        
+        mAdapter.audios = ArrayList(it)
+        mAdapter.notifyDataSetChanged()
+      }
+    }
+  }
+  
+  private fun setupRecyclerView(recyclerView: RecyclerView) {
+    mLayoutManager = LinearLayoutManager(context)
+    recyclerView.layoutManager = mLayoutManager
+    mAdapter = AudioRecyclerViewAdapter(
+      requireContext(),
+      ArrayList(),
+      object : AudioRecyclerViewAdapter.ItemClickListener {
+        override fun onItemClick(item: Podcast) {
+          handleOnClick(item)
         }
-    }
-
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
-        mLayoutManager = LinearLayoutManager(context)
-        recyclerView.layoutManager = mLayoutManager
-        mAdapter = AudioRecyclerViewAdapter(
-            requireContext(),
-            ArrayList(),
-            object : AudioRecyclerViewAdapter.ItemClickListener {
-                override fun onItemClick(item: Podcast) {
-                    handleOnClick(item)
-                }
-            })
-        recyclerView.adapter = mAdapter
-    }
-
-    private fun handleOnClick(audio: Podcast) {
-        requireActivity().openSpotifyWith(Uri.parse(audio.uri))
-    }
+      })
+    recyclerView.adapter = mAdapter
+  }
+  
+  private fun handleOnClick(audio: Podcast) {
+    requireActivity().openSpotifyWith(Uri.parse(audio.uri))
+  }
 }

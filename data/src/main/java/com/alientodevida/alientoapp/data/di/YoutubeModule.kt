@@ -18,25 +18,25 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object YoutubeModule {
-
-	@Singleton
-	@Provides
-	fun youtubeApi(
-		@Named("Client")
-		okHttpClient: OkHttpClient,
-		json: Json,
-	): YoutubeApi = Retrofit.Builder()
-		.client(okHttpClient)
-		.baseUrl("https://www.googleapis.com")
-		.addConverterFactory(json.asConverterFactory(DataModule.contentType))
-		.build()
-		.create(YoutubeApi::class.java)
-
-	@Singleton
-	@Provides
-	fun youtubeRepository(
-		youtubeApi: YoutubeApi,
-		roomDao: RoomDao
-	): VideoRepository = VideoRepositoryImpl(youtubeApi, roomDao)
-
+  
+  @Singleton
+  @Provides
+  fun youtubeApi(
+    @Named("Client")
+    okHttpClient: OkHttpClient,
+    json: Json,
+  ): YoutubeApi = Retrofit.Builder()
+    .client(okHttpClient)
+    .baseUrl("https://www.googleapis.com")
+    .addConverterFactory(json.asConverterFactory(DataModule.contentType))
+    .build()
+    .create(YoutubeApi::class.java)
+  
+  @Singleton
+  @Provides
+  fun youtubeRepository(
+    youtubeApi: YoutubeApi,
+    roomDao: RoomDao
+  ): VideoRepository = VideoRepositoryImpl(youtubeApi, roomDao)
+  
 }

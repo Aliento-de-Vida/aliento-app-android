@@ -22,44 +22,44 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
-	val contentType = "application/json".toMediaType()
-
-	@Provides
-	@Singleton
-	fun json(): Json = Json { ignoreUnknownKeys = true }
-
-	@Provides
-	@Singleton
-	@Named("Client")
-	fun okHttpClient(): OkHttpClient =
-		OkHttpClient.Builder()
-			.connectTimeout(15, TimeUnit.SECONDS)
-			.writeTimeout(15, TimeUnit.SECONDS)
-			.readTimeout(15, TimeUnit.SECONDS)
-			.retryOnConnectionFailure(false)
-			.apply {
-				if (true /*BuildConfig.DEBUG*/) addInterceptor(
-					HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-				)
-			}.build()
-
-	@Provides
-	@Singleton
-	fun preferences(
-		@ApplicationContext
-		context: Context,
-	): Preferences {
-		return PreferencesImpl(
-			preferences = context.getSharedPreferences("mobile-preferences", Context.MODE_PRIVATE),
-		)
-	}
-
-	@Singleton
-	@Provides
-	fun providesDatabase(@ApplicationContext context: Context): AppDatabase = getDatabase(context)
-
-	@Singleton
-	@Provides
-	fun videoDAO(database: AppDatabase): RoomDao = database.roomDao
-
+  val contentType = "application/json".toMediaType()
+  
+  @Provides
+  @Singleton
+  fun json(): Json = Json { ignoreUnknownKeys = true }
+  
+  @Provides
+  @Singleton
+  @Named("Client")
+  fun okHttpClient(): OkHttpClient =
+    OkHttpClient.Builder()
+      .connectTimeout(15, TimeUnit.SECONDS)
+      .writeTimeout(15, TimeUnit.SECONDS)
+      .readTimeout(15, TimeUnit.SECONDS)
+      .retryOnConnectionFailure(false)
+      .apply {
+        if (true /*BuildConfig.DEBUG*/) addInterceptor(
+          HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        )
+      }.build()
+  
+  @Provides
+  @Singleton
+  fun preferences(
+    @ApplicationContext
+    context: Context,
+  ): Preferences {
+    return PreferencesImpl(
+      preferences = context.getSharedPreferences("mobile-preferences", Context.MODE_PRIVATE),
+    )
+  }
+  
+  @Singleton
+  @Provides
+  fun providesDatabase(@ApplicationContext context: Context): AppDatabase = getDatabase(context)
+  
+  @Singleton
+  @Provides
+  fun videoDAO(database: AppDatabase): RoomDao = database.roomDao
+  
 }

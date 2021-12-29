@@ -9,32 +9,32 @@ import com.alientodevida.alientoapp.domain.campus.Campus
 import com.bumptech.glide.Glide
 
 val campusDiffCallback = object : BaseDiffCallback() {
-    override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean =
-        oldItem is Campus && newItem is Campus && oldItem.id == newItem.id
+  override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean =
+    oldItem is Campus && newItem is Campus && oldItem.id == newItem.id
 }
 
 class CampusViewHolder(
-    binding: ItemCampusBinding,
-    listener: Listener<Campus>
+  binding: ItemCampusBinding,
+  listener: Listener<Campus>
 ) : BaseViewHolder<Campus, ItemCampusBinding>(
-    binding,
-    BR.campus,
-    listener,
+  binding,
+  BR.campus,
+  listener,
 ) {
-
-    override fun bind(item: Campus) {
-        super.bind(item)
-
-        with(binding) {
-            tvTitle.text = item.name
-
-            item.imageUrl?.let {
-                Glide.with(ivBackground.context)
-                    .load(it.toImageUrl())
-                    .centerCrop()
-                    .into(ivBackground)
-            }
-        }
+  
+  override fun bind(item: Campus) {
+    super.bind(item)
+    
+    with(binding) {
+      tvTitle.text = item.name
+      
+      item.imageUrl?.let {
+        Glide.with(ivBackground.context)
+          .load(it.toImageUrl())
+          .centerCrop()
+          .into(ivBackground)
+      }
     }
-
+  }
+  
 }

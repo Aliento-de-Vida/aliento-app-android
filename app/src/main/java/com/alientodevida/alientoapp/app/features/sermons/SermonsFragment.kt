@@ -13,23 +13,23 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SermonsFragment : BaseFragment<FragmentSermonsBinding>(R.layout.fragment_sermons) {
 
-    private val viewModel by viewModels<SermonsViewModel>()
+  private val viewModel by viewModels<SermonsViewModel>()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
 
-        setupUI(binding)
+    setupUI(binding)
+  }
+
+  private fun setupUI(binding: FragmentSermonsBinding) {
+    with(binding) {
+      toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
+
+      val fragmentContainer = root.findViewById<View>(R.id.nav_host_fragment_sermons)
+      val navController = Navigation.findNavController(fragmentContainer)
+
+      val bottomNavigationView = navView
+      bottomNavigationView.setupWithNavController(navController)
     }
-
-    private fun setupUI(binding: FragmentSermonsBinding) {
-        with(binding) {
-            toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
-
-            val fragmentContainer = root.findViewById<View>(R.id.nav_host_fragment_sermons)
-            val navController = Navigation.findNavController(fragmentContainer)
-
-            val bottomNavigationView = navView
-            bottomNavigationView.setupWithNavController(navController)
-        }
-    }
+  }
 }

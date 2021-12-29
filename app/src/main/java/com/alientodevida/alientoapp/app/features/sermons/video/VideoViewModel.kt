@@ -17,43 +17,43 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VideoViewModel @Inject constructor(
-    private val videoRepository: VideoRepository,
-    coroutineDispatchers: CoroutineDispatchers,
-    errorParser: ErrorParser,
-    logger: Logger,
-    preferences: Preferences,
-    savedStateHandle: SavedStateHandle,
-    application: Application,
+  private val videoRepository: VideoRepository,
+  coroutineDispatchers: CoroutineDispatchers,
+  errorParser: ErrorParser,
+  logger: Logger,
+  preferences: Preferences,
+  savedStateHandle: SavedStateHandle,
+  application: Application,
 ) : BaseViewModel(
-    coroutineDispatchers,
-    errorParser,
-    logger,
-    preferences,
-    savedStateHandle,
-    application,
+  coroutineDispatchers,
+  errorParser,
+  logger,
+  preferences,
+  savedStateHandle,
+  application,
 ) {
-    val home = preferences.home
-
-    private val _videos = MutableLiveData<ViewModelResult<List<YoutubeVideo>>>()
-    val videos: LiveData<ViewModelResult<List<YoutubeVideo>>>
-        get() = _videos
-
-    init {
-        getCachedVideos()
+  val home = preferences.home
+  
+  private val _videos = MutableLiveData<ViewModelResult<List<YoutubeVideo>>>()
+  val videos: LiveData<ViewModelResult<List<YoutubeVideo>>>
+    get() = _videos
+  
+  init {
+    getCachedVideos()
+  }
+  
+  fun refreshContent() {
+    liveDataResult(_videos) {
+      videoRepository.getYoutubeChannelVideos("UC3C9WqYJUp3SVDr6yrzeZVg")
     }
-
-    fun refreshContent() {
-        liveDataResult(_videos) {
-            videoRepository.getYoutubeChannelVideos("UC3C9WqYJUp3SVDr6yrzeZVg")
-        }
+  }
+  
+  private fun getCachedVideos() {
+    liveDataResult(
+      liveData = _videos,
+      dispatcher = coroutineDispatchers.io
+    ) {
+      videoRepository.getCachedVideos()
     }
-
-    private fun getCachedVideos() {
-        liveDataResult(
-            liveData = _videos,
-            dispatcher = coroutineDispatchers.io
-        ) {
-            videoRepository.getCachedVideos()
-        }
-    }
+  }
 }

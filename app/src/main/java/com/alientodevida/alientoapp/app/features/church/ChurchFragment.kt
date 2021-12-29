@@ -14,36 +14,36 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChurchFragment: BaseFragment<FragmentChurchBinding>(R.layout.fragment_church) {
-
-    private val viewModel by viewModels<ChurchViewModel>()
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupUI()
-        observeViewModel()
+class ChurchFragment : BaseFragment<FragmentChurchBinding>(R.layout.fragment_church) {
+  
+  private val viewModel by viewModels<ChurchViewModel>()
+  
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    
+    setupUI()
+    observeViewModel()
+  }
+  
+  @SuppressLint("SetJavaScriptEnabled")
+  private fun setupUI() {
+    with(binding) {
+      toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
+      
+      Glide.with(requireContext())
+        .load(Constants.CHURCH_IMAGE)
+        .into(videoView)
+      
+      transmisionWv.apply {
+        setBackgroundColor(Color.TRANSPARENT)
+        settings.useWideViewPort = true
+        settings.javaScriptEnabled = true
+        webViewClient = object : WebViewClient() {}
+      }
     }
-
-    @SuppressLint("SetJavaScriptEnabled")
-    private fun setupUI() {
-        with(binding) {
-            toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
-
-            Glide.with(requireContext())
-                .load(Constants.CHURCH_IMAGE)
-                .into(videoView)
-
-            transmisionWv.apply {
-                setBackgroundColor(Color.TRANSPARENT)
-                settings.useWideViewPort = true
-                settings.javaScriptEnabled = true
-                webViewClient = object : WebViewClient() {}
-            }
-        }
-    }
-
-    private fun observeViewModel() {
-
-    }
+  }
+  
+  private fun observeViewModel() {
+  
+  }
 }

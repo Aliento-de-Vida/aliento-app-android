@@ -13,21 +13,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChurchViewModel @Inject constructor(
-    coroutineDispatchers: CoroutineDispatchers,
-    errorParser: ErrorParser,
-    logger: Logger,
-    preferences: Preferences,
-    savedStateHandle: SavedStateHandle,
-    application: Application,
+  coroutineDispatchers: CoroutineDispatchers,
+  errorParser: ErrorParser,
+  logger: Logger,
+  preferences: Preferences,
+  savedStateHandle: SavedStateHandle,
+  application: Application,
 ) : BaseViewModel(
-    coroutineDispatchers,
-    errorParser,
-    logger,
-    preferences,
-    savedStateHandle,
-    application,
+  coroutineDispatchers,
+  errorParser,
+  logger,
+  preferences,
+  savedStateHandle,
+  application,
 ) {
-
-    val usImageUrl: String = "https://img.youtube.com/vi/$US_VIDEO/hqdefault.jpg"
-
+  
+  val usImageUrl: String = "https://img.youtube.com/vi/$US_VIDEO/hqdefault.jpg"
+  
 }

@@ -17,82 +17,82 @@ import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 
 abstract class BaseFragment<VDB : ViewDataBinding>(
-    @LayoutRes protected val layoutId: Int,
+  @LayoutRes protected val layoutId: Int,
 ) : Fragment() {
-
-    protected lateinit var binding: VDB
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
-        return binding.root
+  
+  protected lateinit var binding: VDB
+  
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?,
+  ): View? {
+    binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
+    binding.lifecycleOwner = viewLifecycleOwner
+    return binding.root
+  }
+  
+  protected fun <T> viewModelResult(
+    result: ViewModelResult<T>,
+    progressBar: ProgressBar? = null,
+    onError: () -> Unit = { },
+    onSuccess: (T) -> Unit,
+  ) {
+    progressBar?.isVisible = result is ViewModelResult.Loading
+    
+    when (result) {
+      is ViewModelResult.Success -> {
+        onSuccess(result.data)
+      }
+      is ViewModelResult.Error -> {
+        onError()
+        showToast(result.message)
+      }
     }
-
-    protected fun <T> viewModelResult(
-        result: ViewModelResult<T>,
-        progressBar: ProgressBar? = null,
-        onError: () -> Unit = { },
-        onSuccess: (T) -> Unit,
-    ) {
-        progressBar?.isVisible = result is ViewModelResult.Loading
-
-        when (result) {
-            is ViewModelResult.Success -> {
-                onSuccess(result.data)
-            }
-            is ViewModelResult.Error -> {
-                onError()
-                showToast(result.message)
-            }
-        }
-    }
-
-    protected fun showMessage(titleRes: Int, messageRes: Int, onClick: () -> Unit) {
-        val title = getString(titleRes)
-        val message = getString(messageRes)
-        showMessage(
-            title = title,
-            message = message,
-            onClick = onClick
-        )
-    }
-
-    protected fun showMessage(
-		title: String,
-		message: String,
-		positiveTitle: Int = R.string.ok,
-		onClick: () -> Unit = { }
-    ) {
-        createAlertDialog(title, message, positiveTitle, onClick)
-    }
-
-    private fun createAlertDialog(
-        title: String,
-        message: String,
-        positiveTitle: Int,
-        onPositiveClick: () -> Unit,
-    ) {
-        val builder = AlertDialog.Builder(requireActivity())
-        builder
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton(positiveTitle) { _, _ ->
-                onPositiveClick()
-            }.create().show()
-    }
-
-    fun showToast(message: Message) {
-        Toast.makeText(
-            requireContext(),
-            when (message) {
-                is Message.Resource -> getString(message.message)
-                is Message.Localized -> message.message
-            },
-            Toast.LENGTH_LONG
-        ).show()
-    }
+  }
+  
+  protected fun showMessage(titleRes: Int, messageRes: Int, onClick: () -> Unit) {
+    val title = getString(titleRes)
+    val message = getString(messageRes)
+    showMessage(
+      title = title,
+      message = message,
+      onClick = onClick
+    )
+  }
+  
+  protected fun showMessage(
+    title: String,
+    message: String,
+    positiveTitle: Int = R.string.ok,
+    onClick: () -> Unit = { }
+  ) {
+    createAlertDialog(title, message, positiveTitle, onClick)
+  }
+  
+  private fun createAlertDialog(
+    title: String,
+    message: String,
+    positiveTitle: Int,
+    onPositiveClick: () -> Unit,
+  ) {
+    val builder = AlertDialog.Builder(requireActivity())
+    builder
+      .setTitle(title)
+      .setMessage(message)
+      .setPositiveButton(positiveTitle) { _, _ ->
+        onPositiveClick()
+      }.create().show()
+  }
+  
+  fun showToast(message: Message) {
+    Toast.makeText(
+      requireContext(),
+      when (message) {
+        is Message.Resource -> getString(message.message)
+        is Message.Localized -> message.message
+      },
+      Toast.LENGTH_LONG
+    ).show()
+  }
 }

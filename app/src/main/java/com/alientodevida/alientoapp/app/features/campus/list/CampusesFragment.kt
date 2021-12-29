@@ -16,47 +16,51 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CampusesFragment : BaseFragment<FragmentCampusesBinding>(R.layout.fragment_campuses) {
-
-    private val viewModel by viewModels<CampusesViewModel>()
-
-    private val campusAdapter = BaseDiffAdapter(campusDiffCallback)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupUI()
-        observeViewModel()
+  
+  private val viewModel by viewModels<CampusesViewModel>()
+  
+  private val campusAdapter = BaseDiffAdapter(campusDiffCallback)
+  
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    
+    setupUI()
+    observeViewModel()
+  }
+  
+  private fun setupUI() {
+    binding.toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
+    
+    setupRecyclerView()
+  }
+  
+  private fun observeViewModel() {
+    viewModel.campus.observe(viewLifecycleOwner) {
+      viewModelResult(it, binding.progressBar) {
+        campusAdapter.submitList(it)
+      }
     }
-
-    private fun setupUI() {
-        binding.toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
-
-        setupRecyclerView()
-    }
-
-    private fun observeViewModel() {
-        viewModel.campus.observe(viewLifecycleOwner) {
-            viewModelResult(it, binding.progressBar) {
-                campusAdapter.submitList(it)
-            }
-        }
-    }
-
-    private fun setupRecyclerView() {
-        val resourceListener = BaseViewHolder.Listener { campus: Campus, _ ->
-            findNavController().navigate(CampusesFragmentDirections.actionFragmentCampusToCampusDetailFragment(campus))
-        }
-        campusAdapter.register<Campus, ItemCampusBinding, CampusViewHolder>(
-            R.layout.item_campus,
-            resourceListener,
+  }
+  
+  private fun setupRecyclerView() {
+    val resourceListener = BaseViewHolder.Listener { campus: Campus, _ ->
+      findNavController().navigate(
+        CampusesFragmentDirections.actionFragmentCampusToCampusDetailFragment(
+          campus
         )
-
-        binding.rvCampus.layoutManager = LinearLayoutManager(
-            requireContext(),
-            LinearLayoutManager.VERTICAL,
-            false
-        )
-        binding.rvCampus.adapter = campusAdapter
+      )
     }
-
+    campusAdapter.register<Campus, ItemCampusBinding, CampusViewHolder>(
+      R.layout.item_campus,
+      resourceListener,
+    )
+    
+    binding.rvCampus.layoutManager = LinearLayoutManager(
+      requireContext(),
+      LinearLayoutManager.VERTICAL,
+      false
+    )
+    binding.rvCampus.adapter = campusAdapter
+  }
+  
 }

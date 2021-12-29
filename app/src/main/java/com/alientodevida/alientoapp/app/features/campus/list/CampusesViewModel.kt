@@ -17,30 +17,31 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CampusesViewModel @Inject constructor(
-    private val campusRepository: CampusRepository,
-    coroutineDispatchers: CoroutineDispatchers,
-    errorParser: ErrorParser,
-    logger: Logger,
-    preferences: Preferences,
-    savedStateHandle: SavedStateHandle,
-    application: Application,
+  private val campusRepository: CampusRepository,
+  coroutineDispatchers: CoroutineDispatchers,
+  errorParser: ErrorParser,
+  logger: Logger,
+  preferences: Preferences,
+  savedStateHandle: SavedStateHandle,
+  application: Application,
 ) : BaseViewModel(
-    coroutineDispatchers,
-    errorParser,
-    logger,
-    preferences,
-    savedStateHandle,
-    application,
+  coroutineDispatchers,
+  errorParser,
+  logger,
+  preferences,
+  savedStateHandle,
+  application,
 ) {
-    private val _campus = MutableLiveData<ViewModelResult<List<Campus>>>()
-    val campus: LiveData<ViewModelResult<List<Campus>>> = _campus
-    init {
-        getCampus()
+  private val _campus = MutableLiveData<ViewModelResult<List<Campus>>>()
+  val campus: LiveData<ViewModelResult<List<Campus>>> = _campus
+  
+  init {
+    getCampus()
+  }
+  
+  private fun getCampus() {
+    liveDataResult(_campus) {
+      campusRepository.getCampus()
     }
-
-    private fun getCampus() {
-        liveDataResult(_campus) {
-            campusRepository.getCampus()
-        }
-    }
+  }
 }

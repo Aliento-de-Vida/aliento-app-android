@@ -22,82 +22,86 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val videoRepository: VideoRepository,
-    private val homeRepository: HomeRepository,
-    coroutineDispatchers: CoroutineDispatchers,
-    errorParser: ErrorParser,
-    logger: Logger,
-    preferences: Preferences,
-    savedStateHandle: SavedStateHandle,
-    application: Application,
+  private val videoRepository: VideoRepository,
+  private val homeRepository: HomeRepository,
+  coroutineDispatchers: CoroutineDispatchers,
+  errorParser: ErrorParser,
+  logger: Logger,
+  preferences: Preferences,
+  savedStateHandle: SavedStateHandle,
+  application: Application,
 ) : BaseViewModel(
-    coroutineDispatchers,
-    errorParser,
-    logger,
-    preferences,
-    savedStateHandle,
-    application,
+  coroutineDispatchers,
+  errorParser,
+  logger,
+  preferences,
+  savedStateHandle,
+  application,
 ) {
-
-    val carouseItems = listOf(
-        CategoryItem(
-            "Aliento de Vida",
-            Constants.CHURCH_IMAGE,
-            CategoryItemType.CHURCH
-        ),
-        CategoryItem(
-            "Campus",
-            Constants.CAMPUS_IMAGE,
-            CategoryItemType.CAMPUSES
-        ),
-        CategoryItem(
-            "Cursos",
-            Constants.COURSES_IMAGE,
-            CategoryItemType.GALLERY
-        )
+  
+  val carouseItems = listOf(
+    CategoryItem(
+      "Aliento de Vida",
+      Constants.CHURCH_IMAGE,
+      CategoryItemType.CHURCH
+    ),
+    CategoryItem(
+      "Campus",
+      Constants.CAMPUS_IMAGE,
+      CategoryItemType.CAMPUSES
+    ),
+    CategoryItem(
+      "Cursos",
+      Constants.COURSES_IMAGE,
+      CategoryItemType.GALLERY
     )
-
-    private val _sermonsItems = MutableLiveData<ViewModelResult<List<CarouselItem>>>()
-    val sermonsItems = _sermonsItems
-
-    private val _home = MutableLiveData<ViewModelResult<Home>>()
-    val home = _home
-
-    init {
-        _sermonsItems.value = ViewModelResult.Success(
-            listOf(CategoryItem("Ver Prédicas", Constants.SERMONS_IMAGE, CategoryItemType.SERMONS))
-        )
-        getHome()
+  )
+  
+  private val _sermonsItems = MutableLiveData<ViewModelResult<List<CarouselItem>>>()
+  val sermonsItems = _sermonsItems
+  
+  private val _home = MutableLiveData<ViewModelResult<Home>>()
+  val home = _home
+  
+  init {
+    _sermonsItems.value = ViewModelResult.Success(
+      listOf(CategoryItem("Ver Prédicas", Constants.SERMONS_IMAGE, CategoryItemType.SERMONS))
+    )
+    getHome()
+  }
+  
+  fun getHome() {
+    liveDataResult(_home) {
+      val home = homeRepository.getHome()
+      preferences.home = home
+      getSermonItems("UC3C9WqYJUp3SVDr6yrzeZVg")
+      home
     }
-
-    fun getHome() {
-        liveDataResult(_home) {
-            val home = homeRepository.getHome()
-            preferences.home = home
-            getSermonItems("UC3C9WqYJUp3SVDr6yrzeZVg")
-            home
+  }
+  
+  private fun getSermonItems(channel: String) {
+    liveDataResult(_sermonsItems) {
+      val sermons =
+        videoRepository.getYoutubeChannelVideos(channel)
+      
+      val carouselItems = arrayListOf<CarouselItem>()
+      carouselItems += CategoryItem(
+        "Ver Prédicas",
+        Constants.SERMONS_IMAGE,
+        CategoryItemType.SERMONS
+      )
+      carouselItems += sermons
+        .filter { it.thumbnilsUrl != null }
+        .map {
+          YoutubeItem(
+            it.name,
+            it.thumbnilsUrl!!.replace("hqdefault.jpg", "maxresdefault.jpg"),
+            it.id
+          )
         }
+      
+      carouselItems
     }
-
-    private fun getSermonItems(channel: String) {
-        liveDataResult(_sermonsItems) {
-            val sermons =
-                videoRepository.getYoutubeChannelVideos(channel)
-
-            val carouselItems = arrayListOf<CarouselItem>()
-            carouselItems += CategoryItem("Ver Prédicas", Constants.SERMONS_IMAGE, CategoryItemType.SERMONS)
-            carouselItems += sermons
-                .filter { it.thumbnilsUrl != null }
-                .map {
-                    YoutubeItem(
-                        it.name,
-                        it.thumbnilsUrl!!.replace("hqdefault.jpg", "maxresdefault.jpg"),
-                        it.id
-                    )
-                }
-
-            carouselItems
-        }
-    }
-
+  }
+  
 }

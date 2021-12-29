@@ -17,24 +17,24 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object CampusModule {
-
-	@Singleton
-	@Provides
-	fun campusApi(
-		@Named("Client")
-		okHttpClient: OkHttpClient,
-		json: Json,
-	): CampusApi = Retrofit.Builder()
-		.client(okHttpClient)
-		.baseUrl("https://todoserver-peter.herokuapp.com")
-		.addConverterFactory(json.asConverterFactory(DataModule.contentType))
-		.build()
-		.create(CampusApi::class.java)
-
-	@Singleton
-	@Provides
-	fun campusRepository(
-		campusApi: CampusApi,
-	): CampusRepository = CampusRepositoryImpl(campusApi)
-
+  
+  @Singleton
+  @Provides
+  fun campusApi(
+    @Named("Client")
+    okHttpClient: OkHttpClient,
+    json: Json,
+  ): CampusApi = Retrofit.Builder()
+    .client(okHttpClient)
+    .baseUrl("https://todoserver-peter.herokuapp.com")
+    .addConverterFactory(json.asConverterFactory(DataModule.contentType))
+    .build()
+    .create(CampusApi::class.java)
+  
+  @Singleton
+  @Provides
+  fun campusRepository(
+    campusApi: CampusApi,
+  ): CampusRepository = CampusRepositoryImpl(campusApi)
+  
 }

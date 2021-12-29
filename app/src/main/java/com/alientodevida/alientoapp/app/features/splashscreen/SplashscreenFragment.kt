@@ -15,23 +15,23 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SplashscreenFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val binding = FragmentSplashscreenBinding.inflate(layoutInflater)
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            delay(1000)
-            binding.progressBar.isInvisible = true
-
-            val action =
-                SplashscreenFragmentDirections.actionFragmentSplashscreenToMobileNavigation()
-            findNavController().navigate(action)
-        }
-
-        return binding.root
+  
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View {
+    val binding = FragmentSplashscreenBinding.inflate(layoutInflater)
+    
+    viewLifecycleOwner.lifecycleScope.launch {
+      delay(1000)
+      binding.progressBar.isInvisible = true
+      
+      val action =
+        SplashscreenFragmentDirections.actionFragmentSplashscreenToMobileNavigation()
+      findNavController().navigate(action)
     }
+    
+    return binding.root
+  }
 }

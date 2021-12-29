@@ -16,44 +16,44 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AudioViewModel @Inject constructor(
-    private val spotifyRepository: SpotifyRepository,
-    coroutineDispatchers: CoroutineDispatchers,
-    errorParser: ErrorParser,
-    logger: Logger,
-    preferences: Preferences,
-    savedStateHandle: SavedStateHandle,
-    application: Application,
+  private val spotifyRepository: SpotifyRepository,
+  coroutineDispatchers: CoroutineDispatchers,
+  errorParser: ErrorParser,
+  logger: Logger,
+  preferences: Preferences,
+  savedStateHandle: SavedStateHandle,
+  application: Application,
 ) : BaseViewModel(
-    coroutineDispatchers,
-    errorParser,
-    logger,
-    preferences,
-    savedStateHandle,
-    application,
+  coroutineDispatchers,
+  errorParser,
+  logger,
+  preferences,
+  savedStateHandle,
+  application,
 ) {
-    val home = preferences.home
-
-    private val _podcasts = MutableLiveData<ViewModelResult<List<Podcast>>>()
-    val podcasts = _podcasts
-
-    init {
-        getPodcasts()
+  val home = preferences.home
+  
+  private val _podcasts = MutableLiveData<ViewModelResult<List<Podcast>>>()
+  val podcasts = _podcasts
+  
+  init {
+    getPodcasts()
+  }
+  
+  private fun getPodcasts() {
+    liveDataResult(
+      _podcasts,
+      dispatcher = coroutineDispatchers.io
+    ) {
+      spotifyRepository.getCachedPodcasts()
     }
-
-    private fun getPodcasts() {
-        liveDataResult(
-            _podcasts,
-            dispatcher = coroutineDispatchers.io
-        ) {
-            spotifyRepository.getCachedPodcasts()
-        }
+  }
+  
+  fun refreshContent() {
+    preferences.home?.spotifyPlaylistId?.let {
+      liveDataResult(_podcasts) {
+        spotifyRepository.refreshPodcasts(it)
+      }
     }
-
-    fun refreshContent() {
-        preferences.home?.spotifyPlaylistId?.let {
-            liveDataResult(_podcasts) {
-                spotifyRepository.refreshPodcasts(it)
-            }
-        }
-    }
+  }
 }
