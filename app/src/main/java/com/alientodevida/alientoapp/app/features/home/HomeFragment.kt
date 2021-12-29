@@ -166,7 +166,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
   }
   
   private fun goToGallery() {
-    val action = HomeFragmentDirections.actionFragmentHomeToGalleryFragment()
+    val action = HomeFragmentDirections.actionFragmentHomeToGalleriesFragment()
     findNavController().navigate(action)
   }
   

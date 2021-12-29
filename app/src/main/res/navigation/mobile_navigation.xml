@@ -47,10 +47,14 @@
             app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_fragment_home_to_campusFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right"
             app:destination="@id/fragment_campus" />
         <action
-            android:id="@+id/action_fragment_home_to_galleryFragment"
-            app:destination="@id/galleryFragment" />
+            android:id="@+id/action_fragment_home_to_galleriesFragment"
+            app:destination="@id/galleriesFragment" />
     </fragment>
 
     <fragment
@@ -86,6 +90,10 @@
         tools:layout="@layout/fragment_campuses">
         <action
             android:id="@+id/action_fragment_campus_to_campusDetailFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right"
             app:destination="@id/fragment_campus_detail" />
     </fragment>
     <dialog
@@ -97,10 +105,23 @@
             android:name="campus"
             app:argType="com.alientodevida.alientoapp.domain.campus.Campus" />
     </dialog>
-    <fragment
+    <dialog
         android:id="@+id/galleryFragment"
         android:name="com.alientodevida.alientoapp.app.features.gallery.GalleryFragment"
         android:label="GalleryFragment"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_gallery" >
+        <argument
+            android:name="gallery"
+            app:argType="com.alientodevida.alientoapp.domain.gallery.Gallery" />
+    </dialog>
+    <fragment
+        android:id="@+id/galleriesFragment"
+        android:name="com.alientodevida.alientoapp.app.features.gallery.list.GalleriesFragment"
+        android:label="GalleriesFragment"
+        tools:layout="@layout/fragment_galleries">
+    <action
+            android:id="@+id/action_galleriesFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+    </fragment>
 
 </navigation>

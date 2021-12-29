@@ -32,7 +32,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_campus"
+            android:id="@+id/rv_gallery"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/our_campuses"
+            android:text="@string/galeria"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:textColor="?attr/colorOnBackground"
             app:layout_constraintStart_toStartOf="parent"
