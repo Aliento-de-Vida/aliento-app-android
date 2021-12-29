@@ -23,5 +23,6 @@
     <string name="open_maps">Abrir maps</string>
     <string name="open_gallery">Ver galería</string>
     <string name="galeria">Galería</string>
+    <string name="notifications">Notificaciones</string>
 
 </resources>

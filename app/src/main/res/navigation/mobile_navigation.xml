@@ -54,30 +54,41 @@
             app:destination="@id/fragment_campus" />
         <action
             android:id="@+id/action_fragment_home_to_galleriesFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right"
             app:destination="@id/galleriesFragment" />
+        <action
+            android:id="@+id/action_fragment_home_to_notificationsFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right"
+            app:destination="@id/fragment_notifications" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_sermons"
         android:name="com.alientodevida.alientoapp.app.features.sermons.SermonsFragment"
         android:label="@string/title_sermons"
-        tools:layout="@layout/fragment_sermons"></fragment>
+        tools:layout="@layout/fragment_sermons" />
 
     <fragment
         android:id="@+id/fragment_church"
         android:name="com.alientodevida.alientoapp.app.features.church.ChurchFragment"
         android:label="ChurchFragment"
-        tools:layout="@layout/fragment_church"></fragment>
+        tools:layout="@layout/fragment_church" />
     <fragment
         android:id="@+id/donations_fragment"
         android:name="com.alientodevida.alientoapp.app.features.donations.DonationsFragment"
         android:label="DonationsFragment"
-        tools:layout="@layout/fragment_donations"></fragment>
+        tools:layout="@layout/fragment_donations" />
     <fragment
         android:id="@+id/prayer_fragment"
         android:name="com.alientodevida.alientoapp.app.features.prayer.PrayerFragment"
         android:label="PrayerFragment"
-        tools:layout="@layout/fragment_prayer"></fragment>
+        tools:layout="@layout/fragment_prayer" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.alientodevida.alientoapp.app.features.settings.SettingsFragment"
@@ -123,5 +134,10 @@
             android:id="@+id/action_galleriesFragment_to_galleryFragment"
             app:destination="@id/galleryFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/fragment_notifications"
+        android:name="com.alientodevida.alientoapp.app.features.notifications.NotificationsFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" />
 
 </navigation>

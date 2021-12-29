@@ -38,6 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
   
   private fun setupUI() {
     binding.toolbarView.icSettings.setOnClickListener { goToSettings() }
+    binding.toolbarView.icNotifications.setOnClickListener { goToNotifications() }
     
     binding.swiperefresh.setOnRefreshListener { this@HomeFragment.viewModel.getHome() }
     
@@ -163,6 +164,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
       }
     }
+  }
+  
+  private fun goToNotifications() {
+    val action = HomeFragmentDirections.actionFragmentHomeToNotificationsFragment()
+    findNavController().navigate(action)
   }
   
   private fun goToGallery() {
