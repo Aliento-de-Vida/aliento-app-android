@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.features.notifications
+package com.alientodevida.alientoapp.app.features.notifications.list
 
 import com.alientodevida.alientoapp.app.BR
 import com.alientodevida.alientoapp.app.databinding.ItemNotificationBinding

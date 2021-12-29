@@ -15,21 +15,21 @@ class HomeRepositoryImpl(
         "Reunión de fin de año",
         "Te invitamos a que pases con nosotros esta reunión tan especial",
         Image("aliento_de_vida.jpeg"),
-        "28 diciembre 21"
+        "29 dic 21"
       ),
       Notification(
         0,
         "Feliz Navidad!",
         "Te mandamos un fuerte abrazo!",
         Image("cursos.png"),
-        "28 diciembre 21"
+        "23 dic 21"
       ),
       Notification(
         0,
         "2022 con todo",
         "Preparate con nosotros para empezar el año",
         Image("manos_extendidas.jpg"),
-        "28 diciembre 21"
+        "28 dic 21"
       ),
     )
   }

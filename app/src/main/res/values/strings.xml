@@ -24,5 +24,6 @@
     <string name="open_gallery">Ver galería</string>
     <string name="galeria">Galería</string>
     <string name="notifications">Notificaciones</string>
+    <string name="full_screen">Full screen</string>
 
 </resources>

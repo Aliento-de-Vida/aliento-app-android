@@ -65,7 +65,9 @@
             app:layout_constraintBottom_toBottomOf="@+id/toolbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_notifications_black_24dp" />
+            app:srcCompat="@drawable/ic_notifications_black_24dp"
+            app:tint="?attr/colorOnSurface"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
