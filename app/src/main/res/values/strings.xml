@@ -25,5 +25,7 @@
     <string name="galeria">Galería</string>
     <string name="notifications">Notificaciones</string>
     <string name="full_screen">Full screen</string>
+    <string name="dark_theme">Tema Oscuro</string>
+    <string name="push_notifications">Notificaciones Push</string>
 
 </resources>

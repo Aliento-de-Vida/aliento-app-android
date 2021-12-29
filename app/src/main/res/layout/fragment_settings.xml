@@ -52,23 +52,46 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="70dp"
                     android:layout_marginEnd="16dp"
+                    android:text="@string/dark_theme"
+                    android:textAlignment="textStart"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="?attr/colorOnBackground"
+                    app:layout_constraintEnd_toStartOf="@+id/sw_theme"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_push_notifications"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginBottom="32dp"
-                    android:text="Tema Oscuro"
+                    android:text="@string/push_notifications"
                     android:textAlignment="textStart"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:textColor="?attr/colorOnBackground"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/theme_switch"
+                    app:layout_constraintEnd_toStartOf="@+id/sw_theme"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                    app:layout_constraintTop_toBottomOf="@+id/theme" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/theme_switch"
+                    android:id="@+id/sw_theme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="@+id/theme"
                     app:layout_constraintEnd_toEndOf="@+id/textView15"
                     app:layout_constraintTop_toTopOf="@+id/theme" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/sw_push_notifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_push_notifications"
+                    app:layout_constraintEnd_toEndOf="@+id/textView15"
+                    app:layout_constraintTop_toTopOf="@+id/tv_push_notifications" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
