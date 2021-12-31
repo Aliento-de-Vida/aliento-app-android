@@ -3,15 +3,24 @@ package com.alientodevida.alientoapp.app.features.donations
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentDonationsBinding
+import com.alientodevida.alientoapp.app.databinding.ItemNotificationBinding
+import com.alientodevida.alientoapp.app.databinding.ItemPaymentBinding
+import com.alientodevida.alientoapp.app.features.gallery.imageDiffCallback
+import com.alientodevida.alientoapp.app.features.notifications.list.NotificationsFragmentDirections
+import com.alientodevida.alientoapp.app.features.notifications.list.NotificationsViewHolder
+import com.alientodevida.alientoapp.app.recyclerview.BaseDiffAdapter
+import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
 import com.alientodevida.alientoapp.app.utils.Utils
 import com.alientodevida.alientoapp.domain.entities.local.BankAccount
 import com.alientodevida.alientoapp.domain.entities.local.PaymentItem
 import com.alientodevida.alientoapp.domain.entities.local.Paypal
+import com.alientodevida.alientoapp.domain.home.Notification
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,8 +28,7 @@ class DonationsFragment : BaseFragment<FragmentDonationsBinding>(R.layout.fragme
   
   private val viewModel by viewModels<DonationsViewModel>()
   
-  private lateinit var tithesRecyclerViewAdapter: DonationsRecyclerViewAdapter
-  private lateinit var offeringsRecyclerViewAdapter: DonationsRecyclerViewAdapter
+  private val offeringsAdapter = BaseDiffAdapter(donationDiffCallback)
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -32,47 +40,37 @@ class DonationsFragment : BaseFragment<FragmentDonationsBinding>(R.layout.fragme
     with(binding) {
       toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
       
-      setupTithesRecyclerView(tithes)
       setupOfferingsRecyclerView(offerings)
     }
   }
   
-  private fun setupTithesRecyclerView(recyclerView: RecyclerView) {
-    tithesRecyclerViewAdapter =
-      DonationsRecyclerViewAdapter(ItemClick { item -> onCardClick(item) })
-    
-    viewModel.tithesOptions.observe(viewLifecycleOwner) { result ->
-      tithesRecyclerViewAdapter.items = result
-      recyclerView.apply {
-        layoutManager =
-          LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        adapter = tithesRecyclerViewAdapter
-      }
-    }
-  }
-  
   private fun setupOfferingsRecyclerView(recyclerView: RecyclerView) {
-    offeringsRecyclerViewAdapter =
-      DonationsRecyclerViewAdapter(ItemClick { item -> onCardClick(item) })
+    val resourceListener = BaseViewHolder.Listener { item: PaymentItem, _ ->
+      onCardClick(item)
+    }
+    offeringsAdapter.register<PaymentItem, ItemPaymentBinding, DonationViewHolder>(
+      R.layout.item_payment,
+      resourceListener,
+    )
     
     viewModel.offeringsOptions.observe(viewLifecycleOwner) { result ->
-      offeringsRecyclerViewAdapter.items = result
+      offeringsAdapter.submitList(result)
       recyclerView.apply {
         layoutManager =
-          LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        adapter = offeringsRecyclerViewAdapter
+          LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        adapter = offeringsAdapter
       }
     }
   }
   
   private fun onCardClick(item: PaymentItem) {
-    when (item) {
-      is Paypal -> Utils.goToUrl(requireContext(), item.url)
-      is BankAccount -> {
+    when {
+      item.paypal != null -> Utils.goToUrl(requireContext(), item.paypal!!.url)
+      item.bankAccount != null -> {
         Utils.copyToClipboard(
           context = requireContext(),
           name = "Número de tarjeta",
-          value = item.cardNumber
+          value = item.bankAccount!!.cardNumber
         )
       }
     }
