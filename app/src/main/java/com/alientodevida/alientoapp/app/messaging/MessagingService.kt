@@ -10,7 +10,6 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import com.alientodevida.alientoapp.app.MainActivity
 import com.alientodevida.alientoapp.app.R

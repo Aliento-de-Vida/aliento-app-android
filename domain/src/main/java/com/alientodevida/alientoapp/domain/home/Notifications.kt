@@ -11,6 +11,6 @@ data class Notification(
   val id: Int,
   val title: String,
   val content: String,
-  val image: Image,
+  val image: Image? = null,
   val date: String,
 ): Parcelable

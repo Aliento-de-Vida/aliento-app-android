@@ -4,9 +4,9 @@ import com.alientodevida.alientoapp.app.BR
 import com.alientodevida.alientoapp.app.databinding.ItemNotificationBinding
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffCallback
 import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
+import com.alientodevida.alientoapp.app.utils.extensions.load
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.home.Notification
-import com.bumptech.glide.Glide
 
 val notificationsDiffCallback = object : BaseDiffCallback() {
   override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean =
@@ -29,11 +29,8 @@ class NotificationsViewHolder(
       tvTitle.text = item.title
       tvContent.text = item.content
       tvDate.text = item.date
-      
-      Glide.with(ivBackground.context)
-        .load(item.image.name.toImageUrl())
-        .centerCrop()
-        .into(ivBackground)
+  
+      ivBackground.load(item.image?.name?.toImageUrl())
     }
   }
   

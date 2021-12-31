@@ -8,8 +8,6 @@ import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
-import com.alientodevida.alientoapp.domain.gallery.Gallery
-import com.alientodevida.alientoapp.domain.gallery.GalleryRepository
 import com.alientodevida.alientoapp.domain.home.HomeRepository
 import com.alientodevida.alientoapp.domain.home.Notification
 import com.alientodevida.alientoapp.domain.logger.Logger
@@ -42,6 +40,6 @@ class NotificationsViewModel @Inject constructor(
   }
   
   private fun getGalleries() {
-    liveDataResult(_notifications) { homeRepository.getNotifications() }
+    liveDataResult(_notifications) { homeRepository.getNotifications().filter { it.image != null } }
   }
 }
