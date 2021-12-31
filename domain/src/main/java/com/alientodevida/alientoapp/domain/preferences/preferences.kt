@@ -17,7 +17,7 @@ interface Preferences {
 	var isDarkTheme: Boolean
 	val isDarkThemeLive: LiveData<Boolean>
 
-	var pushToken: String
+	var pushEnabled: Boolean
 	var spotifyJwtToken: Token?
 
 	var home: Home?

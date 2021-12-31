@@ -7,6 +7,7 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentSettingsBinding
 import com.alientodevida.alientoapp.domain.preferences.Preferences
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -32,11 +33,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
       isDarkTheme?.let { swTheme.isChecked = it }
     }
   
-    swTheme.setOnCheckedChangeListener { _, checked ->
-      preferences.isDarkTheme = checked
+    swTheme.setOnCheckedChangeListener { _, isChecked ->
+      preferences.isDarkTheme = isChecked
     }
-    
-    swPushNotifications.setOnCheckedChangeListener { _, isChecked -> }
+  
+    swPushNotifications.isChecked = preferences.pushEnabled
+    swPushNotifications.setOnCheckedChangeListener { _, isChecked ->
+      preferences.pushEnabled = isChecked
+      if (isChecked)
+        FirebaseMessaging.getInstance().subscribeToTopic("push_notifications")
+      else
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("push_notifications")
+    }
     
   }}
   
