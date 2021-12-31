@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseBottomSheetFragment
-import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentGalleryBinding
 import com.alientodevida.alientoapp.app.databinding.ItemGalleryImageBinding
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffAdapter

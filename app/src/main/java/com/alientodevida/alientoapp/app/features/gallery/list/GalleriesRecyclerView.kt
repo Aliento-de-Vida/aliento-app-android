@@ -1,7 +1,6 @@
 package com.alientodevida.alientoapp.app.features.gallery.list
 
 import com.alientodevida.alientoapp.app.BR
-import com.alientodevida.alientoapp.app.databinding.ItemCampusBinding
 import com.alientodevida.alientoapp.app.databinding.ItemGalleryBinding
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffCallback
 import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder

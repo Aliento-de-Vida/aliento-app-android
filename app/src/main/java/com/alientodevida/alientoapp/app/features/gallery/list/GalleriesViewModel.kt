@@ -7,8 +7,6 @@ import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
-import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
-import com.alientodevida.alientoapp.domain.common.Image
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.gallery.Gallery
 import com.alientodevida.alientoapp.domain.gallery.GalleryRepository

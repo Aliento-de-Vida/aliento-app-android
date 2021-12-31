@@ -28,7 +28,7 @@ class NotificationDetailFragment :
     with(binding) {
       val notification = viewModel.notification
       
-      ivContent.load(notification.image.name.toImageUrl())
+      ivContent.load(notification.image?.name?.toImageUrl())
       
       tvTitle.text = notification.title.uppercase()
       tvDescription.text = notification.content
@@ -39,7 +39,7 @@ class NotificationDetailFragment :
   }
   
   private fun FragmentNotificationDetailBinding.openInFullScreen() {
-    val imageUrl = viewModel.notification.image.name.toImageUrl()
+    val imageUrl = viewModel.notification.image?.name?.toImageUrl()
     StfalconImageViewer.Builder(context, listOf(imageUrl)) { view, url ->
       Glide.with(requireContext()).load(url).into(view)
     }
