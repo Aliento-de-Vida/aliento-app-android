@@ -18,6 +18,7 @@ class PreferencesImpl(
 ) : Preferences {
     companion object {
         const val JWT_TOKEN_KEY = "jwt-token"
+        const val PUSH_ENABLED_KEY = "push-enabled"
         const val HOME_KEY = "home"
         private const val NIGHT_MODE_KEY = "night_mode"
         private const val NIGHT_MODE_DEF_VAL = AppCompatDelegate.MODE_NIGHT_NO
@@ -56,10 +57,18 @@ class PreferencesImpl(
                 }
             }
         }
-
+    
+    private val _pushEnabled =
+        PrimitivePreferenceProperty<Boolean>(Type.BOOLEAN, PUSH_ENABLED_KEY, preferences)
+    override var pushEnabled: Boolean by _pushEnabled
+    
     init {
         if (!preferences.contains(NIGHT_MODE_KEY)) {
             isDarkTheme = getRandomBoolean()
+        }
+    
+        if (!preferences.contains(PUSH_ENABLED_KEY)) {
+            pushEnabled = true
         }
 
         _nightModeLive.value = nightMode
@@ -69,11 +78,6 @@ class PreferencesImpl(
     }
 
     private fun getRandomBoolean() = (Random().nextInt(2) + 1) == 1
-
-    private val _pushToken =
-        PrimitivePreferenceProperty<String>(Type.STRING, "push-token", preferences)
-    override var pushToken: String by _pushToken
-
 
     override var spotifyJwtToken: Token?
         get() = get(JWT_TOKEN_KEY, preferences)
@@ -87,7 +91,7 @@ class PreferencesImpl(
 
     override suspend fun clear() {
         clear(JWT_TOKEN_KEY)
-        _pushToken.clear()
+        _pushEnabled.clear()
     }
 
     private fun clear(name: String) {

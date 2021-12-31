@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.alientodevida.alientoapp.app.databinding.ActivityMainBinding
+import com.alientodevida.alientoapp.data.preferences.PreferencesImpl
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
@@ -22,8 +23,7 @@ class MainActivity : AppCompatActivity() {
     setTheme(R.style.AppTheme)
     super.onCreate(savedInstanceState)
   
-    FirebaseApp.initializeApp(this)
-    FirebaseMessaging.getInstance().subscribeToTopic("push_notifications")
+    setupPushNotifications()
   
     window.setFlags(
       WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -35,6 +35,13 @@ class MainActivity : AppCompatActivity() {
     observe()
     
     setContentView(binding.root)
+  }
+  
+  private fun setupPushNotifications() {
+    FirebaseApp.initializeApp(this)
+    
+    if (preferences.pushEnabled)
+      FirebaseMessaging.getInstance().subscribeToTopic("push_notifications")
   }
   
   private fun observe() {

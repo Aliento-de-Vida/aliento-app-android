@@ -1,12 +1,17 @@
 package com.alientodevida.alientoapp.app.features.notifications.list
 
+import android.annotation.SuppressLint
 import com.alientodevida.alientoapp.app.BR
 import com.alientodevida.alientoapp.app.databinding.ItemNotificationBinding
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffCallback
 import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
 import com.alientodevida.alientoapp.app.utils.extensions.load
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
+import com.alientodevida.alientoapp.domain.extensions.format
+import com.alientodevida.alientoapp.domain.extensions.toDate
 import com.alientodevida.alientoapp.domain.home.Notification
+import java.text.SimpleDateFormat
+import java.util.*
 
 val notificationsDiffCallback = object : BaseDiffCallback() {
   override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean =
@@ -28,7 +33,7 @@ class NotificationsViewHolder(
     with(binding) {
       tvTitle.text = item.title
       tvContent.text = item.content
-      tvDate.text = item.date
+      tvDate.text = item.date.toDate()?.format("dd MMM yy")
   
       ivBackground.load(item.image?.name?.toImageUrl())
     }
