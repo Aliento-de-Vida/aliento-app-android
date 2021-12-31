@@ -1,6 +1,4 @@
-package com.alientodevida.alientoapp.domain.youtube
-
-import com.alientodevida.alientoapp.domain.entities.local.YoutubeVideo
+package com.alientodevida.alientoapp.domain.video
 
 interface VideoRepository {
 

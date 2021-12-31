@@ -15,5 +15,5 @@ object Constants {
   const val PRAYER_IMAGE = "$BASE_IMAGES_URL/oraciones.png"
   const val EBOOK_IMAGE = "$BASE_IMAGES_URL/ebook.png"
   
-  const val US_VIDEO = "uBdoDNUF2_I"
+  const val US_VIDEO = "ieOwvnk2B4I"
 }

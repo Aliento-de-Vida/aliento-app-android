@@ -1,16 +1,15 @@
 package com.alientodevida.alientoapp.app.features.church
 
-import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.webkit.WebViewClient
+import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentChurchBinding
 import com.alientodevida.alientoapp.app.utils.Constants
-import com.bumptech.glide.Glide
+import com.alientodevida.alientoapp.app.utils.Utils
+import com.alientodevida.alientoapp.app.utils.extensions.load
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,21 +24,30 @@ class ChurchFragment : BaseFragment<FragmentChurchBinding>(R.layout.fragment_chu
     observeViewModel()
   }
   
-  @SuppressLint("SetJavaScriptEnabled")
   private fun setupUI() {
     with(binding) {
       toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
-      
-      Glide.with(requireContext())
-        .load(Constants.CHURCH_IMAGE)
-        .into(videoView)
-      
-      transmisionWv.apply {
-        setBackgroundColor(Color.TRANSPARENT)
-        settings.useWideViewPort = true
-        settings.javaScriptEnabled = true
-        webViewClient = object : WebViewClient() {}
+  
+      videoView.load(viewModel.usImageUrl, false)
+      videoView.setOnClickListener {
+        Utils.handleOnClick(requireActivity(), Constants.US_VIDEO)
       }
+  
+      viewModel.latestVideo?.let {
+        ivLatestVideo.load(viewModel.latestVideo?.thumbnilsUrl)
+        ivLatestVideo.setOnClickListener {
+          viewModel.latestVideo?.let {
+            Utils.handleOnClick(requireActivity(), it.id)
+          }
+        }
+      } ?: run {
+        tvLatestVideo.isGone = true
+        ivLatestVideo.isGone = true
+        triangle2.isGone = true
+        playIcon2.isGone = true
+        
+      }
+      
     }
   }
   

@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.alientodevida.alientoapp.domain.entities.local.Podcast
-import com.alientodevida.alientoapp.domain.entities.local.YoutubeVideo
+import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 
 @Dao
 interface RoomDao {

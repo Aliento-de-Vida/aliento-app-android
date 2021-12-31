@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.domain.entities.local.YoutubeVideo
+import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException

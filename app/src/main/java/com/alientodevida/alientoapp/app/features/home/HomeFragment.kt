@@ -192,7 +192,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
   }
   
   private fun goToChurch() {
-    val action = HomeFragmentDirections.actionNavigationHomeToChurchFragment()
+    val action = HomeFragmentDirections.actionNavigationHomeToChurchFragment(viewModel.latestVideo)
     findNavController().navigate(action)
   }
   
