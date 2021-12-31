@@ -23,23 +23,17 @@ import com.google.firebase.messaging.RemoteMessage
 class MessagingService : FirebaseMessagingService() {
   
   override fun onMessageReceived(remoteMessage: RemoteMessage) {
-    remoteMessage.notification?.let {
-      val image = remoteMessage.data.notEmptyOrNull()?.get("image")?.notEmptyOrNull()
-      val date = remoteMessage.data.notEmptyOrNull()?.get("date")?.notEmptyOrNull()
-      var notification: Notification? = null
+    val title = remoteMessage.data.notEmptyOrNull()?.get("title")?.notEmptyOrNull()
+    val body = remoteMessage.data.notEmptyOrNull()?.get("body")?.notEmptyOrNull()
+    val image = remoteMessage.data.notEmptyOrNull()?.get("image")?.notEmptyOrNull()
+    val date = remoteMessage.data.notEmptyOrNull()?.get("date")?.notEmptyOrNull()
+    var notification: Notification? = null
+    
+    if (title != null && body != null) {
+      if (image != null && date != null)
+        notification = Notification(0, title, body, Image(image), date)
       
-      if (image != null && date != null) {
-        notification = Notification(
-          0,
-          it.title ?: "",
-          it.body ?: "",
-          Image(image),
-          date,
-        )
-      }
-      
-      
-      sendNotification(it.title ?: "", it.body ?: "", notification)
+      sendNotification(title, body, notification)
     }
   }
   
