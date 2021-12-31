@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.alientodevida.alientoapp.app.databinding.ActivityMainBinding
-import com.alientodevida.alientoapp.data.preferences.PreferencesImpl
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging

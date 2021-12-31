@@ -60,12 +60,12 @@
             app:popExitAnim="@anim/slide_right"
             app:destination="@id/galleriesFragment" />
         <action
-            android:id="@+id/action_fragment_home_to_notificationsFragment"
+            android:id="@+id/action_fragment_home_to_notification_navigation"
             app:enterAnim="@anim/slide_left"
             app:exitAnim="@anim/wait_anim"
             app:popEnterAnim="@anim/wait_anim"
             app:popExitAnim="@anim/slide_right"
-            app:destination="@id/fragment_notifications" />
+            app:destination="@id/notification_navigation" />
     </fragment>
 
     <fragment
@@ -134,23 +134,6 @@
             android:id="@+id/action_galleriesFragment_to_galleryFragment"
             app:destination="@id/galleryFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/fragment_notifications"
-        android:name="com.alientodevida.alientoapp.app.features.notifications.list.NotificationsFragment"
-        android:label="fragment_notifications"
-        tools:layout="@layout/fragment_notifications" >
-        <action
-            android:id="@+id/action_fragment_notifications_to_fragment_notification_detail"
-            app:destination="@id/fragment_notification_detail" />
-    </fragment>
-    <dialog
-        android:id="@+id/fragment_notification_detail"
-        android:name="com.alientodevida.alientoapp.app.features.notifications.detail.NotificationDetailFragment"
-        android:label="fragment_notification_detail"
-        tools:layout="@layout/fragment_notification_detail" >
-        <argument
-            android:name="notification"
-            app:argType="com.alientodevida.alientoapp.domain.home.Notification" />
-    </dialog>
+    <include app:graph="@navigation/notification_navigation" />
 
 </navigation>

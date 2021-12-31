@@ -167,7 +167,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
   }
   
   private fun goToNotifications() {
-    val action = HomeFragmentDirections.actionFragmentHomeToNotificationsFragment()
+    val action = HomeFragmentDirections.actionFragmentHomeToNotificationNavigation()
     findNavController().navigate(action)
   }
   
