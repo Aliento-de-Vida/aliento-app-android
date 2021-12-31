@@ -16,7 +16,8 @@ import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.home.HomeRepository
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
-import com.alientodevida.alientoapp.domain.youtube.VideoRepository
+import com.alientodevida.alientoapp.domain.video.VideoRepository
+import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -63,6 +64,8 @@ class HomeViewModel @Inject constructor(
   private val _home = MutableLiveData<ViewModelResult<Home>>()
   val home = _home
   
+  var latestVideo: YoutubeVideo? = null
+  
   init {
     _sermonsItems.value = ViewModelResult.Success(
       listOf(CategoryItem("Ver Prédicas", Constants.SERMONS_IMAGE, CategoryItemType.SERMONS))
@@ -83,6 +86,7 @@ class HomeViewModel @Inject constructor(
     liveDataResult(_sermonsItems) {
       val sermons =
         videoRepository.getYoutubeChannelVideos(channel)
+      latestVideo = sermons.firstOrNull()
       
       val carouselItems = arrayListOf<CarouselItem>()
       carouselItems += CategoryItem(

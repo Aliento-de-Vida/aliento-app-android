@@ -10,7 +10,7 @@ import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentVideoBinding
 import com.alientodevida.alientoapp.app.utils.Utils
 import com.alientodevida.alientoapp.app.utils.extensions.openYoutubeChannel
-import com.alientodevida.alientoapp.domain.entities.local.YoutubeVideo
+import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 import dagger.hilt.android.AndroidEntryPoint
 
 

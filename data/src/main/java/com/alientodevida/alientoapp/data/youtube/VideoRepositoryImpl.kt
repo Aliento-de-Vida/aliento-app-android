@@ -1,9 +1,9 @@
 package com.alientodevida.alientoapp.data.youtube
 
 import com.alientodevida.alientoapp.data.storage.RoomDao
-import com.alientodevida.alientoapp.domain.entities.local.YoutubeVideo
+import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 import com.alientodevida.alientoapp.domain.entities.network.asDomain
-import com.alientodevida.alientoapp.domain.youtube.VideoRepository
+import com.alientodevida.alientoapp.domain.video.VideoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

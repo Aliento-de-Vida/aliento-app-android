@@ -1,9 +1,12 @@
-package com.alientodevida.alientoapp.domain.entities.local
+package com.alientodevida.alientoapp.domain.video
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
 @Entity
+@Parcelize
 data class YoutubeVideo(
         var name: String,
         @PrimaryKey
@@ -11,4 +14,4 @@ data class YoutubeVideo(
         val description: String,
         val date: String,
         val thumbnilsUrl: String?
-)
+): Parcelable
