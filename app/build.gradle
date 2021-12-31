@@ -72,8 +72,9 @@ dependencies {
     implementation project(path: ':data')
 
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:27.1.0')
+    implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
 
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
