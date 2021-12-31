@@ -1,131 +1,89 @@
 package com.alientodevida.alientoapp.app.features.donations
 
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
+import com.alientodevida.alientoapp.app.BR
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.databinding.ItemPaymentBinding
+import com.alientodevida.alientoapp.app.recyclerview.BaseDiffCallback
+import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
 import com.alientodevida.alientoapp.app.utils.Utils
-import com.alientodevida.alientoapp.domain.entities.local.BankAccount
 import com.alientodevida.alientoapp.domain.entities.local.PaymentItem
-import com.alientodevida.alientoapp.domain.entities.local.Paypal
 
-class ItemClick(val block: (PaymentItem) -> Unit) {
-  fun onClick(paymentItem: PaymentItem) = block(paymentItem)
+val donationDiffCallback = object : BaseDiffCallback() {
+  override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean =
+    oldItem is PaymentItem && newItem is PaymentItem && oldItem.id == newItem.id
 }
 
-class PaymentItemViewHolder(val deviceDataBinding: ItemPaymentBinding) :
-  RecyclerView.ViewHolder(deviceDataBinding.root) {
-  companion object {
-    @LayoutRes
-    val LAYOUT = R.layout.item_payment
-  }
-}
-
-class DonationsRecyclerViewAdapter(private val callback: ItemClick) :
-  RecyclerView.Adapter<PaymentItemViewHolder>() {
+class DonationViewHolder(
+  binding: ItemPaymentBinding,
+  listener: Listener<PaymentItem>
+) : BaseViewHolder<PaymentItem, ItemPaymentBinding>(
+  binding,
+  BR.item,
+  listener,
+) {
   
-  var items: List<PaymentItem> = emptyList()
-    set(value) {
-      field = value
-      notifyDataSetChanged()
-    }
+  override fun bind(item: PaymentItem) {
+    super.bind(item)
   
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentItemViewHolder {
-    val withDataBinding: ItemPaymentBinding =
-      DataBindingUtil.inflate(
-        LayoutInflater.from(parent.context),
-        PaymentItemViewHolder.LAYOUT, parent, false
-      )
-    return PaymentItemViewHolder(withDataBinding)
-  }
+    with(binding) {
+      this.item = item
+      cardConstraintLayout.setOnClickListener {
+        listener?.invoke(item, cardConstraintLayout)
+      }
   
-  override fun getItemCount() = items.size
-  
-  override fun onBindViewHolder(holder: PaymentItemViewHolder, position: Int) {
-    holder.deviceDataBinding.also {
-      val item = items[position]
-      
-      it.callback = callback
-      it.item = item
-      it.ownerName.text = item.ownerName
-      
-      when (item) {
-        is Paypal -> {
-          it.cardConstraintLayout.setBackgroundColor(Color.WHITE)
-          
-          it.logo.visibility = View.VISIBLE
-          
-          it.noDeCuenta.visibility = View.GONE
-          it.noDeCuentaLabel.visibility = View.GONE
-          it.clabe.visibility = View.GONE
-          it.clabeLabel.visibility = View.GONE
-          it.noDeTarjeta.text = "Click para donar"
-          it.noDeTarjeta.setTextColor(Color.BLACK)
-          it.noDeTarjetaLabel.visibility = View.GONE
+      when {
+        item.paypal != null -> {
+          cardConstraintLayout.setBackgroundColor(Color.WHITE)
+        
+          logo.visibility = View.VISIBLE
+        
+          noDeCuenta.visibility = View.GONE
+          noDeCuentaLabel.visibility = View.GONE
+          clabe.visibility = View.GONE
+          clabeLabel.visibility = View.GONE
+          noDeTarjeta.text = noDeTarjeta.context.getString(R.string.click_to_donate)
+          noDeTarjeta.setTextColor(Color.BLACK)
+          noDeTarjetaLabel.visibility = View.GONE
         }
-        is BankAccount -> {
-          it.background.setImageDrawable(
+        item.bankAccount != null -> {
+          val bankAccount = item.bankAccount!!
+          
+          background.setImageDrawable(
             ContextCompat.getDrawable(
-              it.card.context,
-              item.backgroundResource
+              card.context,
+              bankAccount.backgroundResource
             )
           )
-          
-          it.logo.visibility = View.GONE
-          
-          it.noDeCuenta.text = item.accountNumber
-          it.clabe.text = item.clabe
-          it.noDeTarjeta.text = item.cardNumber
-          
-          it.noDeCuenta.setOnClickListener {
+        
+          logo.visibility = View.GONE
+        
+          noDeCuenta.text = bankAccount.accountNumber
+          clabe.text = bankAccount.clabe
+          noDeTarjeta.text = bankAccount.cardNumber
+        
+          noDeCuenta.setOnClickListener {
             Utils.copyToClipboard(
-              context = it.context,
+              context = noDeCuenta.context,
               name = "Número de cuenta",
-              value = item.accountNumber
+              value = bankAccount.accountNumber
             )
           }
-          it.clabe.setOnClickListener {
-            Utils.copyToClipboard(context = it.context, name = "Clabe", value = item.clabe)
+          clabe.setOnClickListener {
+            Utils.copyToClipboard(context = clabe.context, name = "Clabe", value = bankAccount.clabe)
           }
-          it.noDeTarjeta.setOnClickListener {
+          noDeTarjeta.setOnClickListener {
             Utils.copyToClipboard(
-              context = it.context,
+              context = noDeTarjeta.context,
               name = "Número de tarjeta",
-              value = item.cardNumber
+              value = bankAccount.cardNumber
             )
           }
-        }
-      }
-      
-      when (position) {
-        0 -> {
-          val params =
-            holder.deviceDataBinding.root.layoutParams as RecyclerView.LayoutParams
-          params.leftMargin = 20
-          params.rightMargin = 0
-          holder.deviceDataBinding.root.layoutParams = params
-        }
-        items.lastIndex -> {
-          val params =
-            holder.deviceDataBinding.root.layoutParams as RecyclerView.LayoutParams
-          params.rightMargin = 20
-          params.leftMargin = 0
-          holder.deviceDataBinding.root.layoutParams = params
-        }
-        else -> {
-          val params =
-            holder.deviceDataBinding.root.layoutParams as RecyclerView.LayoutParams
-          params.leftMargin = 0
-          params.rightMargin = 0
-          holder.deviceDataBinding.root.layoutParams = params
         }
       }
     }
   }
+  
 }

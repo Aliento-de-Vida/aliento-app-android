@@ -1,6 +1,5 @@
 package com.alientodevida.alientoapp.app.features.notifications.list
 
-import android.annotation.SuppressLint
 import com.alientodevida.alientoapp.app.BR
 import com.alientodevida.alientoapp.app.databinding.ItemNotificationBinding
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffCallback
@@ -10,8 +9,6 @@ import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
 import com.alientodevida.alientoapp.domain.home.Notification
-import java.text.SimpleDateFormat
-import java.util.*
 
 val notificationsDiffCallback = object : BaseDiffCallback() {
   override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean =
