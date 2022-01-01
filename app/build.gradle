@@ -41,7 +41,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false // TODO fix this before sending to PROD
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 	        signingConfig signingConfigs.release
             buildConfigField "String", "YOUTUBE_DEVELOPER_KEY", "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\""
