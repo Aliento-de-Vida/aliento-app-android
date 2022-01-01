@@ -50,9 +50,9 @@ class AudioViewModel @Inject constructor(
   }
   
   fun refreshContent() {
-    preferences.home?.spotifyPlaylistId?.let {
+    preferences.home?.socialMedia?.spotifyArtistId?.let {
       liveDataResult(_podcasts) {
-        spotifyRepository.refreshAudios("4VYxusCiKsWxcfUveymGU5")
+        spotifyRepository.refreshAudios(it)
       }
     }
   }
