@@ -13,9 +13,6 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentHomeBinding
 import com.alientodevida.alientoapp.app.databinding.ItemCarouselBinding
-import com.alientodevida.alientoapp.app.databinding.ItemVideoCardBinding
-import com.alientodevida.alientoapp.app.features.sermons.video.VideoViewHolder
-import com.alientodevida.alientoapp.app.features.sermons.video.videoDiffCallback
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffAdapter
 import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
 import com.alientodevida.alientoapp.app.state.ViewModelResult
@@ -23,10 +20,7 @@ import com.alientodevida.alientoapp.app.utils.Constants
 import com.alientodevida.alientoapp.app.utils.Utils
 import com.alientodevida.alientoapp.app.utils.extensions.*
 import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
-import com.alientodevida.alientoapp.domain.entities.local.CategoryItem
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
-import com.alientodevida.alientoapp.domain.entities.local.YoutubeItem
-import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 import com.synnapps.carouselview.ViewListener
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -103,7 +97,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
   
   private fun setupCarousel() {
     val resourceListener = BaseViewHolder.Listener { item: CarouselItem, _ ->
-      when ((item as CategoryItem).type) {
+      when (item.categoryItem?.type) {
         CategoryItemType.CHURCH -> goToChurch()
         CategoryItemType.CAMPUSES -> goToCampus()
         CategoryItemType.GALLERY -> goToGallery()
