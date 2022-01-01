@@ -1,8 +1,8 @@
-package com.alientodevida.alientoapp.domain.spotify
+package com.alientodevida.alientoapp.domain.audio
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import com.alientodevida.alientoapp.domain.entities.local.Audio as DomainPodcast
+import com.alientodevida.alientoapp.domain.audio.Audio as DomainPodcast
 
 @Serializable
 data class Podcasts(

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.alientodevida.alientoapp.domain.entities.local.Audio
+import com.alientodevida.alientoapp.domain.audio.Audio
 import com.alientodevida.alientoapp.domain.entities.local.ImageUrlEntity
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 

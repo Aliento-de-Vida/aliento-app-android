@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.domain.entities.local
+package com.alientodevida.alientoapp.domain.audio
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

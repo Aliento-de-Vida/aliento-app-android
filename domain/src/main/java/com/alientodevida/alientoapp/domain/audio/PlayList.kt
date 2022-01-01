@@ -1,6 +1,6 @@
 package com.alientodevida.alientoapp.domain.entities.network
 
-import com.alientodevida.alientoapp.domain.spotify.SpotifyImage
+import com.alientodevida.alientoapp.domain.audio.SpotifyImage
 import kotlinx.serialization.Serializable
 
 @Serializable
