@@ -12,13 +12,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentHomeBinding
+import com.alientodevida.alientoapp.app.databinding.ItemCarouselBinding
+import com.alientodevida.alientoapp.app.databinding.ItemVideoCardBinding
+import com.alientodevida.alientoapp.app.features.sermons.video.VideoViewHolder
+import com.alientodevida.alientoapp.app.features.sermons.video.videoDiffCallback
+import com.alientodevida.alientoapp.app.recyclerview.BaseDiffAdapter
+import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.Constants
 import com.alientodevida.alientoapp.app.utils.Utils
 import com.alientodevida.alientoapp.app.utils.extensions.*
+import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItem
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
 import com.alientodevida.alientoapp.domain.entities.local.YoutubeItem
+import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 import com.synnapps.carouselview.ViewListener
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,13 +35,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
   
   private val viewModel by viewModels<HomeViewModel>()
   
-  private lateinit var carouselRecyclerViewAdapter: CarouselRecyclerViewAdapter
+  private val carouselAdapter = BaseDiffAdapter(carouselDiffCallback)
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     
     setupUI()
-    setupObservers()
+    observeViewModel()
   }
   
   private fun setupUI() {
@@ -47,7 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     setupSocialMedia()
   }
   
-  private fun setupObservers() {
+  private fun observeViewModel() {
     viewModel.sermonsItems.observe(viewLifecycleOwner) { result ->
       viewModelResult(
         result = result,
@@ -70,21 +78,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         customView.findViewById<ImageView>(R.id.imageView).load(it)
       }
       
-      when (it) {
-        is CategoryItem -> {
+      when {
+        it.categoryItem != null -> {
           (customView.findViewById(R.id.play_icon) as ImageView).visibility = View.GONE
           (customView.findViewById(R.id.triangle) as FrameLayout).visibility = View.GONE
           (customView.findViewById(R.id.title) as TextView).text = it.title
           customView.setOnClickListener { goToSermons() }
-          
         }
-        is YoutubeItem -> {
+        it.youtubeItem != null -> {
           (customView.findViewById(R.id.play_icon) as ImageView).visibility = View.VISIBLE
           (customView.findViewById(R.id.triangle) as FrameLayout).visibility =
             View.VISIBLE
           (customView.findViewById(R.id.cl_title) as ConstraintLayout).visibility = View.GONE
           customView.setOnClickListener { _ ->
-            Utils.handleOnClick(requireActivity(), it.youtubeId)
+            Utils.handleOnClick(requireActivity(), it.youtubeItem!!.youtubeId)
           }
         }
       }
@@ -95,22 +102,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
   }
   
   private fun setupCarousel() {
-    carouselRecyclerViewAdapter = CarouselRecyclerViewAdapter(ItemClick { item ->
+    val resourceListener = BaseViewHolder.Listener { item: CarouselItem, _ ->
       when ((item as CategoryItem).type) {
         CategoryItemType.CHURCH -> goToChurch()
         CategoryItemType.CAMPUSES -> goToCampus()
         CategoryItemType.GALLERY -> goToGallery()
         CategoryItemType.SERMONS -> goToSermons()
       }
-    })
-    
-    carouselRecyclerViewAdapter.items = viewModel.carouseItems
-    carouselRecyclerViewAdapter.notifyDataSetChanged()
-    binding.carrousel.apply {
-      layoutManager =
-        LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-      adapter = carouselRecyclerViewAdapter
     }
+    carouselAdapter.register<CarouselItem, ItemCarouselBinding, CarouselViewHolder>(
+      R.layout.item_carousel,
+      resourceListener,
+    )
+  
+    binding.carrousel.layoutManager = LinearLayoutManager(
+      requireContext(),
+      LinearLayoutManager.HORIZONTAL,
+      false
+    )
+    binding.carrousel.adapter = carouselAdapter
+  
+    carouselAdapter.submitList(viewModel.carouseItems)
   }
   
   private fun setupQuickAccess() {

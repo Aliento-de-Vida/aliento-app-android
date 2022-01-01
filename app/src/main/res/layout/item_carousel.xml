@@ -6,12 +6,8 @@
   <data>
 
     <variable
-      name="item"
+      name="carousel_item"
       type="com.alientodevida.alientoapp.domain.entities.local.CarouselItem" />
-
-    <variable
-      name="callback"
-      type="com.alientodevida.alientoapp.app.features.home.ItemClick" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +24,6 @@
       android:clickable="true"
       android:focusable="true"
       android:foreground="?android:attr/selectableItemBackground"
-      android:onClick="@{() -> callback.onClick(item)}"
       app:cardCornerRadius="@dimen/card_view_custom_radius"
       app:cardElevation="@dimen/cardview_custom_elevation"
       app:layout_constraintBottom_toBottomOf="parent"
