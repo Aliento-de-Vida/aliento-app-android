@@ -1,6 +1,5 @@
-package com.alientodevida.alientoapp.domain.entities.network
+package com.alientodevida.alientoapp.domain.video
 
-import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 import kotlinx.serialization.Serializable
 
 @Serializable

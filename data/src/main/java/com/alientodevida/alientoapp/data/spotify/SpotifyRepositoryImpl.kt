@@ -1,9 +1,10 @@
 package com.alientodevida.alientoapp.data.spotify
 
 import com.alientodevida.alientoapp.data.storage.RoomDao
-import com.alientodevida.alientoapp.domain.entities.local.Podcast
-import com.alientodevida.alientoapp.domain.entities.network.asDomain
+import com.alientodevida.alientoapp.domain.entities.local.Audio
+import com.alientodevida.alientoapp.domain.spotify.Album
 import com.alientodevida.alientoapp.domain.spotify.SpotifyRepository
+import com.alientodevida.alientoapp.domain.spotify.asDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -13,15 +14,33 @@ class SpotifyRepositoryImpl (
 ) : SpotifyRepository {
 
     override suspend fun refreshPodcasts(podcastId: String):
-            List<Podcast> {
+            List<Audio> {
         val response = spotifyApi.getPodcast(podcastId)
         val items = response.asDomain()
-        withContext(Dispatchers.IO) { roomDao.insertPodcasts(items) }
+        withContext(Dispatchers.IO) { roomDao.insertAudios(items) }
         return items
     }
-
-    override fun getCachedPodcasts(): List<Podcast> {
-        return roomDao.getPodcasts()
+    
+    override suspend fun refreshAudios(artistId: String): List<Audio> {
+        val albums = spotifyApi.getAlbums(artistId).items
+        if (albums.isEmpty()) return listOf()
+        
+        val tracks: MutableList<Audio> = mutableListOf()
+        albums.forEach { album ->
+            tracks += getTracks(album).map {
+                it.copy(imageUrl = album.images?.firstOrNull()?.url ?: "" )
+            }
+        }
+        
+        withContext(Dispatchers.IO) { roomDao.insertAudios(tracks) }
+    
+        return tracks
+    }
+    
+    private suspend fun getTracks(album: Album) = spotifyApi.getTracks(album.id).asDomain(album)
+    
+    override fun getCachedPodcasts(): List<Audio> {
+        return roomDao.getAudios()
     }
 
 }

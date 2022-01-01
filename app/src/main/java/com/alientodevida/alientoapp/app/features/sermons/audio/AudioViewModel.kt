@@ -7,7 +7,7 @@ import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
-import com.alientodevida.alientoapp.domain.entities.local.Podcast
+import com.alientodevida.alientoapp.domain.entities.local.Audio
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.alientodevida.alientoapp.domain.spotify.SpotifyRepository
@@ -33,7 +33,7 @@ class AudioViewModel @Inject constructor(
 ) {
   val home = preferences.home
   
-  private val _podcasts = MutableLiveData<ViewModelResult<List<Podcast>>>()
+  private val _podcasts = MutableLiveData<ViewModelResult<List<Audio>>>()
   val podcasts = _podcasts
   
   init {
@@ -52,7 +52,7 @@ class AudioViewModel @Inject constructor(
   fun refreshContent() {
     preferences.home?.spotifyPlaylistId?.let {
       liveDataResult(_podcasts) {
-        spotifyRepository.refreshPodcasts(it)
+        spotifyRepository.refreshAudios("4VYxusCiKsWxcfUveymGU5")
       }
     }
   }

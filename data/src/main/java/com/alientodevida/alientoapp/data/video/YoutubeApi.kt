@@ -1,7 +1,7 @@
-package com.alientodevida.alientoapp.data.youtube
+package com.alientodevida.alientoapp.data.video
 
-import com.alientodevida.alientoapp.domain.entities.network.YoutubeChannelItems
-import com.alientodevida.alientoapp.domain.entities.network.YoutubePlaylistItems
+import com.alientodevida.alientoapp.domain.video.YoutubeChannelItems
+import com.alientodevida.alientoapp.domain.video.YoutubePlaylistItems
 import retrofit2.http.GET
 import retrofit2.http.Url
 

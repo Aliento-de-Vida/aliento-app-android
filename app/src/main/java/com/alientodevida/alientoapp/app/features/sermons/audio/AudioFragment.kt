@@ -11,7 +11,7 @@ import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentAudioBinding
 import com.alientodevida.alientoapp.app.utils.extensions.openSpotifyArtistPage
 import com.alientodevida.alientoapp.app.utils.extensions.openSpotifyWith
-import com.alientodevida.alientoapp.domain.entities.local.Podcast
+import com.alientodevida.alientoapp.domain.entities.local.Audio
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,7 +50,7 @@ class AudioFragment : BaseFragment<FragmentAudioBinding>(R.layout.fragment_audio
         
         if (it.count() == 0) viewModel.refreshContent()
         
-        mAdapter.audios = ArrayList(it)
+        mAdapter.audio = ArrayList(it)
         mAdapter.notifyDataSetChanged()
       }
     }
@@ -63,14 +63,14 @@ class AudioFragment : BaseFragment<FragmentAudioBinding>(R.layout.fragment_audio
       requireContext(),
       ArrayList(),
       object : AudioRecyclerViewAdapter.ItemClickListener {
-        override fun onItemClick(item: Podcast) {
+        override fun onItemClick(item: Audio) {
           handleOnClick(item)
         }
       })
     recyclerView.adapter = mAdapter
   }
   
-  private fun handleOnClick(audio: Podcast) {
+  private fun handleOnClick(audio: Audio) {
     requireActivity().openSpotifyWith(Uri.parse(audio.uri))
   }
 }

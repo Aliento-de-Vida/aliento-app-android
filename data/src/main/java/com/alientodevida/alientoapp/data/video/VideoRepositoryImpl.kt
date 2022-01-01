@@ -1,9 +1,9 @@
-package com.alientodevida.alientoapp.data.youtube
+package com.alientodevida.alientoapp.data.video
 
 import com.alientodevida.alientoapp.data.storage.RoomDao
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
-import com.alientodevida.alientoapp.domain.entities.network.asDomain
 import com.alientodevida.alientoapp.domain.video.VideoRepository
+import com.alientodevida.alientoapp.domain.video.asDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -30,7 +30,7 @@ class VideoRepositoryImpl (
         )
 
         val items = response.asDomain()
-        withContext(Dispatchers.IO) { roomDao.insertYoutubeVideos(items) }
+        withContext(Dispatchers.IO) { roomDao.insertVideos(items) }
         return items
     }
 
@@ -49,12 +49,12 @@ class VideoRepositoryImpl (
         )
 
         val items = response.asDomain()
-        withContext(Dispatchers.IO) { roomDao.insertYoutubeVideos(items) }
+        withContext(Dispatchers.IO) { roomDao.insertVideos(items) }
         return items
     }
 
     override fun getCachedVideos(): List<YoutubeVideo> {
-        return roomDao.getYoutubeVideos()
+        return roomDao.getVideos()
     }
 
 }

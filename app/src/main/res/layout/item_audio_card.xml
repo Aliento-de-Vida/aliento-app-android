@@ -1,83 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
+
+  <com.google.android.material.card.MaterialCardView
+    android:id="@+id/cv"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="@dimen/card_view_custom_radius"
+    app:cardElevation="@dimen/cardview_custom_elevation"
+    app:cardUseCompatPadding="true">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cv"
-        android:layout_width="match_parent"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/relativeLayout2"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_date"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="@dimen/card_view_custom_radius"
-        app:cardElevation="@dimen/cardview_custom_elevation"
-        app:cardUseCompatPadding="true">
+        android:layout_marginEnd="8dp"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="?attr/colorOnPrimarySurface"
+        app:layout_constraintBottom_toBottomOf="@+id/audio_length"
+        app:layout_constraintEnd_toStartOf="@+id/audio_length"
+        app:layout_constraintStart_toStartOf="@+id/tv_audio_title"
+        tools:text="Date" />
 
+      <ImageView
+        android:id="@+id/audio_photo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/relativeLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+      <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_audio_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:autoSizeMaxTextSize="16sp"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeStepGranularity="2sp"
+        android:autoSizeTextType="uniform"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:textColor="?attr/colorOnPrimarySurface"
+        app:layout_constraintEnd_toEndOf="@+id/audio_length"
+        app:layout_constraintStart_toEndOf="@+id/audio_photo"
+        app:layout_constraintTop_toTopOf="@+id/audio_photo"
+        tools:text="title" />
 
-            <ImageView
-                android:id="@+id/audio_photo"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.textview.MaterialTextView
+          android:id="@+id/audio_length"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="12dp"
+          android:layout_marginBottom="8dp"
+          android:maxLines="1"
+          android:paddingTop="4dp"
+          android:paddingRight="8dp"
+          android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+          android:textColor="?attr/colorOnPrimarySurface"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          tools:text="date" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/audio_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:autoSizeMaxTextSize="16sp"
-                android:autoSizeMinTextSize="10sp"
-                android:autoSizeStepGranularity="2sp"
-                android:autoSizeTextType="uniform"
-                android:maxLines="1"
-                android:text="title"
-                android:textColor="?attr/colorOnPrimarySurface"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-                app:layout_constraintEnd_toEndOf="@+id/audio_length"
-                app:layout_constraintStart_toEndOf="@+id/audio_photo"
-                app:layout_constraintTop_toTopOf="@+id/audio_photo" />
+        <com.google.android.material.textview.MaterialTextView
+          android:id="@+id/tv_audio_subtitle"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:maxLines="1"
+          android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+          android:textColor="?attr/colorOnPrimarySurface"
+          app:layout_constraintEnd_toEndOf="@+id/tv_audio_title"
+          app:layout_constraintStart_toStartOf="@+id/tv_audio_title"
+          app:layout_constraintTop_toBottomOf="@+id/tv_audio_title"
+          tools:text="Subtitle" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/audio_length"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:maxLines="1"
-                android:paddingTop="4dp"
-                android:paddingRight="8dp"
-                android:text="hola hola"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                android:textColor="?attr/colorOnPrimarySurface"
-                app:layout_constraintBottom_toBottomOf="@+id/audio_author"
-                app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/audio_author"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:text="TextView"
-                android:textColor="?attr/colorOnPrimarySurface"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                app:layout_constraintBottom_toBottomOf="@+id/audio_photo"
-                app:layout_constraintEnd_toStartOf="@+id/audio_length"
-                app:layout_constraintStart_toStartOf="@+id/audio_name"
-                app:layout_constraintTop_toBottomOf="@+id/audio_name" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
+  </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
