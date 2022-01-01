@@ -30,34 +30,39 @@ class GalleryFragment : BaseBottomSheetFragment<FragmentGalleryBinding>(R.layout
     setUpUi()
   }
   
-  private fun setUpUi() { with(binding) {
-    tvTitle.text = viewModel.gallery.name
-    
-    galleryAdapter.register<Image, ItemGalleryImageBinding>(
-      itemClass = Image::class.java,
-      viewType = R.layout.item_gallery_image,
-      factory = ImageViewHolderFactory(
-        imageSelected = { image, index, imageView ->
-          viewer =
-            StfalconImageViewer.Builder(requireContext(), viewModel.gallery.images) { view, imageUrl ->
-              view.load(imageUrl.name.toImageUrl(), false)
-            }
-              .withStartPosition(index)
-              .withTransitionFrom(imageView).show()
-        },
-      ),
-    )
-    
-    rvGallery.layoutManager = GridLayoutManager(
-      requireContext(),
-      3,
-      LinearLayoutManager.VERTICAL,
-      false,
-    )
-    rvGallery.adapter = galleryAdapter
-    
-    galleryAdapter.submitList(viewModel.gallery.images)
-  }}
+  private fun setUpUi() {
+    with(binding) {
+      tvTitle.text = viewModel.gallery.name
+      
+      galleryAdapter.register<Image, ItemGalleryImageBinding>(
+        itemClass = Image::class.java,
+        viewType = R.layout.item_gallery_image,
+        factory = ImageViewHolderFactory(
+          imageSelected = { image, index, imageView ->
+            viewer =
+              StfalconImageViewer.Builder(
+                requireContext(),
+                viewModel.gallery.images
+              ) { view, imageUrl ->
+                view.load(imageUrl.name.toImageUrl(), false)
+              }
+                .withStartPosition(index)
+                .withTransitionFrom(imageView).show()
+          },
+        ),
+      )
+      
+      rvGallery.layoutManager = GridLayoutManager(
+        requireContext(),
+        3,
+        LinearLayoutManager.VERTICAL,
+        false,
+      )
+      rvGallery.adapter = galleryAdapter
+      
+      galleryAdapter.submitList(viewModel.gallery.images)
+    }
+  }
   
 }
 

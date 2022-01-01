@@ -26,27 +26,29 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
     observe()
   }
   
-  private fun setupUI() { with(binding) {
-    toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
-    
-    preferences.isDarkThemeLive.observe(viewLifecycleOwner) { isDarkTheme ->
-      isDarkTheme?.let { swTheme.isChecked = it }
+  private fun setupUI() {
+    with(binding) {
+      toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
+      
+      preferences.isDarkThemeLive.observe(viewLifecycleOwner) { isDarkTheme ->
+        isDarkTheme?.let { swTheme.isChecked = it }
+      }
+      
+      swTheme.setOnCheckedChangeListener { _, isChecked ->
+        preferences.isDarkTheme = isChecked
+      }
+      
+      swPushNotifications.isChecked = preferences.pushEnabled
+      swPushNotifications.setOnCheckedChangeListener { _, isChecked ->
+        preferences.pushEnabled = isChecked
+        if (isChecked)
+          FirebaseMessaging.getInstance().subscribeToTopic("push_notifications")
+        else
+          FirebaseMessaging.getInstance().unsubscribeFromTopic("push_notifications")
+      }
+      
     }
-  
-    swTheme.setOnCheckedChangeListener { _, isChecked ->
-      preferences.isDarkTheme = isChecked
-    }
-  
-    swPushNotifications.isChecked = preferences.pushEnabled
-    swPushNotifications.setOnCheckedChangeListener { _, isChecked ->
-      preferences.pushEnabled = isChecked
-      if (isChecked)
-        FirebaseMessaging.getInstance().subscribeToTopic("push_notifications")
-      else
-        FirebaseMessaging.getInstance().unsubscribeFromTopic("push_notifications")
-    }
-    
-  }}
+  }
   
   private fun observe() {
     preferences.nightModeLive.observe(viewLifecycleOwner) { nightMode ->

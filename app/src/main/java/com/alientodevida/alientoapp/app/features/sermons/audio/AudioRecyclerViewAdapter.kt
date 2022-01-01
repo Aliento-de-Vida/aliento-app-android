@@ -11,7 +11,6 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.domain.entities.local.Audio
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
-import com.alientodevida.alientoapp.domain.spotify.asDomain
 import com.bumptech.glide.Glide
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -54,7 +53,7 @@ class AudioRecyclerViewAdapter(
     i: Int
   ) {
     val date = audio[i].releaseDate?.toDate("yyyy-MM-dd")?.format("d MMMM yyyy") ?: ""
-  
+    
     audioViewHolder.title.text = audio[i].title
     audioViewHolder.subtitle.text = audio[i].subtitle
     audioViewHolder.date.text = date

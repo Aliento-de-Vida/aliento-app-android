@@ -32,7 +32,7 @@ class NotificationDetailFragment :
       
       tvTitle.text = notification.title.uppercase()
       tvDescription.text = notification.content
-
+      
       btFullScreen.setOnClickListener { openInFullScreen() }
       ivContent.setOnClickListener { openInFullScreen() }
     }

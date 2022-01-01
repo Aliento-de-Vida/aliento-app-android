@@ -11,4 +11,4 @@ data class Gallery(
   val name: String,
   val coverPicture: String,
   val images: List<Image>,
-): Parcelable
+) : Parcelable

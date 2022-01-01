@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BasicInfoModel(
-    var image: String? = null,
-    var video: String? = null,
-    var text: String? = null
+  var image: String? = null,
+  var video: String? = null,
+  var text: String? = null
 )

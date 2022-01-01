@@ -15,7 +15,8 @@ import com.alientodevida.alientoapp.domain.home.Notification
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fragment_notifications) {
+class NotificationsFragment :
+  BaseFragment<FragmentNotificationsBinding>(R.layout.fragment_notifications) {
   
   private val viewModel by viewModels<NotificationsViewModel>()
   
@@ -44,7 +45,11 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>(R.layou
   
   private fun setupRecyclerView() {
     val resourceListener = BaseViewHolder.Listener { notification: Notification, _ ->
-      findNavController().navigate(NotificationsFragmentDirections.actionFragmentNotificationsToFragmentNotificationDetail(notification))
+      findNavController().navigate(
+        NotificationsFragmentDirections.actionFragmentNotificationsToFragmentNotificationDetail(
+          notification
+        )
+      )
     }
     notificationsAdapter.register<Notification, ItemNotificationBinding, NotificationsViewHolder>(
       R.layout.item_notification,

@@ -27,19 +27,19 @@ class DonationViewHolder(
   
   override fun bind(item: PaymentItem) {
     super.bind(item)
-  
+    
     with(binding) {
       this.item = item
       cardConstraintLayout.setOnClickListener {
         listener?.invoke(item, cardConstraintLayout)
       }
-  
+      
       when {
         item.paypal != null -> {
           cardConstraintLayout.setBackgroundColor(Color.WHITE)
-        
+          
           logo.visibility = View.VISIBLE
-        
+          
           noDeCuenta.visibility = View.GONE
           noDeCuentaLabel.visibility = View.GONE
           clabe.visibility = View.GONE
@@ -57,13 +57,13 @@ class DonationViewHolder(
               bankAccount.backgroundResource
             )
           )
-        
+          
           logo.visibility = View.GONE
-        
+          
           noDeCuenta.text = bankAccount.accountNumber
           clabe.text = bankAccount.clabe
           noDeTarjeta.text = bankAccount.cardNumber
-        
+          
           noDeCuenta.setOnClickListener {
             Utils.copyToClipboard(
               context = noDeCuenta.context,
@@ -72,7 +72,11 @@ class DonationViewHolder(
             )
           }
           clabe.setOnClickListener {
-            Utils.copyToClipboard(context = clabe.context, name = "Clabe", value = bankAccount.clabe)
+            Utils.copyToClipboard(
+              context = clabe.context,
+              name = "Clabe",
+              value = bankAccount.clabe
+            )
           }
           noDeTarjeta.setOnClickListener {
             Utils.copyToClipboard(
