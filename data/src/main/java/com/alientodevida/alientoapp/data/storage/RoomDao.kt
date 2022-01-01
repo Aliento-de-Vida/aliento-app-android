@@ -4,20 +4,20 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.alientodevida.alientoapp.domain.entities.local.Podcast
+import com.alientodevida.alientoapp.domain.entities.local.Audio
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 
 @Dao
 interface RoomDao {
     @Query("select * from youtubevideo")
-    fun getYoutubeVideos(): List<YoutubeVideo>
+    fun getVideos(): List<YoutubeVideo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertYoutubeVideos(items: List<YoutubeVideo>)
+    fun insertVideos(items: List<YoutubeVideo>)
 
-    @Query("select * from podcast")
-    fun getPodcasts(): List<Podcast>
+    @Query("select * from audio")
+    fun getAudios(): List<Audio>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPodcasts(items: List<Podcast>)
+    fun insertAudios(items: List<Audio>)
 }

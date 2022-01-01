@@ -1,5 +1,6 @@
 package com.alientodevida.alientoapp.domain.entities.network
 
+import com.alientodevida.alientoapp.domain.spotify.SpotifyImage
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -26,6 +27,6 @@ data class TrackUri(
 
 @Serializable
 data class Album(
-    val images: List<AlbumImage>? = null
+    val images: List<SpotifyImage>? = null
 )
 

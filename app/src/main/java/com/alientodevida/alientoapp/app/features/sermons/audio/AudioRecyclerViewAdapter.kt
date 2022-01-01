@@ -8,33 +8,35 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.domain.entities.local.Podcast
+import com.alientodevida.alientoapp.domain.entities.local.Audio
+import com.alientodevida.alientoapp.domain.extensions.format
+import com.alientodevida.alientoapp.domain.extensions.toDate
+import com.alientodevida.alientoapp.domain.spotify.asDomain
 import com.bumptech.glide.Glide
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 class AudioRecyclerViewAdapter(
   private val context: Context,
-  var audios: ArrayList<Podcast>,
+  var audio: ArrayList<Audio>,
   private val listener: ItemClickListener
 ) : RecyclerView.Adapter<AudioRecyclerViewAdapter.AudioViewHolder>() {
   
   class AudioViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    var audioName: TextView = itemView.findViewById(R.id.audio_name)
-    var audioAuthor: TextView = itemView.findViewById(R.id.audio_author)
+    var title: TextView = itemView.findViewById(R.id.tv_audio_title)
+    var subtitle: TextView = itemView.findViewById(R.id.tv_audio_subtitle)
+    var date: TextView = itemView.findViewById(R.id.tv_date)
     var audioLength: TextView = itemView.findViewById(R.id.audio_length)
     var audioPhoto: ImageView = itemView.findViewById(R.id.audio_photo)
     
-    fun bind(item: Podcast, listener: ItemClickListener) {
+    fun bind(item: Audio, listener: ItemClickListener) {
       itemView.setOnClickListener { listener.onItemClick(item) }
     }
     
   }
   
   override fun getItemCount(): Int {
-    return audios.size
+    return audio.size
   }
   
   override fun onCreateViewHolder(
@@ -51,29 +53,23 @@ class AudioRecyclerViewAdapter(
     audioViewHolder: AudioViewHolder,
     i: Int
   ) {
-    var stringDate = ""
-    try {
-      val simpleDateFormatIn = SimpleDateFormat("yyyy-MM-dd")
-      val date = simpleDateFormatIn.parse(audios[i].releaseDate)
-      val simpleDateFormatOut = SimpleDateFormat("d MMMM yyyy", Locale("es", "ES"))
-      stringDate = simpleDateFormatOut.format(date)
-    } catch (e: ParseException) {
-      e.printStackTrace()
-    }
-    audioViewHolder.audioName.text = audios[i].name
-    audioViewHolder.audioAuthor.text = stringDate
+    val date = audio[i].releaseDate?.toDate("yyyy-MM-dd")?.format("d MMMM yyyy") ?: ""
+  
+    audioViewHolder.title.text = audio[i].title
+    audioViewHolder.subtitle.text = audio[i].subtitle
+    audioViewHolder.date.text = date
     audioViewHolder.audioLength.text =
-      "${TimeUnit.MILLISECONDS.toMinutes(audios[i].duration.toLong())}  min"
+      "${TimeUnit.MILLISECONDS.toMinutes(audio[i].duration.toLong())}  min"
     
-    val imageUrl: String = audios[i].imageUrl
+    val imageUrl: String = audio[i].imageUrl
     Glide.with(context)
       .load(imageUrl)
       .circleCrop()
       .into(audioViewHolder.audioPhoto)
-    audioViewHolder.bind(audios[i], listener)
+    audioViewHolder.bind(audio[i], listener)
   }
   
   interface ItemClickListener {
-    fun onItemClick(item: Podcast)
+    fun onItemClick(item: Audio)
   }
 }
