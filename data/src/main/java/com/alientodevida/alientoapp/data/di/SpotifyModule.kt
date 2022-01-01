@@ -2,7 +2,7 @@ package com.alientodevida.alientoapp.data.di
 
 import com.alientodevida.alientoapp.data.spotify.*
 import com.alientodevida.alientoapp.data.storage.RoomDao
-import com.alientodevida.alientoapp.domain.spotify.SpotifyRepository
+import com.alientodevida.alientoapp.domain.audio.SpotifyRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
