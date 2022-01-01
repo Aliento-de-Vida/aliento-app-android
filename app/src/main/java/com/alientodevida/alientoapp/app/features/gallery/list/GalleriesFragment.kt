@@ -44,7 +44,11 @@ class GalleriesFragment : BaseFragment<FragmentGalleriesBinding>(R.layout.fragme
   
   private fun setupRecyclerView() {
     val resourceListener = BaseViewHolder.Listener { gallery: Gallery, _ ->
-      findNavController().navigate(GalleriesFragmentDirections.actionGalleriesFragmentToGalleryFragment(gallery))
+      findNavController().navigate(
+        GalleriesFragmentDirections.actionGalleriesFragmentToGalleryFragment(
+          gallery
+        )
+      )
     }
     galleriesAdapter.register<Gallery, ItemGalleryBinding, GalleryViewHolder>(
       R.layout.item_gallery,

@@ -27,12 +27,12 @@ class ChurchFragment : BaseFragment<FragmentChurchBinding>(R.layout.fragment_chu
   private fun setupUI() {
     with(binding) {
       toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
-  
+      
       videoView.load(viewModel.usImageUrl, false)
       videoView.setOnClickListener {
         Utils.handleOnClick(requireActivity(), Constants.US_VIDEO)
       }
-  
+      
       viewModel.latestVideo?.let {
         ivLatestVideo.load(viewModel.latestVideo?.thumbnilsUrl)
         ivLatestVideo.setOnClickListener {

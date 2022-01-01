@@ -3,24 +3,16 @@ package com.alientodevida.alientoapp.app.features.donations
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentDonationsBinding
-import com.alientodevida.alientoapp.app.databinding.ItemNotificationBinding
 import com.alientodevida.alientoapp.app.databinding.ItemPaymentBinding
-import com.alientodevida.alientoapp.app.features.gallery.imageDiffCallback
-import com.alientodevida.alientoapp.app.features.notifications.list.NotificationsFragmentDirections
-import com.alientodevida.alientoapp.app.features.notifications.list.NotificationsViewHolder
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffAdapter
 import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
 import com.alientodevida.alientoapp.app.utils.Utils
-import com.alientodevida.alientoapp.domain.entities.local.BankAccount
 import com.alientodevida.alientoapp.domain.entities.local.PaymentItem
-import com.alientodevida.alientoapp.domain.entities.local.Paypal
-import com.alientodevida.alientoapp.domain.home.Notification
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

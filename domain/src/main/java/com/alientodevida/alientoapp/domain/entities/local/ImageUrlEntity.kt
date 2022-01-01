@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class ImageUrlEntity(
-    val imageUrl: String,
-    @PrimaryKey
-    val searchUrl: String
+  val imageUrl: String,
+  @PrimaryKey
+  val searchUrl: String
 )

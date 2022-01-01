@@ -63,32 +63,32 @@
         app:layout_constraintTop_toTopOf="@+id/audio_photo"
         tools:text="title" />
 
-        <com.google.android.material.textview.MaterialTextView
-          android:id="@+id/audio_length"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginEnd="12dp"
-          android:layout_marginBottom="8dp"
-          android:maxLines="1"
-          android:paddingTop="4dp"
-          android:paddingRight="8dp"
-          android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-          android:textColor="?attr/colorOnPrimarySurface"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          tools:text="date" />
+      <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/audio_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
+        android:maxLines="1"
+        android:paddingTop="4dp"
+        android:paddingRight="8dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="?attr/colorOnPrimarySurface"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="date" />
 
-        <com.google.android.material.textview.MaterialTextView
-          android:id="@+id/tv_audio_subtitle"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:maxLines="1"
-          android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-          android:textColor="?attr/colorOnPrimarySurface"
-          app:layout_constraintEnd_toEndOf="@+id/tv_audio_title"
-          app:layout_constraintStart_toStartOf="@+id/tv_audio_title"
-          app:layout_constraintTop_toBottomOf="@+id/tv_audio_title"
-          tools:text="Subtitle" />
+      <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_audio_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textColor="?attr/colorOnPrimarySurface"
+        app:layout_constraintEnd_toEndOf="@+id/tv_audio_title"
+        app:layout_constraintStart_toStartOf="@+id/tv_audio_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_audio_title"
+        tools:text="Subtitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

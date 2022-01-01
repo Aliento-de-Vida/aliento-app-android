@@ -51,7 +51,7 @@ class DonationsViewModel @Inject constructor(
           "4555 1130 0604 1497",
           "0113500640",
           "012910001135006409",
-          ),
+        ),
       ),
       PaymentItem(
         1,

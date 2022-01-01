@@ -1,118 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+  <data>
 
-        <variable
-            name="item"
-            type="com.alientodevida.alientoapp.domain.entities.local.CarouselItem" />
+    <variable
+      name="item"
+      type="com.alientodevida.alientoapp.domain.entities.local.CarouselItem" />
 
-        <variable
-            name="callback"
-            type="com.alientodevida.alientoapp.app.features.home.ItemClick" />
-    </data>
+    <variable
+      name="callback"
+      type="com.alientodevida.alientoapp.app.features.home.ItemClick" />
+  </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container"
-        android:layout_width="230dp"
-        android:layout_height="160dp">
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/container"
+    android:layout_width="230dp"
+    android:layout_height="160dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/ReunionDomingos"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="@{() -> callback.onClick(item)}"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="@dimen/card_view_custom_radius"
-            app:cardElevation="@dimen/cardview_custom_elevation"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <com.google.android.material.card.MaterialCardView
+      android:id="@+id/ReunionDomingos"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      android:clickable="true"
+      android:focusable="true"
+      android:foreground="?android:attr/selectableItemBackground"
+      android:onClick="@{() -> callback.onClick(item)}"
+      app:cardCornerRadius="@dimen/card_view_custom_radius"
+      app:cardElevation="@dimen/cardview_custom_elevation"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+      <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription" />
+        <ImageView
+          android:id="@+id/imageView"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:scaleType="centerCrop"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          tools:ignore="ContentDescription" />
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.5" />
+        <androidx.constraintlayout.widget.Guideline
+          android:id="@+id/guideline2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          app:layout_constraintGuide_percent="0.5" />
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:background="@drawable/gradient_gray"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guideline2">
+        <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:background="@drawable/gradient_gray"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="@+id/guideline2">
 
-                </FrameLayout>
+        </FrameLayout>
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:text="@string/carousel"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="UnusedAttribute" />
+        <TextView
+          android:id="@+id/title"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="16dp"
+          android:layout_marginEnd="8dp"
+          android:layout_marginBottom="8dp"
+          android:background="@android:color/transparent"
+          android:ellipsize="end"
+          android:maxLines="1"
+          android:text="@string/carousel"
+          android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          tools:ignore="UnusedAttribute" />
 
-                <FrameLayout
-                    android:id="@+id/triangle"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/triangle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/imageView">
+        <FrameLayout
+          android:id="@+id/triangle"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:background="@drawable/triangle"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="@+id/imageView">
 
-                </FrameLayout>
+        </FrameLayout>
 
-                <ImageView
-                    android:id="@+id/play_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/triangle"
-                    app:srcCompat="@android:drawable/ic_media_play" />
+        <ImageView
+          android:id="@+id/play_icon"
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_marginTop="4dp"
+          android:layout_marginEnd="4dp"
+          android:background="@android:color/transparent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="@+id/triangle"
+          app:srcCompat="@android:drawable/ic_media_play" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+      </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

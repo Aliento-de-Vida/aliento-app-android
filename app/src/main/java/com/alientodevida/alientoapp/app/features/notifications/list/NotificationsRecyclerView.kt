@@ -31,7 +31,7 @@ class NotificationsViewHolder(
       tvTitle.text = item.title
       tvContent.text = item.content
       tvDate.text = item.date.toDate()?.format("dd MMM yy")
-  
+      
       ivBackground.load(item.image?.name?.toImageUrl())
     }
   }
