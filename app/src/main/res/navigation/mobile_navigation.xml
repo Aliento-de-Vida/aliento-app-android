@@ -1,81 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    app:startDestination="@id/fragment_home">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/mobile_navigation"
+  app:startDestination="@id/fragment_home">
 
-    <fragment
-        android:id="@+id/fragment_home"
-        android:name="com.alientodevida.alientoapp.app.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_navigation_home_to_navigation_sermons"
-            app:enterAnim="@anim/slide_left"
-            app:exitAnim="@anim/wait_anim"
-            app:popEnterAnim="@anim/wait_anim"
-            app:popExitAnim="@anim/slide_right"
-            app:destination="@id/navigation_sermons" />
-        <action
-            android:id="@+id/action_navigation_home_to_churchFragment"
-            app:enterAnim="@anim/slide_left"
-            app:exitAnim="@anim/wait_anim"
-            app:popEnterAnim="@anim/wait_anim"
-            app:popExitAnim="@anim/slide_right"
-            app:destination="@id/fragment_church" />
-        <action
-            android:id="@+id/action_navigation_home_to_donationsFragment"
-            app:enterAnim="@anim/slide_left"
-            app:exitAnim="@anim/wait_anim"
-            app:popEnterAnim="@anim/wait_anim"
-            app:popExitAnim="@anim/slide_right"
-            app:destination="@id/donations_fragment" />
-        <action
-            android:id="@+id/action_navigation_home_to_prayer_fragment"
-            app:enterAnim="@anim/slide_left"
-            app:exitAnim="@anim/wait_anim"
-            app:popEnterAnim="@anim/wait_anim"
-            app:popExitAnim="@anim/slide_right"
-            app:destination="@id/prayer_fragment" />
-        <action
-            android:id="@+id/action_navigation_home_to_settingsFragment"
-            app:enterAnim="@anim/slide_left"
-            app:exitAnim="@anim/wait_anim"
-            app:popEnterAnim="@anim/wait_anim"
-            app:popExitAnim="@anim/slide_right"
-            app:destination="@id/settingsFragment" />
-    </fragment>
+  <fragment
+    android:id="@+id/fragment_home"
+    android:name="com.alientodevida.alientoapp.app.features.home.HomeFragment"
+    android:label="@string/title_home"
+    tools:layout="@layout/fragment_home">
+    <action
+      android:id="@+id/action_navigation_home_to_navigation_sermons"
+      app:destination="@id/navigation_sermons"
+      app:enterAnim="@anim/slide_left"
+      app:exitAnim="@anim/wait_anim"
+      app:popEnterAnim="@anim/wait_anim"
+      app:popExitAnim="@anim/slide_right" />
+    <action
+      android:id="@+id/action_navigation_home_to_churchFragment"
+      app:destination="@id/fragment_church"
+      app:enterAnim="@anim/slide_left"
+      app:exitAnim="@anim/wait_anim"
+      app:popEnterAnim="@anim/wait_anim"
+      app:popExitAnim="@anim/slide_right" />
+    <action
+      android:id="@+id/action_navigation_home_to_donationsFragment"
+      app:destination="@id/donations_fragment"
+      app:enterAnim="@anim/slide_left"
+      app:exitAnim="@anim/wait_anim"
+      app:popEnterAnim="@anim/wait_anim"
+      app:popExitAnim="@anim/slide_right" />
+    <action
+      android:id="@+id/action_navigation_home_to_prayer_fragment"
+      app:destination="@id/prayer_fragment"
+      app:enterAnim="@anim/slide_left"
+      app:exitAnim="@anim/wait_anim"
+      app:popEnterAnim="@anim/wait_anim"
+      app:popExitAnim="@anim/slide_right" />
+    <action
+      android:id="@+id/action_navigation_home_to_settingsFragment"
+      app:destination="@id/settingsFragment"
+      app:enterAnim="@anim/slide_left"
+      app:exitAnim="@anim/wait_anim"
+      app:popEnterAnim="@anim/wait_anim"
+      app:popExitAnim="@anim/slide_right" />
+    <action
+      android:id="@+id/action_fragment_home_to_campusFragment"
+      app:destination="@id/fragment_campus"
+      app:enterAnim="@anim/slide_left"
+      app:exitAnim="@anim/wait_anim"
+      app:popEnterAnim="@anim/wait_anim"
+      app:popExitAnim="@anim/slide_right" />
+    <action
+      android:id="@+id/action_fragment_home_to_galleriesFragment"
+      app:destination="@id/galleriesFragment"
+      app:enterAnim="@anim/slide_left"
+      app:exitAnim="@anim/wait_anim"
+      app:popEnterAnim="@anim/wait_anim"
+      app:popExitAnim="@anim/slide_right" />
+    <action
+      android:id="@+id/action_fragment_home_to_notification_navigation"
+      app:destination="@id/notification_navigation"
+      app:enterAnim="@anim/slide_left"
+      app:exitAnim="@anim/wait_anim"
+      app:popEnterAnim="@anim/wait_anim"
+      app:popExitAnim="@anim/slide_right" />
+  </fragment>
 
-    <fragment
-        android:id="@+id/navigation_sermons"
-        android:name="com.alientodevida.alientoapp.app.ui.sermons.SermonsFragment"
-        android:label="@string/title_sermons"
-        tools:layout="@layout/fragment_sermons" >
-    </fragment>
+  <fragment
+    android:id="@+id/navigation_sermons"
+    android:name="com.alientodevida.alientoapp.app.features.sermons.SermonsFragment"
+    android:label="@string/title_sermons"
+    tools:layout="@layout/fragment_sermons" />
 
-    <fragment
-        android:id="@+id/fragment_church"
-        android:name="com.alientodevida.alientoapp.app.ui.church.ChurchFragment"
-        android:label="ChurchFragment"
-        tools:layout="@layout/fragment_church" >
-    </fragment>
-    <fragment
-        android:id="@+id/donations_fragment"
-        android:name="com.alientodevida.alientoapp.app.ui.donations.DonationsFragment"
-        android:label="DonationsFragment"
-        tools:layout="@layout/fragment_donations" >
-    </fragment>
-    <fragment
-        android:id="@+id/prayer_fragment"
-        android:name="com.alientodevida.alientoapp.app.ui.prayer.PrayerFragment"
-        android:label="PrayerFragment"
-        tools:layout="@layout/fragment_prayer" >
-    </fragment>
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.alientodevida.alientoapp.app.ui.settings.SettingsFragment"
-        android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings"/>
+  <fragment
+    android:id="@+id/fragment_church"
+    android:name="com.alientodevida.alientoapp.app.features.church.ChurchFragment"
+    android:label="ChurchFragment"
+    tools:layout="@layout/fragment_church">
+    <argument
+      android:name="latest_video"
+      app:argType="com.alientodevida.alientoapp.domain.video.YoutubeVideo"
+      app:nullable="true" />
+  </fragment>
+  <fragment
+    android:id="@+id/donations_fragment"
+    android:name="com.alientodevida.alientoapp.app.features.donations.DonationsFragment"
+    android:label="DonationsFragment"
+    tools:layout="@layout/fragment_donations" />
+  <fragment
+    android:id="@+id/prayer_fragment"
+    android:name="com.alientodevida.alientoapp.app.features.prayer.PrayerFragment"
+    android:label="PrayerFragment"
+    tools:layout="@layout/fragment_prayer" />
+  <fragment
+    android:id="@+id/settingsFragment"
+    android:name="com.alientodevida.alientoapp.app.features.settings.SettingsFragment"
+    android:label="SettingsFragment"
+    tools:layout="@layout/fragment_settings" />
+  <fragment
+    android:id="@+id/fragment_campus"
+    android:name="com.alientodevida.alientoapp.app.features.campus.list.CampusesFragment"
+    android:label="CampusFragment"
+    tools:layout="@layout/fragment_campuses">
+    <action
+      android:id="@+id/action_fragment_campus_to_campusDetailFragment"
+      app:destination="@id/fragment_campus_detail"
+      app:enterAnim="@anim/slide_left"
+      app:exitAnim="@anim/wait_anim"
+      app:popEnterAnim="@anim/wait_anim"
+      app:popExitAnim="@anim/slide_right" />
+  </fragment>
+  <dialog
+    android:id="@+id/fragment_campus_detail"
+    android:name="com.alientodevida.alientoapp.app.features.campus.detail.CampusDetailFragment"
+    android:label="CampusDetailFragment"
+    tools:layout="@layout/fragment_campus_detail">
+    <argument
+      android:name="campus"
+      app:argType="com.alientodevida.alientoapp.domain.campus.Campus" />
+  </dialog>
+  <dialog
+    android:id="@+id/galleryFragment"
+    android:name="com.alientodevida.alientoapp.app.features.gallery.GalleryFragment"
+    android:label="GalleryFragment"
+    tools:layout="@layout/fragment_gallery">
+    <argument
+      android:name="gallery"
+      app:argType="com.alientodevida.alientoapp.domain.gallery.Gallery" />
+  </dialog>
+  <fragment
+    android:id="@+id/galleriesFragment"
+    android:name="com.alientodevida.alientoapp.app.features.gallery.list.GalleriesFragment"
+    android:label="GalleriesFragment"
+    tools:layout="@layout/fragment_galleries">
+    <action
+      android:id="@+id/action_galleriesFragment_to_galleryFragment"
+      app:destination="@id/galleryFragment" />
+  </fragment>
+  <include app:graph="@navigation/notification_navigation" />
 
 </navigation>

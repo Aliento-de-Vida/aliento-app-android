@@ -1,25 +1,25 @@
 package com.alientodevida.alientoapp.domain.entities.network
 
 import com.alientodevida.alientoapp.domain.entities.local.ImageUrlEntity
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ImageUrlResponse(
-    val resources: List<Resources>
+  val resources: List<Resources>
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Resources(
-    val url: String
+  val url: String
 )
 
 /**
  * Convert Network results to domain objects
  */
-fun ImageUrlResponse.asDomainModel(searchUrl: String): ImageUrlEntity {
-    return ImageUrlEntity(
-        resources.first().url,
-        searchUrl
-    )
-
+fun ImageUrlResponse.asDomain(searchUrl: String): ImageUrlEntity {
+  return ImageUrlEntity(
+    resources.first().url,
+    searchUrl
+  )
+  
 }

@@ -1,64 +1,65 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Theme specific-->
+  <!-- Theme specific-->
 
-    <!-- App Theme-->
-    <style name="Theme.AlientoApp" parent="Base.Theme.AlientoApp">
-        <!--Material color attributes (light theme) -->
-        <!--colorPrimary colors map to components and elements, such as app bars and buttons. -->
-        <!--colorSecondary colors are most often used as accents on components, such as FABs and -->
-        <!--selection controls.-->
-        <item name="colorPrimary">@color/pantone_2199_c</item>
-        <item name="colorPrimaryVariant">@color/pantone_663_c</item>
-        <item name="colorSecondary">@color/pantone_white_c</item>
-        <item name="colorSecondaryVariant">@color/pantone_white_c</item>
-        <!--colorBackground appears behind scrollable content and is used for the default window-->
-        <!--background. colorSurface is mapped to the surface of components such as cards, sheets-->
-        <!--and menus. colorError is used to indicate an error state for components such as-->
-        <!--text fields.-->
-        <item name="android:colorBackground">@color/white</item>
-        <item name="colorSurface">@color/pantone_white_c</item>
-        <item name="colorError">@color/pantone_white_c</item>
-        <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
-        <!--on which they appear.-->
-        <item name="colorOnPrimary">@color/pantone_black_c</item>
-        <item name="colorOnSecondary">@color/pantone_black_c</item>
-        <item name="colorOnBackground">@color/pantone_black_c</item>
-        <item name="colorOnSurface">@color/pantone_black_c</item>
-        <item name="colorOnError">@color/pantone_black_c</item>
+  <!-- App Theme-->
+  <style name="Theme.AlientoApp" parent="Base.Theme.AlientoApp">
+    <!--Material color attributes (light theme) -->
+    <!--colorPrimary colors map to components and elements, such as app bars and buttons. -->
+    <!--colorSecondary colors are most often used as accents on components, such as FABs and -->
+    <!--selection controls.-->
+    <item name="colorPrimary">@color/pantone_2199_c</item>
+    <item name="colorPrimaryVariant">@color/pantone_663_c</item>
+    <item name="colorSecondary">@color/pantone_white_c</item>
+    <item name="colorSecondaryVariant">@color/pantone_white_c</item>
+    <!--colorBackground appears behind scrollable content and is used for the default window-->
+    <!--background. colorSurface is mapped to the surface of components such as cards, sheets-->
+    <!--and menus. colorError is used to indicate an error state for components such as-->
+    <!--text fields.-->
+    <item name="android:colorBackground">@color/white</item>
+    <item name="colorSurface">@color/pantone_white_c</item>
+    <item name="colorError">@color/pantone_white_c</item>
+    <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
+    <!--on which they appear.-->
+    <item name="colorOnPrimary">@color/pantone_black_c</item>
+    <item name="colorOnSecondary">@color/pantone_black_c</item>
+    <item name="colorOnBackground">@color/pantone_black_c</item>
+    <item name="colorOnSurface">@color/pantone_black_c</item>
+    <item name="colorOnError">@color/pantone_black_c</item>
 
-        <item name="carousel_indicator_background_color">@color/pantone_446_c_40</item>
-        <item name="themed_icon">@drawable/logo_negro</item>
-    </style>
-    <style name="AppTheme" parent="Theme.AlientoApp" >
-        <item name="android:statusBarColor">?android:colorBackground</item>
-    </style>
+    <item name="carousel_indicator_background_color">@color/pantone_446_c_40</item>
+    <item name="themed_icon">@drawable/logo_negro</item>
 
-    <!-- Splashscreen-->
-    <style name="AppTheme.Splashscreen" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="android:colorBackground">@color/white</item>
-        <item name="android:statusBarColor">?android:colorBackground</item>
-        <item name="themed_icon">@drawable/logo_negro</item>
-        <item name="android:windowBackground">@drawable/splashscreen</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-    </style>
+    <item name="bottomSheetDialogTheme">@style/Theme.Design.Light.BottomSheetDialog</item>
+  </style>
 
+  <style name="AppTheme" parent="Theme.AlientoApp">
+    <item name="android:statusBarColor">?android:colorBackground</item>
+  </style>
 
-
-    <!-- Base specific-->
-
-    <!-- App Theme-->
-    <style name="Base.Theme.AlientoApp" parent="Platform.Theme.AlientoApp">
-        <!-- Customize your theme here. -->
-    </style>
+  <!-- Splashscreen-->
+  <style name="AppTheme.Splashscreen" parent="Theme.MaterialComponents.NoActionBar">
+    <item name="android:colorBackground">@color/white</item>
+    <item name="android:statusBarColor">?android:colorBackground</item>
+    <item name="themed_icon">@drawable/logo_negro</item>
+    <item name="android:windowBackground">@drawable/splashscreen</item>
+    <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+  </style>
 
 
+  <!-- Base specific-->
 
-    <!-- Platform specific-->
+  <!-- App Theme-->
+  <style name="Base.Theme.AlientoApp" parent="Platform.Theme.AlientoApp">
+    <!-- Customize your theme here. -->
+  </style>
 
-    <!-- App Theme-->
-    <style name="Platform.Theme.AlientoApp" parent="Theme.MaterialComponents.NoActionBar" >
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-    </style>
+
+  <!-- Platform specific-->
+
+  <!-- App Theme-->
+  <style name="Platform.Theme.AlientoApp" parent="Theme.MaterialComponents.NoActionBar">
+    <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+  </style>
 
 </resources>
