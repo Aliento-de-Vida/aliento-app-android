@@ -9,11 +9,9 @@ plugins {
     id 'kotlin-parcelize'
 }
 
-/*
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-*/
 
 android {
     compileSdkVersion 31
@@ -24,18 +22,18 @@ android {
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 16
-        versionName "1.0.2"
+        versionName "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
-        /*release {
+        release {
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
-        }*/
+        }
         debug {
 
         }
@@ -43,9 +41,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false // TODO fix this before sending to PROD
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//	        signingConfig signingConfigs.release
+	        signingConfig signingConfigs.release
             buildConfigField "String", "YOUTUBE_DEVELOPER_KEY", "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\""
         }
         debug {
