@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/notification_navigation"
+  app:startDestination="@id/fragment_notifications">
+
+  <fragment
+    android:id="@+id/fragment_notifications"
+    android:name="com.alientodevida.alientoapp.app.features.notifications.list.NotificationsFragment"
+    android:label="fragment_notifications"
+    tools:layout="@layout/fragment_notifications">
+    <action
+      android:id="@+id/action_fragment_notifications_to_fragment_notification_detail"
+      app:destination="@id/fragment_notification_detail" />
+  </fragment>
+  <dialog
+    android:id="@+id/fragment_notification_detail"
+    android:name="com.alientodevida.alientoapp.app.features.notifications.detail.NotificationDetailFragment"
+    android:label="fragment_notification_detail"
+    tools:layout="@layout/fragment_notification_detail">
+    <argument
+      android:name="notification"
+      app:argType="com.alientodevida.alientoapp.domain.home.Notification" />
+  </dialog>
+
+</navigation>

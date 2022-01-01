@@ -1,20 +1,12 @@
 package com.alientodevida.alientoapp.domain.entities.network
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
-import java.io.Serializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
-data class Token (
-
-    @Json(name = "access_token")
-    var accessToken: String,
-
-    @Json(name = "token_type")
-    var tokenType: String
-
-): Serializable {
-    companion object {
-        const val key = "Token"
-    }
-}
+@Serializable
+data class Token(
+  @SerialName("access_token")
+  var accessToken: String,
+  @SerialName("token_type")
+  var tokenType: String
+)
