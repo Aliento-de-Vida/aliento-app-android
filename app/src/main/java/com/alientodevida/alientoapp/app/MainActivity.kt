@@ -1,7 +1,6 @@
 package com.alientodevida.alientoapp.app
 
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.alientodevida.alientoapp.app.databinding.ActivityMainBinding
 import com.alientodevida.alientoapp.domain.preferences.Preferences
@@ -23,12 +22,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     
     setupPushNotifications()
-    
-    window.setFlags(
-      WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-      WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-    )
-    
+  
     binding = ActivityMainBinding.inflate(layoutInflater)
     
     observe()

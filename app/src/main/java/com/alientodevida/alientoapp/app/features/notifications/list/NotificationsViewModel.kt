@@ -32,8 +32,10 @@ class NotificationsViewModel @Inject constructor(
   savedStateHandle,
   application,
 ) {
+  val isAdmin: Boolean get() = true //preferences.isDarkTheme
+  
   private val _notifications = MutableLiveData<ViewModelResult<List<Notification>>>()
-  val galleries: LiveData<ViewModelResult<List<Notification>>> = _notifications
+  val notifications: LiveData<ViewModelResult<List<Notification>>> = _notifications
   
   init {
     getGalleries()

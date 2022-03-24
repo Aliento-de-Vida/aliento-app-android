@@ -66,6 +66,13 @@
       app:exitAnim="@anim/wait_anim"
       app:popEnterAnim="@anim/wait_anim"
       app:popExitAnim="@anim/slide_right" />
+    <action
+      android:id="@+id/action_fragment_home_to_admin_navigation"
+      app:destination="@id/admin_navigation"
+      app:enterAnim="@anim/slide_left"
+      app:exitAnim="@anim/wait_anim"
+      app:popEnterAnim="@anim/wait_anim"
+      app:popExitAnim="@anim/slide_right" />
   </fragment>
 
   <fragment
@@ -140,5 +147,6 @@
       app:destination="@id/galleryFragment" />
   </fragment>
   <include app:graph="@navigation/notification_navigation" />
+  <include app:graph="@navigation/admin_navigation" />
 
 </navigation>

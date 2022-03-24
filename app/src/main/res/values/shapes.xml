@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="Shape.Mobile.Large"
+    parent="ShapeAppearance.MaterialComponents.LargeComponent">
+
+  </style>
+
+  <style name="Shape.Mobile.Medium"
+    parent="ShapeAppearance.MaterialComponents.MediumComponent">
+
+  </style>
+
+  <style name="Shape.Mobile.Small"
+    parent="ShapeAppearance.MaterialComponents.SmallComponent">
+
+  </style>
+
+</resources>
