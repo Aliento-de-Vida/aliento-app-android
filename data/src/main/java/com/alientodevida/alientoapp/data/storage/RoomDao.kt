@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.alientodevida.alientoapp.domain.entities.local.Audio
+import com.alientodevida.alientoapp.domain.audio.Audio
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 
 @Dao

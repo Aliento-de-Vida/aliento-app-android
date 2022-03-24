@@ -41,20 +41,23 @@ class HomeViewModel @Inject constructor(
 ) {
   
   val carouseItems = listOf(
-    CategoryItem(
+    CarouselItem(
       "Aliento de Vida",
       Constants.CHURCH_IMAGE,
-      CategoryItemType.CHURCH
+      CategoryItem(CategoryItemType.CHURCH),
+      null,
     ),
-    CategoryItem(
+    CarouselItem(
       "Campus",
       Constants.CAMPUS_IMAGE,
-      CategoryItemType.CAMPUSES
+      CategoryItem(CategoryItemType.CAMPUSES),
+      null,
     ),
-    CategoryItem(
+    CarouselItem(
       "Galería",
       Constants.GALLERY_IMAGE,
-      CategoryItemType.GALLERY
+      CategoryItem(CategoryItemType.GALLERY),
+      null,
     )
   )
   
@@ -68,7 +71,14 @@ class HomeViewModel @Inject constructor(
   
   init {
     _sermonsItems.value = ViewModelResult.Success(
-      listOf(CategoryItem("Ver Prédicas", Constants.SERMONS_IMAGE, CategoryItemType.SERMONS))
+      listOf(
+        CarouselItem(
+          "Ver Prédicas",
+          Constants.SERMONS_IMAGE,
+          CategoryItem(CategoryItemType.SERMONS),
+          null,
+        )
+      )
     )
     getHome()
   }
@@ -89,18 +99,20 @@ class HomeViewModel @Inject constructor(
       latestVideo = sermons.firstOrNull()
       
       val carouselItems = arrayListOf<CarouselItem>()
-      carouselItems += CategoryItem(
+      carouselItems += CarouselItem(
         "Ver Prédicas",
         Constants.SERMONS_IMAGE,
-        CategoryItemType.SERMONS
+        CategoryItem(CategoryItemType.SERMONS),
+        null,
       )
       carouselItems += sermons
         .filter { it.thumbnilsUrl != null }
         .map {
-          YoutubeItem(
+          CarouselItem(
             it.name,
             it.thumbnilsUrl!!.replace("hqdefault.jpg", "maxresdefault.jpg"),
-            it.id
+            null,
+            YoutubeItem(it.id),
           )
         }
       

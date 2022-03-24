@@ -1,8 +1,8 @@
 package com.alientodevida.alientoapp.data.spotify
 
-import com.alientodevida.alientoapp.domain.spotify.Albums
-import com.alientodevida.alientoapp.domain.spotify.Podcasts
-import com.alientodevida.alientoapp.domain.spotify.Tracks
+import com.alientodevida.alientoapp.domain.audio.Albums
+import com.alientodevida.alientoapp.domain.audio.Podcasts
+import com.alientodevida.alientoapp.domain.audio.Tracks
 import retrofit2.http.GET
 import retrofit2.http.Path
 
