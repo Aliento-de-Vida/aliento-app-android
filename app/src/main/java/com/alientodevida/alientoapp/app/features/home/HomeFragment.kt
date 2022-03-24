@@ -1,6 +1,7 @@
 package com.alientodevida.alientoapp.app.features.home
 
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -169,6 +170,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
           requireActivity().openSpotifyArtistPage(it.socialMedia.spotifyArtistId)
         }
       }
+  
+      setupAdminEntrypoint()
+    }
+  }
+  
+  private fun setupAdminEntrypoint() {
+    var twitterLongClickCount = 0
+    var spotifyLongClickCount = 0
+  
+    binding.twitter.setOnLongClickListener {
+      it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING)
+      twitterLongClickCount++
+      true
+    }
+  
+    binding.spotify.setOnLongClickListener {
+      it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING)
+      spotifyLongClickCount++
+      if (spotifyLongClickCount == 1 && twitterLongClickCount == 1) {
+        twitterLongClickCount = 0
+        spotifyLongClickCount = 0
+        
+        val action = HomeFragmentDirections.actionFragmentHomeToAdminNavigation()
+        findNavController().navigate(action)
+      }
+      true
     }
   }
   

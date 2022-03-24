@@ -43,7 +43,7 @@ class MessagingService : FirebaseMessagingService() {
       NavDeepLinkBuilder(this)
         .setGraph(R.navigation.splashscreen_navigation)
         .setDestination(R.id.fragment_notification_detail)
-        .setArguments(NotificationDetailFragmentArgs(notification).toBundle())
+        .setArguments(NotificationDetailFragmentArgs.Builder(notification).build().toBundle())
         .createPendingIntent()
     } ?: run {
       PendingIntent.getActivity(
