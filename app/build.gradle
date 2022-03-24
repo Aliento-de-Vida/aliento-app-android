@@ -7,13 +7,12 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'org.jetbrains.kotlin.plugin.serialization'
     id 'kotlin-parcelize'
+    id 'com.google.firebase.crashlytics'
 }
 
-/*
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-*/
 
 android {
     compileSdkVersion 31
@@ -23,19 +22,19 @@ android {
         applicationId "com.alientodevida.app"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 16
-        versionName "1.0.2"
+        versionCode 17
+        versionName "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
-        /*release {
+        release {
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
-        }*/
+        }
         debug {
 
         }
@@ -45,7 +44,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//	        signingConfig signingConfigs.release
+	        signingConfig signingConfigs.release
             buildConfigField "String", "YOUTUBE_DEVELOPER_KEY", "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\""
         }
         debug {
@@ -74,6 +73,7 @@ dependencies {
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-messaging'
 
     // Coroutines

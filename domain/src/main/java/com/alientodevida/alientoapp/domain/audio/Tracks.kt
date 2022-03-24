@@ -1,6 +1,5 @@
-package com.alientodevida.alientoapp.domain.spotify
+package com.alientodevida.alientoapp.domain.audio
 
-import com.alientodevida.alientoapp.domain.entities.local.Audio
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

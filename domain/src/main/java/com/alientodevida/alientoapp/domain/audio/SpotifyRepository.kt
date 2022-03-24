@@ -1,6 +1,4 @@
-package com.alientodevida.alientoapp.domain.spotify
-
-import com.alientodevida.alientoapp.domain.entities.local.Audio
+package com.alientodevida.alientoapp.domain.audio
 
 interface SpotifyRepository {
   
