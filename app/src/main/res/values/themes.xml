@@ -18,8 +18,8 @@
     <item name="backgroundColor">@color/white</item>
     <item name="colorOnBackground">@color/pantone_black_c</item>
 
-    <item name="colorOnError">@color/pantone_black_c</item>
-    <item name="colorError">@color/pantone_white_c</item>
+    <item name="colorOnError">@color/pantone_white_c</item>
+    <item name="colorError">@color/pantone_black_c</item>
 
     <item name="carousel_indicator_background_color">@color/pantone_446_c_40</item>
     <item name="themed_icon">@drawable/logo_negro</item>

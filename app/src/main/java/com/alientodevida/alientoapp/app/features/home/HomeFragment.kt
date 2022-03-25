@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,6 +17,7 @@ import com.alientodevida.alientoapp.app.databinding.FragmentHomeBinding
 import com.alientodevida.alientoapp.app.databinding.ItemCarouselBinding
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffAdapter
 import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
+import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.Constants
 import com.alientodevida.alientoapp.app.utils.Utils
@@ -192,8 +194,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         twitterLongClickCount = 0
         spotifyLongClickCount = 0
         
-        val action = HomeFragmentDirections.actionFragmentHomeToAdminNavigation()
-        findNavController().navigate(action)
+        if (viewModel.isAdmin) {
+          viewModel.signAdminOut()
+          showToast(Message.Localized(Message.Type.INFORMATIONAL, "", "Signed Out!", ""))
+        } else {
+          val action = HomeFragmentDirections.actionFragmentHomeToAdminNavigation()
+          findNavController().navigate(action)
+        }
       }
       true
     }

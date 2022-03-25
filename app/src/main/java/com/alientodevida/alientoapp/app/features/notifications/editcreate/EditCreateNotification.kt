@@ -3,6 +3,7 @@ package com.alientodevida.alientoapp.app.features.notifications.editcreate
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -24,6 +25,7 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +49,7 @@ import com.alientodevida.alientoapp.app.compose.components.InputField
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.state.ViewModelResult
-import com.alientodevida.alientoapp.domain.home.Notification
+import com.alientodevida.alientoapp.domain.notification.Notification
 
 @Composable
 fun EditNotification(

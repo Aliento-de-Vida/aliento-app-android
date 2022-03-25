@@ -55,7 +55,7 @@ import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
-import com.alientodevida.alientoapp.domain.home.Notification
+import com.alientodevida.alientoapp.domain.notification.Notification
 
 @Composable
 fun Notifications(
