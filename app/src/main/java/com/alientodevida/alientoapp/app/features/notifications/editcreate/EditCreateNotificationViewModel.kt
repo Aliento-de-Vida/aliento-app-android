@@ -7,9 +7,9 @@ import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
-import com.alientodevida.alientoapp.domain.home.HomeRepository
-import com.alientodevida.alientoapp.domain.home.Notification
 import com.alientodevida.alientoapp.domain.logger.Logger
+import com.alientodevida.alientoapp.domain.notification.Notification
+import com.alientodevida.alientoapp.domain.notification.NotificationRepository
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,12 +20,12 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import javax.inject.Inject
 import kotlin.io.path.absolutePathString
-import com.alientodevida.alientoapp.domain.home.Attachment as DomainAttachment
-import com.alientodevida.alientoapp.domain.home.NotificationRequest as DomainNotificationRequest
+import com.alientodevida.alientoapp.domain.notification.Attachment as DomainAttachment
+import com.alientodevida.alientoapp.domain.notification.NotificationRequest as DomainNotificationRequest
 
 @HiltViewModel
 class EditCreateNotificationViewModel @Inject constructor(
-  private val homeRepository: HomeRepository,
+  private val notificationRepository: NotificationRepository,
   coroutineDispatchers: CoroutineDispatchers,
   errorParser: ErrorParser,
   logger: Logger,
@@ -102,9 +102,9 @@ class EditCreateNotificationViewModel @Inject constructor(
     
     stateFlowResult(stateFlow = _notificationRequest) {
       if (notification.isNew)
-        homeRepository.createNotification(notification.toDomain(domainAttachment)).toNotificationRequest()
+        notificationRepository.createNotification(notification.toDomain(domainAttachment)).toNotificationRequest()
       else
-        homeRepository.editNotification(notification.toDomain(domainAttachment)).toNotificationRequest()
+        notificationRepository.editNotification(notification.toDomain(domainAttachment)).toNotificationRequest()
     }
   }
   
