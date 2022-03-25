@@ -6,19 +6,20 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.alientodevida.alientoapp.domain.entities.network.Token
 import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*
+import com.alientodevida.alientoapp.domain.admin.Token as AdminToken
+import com.alientodevida.alientoapp.domain.entities.network.Token as SpotifyToken
 
 class PreferencesImpl(
   private val preferences: SharedPreferences,
 ) : Preferences {
   companion object {
-    const val JWT_TOKEN_KEY = "jwt-token"
-    const val IS_ADMIN_KEY = "is-admin"
+    const val SPOTIFY_TOKEN_KEY = "spotify-token"
+    const val ADMIN_TOKEN_KEY = "admin-token"
     const val PUSH_ENABLED_KEY = "push-enabled"
     const val HOME_KEY = "home"
     private const val NIGHT_MODE_KEY = "night_mode"
@@ -59,9 +60,7 @@ class PreferencesImpl(
       }
     }
   
-  private var _isAdmin =
-    PrimitivePreferenceProperty<Boolean>(Type.BOOLEAN, PUSH_ENABLED_KEY, preferences)
-  override var isAdmin: Boolean by _isAdmin
+  override val isAdmin get() = adminToken != null
   
   private val _pushEnabled =
     PrimitivePreferenceProperty<Boolean>(Type.BOOLEAN, PUSH_ENABLED_KEY, preferences)
@@ -84,10 +83,15 @@ class PreferencesImpl(
   
   private fun getRandomBoolean() = (Random().nextInt(2) + 1) == 1
   
-  override var spotifyJwtToken: Token?
-    get() = get(JWT_TOKEN_KEY, preferences)
-    set(value) = value?.let { save(it, JWT_TOKEN_KEY) }
-      ?: run { clear(JWT_TOKEN_KEY) }
+  override var spotifyToken: SpotifyToken?
+    get() = get(SPOTIFY_TOKEN_KEY, preferences)
+    set(value) = value?.let { save(it, SPOTIFY_TOKEN_KEY) }
+      ?: run { clear(SPOTIFY_TOKEN_KEY) }
+  
+  override var adminToken: AdminToken?
+    get() = get(ADMIN_TOKEN_KEY, preferences)
+    set(value) = value?.let { save(it, ADMIN_TOKEN_KEY) }
+      ?: run { clear(ADMIN_TOKEN_KEY) }
   
   override var home: Home?
     get() = get(HOME_KEY, preferences)
@@ -95,7 +99,8 @@ class PreferencesImpl(
       ?: run { clear(HOME_KEY) }
   
   override suspend fun clear() {
-    clear(JWT_TOKEN_KEY)
+    clear(SPOTIFY_TOKEN_KEY)
+    clear(ADMIN_TOKEN_KEY)
     _pushEnabled.clear()
   }
   
