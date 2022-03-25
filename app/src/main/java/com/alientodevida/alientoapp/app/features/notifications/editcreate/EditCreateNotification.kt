@@ -24,7 +24,6 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -56,30 +55,20 @@ fun EditNotification(
   onBackPressed: () -> Unit,
 ) {
   var notificationRequest by remember { mutableStateOf(viewModel.initialNotificationRequest) }
-
-  val notificationResult by viewModel.notification.collectAsState(notificationRequest)
-  (notificationResult as? ViewModelResult.Success<Notification>)?.let { result -> notificationRequest = result.data.toNotificationRequest() }
+  
+  val notificationResult by viewModel.notificationRequest.collectAsState()
+  (notificationResult as? ViewModelResult.Success<NotificationRequest>)?.let { result -> notificationRequest = result.data }
+  
+  val isNotificationRequestComplete by viewModel.isNotificationRequestComplete.collectAsState()
   
   EditNotificationContent(
     notification = notificationRequest,
+    isNotificationRequestComplete = isNotificationRequestComplete,
     showLoading = notificationResult == ViewModelResult.Loading,
-    onNotificationTitleChanged = { newTitle: String ->
-      notificationRequest = notificationRequest.copy(title = newTitle)
-    },
-    onNotificationDescriptionChanged = { newDescription: String ->
-      notificationRequest = notificationRequest.copy(content = newDescription)
-    },
-    onNotificationImageNameChanged = { newImageName: String ->
-      notificationRequest =
-        notificationRequest.copy(image = com.alientodevida.alientoapp.domain.common.Image(newImageName))
-    },
-    onNotificationImageChanged = { newAttachment: Attachment? ->
-      notificationRequest =
-        notificationRequest.copy(
-          attachment = newAttachment,
-          image = com.alientodevida.alientoapp.domain.common.Image(newAttachment?.displayName ?: "")
-        )
-    },
+    onNotificationTitleChanged = viewModel::onNotificationTitleChanged,
+    onNotificationDescriptionChanged = viewModel::onNotificationDescriptionChanged,
+    onNotificationImageNameChanged = viewModel::onNotificationImageNameChanged,
+    onNotificationImageChanged = viewModel::onNotificationImageChanged,
     saveNotification = viewModel::saveNotification,
     onBackPressed = onBackPressed,
   )
@@ -88,6 +77,7 @@ fun EditNotification(
 @Composable
 fun EditNotificationContent(
   notification: NotificationRequest,
+  isNotificationRequestComplete: Boolean,
   showLoading: Boolean,
   onNotificationTitleChanged: (String) -> Unit,
   onNotificationDescriptionChanged: (String) -> Unit,
@@ -101,7 +91,7 @@ fun EditNotificationContent(
       TopAppBar(onBackPressed = onBackPressed)
     },
     floatingActionButton = {
-      FloatingActionButton(
+      if (isNotificationRequestComplete) FloatingActionButton(
         onClick = { saveNotification(notification) },
         contentColor = MaterialTheme.colors.surface,
       ) {
@@ -289,6 +279,7 @@ fun NotificationsPreview() {
         com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
         "2021-12-31T18:58:34Z"
       ).toNotificationRequest(),
+      isNotificationRequestComplete = true,
       showLoading = true,
       onNotificationTitleChanged = {},
       onNotificationDescriptionChanged = {},

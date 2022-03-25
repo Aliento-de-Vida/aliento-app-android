@@ -72,12 +72,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion '1.1.1'
     }
-    externalNativeBuild {
-        cmake {
-            path file('src/main/cpp/CMakeLists.txt')
-            version '3.18.1'
-        }
-    }
 }
 
 dependencies {

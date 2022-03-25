@@ -2,12 +2,10 @@ package com.alientodevida.alientoapp.app.features.notifications.editcreate
 
 import android.app.Application
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
-import com.alientodevida.alientoapp.domain.common.Image
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.home.HomeRepository
 import com.alientodevida.alientoapp.domain.home.Notification
@@ -22,8 +20,8 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import javax.inject.Inject
 import kotlin.io.path.absolutePathString
-import com.alientodevida.alientoapp.domain.home.NotificationRequest as DomainNotificationRequest
 import com.alientodevida.alientoapp.domain.home.Attachment as DomainAttachment
+import com.alientodevida.alientoapp.domain.home.NotificationRequest as DomainNotificationRequest
 
 @HiltViewModel
 class EditCreateNotificationViewModel @Inject constructor(
@@ -46,8 +44,44 @@ class EditCreateNotificationViewModel @Inject constructor(
   val initialNotificationRequest: NotificationRequest =
     (savedStateHandle.get<Notification>("notification") ?: Notification.empty()).toNotificationRequest()
   
-  private val _notification = MutableStateFlow<ViewModelResult<Notification>?>(null)
-  val notification: StateFlow<ViewModelResult<Notification>?> = _notification
+  private val _notificationRequest = MutableStateFlow<ViewModelResult<NotificationRequest>>(
+    ViewModelResult.Success(initialNotificationRequest)
+  )
+  val notificationRequest: StateFlow<ViewModelResult<NotificationRequest>> = _notificationRequest
+  
+  private val currentNotificationRequest: NotificationRequest get() =
+    (notificationRequest.value as? ViewModelResult.Success<NotificationRequest>)?.data ?: Notification.empty()
+      .toNotificationRequest()
+  
+  private val _isNotificationRequestComplete = MutableStateFlow(false)
+  val isNotificationRequestComplete: StateFlow<Boolean> = _isNotificationRequestComplete
+  
+  init {
+    _isNotificationRequestComplete.value = currentNotificationRequest.isComplete
+  }
+  
+  fun onNotificationTitleChanged(newTitle: String) {
+    _notificationRequest.value = ViewModelResult.Success(currentNotificationRequest.copy(title = newTitle))
+    _isNotificationRequestComplete.value = currentNotificationRequest.isComplete
+  }
+
+  fun onNotificationDescriptionChanged(newDescription: String) {
+    _notificationRequest.value = ViewModelResult.Success(currentNotificationRequest.copy(content = newDescription))
+    _isNotificationRequestComplete.value = currentNotificationRequest.isComplete
+  }
+
+  fun onNotificationImageNameChanged(newImageName: String) {
+    _notificationRequest.value = ViewModelResult.Success(currentNotificationRequest.copy(image = com.alientodevida.alientoapp.domain.common.Image(newImageName)))
+    _isNotificationRequestComplete.value = currentNotificationRequest.isComplete
+  }
+
+  fun onNotificationImageChanged(newAttachment: Attachment?) {
+    _notificationRequest.value = ViewModelResult.Success(currentNotificationRequest.copy(
+      attachment = newAttachment,
+      image = com.alientodevida.alientoapp.domain.common.Image(newAttachment?.displayName ?: "")
+    ))
+    _isNotificationRequestComplete.value = currentNotificationRequest.isComplete
+  }
   
   fun saveNotification(notification: NotificationRequest) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
@@ -66,14 +100,11 @@ class EditCreateNotificationViewModel @Inject constructor(
       }
     }
     
-    stateFlowNullableResult(
-      stateFlow = _notification,
-      dispatcher = coroutineDispatchers.default
-    ) {
+    stateFlowResult(stateFlow = _notificationRequest) {
       if (notification.isNew)
-        homeRepository.createNotification(notification.toDomain(domainAttachment))
+        homeRepository.createNotification(notification.toDomain(domainAttachment)).toNotificationRequest()
       else
-        homeRepository.editNotification(notification.toDomain(domainAttachment))
+        homeRepository.editNotification(notification.toDomain(domainAttachment)).toNotificationRequest()
     }
   }
   
