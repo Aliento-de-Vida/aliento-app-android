@@ -24,7 +24,7 @@
     tools:layout="@layout/fragment_notifications">
     <argument
       android:name="notification"
-      app:argType="com.alientodevida.alientoapp.domain.home.Notification"
+      app:argType="com.alientodevida.alientoapp.domain.notification.Notification"
       app:nullable="true" />
   </fragment>
 
@@ -35,7 +35,7 @@
     tools:layout="@layout/fragment_notification_detail">
     <argument
       android:name="notification"
-      app:argType="com.alientodevida.alientoapp.domain.home.Notification" />
+      app:argType="com.alientodevida.alientoapp.domain.notification.Notification" />
   </dialog>
 
 </navigation>

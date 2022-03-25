@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.domain.home
+package com.alientodevida.alientoapp.domain.notification
 
 data class Attachment(
   val name: String,
