@@ -10,5 +10,6 @@ data class NotificationRequest(
   val date: String,
   val attachment: Attachment? = null,
 ) {
+  val isComplete: Boolean = title.isBlank().not() && content.isBlank().not()
   val isNew: Boolean get() = id == 0
 }
