@@ -7,9 +7,11 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,8 +26,9 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -46,10 +49,10 @@ import com.alientodevida.alientoapp.app.compose.components.Caption
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
+import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
-import com.alientodevida.alientoapp.domain.common.Image
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
 import com.alientodevida.alientoapp.domain.home.Notification
@@ -59,20 +62,29 @@ fun Notifications(
   viewModel: NotificationsViewModel,
   onBackPressed: () -> Unit,
   goToNotificationDetail: (Notification) -> Unit,
-  goToNotificationsAdmin: () -> Unit,
+  goToEditNotification: (Notification) -> Unit,
+  goToCreateNotification: () -> Unit,
 ) {
-  val notificationsState by viewModel.notifications.observeAsState()
+  LaunchedEffect(true) {
+    viewModel.getNotifications()
+  }
   
-  if (notificationsState == ViewModelResult.Loading) CircularProgressIndicator()
+  var notifications by remember { mutableStateOf(listOf<Notification>()) }
   
-  val notifications = (notificationsState as? ViewModelResult.Success)?.data ?: emptyList()
+  val notificationsResult by viewModel.notifications.collectAsState(ViewModelResult.Loading)
+  (notificationsResult as? ViewModelResult.Success<List<Notification>>)?.let { result ->
+    notifications = result.data
+  }
   
   NotificationsContent(
     notifications = notifications,
     isAdmin = viewModel.isAdmin,
+    deleteNotification = viewModel::deleteNotification,
+    showLoading = notificationsResult == ViewModelResult.Loading,
     onBackPressed = onBackPressed,
     goToNotificationDetail = goToNotificationDetail,
-    goToNotificationsAdmin = goToNotificationsAdmin,
+    goToNotificationsAdmin = goToEditNotification,
+    goToCreateNotification = goToCreateNotification,
   )
 }
 
@@ -80,9 +92,12 @@ fun Notifications(
 fun NotificationsContent(
   notifications: List<Notification>,
   isAdmin: Boolean,
+  deleteNotification: (Notification) -> Unit,
+  showLoading: Boolean,
   onBackPressed: () -> Unit,
   goToNotificationDetail: (Notification) -> Unit,
-  goToNotificationsAdmin: () -> Unit,
+  goToNotificationsAdmin: (Notification) -> Unit,
+  goToCreateNotification: () -> Unit,
 ) {
   Scaffold(
     topBar = {
@@ -90,7 +105,7 @@ fun NotificationsContent(
     },
     floatingActionButton = {
       if (isAdmin) FloatingActionButton(
-        onClick = { /*TODO*/ },
+        onClick = { goToCreateNotification() },
         contentColor = MaterialTheme.colors.surface,
       ) {
         Icon(
@@ -104,15 +119,16 @@ fun NotificationsContent(
     Box(
       modifier = Modifier
         .padding(paddingValues = paddingValues)
-        .fillMaxHeight()
         .background(color = MaterialTheme.colors.background),
     ) {
       NotificationsBody(
         notifications = notifications,
+        deleteNotification = deleteNotification,
         goToNotificationDetail = goToNotificationDetail,
         goToNotificationsAdmin = goToNotificationsAdmin,
         isAdmin = isAdmin,
       )
+      if (showLoading) LoadingIndicator()
     }
   }
 }
@@ -153,11 +169,13 @@ fun TopAppBar(
 }
 
 @Composable
+@OptIn(ExperimentalFoundationApi::class)
 fun NotificationsBody(
   notifications: List<Notification>,
   isAdmin: Boolean,
+  deleteNotification: (Notification) -> Unit,
   goToNotificationDetail: (Notification) -> Unit,
-  goToNotificationsAdmin: () -> Unit,
+  goToNotificationsAdmin: (Notification) -> Unit,
 ) {
   Column(Modifier.padding(horizontal = 8.dp)) {
     Spacer(modifier = Modifier.height(8.dp))
@@ -168,12 +186,15 @@ fun NotificationsBody(
     )
     Spacer(modifier = Modifier.height(16.dp))
     LazyColumn(
-      verticalArrangement = Arrangement.spacedBy(12.dp)
+      contentPadding = PaddingValues(bottom = 16.dp),
+      verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-      items(notifications) { notification ->
+      items(notifications, key = { it.id }) { notification ->
         NotificationItem(
+          modifier = Modifier.animateItemPlacement(),
           notification = notification,
           isAdmin = isAdmin,
+          deleteNotification = deleteNotification,
           goToNotificationDetail = goToNotificationDetail,
           goToNotificationsAdmin = goToNotificationsAdmin,
         )
@@ -185,16 +206,18 @@ fun NotificationsBody(
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 fun NotificationItem(
+  modifier: Modifier,
   notification: Notification,
   isAdmin: Boolean,
+  deleteNotification: (Notification) -> Unit,
   goToNotificationDetail: (Notification) -> Unit,
-  goToNotificationsAdmin: () -> Unit,
+  goToNotificationsAdmin: (Notification) -> Unit,
 ) {
   var expanded by remember { mutableStateOf(false) }
   val hapticFeedback = LocalHapticFeedback.current
   
   Card(
-    Modifier
+    modifier
       .fillMaxWidth()
       .height(120.dp)
       .combinedClickable(
@@ -216,13 +239,13 @@ fun NotificationItem(
         onDismissRequest = { expanded = false }
       ) {
         DropdownMenuItem(
-          onClick = { }) {
+          onClick = { deleteNotification(notification) }) {
           Body2(
             text = "Eliminar",
             color = MaterialTheme.colors.onSurface,
           )
         }
-        DropdownMenuItem(onClick = { }) {
+        DropdownMenuItem(onClick = { goToNotificationsAdmin(notification) }) {
           Body2(
             text = "Editar",
             color = MaterialTheme.colors.onSurface,
@@ -289,7 +312,7 @@ fun NotificationsPreview() {
           "2021-12-31T18:58:34Z"
         ),
         Notification(
-          1,
+          2,
           "Test Notification",
           "This is a test",
           com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
@@ -297,9 +320,12 @@ fun NotificationsPreview() {
         ),
       ),
       isAdmin = true,
+      showLoading = true,
       onBackPressed = {},
+      deleteNotification = {},
       goToNotificationDetail = {},
       goToNotificationsAdmin = {},
+      goToCreateNotification = {},
     )
   }
 }

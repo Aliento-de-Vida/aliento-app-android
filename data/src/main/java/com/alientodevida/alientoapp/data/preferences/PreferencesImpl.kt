@@ -18,6 +18,7 @@ class PreferencesImpl(
 ) : Preferences {
   companion object {
     const val JWT_TOKEN_KEY = "jwt-token"
+    const val IS_ADMIN_KEY = "is-admin"
     const val PUSH_ENABLED_KEY = "push-enabled"
     const val HOME_KEY = "home"
     private const val NIGHT_MODE_KEY = "night_mode"
@@ -57,6 +58,10 @@ class PreferencesImpl(
         }
       }
     }
+  
+  private var _isAdmin =
+    PrimitivePreferenceProperty<Boolean>(Type.BOOLEAN, PUSH_ENABLED_KEY, preferences)
+  override var isAdmin: Boolean by _isAdmin
   
   private val _pushEnabled =
     PrimitivePreferenceProperty<Boolean>(Type.BOOLEAN, PUSH_ENABLED_KEY, preferences)
