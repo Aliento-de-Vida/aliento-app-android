@@ -13,7 +13,7 @@ class SpotifyAuthenticatorInterceptor @Inject constructor(
     return try {
       val requestBuilder = chain.request().newBuilder()
       
-      preferences.spotifyJwtToken?.let {
+      preferences.spotifyToken?.let {
         if (it.accessToken.isNotEmpty()) {
           requestBuilder.addHeader("Authorization", "Bearer ${it.accessToken}")
         }

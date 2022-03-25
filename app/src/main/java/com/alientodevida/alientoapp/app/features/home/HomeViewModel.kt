@@ -40,6 +40,8 @@ class HomeViewModel @Inject constructor(
   application,
 ) {
   
+  val isAdmin get() = preferences.isAdmin
+  
   val carouseItems = listOf(
     CarouselItem(
       "Aliento de Vida",
@@ -118,6 +120,10 @@ class HomeViewModel @Inject constructor(
       
       carouselItems
     }
+  }
+  
+  fun signAdminOut() {
+    preferences.adminToken = null
   }
   
 }

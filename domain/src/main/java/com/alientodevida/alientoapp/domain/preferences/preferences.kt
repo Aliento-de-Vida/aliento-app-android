@@ -1,8 +1,9 @@
 package com.alientodevida.alientoapp.domain.preferences
 
 import androidx.lifecycle.LiveData
-import com.alientodevida.alientoapp.domain.entities.network.Token
 import com.alientodevida.alientoapp.domain.home.Home
+import com.alientodevida.alientoapp.domain.admin.Token as AdminToken
+import com.alientodevida.alientoapp.domain.entities.network.Token as SpotifyToken
 
 interface Preferences {
   companion object {
@@ -17,10 +18,11 @@ interface Preferences {
   var isDarkTheme: Boolean
   val isDarkThemeLive: LiveData<Boolean>
   
-  var isAdmin: Boolean
+  val isAdmin: Boolean
   
   var pushEnabled: Boolean
-  var spotifyJwtToken: Token?
+  var spotifyToken: SpotifyToken?
+  var adminToken: AdminToken?
   
   var home: Home?
   

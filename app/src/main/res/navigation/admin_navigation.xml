@@ -7,8 +7,8 @@
 
   <fragment
     android:id="@+id/navigation_admin_login"
-    android:name="com.alientodevida.alientoapp.app.features.sermons.video.VideoFragment"
-    android:label="@string/title_video"
-    tools:layout="@layout/fragment_video" />
+    android:name="com.alientodevida.alientoapp.app.features.admin.login.AdminLoginFragment"
+    android:label="@string/title_admin"
+    tools:layout="@layout/fragment_notifications" />
 
 </navigation>
