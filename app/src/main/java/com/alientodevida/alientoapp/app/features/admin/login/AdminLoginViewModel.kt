@@ -36,7 +36,9 @@ class AdminLoginViewModel @Inject constructor(
   val loginResult: StateFlow<ViewModelResult<Unit>?> = _loginResult
   
   fun login(email: String, password: String) {
-    stateFlowNullableResult(stateFlow = _loginResult) {
+    stateFlowNullableResult(
+      stateFlow = _loginResult,
+    ) {
       val token = adminRepository.login(email, password)
       preferences.adminToken = token
     }

@@ -1,5 +1,6 @@
 package com.alientodevida.alientoapp.app.features.admin.login
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,6 +15,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,6 +36,7 @@ import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.InputField
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
+import com.alientodevida.alientoapp.app.extensions.Dialog
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 
 @Composable
@@ -41,6 +45,16 @@ fun AdminLogin(
   onBackPressed: () -> Unit,
 ) {
   val loginResult by viewModel.loginResult.collectAsState()
+  
+  (loginResult as? ViewModelResult.Error)?.Dialog()
+  
+  (loginResult as? ViewModelResult.Success)?.let {
+    val context = LocalContext.current
+    LaunchedEffect(true) {
+      Toast.makeText(context, "Signed In!", Toast.LENGTH_SHORT).show()
+      onBackPressed()
+    }
+  }
   
   AdminLoginContent(
     showLoading = loginResult == ViewModelResult.Loading,
