@@ -2,8 +2,10 @@ package com.alientodevida.alientoapp.domain.home
 
 import android.os.Parcelable
 import com.alientodevida.alientoapp.domain.common.Image
+import com.alientodevida.alientoapp.domain.extensions.format
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
+import java.util.*
 
 @Parcelize
 @Serializable
@@ -13,4 +15,8 @@ data class Notification(
   val content: String,
   val image: Image? = null,
   val date: String,
-) : Parcelable
+) : Parcelable {
+  companion object {
+    fun empty() = Notification(0, "", "", null, Date().format())
+  }
+}

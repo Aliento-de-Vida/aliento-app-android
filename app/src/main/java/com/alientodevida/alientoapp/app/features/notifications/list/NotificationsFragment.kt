@@ -34,7 +34,18 @@ class NotificationsFragment :
                 )
               )
             },
-            goToNotificationsAdmin = {},
+            goToEditNotification = { notification ->
+              findNavController().navigate(
+                NotificationsFragmentDirections.actionFragmentNotificationsToEditCreateNotificationFragment(
+                  notification
+                )
+              )
+            },
+            goToCreateNotification = {
+              findNavController().navigate(
+                NotificationsFragmentDirections.actionFragmentNotificationsToEditCreateNotificationFragment(null)
+              )
+            },
           )
         }
       }

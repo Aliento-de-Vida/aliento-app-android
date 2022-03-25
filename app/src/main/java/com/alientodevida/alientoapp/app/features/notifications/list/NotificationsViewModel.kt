@@ -1,8 +1,6 @@
 package com.alientodevida.alientoapp.app.features.notifications.list
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.ViewModelResult
@@ -13,6 +11,8 @@ import com.alientodevida.alientoapp.domain.home.Notification
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,16 +32,22 @@ class NotificationsViewModel @Inject constructor(
   savedStateHandle,
   application,
 ) {
-  val isAdmin: Boolean get() = true //preferences.isDarkTheme
   
-  private val _notifications = MutableLiveData<ViewModelResult<List<Notification>>>()
-  val notifications: LiveData<ViewModelResult<List<Notification>>> = _notifications
+  val isAdmin: Boolean get() = preferences.isAdmin
   
-  init {
-    getGalleries()
+  private val _notifications = MutableStateFlow<ViewModelResult<List<Notification>>>(ViewModelResult.Loading)
+  val notifications: StateFlow<ViewModelResult<List<Notification>>> = _notifications
+  
+  fun getNotifications() {
+    stateFlowResult(_notifications) { homeRepository.getNotifications().filter { it.image != null } }
   }
   
-  private fun getGalleries() {
-    liveDataResult(_notifications) { homeRepository.getNotifications().filter { it.image != null } }
+  fun deleteNotification(notification: Notification) {
+    val notifications = (notifications.value as? ViewModelResult.Success)?.data ?: emptyList()
+    stateFlowResult(_notifications) {
+      homeRepository.deleteNotification(notification.id)
+      notifications.filter { it.id != notification.id }
+    }
   }
+  
 }

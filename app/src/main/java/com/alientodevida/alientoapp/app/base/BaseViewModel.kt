@@ -11,6 +11,7 @@ import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
 
 abstract class BaseViewModel(
   protected val coroutineDispatchers: CoroutineDispatchers,
@@ -20,6 +21,66 @@ abstract class BaseViewModel(
   protected val savedStateHandle: SavedStateHandle,
   application: Application,
 ) : ViewModel() {
+  
+  protected fun <T> stateFlowResult(
+    stateFlow: MutableStateFlow<ViewModelResult<T>>,
+    scope: CoroutineScope = viewModelScope,
+    dispatcher: CoroutineDispatcher = coroutineDispatchers.main,
+    onSuccess: (suspend (T) -> Unit)? = null,
+    onError: (suspend (Exception) -> Unit)? = null,
+    onDone: (suspend () -> Unit)? = null,
+    block: suspend CoroutineScope.() -> T,
+  ): Job {
+    stateFlow.value = ViewModelResult.Loading
+    return scope.launch(dispatcher) {
+      val result = try {
+        val value = block()
+        ViewModelResult.Success(value).apply {
+          onSuccess?.safeInvoke(value, logger)
+        }
+      } catch (ex: CancellationException) {
+        return@launch
+      } catch (ex: Exception) {
+        logger.d("ViewModel.stateFlowResult", tr = ex)
+        val message = errorParser(ex)
+        ViewModelResult.Error(message).apply {
+          onError?.safeInvoke(ex, logger)
+        }
+      }
+      stateFlow.value = result
+      onDone?.safeInvoke(logger)
+    }
+  }
+  
+  protected fun <T> stateFlowNullableResult(
+    stateFlow: MutableStateFlow<ViewModelResult<T>?>,
+    scope: CoroutineScope = viewModelScope,
+    dispatcher: CoroutineDispatcher = coroutineDispatchers.main,
+    onSuccess: (suspend (T) -> Unit)? = null,
+    onError: (suspend (Exception) -> Unit)? = null,
+    onDone: (suspend () -> Unit)? = null,
+    block: suspend CoroutineScope.() -> T,
+  ): Job {
+    stateFlow.value = ViewModelResult.Loading
+    return scope.launch(dispatcher) {
+      val result = try {
+        val value = block()
+        ViewModelResult.Success(value).apply {
+          onSuccess?.safeInvoke(value, logger)
+        }
+      } catch (ex: CancellationException) {
+        return@launch
+      } catch (ex: Exception) {
+        logger.d("ViewModel.stateFlowNullableResult", tr = ex)
+        val message = errorParser(ex)
+        ViewModelResult.Error(message).apply {
+          onError?.safeInvoke(ex, logger)
+        }
+      }
+      stateFlow.value = result
+      onDone?.safeInvoke(logger)
+    }
+  }
   
   protected fun <T> liveDataResult(
     liveData: MutableLiveData<ViewModelResult<T>>,

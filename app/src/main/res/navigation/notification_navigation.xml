@@ -13,7 +13,21 @@
     <action
       android:id="@+id/action_fragment_notifications_to_fragment_notification_detail"
       app:destination="@id/fragment_notification_detail" />
+    <action
+      android:id="@+id/action_fragment_notifications_to_editCreateNotificationFragment"
+      app:destination="@id/fragment_edit_create_notification" />
   </fragment>
+  <fragment
+    android:id="@+id/fragment_edit_create_notification"
+    android:name="com.alientodevida.alientoapp.app.features.notifications.editcreate.EditCreateNotificationFragment"
+    android:label="EditNotificationFragment"
+    tools:layout="@layout/fragment_notifications">
+    <argument
+      android:name="notification"
+      app:argType="com.alientodevida.alientoapp.domain.home.Notification"
+      app:nullable="true" />
+  </fragment>
+
   <dialog
     android:id="@+id/fragment_notification_detail"
     android:name="com.alientodevida.alientoapp.app.features.notifications.detail.NotificationDetailFragment"
