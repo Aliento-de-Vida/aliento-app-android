@@ -1,7 +1,12 @@
 package com.alientodevida.alientoapp.data.di
 
 import android.content.Context
+import com.alientodevida.alientoapp.data.BuildConfig
+import com.alientodevida.alientoapp.data.admin.AdminAuthenticator
+import com.alientodevida.alientoapp.data.admin.AdminAuthenticatorInterceptor
 import com.alientodevida.alientoapp.data.preferences.PreferencesImpl
+import com.alientodevida.alientoapp.data.spotify.SpotifyAuthenticator
+import com.alientodevida.alientoapp.data.spotify.SpotifyAuthenticatorInterceptor
 import com.alientodevida.alientoapp.data.storage.AppDatabase
 import com.alientodevida.alientoapp.data.storage.RoomDao
 import com.alientodevida.alientoapp.data.storage.getDatabase
@@ -38,7 +43,27 @@ object DataModule {
       .readTimeout(15, TimeUnit.SECONDS)
       .retryOnConnectionFailure(false)
       .apply {
-        if (true /*BuildConfig.DEBUG*/) addInterceptor(
+        if (BuildConfig.DEBUG) addInterceptor(
+          HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        )
+      }.build()
+  
+  @Provides
+  @Singleton
+  @Named("AdminAuthClient")
+  fun okHttpAdminClient(
+    authInterceptor: AdminAuthenticatorInterceptor,
+    authenticator: AdminAuthenticator,
+  ): OkHttpClient =
+    OkHttpClient.Builder()
+      .connectTimeout(15, TimeUnit.SECONDS)
+      .writeTimeout(15, TimeUnit.SECONDS)
+      .readTimeout(15, TimeUnit.SECONDS)
+      .retryOnConnectionFailure(false)
+      .apply {
+        addInterceptor(authInterceptor)
+        authenticator(authenticator)
+        if (BuildConfig.DEBUG) addInterceptor(
           HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         )
       }.build()

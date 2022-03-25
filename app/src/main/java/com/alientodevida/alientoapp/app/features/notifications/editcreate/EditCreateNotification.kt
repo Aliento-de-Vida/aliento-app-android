@@ -47,7 +47,7 @@ import com.alientodevida.alientoapp.app.compose.components.InputField
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.state.ViewModelResult
-import com.alientodevida.alientoapp.domain.home.Notification
+import com.alientodevida.alientoapp.domain.notification.Notification
 
 @Composable
 fun EditNotification(

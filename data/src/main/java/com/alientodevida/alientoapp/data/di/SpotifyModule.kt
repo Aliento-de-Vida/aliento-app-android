@@ -1,5 +1,6 @@
 package com.alientodevida.alientoapp.data.di
 
+import com.alientodevida.alientoapp.data.BuildConfig
 import com.alientodevida.alientoapp.data.spotify.*
 import com.alientodevida.alientoapp.data.storage.RoomDao
 import com.alientodevida.alientoapp.domain.audio.SpotifyRepository
@@ -35,7 +36,7 @@ object SpotifyModule {
       .apply {
         addInterceptor(authInterceptor)
         authenticator(authenticator)
-        if (true /*BuildConfig.DEBUG*/) addInterceptor(
+        if (BuildConfig.DEBUG) addInterceptor(
           HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         )
       }.build()
