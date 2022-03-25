@@ -3,6 +3,8 @@
   <string name="title_home">Home</string>
   <string name="title_video">Video</string>
   <string name="title_audio">Audio</string>
+  <string name="title_admin">Admin</string>
+
   <string name="comming_soon_title">Próximamente</string>
   <string name="comming_soon_message">Espéralo pronto</string>
   <string name="ok">Ok</string>

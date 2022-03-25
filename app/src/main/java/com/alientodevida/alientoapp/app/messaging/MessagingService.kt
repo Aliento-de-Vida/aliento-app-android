@@ -16,7 +16,7 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.features.notifications.detail.NotificationDetailFragmentArgs
 import com.alientodevida.alientoapp.domain.common.Image
 import com.alientodevida.alientoapp.domain.extensions.notEmptyOrNull
-import com.alientodevida.alientoapp.domain.home.Notification
+import com.alientodevida.alientoapp.domain.notification.Notification
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 

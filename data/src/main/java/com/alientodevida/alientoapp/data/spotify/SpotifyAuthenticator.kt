@@ -28,14 +28,14 @@ class SpotifyAuthenticator @Inject constructor(
           SPOTIFY_GRANT_TYPE
         )
       }
-      preferences.spotifyJwtToken = newToken
+      preferences.spotifyToken = newToken
       return response.request.newBuilder().header(
         "Authorization", "Bearer ${newToken.accessToken}"
       ).build()
       
     } else {
       return response.request.newBuilder().header(
-        "Authorization", "Bearer ${preferences.spotifyJwtToken?.accessToken}"
+        "Authorization", "Bearer ${preferences.spotifyToken?.accessToken}"
       ).build()
     }
   }

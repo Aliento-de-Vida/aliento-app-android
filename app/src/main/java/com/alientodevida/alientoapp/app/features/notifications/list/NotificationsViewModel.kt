@@ -6,9 +6,9 @@ import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
-import com.alientodevida.alientoapp.domain.home.HomeRepository
-import com.alientodevida.alientoapp.domain.home.Notification
 import com.alientodevida.alientoapp.domain.logger.Logger
+import com.alientodevida.alientoapp.domain.notification.Notification
+import com.alientodevida.alientoapp.domain.notification.NotificationRepository
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationsViewModel @Inject constructor(
-  private val homeRepository: HomeRepository,
+  private val notificationRepository: NotificationRepository,
   coroutineDispatchers: CoroutineDispatchers,
   errorParser: ErrorParser,
   logger: Logger,
@@ -39,13 +39,13 @@ class NotificationsViewModel @Inject constructor(
   val notifications: StateFlow<ViewModelResult<List<Notification>>> = _notifications
   
   fun getNotifications() {
-    stateFlowResult(_notifications) { homeRepository.getNotifications().filter { it.image != null } }
+    stateFlowResult(_notifications) { notificationRepository.getNotifications().filter { it.image != null } }
   }
   
   fun deleteNotification(notification: Notification) {
     val notifications = (notifications.value as? ViewModelResult.Success)?.data ?: emptyList()
     stateFlowResult(_notifications) {
-      homeRepository.deleteNotification(notification.id)
+      notificationRepository.deleteNotification(notification.id)
       notifications.filter { it.id != notification.id }
     }
   }

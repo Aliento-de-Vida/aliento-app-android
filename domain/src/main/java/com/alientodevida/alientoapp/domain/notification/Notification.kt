@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.domain.home
+package com.alientodevida.alientoapp.domain.notification
 
 import android.os.Parcelable
 import com.alientodevida.alientoapp.domain.common.Image

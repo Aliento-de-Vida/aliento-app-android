@@ -1,11 +1,11 @@
-package com.alientodevida.alientoapp.data.spotify
+package com.alientodevida.alientoapp.data.admin
 
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
-class SpotifyAuthenticatorInterceptor @Inject constructor(
+class AdminAuthenticatorInterceptor @Inject constructor(
   private val preferences: Preferences
 ) : Interceptor {
   
@@ -13,10 +13,8 @@ class SpotifyAuthenticatorInterceptor @Inject constructor(
     return try {
       val requestBuilder = chain.request().newBuilder()
       
-      preferences.spotifyToken?.let {
-        if (it.accessToken.isNotEmpty()) {
-          requestBuilder.addHeader("Authorization", "Bearer ${it.accessToken}")
-        }
+      preferences.adminToken?.let {
+        requestBuilder.addHeader("Authorization", "Bearer ${it.jwt}")
       }
       
       chain.proceed(requestBuilder.build())
