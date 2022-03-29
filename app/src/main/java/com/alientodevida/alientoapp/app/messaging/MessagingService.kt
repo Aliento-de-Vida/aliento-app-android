@@ -50,7 +50,7 @@ class MessagingService : FirebaseMessagingService() {
         this,
         0,
         Intent(this, MainActivity::class.java),
-        PendingIntent.FLAG_ONE_SHOT
+        PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE,
       )
     }
     

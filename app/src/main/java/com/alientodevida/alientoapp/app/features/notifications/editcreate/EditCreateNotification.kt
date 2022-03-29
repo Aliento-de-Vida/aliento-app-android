@@ -3,7 +3,6 @@ package com.alientodevida.alientoapp.app.features.notifications.editcreate
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -25,7 +24,6 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,7 +46,7 @@ import com.alientodevida.alientoapp.app.compose.components.Icon
 import com.alientodevida.alientoapp.app.compose.components.InputField
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
-import com.alientodevida.alientoapp.app.state.ViewModelResult
+import com.alientodevida.alientoapp.app.extensions.Dialog
 import com.alientodevida.alientoapp.domain.notification.Notification
 
 @Composable
@@ -56,17 +54,11 @@ fun EditNotification(
   viewModel: EditCreateNotificationViewModel,
   onBackPressed: () -> Unit,
 ) {
-  var notificationRequest by remember { mutableStateOf(viewModel.initialNotificationRequest) }
-  
-  val notificationResult by viewModel.notificationRequest.collectAsState()
-  (notificationResult as? ViewModelResult.Success<NotificationRequest>)?.let { result -> notificationRequest = result.data }
-  
-  val isNotificationRequestComplete by viewModel.isNotificationRequestComplete.collectAsState()
+  val viewModelState by viewModel.viewModelState.collectAsState()
   
   EditNotificationContent(
-    notification = notificationRequest,
-    isNotificationRequestComplete = isNotificationRequestComplete,
-    showLoading = notificationResult == ViewModelResult.Loading,
+    notificationUiState = viewModelState,
+    onMessageDismiss = viewModel::onMessageDismiss,
     onNotificationTitleChanged = viewModel::onNotificationTitleChanged,
     onNotificationDescriptionChanged = viewModel::onNotificationDescriptionChanged,
     onNotificationImageNameChanged = viewModel::onNotificationImageNameChanged,
@@ -78,9 +70,8 @@ fun EditNotification(
 
 @Composable
 fun EditNotificationContent(
-  notification: NotificationRequest,
-  isNotificationRequestComplete: Boolean,
-  showLoading: Boolean,
+  notificationUiState: NotificationUiState,
+  onMessageDismiss: (Long) -> Unit,
   onNotificationTitleChanged: (String) -> Unit,
   onNotificationDescriptionChanged: (String) -> Unit,
   onNotificationImageNameChanged: (String) -> Unit,
@@ -93,8 +84,8 @@ fun EditNotificationContent(
       TopAppBar(onBackPressed = onBackPressed)
     },
     floatingActionButton = {
-      if (isNotificationRequestComplete) FloatingActionButton(
-        onClick = { saveNotification(notification) },
+      if (notificationUiState.notificationRequest.isComplete) FloatingActionButton(
+        onClick = { saveNotification(notificationUiState.notificationRequest) },
         contentColor = MaterialTheme.colors.surface,
       ) {
         Icon(
@@ -111,13 +102,20 @@ fun EditNotificationContent(
         .background(color = MaterialTheme.colors.background),
     ) {
       NotificationsBody(
-        notification = notification,
+        notification = notificationUiState.notificationRequest,
         onNotificationTitleChanged = onNotificationTitleChanged,
         onNotificationDescriptionChanged = onNotificationDescriptionChanged,
         onNotificationImageNameChanged = onNotificationImageNameChanged,
         onNotificationImageChanged = onNotificationImageChanged,
       )
-      if (showLoading) LoadingIndicator()
+      
+      if (notificationUiState.loading) LoadingIndicator()
+      notificationUiState.messages.firstOrNull()?.let {
+        it.Dialog(
+          onAction = { onMessageDismiss(it.id) },
+          onDismiss = { onMessageDismiss(it.id) },
+        )
+      }
     }
   }
 }
@@ -274,15 +272,18 @@ private fun Attachment(
 fun NotificationsPreview() {
   AppTheme {
     EditNotificationContent(
-      notification = Notification(
-        1,
-        "Test Notification",
-        "This is a test",
-        com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-        "2021-12-31T18:58:34Z"
-      ).toNotificationRequest(),
-      isNotificationRequestComplete = true,
-      showLoading = true,
+      NotificationUiState(
+        Notification(
+          1,
+          "Test Notification",
+          "This is a test",
+          com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
+          "2021-12-31T18:58:34Z"
+        ).toNotificationRequest(),
+        loading = true,
+        messages = emptyList(),
+      ),
+      onMessageDismiss = { },
       onNotificationTitleChanged = {},
       onNotificationDescriptionChanged = {},
       onNotificationImageNameChanged = {},
