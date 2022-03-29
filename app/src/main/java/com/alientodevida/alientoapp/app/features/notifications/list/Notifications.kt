@@ -23,7 +23,6 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarResult
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,7 +30,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,11 +39,10 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.compose.components.Body2
 import com.alientodevida.alientoapp.app.compose.components.Caption
@@ -54,13 +51,13 @@ import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
-import com.alientodevida.alientoapp.app.extensions.Dialog
 import com.alientodevida.alientoapp.app.extensions.SnackBar
-import com.alientodevida.alientoapp.app.extensions.localized
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
 import com.alientodevida.alientoapp.domain.notification.Notification
+import com.skydoves.landscapist.ShimmerParams
+import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun Notifications(
@@ -262,8 +259,15 @@ fun NotificationItem(
 @Composable
 private fun NotificationItemContent(notification: Notification) {
   Box {
-    AsyncImage(
-      model = notification.image?.name?.toImageUrl(), // TODO the ViewModel should do this conversion
+    CoilImage(
+      imageModel = notification.image?.name?.toImageUrl(), // TODO the ViewModel should do this conversion
+      shimmerParams = ShimmerParams(
+        baseColor = MaterialTheme.colors.background,
+        highlightColor = MaterialTheme.colors.onBackground,
+        durationMillis = 500,
+        dropOff = 0.65f,
+        tilt = 20f
+      ),
       contentDescription = null,
       contentScale = ContentScale.Crop,
     )
@@ -282,12 +286,12 @@ private fun NotificationItemContent(notification: Notification) {
           Spacer(Modifier.weight(1.0f))
           H5(
             text = notification.title,
-            color = MaterialTheme.colors.onSurface,
+            color = colorResource(R.color.pantone_white_c),
           )
           Row {
             Body2(
               text = notification.content,
-              color = MaterialTheme.colors.onSurface,
+              color = colorResource(R.color.pantone_white_c),
             )
             Spacer(Modifier.weight(1.0f))
             Caption(
