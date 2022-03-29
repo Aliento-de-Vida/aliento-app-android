@@ -57,15 +57,15 @@ class NotificationsViewModel @Inject constructor(
   
   fun onMessageDismiss(id: Long) {
     val newMessages = viewModelState.value.messages.filter { it.id != id }
-    _viewModelState.value = viewModelState.value.copy(messages = newMessages)
+    _viewModelState.update { it.copy(messages = newMessages) }
   }
   
   fun getNotifications() {
     viewModelScope.launch {
-      _viewModelState.update { viewModelState.value.copy(loading = true) }
+      _viewModelState.update { it.copy(loading = true) }
       try {
         val notifications = notificationRepository.getNotifications().filter { it.image != null }
-        _viewModelState.update { viewModelState.value.copy(
+        _viewModelState.update { it.copy(
           notifications = notifications,
           messages = listOf(Message.Localized.Informational(
             id = UUID.randomUUID().mostSignificantBits,
@@ -78,30 +78,30 @@ class NotificationsViewModel @Inject constructor(
       } catch (ex: CancellationException) {
         return@launch
       } catch (ex: Exception) {
-        val messages = _viewModelState.value.messages.toMutableList()
+        val messages = viewModelState.value.messages.toMutableList()
         messages.add(errorParser(ex))
-        _viewModelState.update { _viewModelState.value.copy(messages = messages) }
+        _viewModelState.update { it.copy(messages = messages) }
       }
-      _viewModelState.update { viewModelState.value.copy(loading = false) }
+      _viewModelState.update { it.copy(loading = false) }
     }
   }
   
   fun deleteNotification(notification: Notification) {
     viewModelScope.launch {
-      _viewModelState.update { viewModelState.value.copy(loading = true) }
+      _viewModelState.update { it.copy(loading = true) }
       try {
         notificationRepository.deleteNotification(notification.id)
         val notifications = viewModelState.value.notifications.filter { it.id != notification.id }
-        _viewModelState.update { viewModelState.value.copy(notifications = notifications) }
+        _viewModelState.update { it.copy(notifications = notifications) }
       
       } catch (ex: CancellationException) {
         return@launch
       } catch (ex: Exception) {
-        val messages = _viewModelState.value.messages.toMutableList()
+        val messages = viewModelState.value.messages.toMutableList()
         messages.add(errorParser(ex))
-        _viewModelState.update { _viewModelState.value.copy(messages = messages) }
+        _viewModelState.update { it.copy(messages = messages) }
       }
-      _viewModelState.update { viewModelState.value.copy(loading = false) }
+      _viewModelState.update { it.copy(loading = false) }
     }
   }
   
