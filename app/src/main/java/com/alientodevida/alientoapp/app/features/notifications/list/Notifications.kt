@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -145,6 +146,7 @@ fun TopAppBar(
     title = {
       Image(
         painter = painterResource(id = R.drawable.logo_negro),
+        colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground),
         contentScale = ContentScale.Inside,
         alignment = Alignment.Center,
         modifier = Modifier
@@ -158,7 +160,7 @@ fun TopAppBar(
         modifier = modifier,
         icon = R.drawable.ic_back_24,
         contentDescription = "Back Button",
-        tint = Color.Black,
+        tint = MaterialTheme.colors.onBackground,
         onClick = onBackPressed,
       )
     },
@@ -280,12 +282,12 @@ private fun NotificationItemContent(notification: Notification) {
           Spacer(Modifier.weight(1.0f))
           H5(
             text = notification.title,
-            color = MaterialTheme.colors.secondary,
+            color = MaterialTheme.colors.onSurface,
           )
           Row {
             Body2(
               text = notification.content,
-              color = MaterialTheme.colors.secondary,
+              color = MaterialTheme.colors.onSurface,
             )
             Spacer(Modifier.weight(1.0f))
             Caption(

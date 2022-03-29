@@ -23,6 +23,8 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -31,7 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -57,7 +59,7 @@ fun EditNotification(
   val viewModelState by viewModel.viewModelState.collectAsState()
   
   EditNotificationContent(
-    notificationUiState = viewModelState,
+    uiState = viewModelState,
     onMessageDismiss = viewModel::onMessageDismiss,
     onNotificationTitleChanged = viewModel::onNotificationTitleChanged,
     onNotificationDescriptionChanged = viewModel::onNotificationDescriptionChanged,
@@ -70,7 +72,8 @@ fun EditNotification(
 
 @Composable
 fun EditNotificationContent(
-  notificationUiState: NotificationUiState,
+  uiState: NotificationUiState,
+  scaffoldState: ScaffoldState = rememberScaffoldState(),
   onMessageDismiss: (Long) -> Unit,
   onNotificationTitleChanged: (String) -> Unit,
   onNotificationDescriptionChanged: (String) -> Unit,
@@ -80,12 +83,13 @@ fun EditNotificationContent(
   onBackPressed: () -> Unit,
 ) {
   Scaffold(
+    scaffoldState = scaffoldState,
     topBar = {
       TopAppBar(onBackPressed = onBackPressed)
     },
     floatingActionButton = {
-      if (notificationUiState.notificationRequest.isComplete) FloatingActionButton(
-        onClick = { saveNotification(notificationUiState.notificationRequest) },
+      if (uiState.notificationRequest.isComplete) FloatingActionButton(
+        onClick = { saveNotification(uiState.notificationRequest) },
         contentColor = MaterialTheme.colors.surface,
       ) {
         Icon(
@@ -102,15 +106,15 @@ fun EditNotificationContent(
         .background(color = MaterialTheme.colors.background),
     ) {
       NotificationsBody(
-        notification = notificationUiState.notificationRequest,
+        notification = uiState.notificationRequest,
         onNotificationTitleChanged = onNotificationTitleChanged,
         onNotificationDescriptionChanged = onNotificationDescriptionChanged,
         onNotificationImageNameChanged = onNotificationImageNameChanged,
         onNotificationImageChanged = onNotificationImageChanged,
       )
       
-      if (notificationUiState.loading) LoadingIndicator()
-      notificationUiState.messages.firstOrNull()?.let {
+      if (uiState.loading) LoadingIndicator()
+      uiState.messages.firstOrNull()?.let {
         it.Dialog(
           onAction = { onMessageDismiss(it.id) },
           onDismiss = { onMessageDismiss(it.id) },
@@ -131,6 +135,7 @@ fun TopAppBar(
     title = {
       Image(
         painter = painterResource(id = R.drawable.logo_negro),
+        colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground),
         contentScale = ContentScale.Inside,
         alignment = Alignment.Center,
         modifier = Modifier
@@ -144,7 +149,7 @@ fun TopAppBar(
         modifier = modifier,
         icon = R.drawable.ic_back_24,
         contentDescription = "Back Button",
-        tint = Color.Black,
+        tint = MaterialTheme.colors.onBackground,
         onClick = onBackPressed,
       )
     },

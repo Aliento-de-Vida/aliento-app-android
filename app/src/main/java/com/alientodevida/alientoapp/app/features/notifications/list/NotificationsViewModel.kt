@@ -65,15 +65,7 @@ class NotificationsViewModel @Inject constructor(
       _viewModelState.update { it.copy(loading = true) }
       try {
         val notifications = notificationRepository.getNotifications().filter { it.image != null }
-        _viewModelState.update { it.copy(
-          notifications = notifications,
-          messages = listOf(Message.Localized.Informational(
-            id = UUID.randomUUID().mostSignificantBits,
-            title = "Éxito!",
-            message = "Notificación guardada con éxito!",
-            action = "",
-          ))
-        ) }
+        _viewModelState.update { it.copy(notifications = notifications,) }
       
       } catch (ex: CancellationException) {
         return@launch

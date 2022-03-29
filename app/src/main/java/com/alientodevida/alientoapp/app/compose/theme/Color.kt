@@ -43,7 +43,7 @@ fun colors(
   onError: Color? = null,
   onErrorFallback: Color? = null,
 
-  isLight: Boolean = true,
+  isLight: Boolean = false,
 ): Colors = context.theme.run {
   val value = TypedValue()
 
