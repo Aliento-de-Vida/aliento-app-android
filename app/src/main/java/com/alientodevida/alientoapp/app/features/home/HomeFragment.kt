@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -26,6 +25,7 @@ import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
 import com.synnapps.carouselview.ViewListener
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -196,7 +196,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         
         if (viewModel.isAdmin) {
           viewModel.signAdminOut()
-          showToast(Message.Localized(Message.Type.INFORMATIONAL, "", "Signed Out!", ""))
+          showToast(Message.Localized(
+            UUID.randomUUID().mostSignificantBits,
+            Message.Type.INFORMATIONAL,
+            R.drawable.ic_check_48,
+            "Signed Out!",
+            "",
+            "",
+          ))
         } else {
           val action = HomeFragmentDirections.actionFragmentHomeToAdminNavigation()
           findNavController().navigate(action)

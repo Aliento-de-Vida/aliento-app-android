@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,18 +17,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarResult
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +41,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -51,7 +53,9 @@ import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
-import com.alientodevida.alientoapp.app.state.ViewModelResult
+import com.alientodevida.alientoapp.app.extensions.Dialog
+import com.alientodevida.alientoapp.app.extensions.SnackBar
+import com.alientodevida.alientoapp.app.extensions.localized
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
@@ -69,18 +73,12 @@ fun Notifications(
     viewModel.getNotifications()
   }
   
-  var notifications by remember { mutableStateOf(listOf<Notification>()) }
-  
-  val notificationsResult by viewModel.notifications.collectAsState(ViewModelResult.Loading)
-  (notificationsResult as? ViewModelResult.Success<List<Notification>>)?.let { result ->
-    notifications = result.data
-  }
+  val viewModelState by viewModel.viewModelState.collectAsState()
   
   NotificationsContent(
-    notifications = notifications,
-    isAdmin = viewModel.isAdmin,
+    uiState = viewModelState,
+    onMessageDismiss = viewModel::onMessageDismiss,
     deleteNotification = viewModel::deleteNotification,
-    showLoading = notificationsResult == ViewModelResult.Loading,
     onBackPressed = onBackPressed,
     goToNotificationDetail = goToNotificationDetail,
     goToNotificationsAdmin = goToEditNotification,
@@ -90,21 +88,22 @@ fun Notifications(
 
 @Composable
 fun NotificationsContent(
-  notifications: List<Notification>,
-  isAdmin: Boolean,
+  uiState: NotificationsUiState,
+  scaffoldState: ScaffoldState = rememberScaffoldState(),
+  onMessageDismiss: (Long) -> Unit,
   deleteNotification: (Notification) -> Unit,
-  showLoading: Boolean,
   onBackPressed: () -> Unit,
   goToNotificationDetail: (Notification) -> Unit,
   goToNotificationsAdmin: (Notification) -> Unit,
   goToCreateNotification: () -> Unit,
 ) {
   Scaffold(
+    scaffoldState = scaffoldState,
     topBar = {
       TopAppBar(onBackPressed = onBackPressed)
     },
     floatingActionButton = {
-      if (isAdmin) FloatingActionButton(
+      if (uiState.isAdmin) FloatingActionButton(
         onClick = { goToCreateNotification() },
         contentColor = MaterialTheme.colors.surface,
       ) {
@@ -122,13 +121,15 @@ fun NotificationsContent(
         .background(color = MaterialTheme.colors.background),
     ) {
       NotificationsBody(
-        notifications = notifications,
+        notifications = uiState.notifications,
         deleteNotification = deleteNotification,
         goToNotificationDetail = goToNotificationDetail,
         goToNotificationsAdmin = goToNotificationsAdmin,
-        isAdmin = isAdmin,
+        isAdmin = uiState.isAdmin,
       )
-      if (showLoading) LoadingIndicator()
+      if (uiState.loading) LoadingIndicator()
+  
+      uiState.messages.firstOrNull()?.SnackBar(scaffoldState, onMessageDismiss)
     }
   }
 }
@@ -303,24 +304,28 @@ private fun NotificationItemContent(notification: Notification) {
 fun NotificationsPreview() {
   AppTheme {
     NotificationsContent(
-      notifications = listOf(
-        Notification(
-          1,
-          "Test Notification",
-          "This is a test",
-          com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-          "2021-12-31T18:58:34Z"
+      NotificationsUiState(
+        listOf(
+          Notification(
+            1,
+            "Test Notification",
+            "This is a test",
+            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
+            "2021-12-31T18:58:34Z"
+          ),
+          Notification(
+            2,
+            "Test Notification",
+            "This is a test",
+            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
+            "2021-12-31T18:58:34Z"
+          ),
         ),
-        Notification(
-          2,
-          "Test Notification",
-          "This is a test",
-          com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-          "2021-12-31T18:58:34Z"
-        ),
+        true,
+        emptyList(),
+      true,
       ),
-      isAdmin = true,
-      showLoading = true,
+      onMessageDismiss = {},
       onBackPressed = {},
       deleteNotification = {},
       goToNotificationDetail = {},

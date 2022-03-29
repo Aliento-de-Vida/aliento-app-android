@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
+import com.alientodevida.alientoapp.app.R
 import androidx.compose.ui.window.Dialog as ComposeDialog
 
 @Composable
@@ -100,6 +102,9 @@ fun Dialog(
 @Composable
 fun Dialog(
   title: String,
+  @DrawableRes
+  image: Int,
+  imageContentDescription: String,
   body: String,
   action: String,
   actionColor: Color = MaterialTheme.colors.onSurface,
@@ -128,6 +133,12 @@ fun Dialog(
           fontWeight = FontWeight.Bold,
         )
         Spacer(modifier = Modifier.height(16.dp))
+        Image(
+          modifier = Modifier.align(Alignment.CenterHorizontally),
+          painter = painterResource(image),
+          contentDescription = imageContentDescription,
+        )
+        Spacer(modifier = Modifier.height(16.dp))
         Body2(
           text = body,
           color = MaterialTheme.colors.onSurface,
@@ -151,6 +162,8 @@ fun DialogPreview() {
   MaterialTheme {
     Dialog(
       title = "title",
+      image = R.drawable.ic_check_48,
+      imageContentDescription = "title",
       body = "message",
       action = "action",
       actionColor = MaterialTheme.colors.error,

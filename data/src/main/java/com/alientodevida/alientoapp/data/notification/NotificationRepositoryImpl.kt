@@ -19,10 +19,10 @@ class NotificationRepositoryImpl(
   override suspend fun deleteNotification(id: Int) = adminApi.deleteNotification(id)
   
   override suspend fun editNotification(notification: NotificationRequest): Notification {
-    val imageName = notification.image?.name!!
-  
-    uploadImage(notification, imageName)
-    
+    val imageName = notification.image?.name ?: ""
+    notification.image?.let {
+      uploadImage(notification, imageName)
+    }
     return adminApi.editNotification(
       id = notification.id,
       title = notification.title,
@@ -32,9 +32,10 @@ class NotificationRepositoryImpl(
   }
   
   override suspend fun createNotification(notification: NotificationRequest): Notification {
-    val imageName = notification.image?.name!!
-  
-    uploadImage(notification, imageName)
+    val imageName = notification.image?.name ?: ""
+    notification.image?.let {
+      uploadImage(notification, imageName)
+    }
   
     return adminApi.createNotification(
       title = notification.title,
