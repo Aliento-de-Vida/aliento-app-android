@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.FileInputStream
 import java.nio.file.Files
@@ -86,35 +87,35 @@ class EditCreateNotificationViewModel @Inject constructor(
   
   fun onMessageDismiss(id: Long) {
     val newMessages = viewModelState.value.messages.filter { it.id != id }
-    _viewModelState.value = viewModelState.value.copy(messages = newMessages)
+    _viewModelState.update { it.copy(messages = newMessages) }
   }
   
   fun onNotificationTitleChanged(newTitle: String) {
-    _viewModelState.value = viewModelState.value.copy(
+    _viewModelState.update { it.copy(
       notificationRequest = viewModelState.value.notificationRequest.copy(title = newTitle)
-    )
+    ) }
   }
   
   fun onNotificationDescriptionChanged(newDescription: String) {
-    _viewModelState.value = viewModelState.value.copy(
+    _viewModelState.update { it.copy(
       notificationRequest = viewModelState.value.notificationRequest.copy(content = newDescription)
-    )
+    ) }
   }
   
   fun onNotificationImageNameChanged(newImageName: String) {
-    _viewModelState.value = viewModelState.value.copy(
+    _viewModelState.update { it.copy(
       notificationRequest = viewModelState.value.notificationRequest.copy(
         image = com.alientodevida.alientoapp.domain.common.Image(newImageName)
       )
-    )
+    ) }
   }
   
   fun onNotificationImageChanged(newAttachment: Attachment?) {
-    _viewModelState.value = viewModelState.value.copy(
+    _viewModelState.update { it.copy(
       notificationRequest = viewModelState.value.notificationRequest.copy(
         image = com.alientodevida.alientoapp.domain.common.Image(newAttachment?.displayName ?: "")
       )
-    )
+    ) }
   }
   
   fun saveNotification(notification: NotificationRequest) {
@@ -136,7 +137,7 @@ class EditCreateNotificationViewModel @Inject constructor(
     
     viewModelScope.launch {
       try {
-        _viewModelState.value = viewModelState.value.copy(loading = true)
+        _viewModelState.update { it.copy(loading = true) }
         val value = if (notification.isNew)
           notificationRepository.createNotification(notification.toDomain(domainAttachment))
         else
@@ -150,10 +151,10 @@ class EditCreateNotificationViewModel @Inject constructor(
         )
         val messages = viewModelState.value.messages.toMutableList()
         messages.add(successMessage)
-        _viewModelState.value = viewModelState.value.copy(
+        _viewModelState.update { it.copy(
           notificationRequest = value.toNotificationRequest(),
           messages = messages
-        )
+        ) }
         
       } catch (ex: CancellationException) {
         return@launch
@@ -161,9 +162,9 @@ class EditCreateNotificationViewModel @Inject constructor(
         logger.d("EditCreateNotificationViewModel.saveNotification", tr = ex)
         val messages = viewModelState.value.messages.toMutableList()
         messages.add(errorParser(ex))
-        _viewModelState.value = viewModelState.value.copy(messages = messages)
+        _viewModelState.update { it.copy(messages = messages) }
       }
-      _viewModelState.value = viewModelState.value.copy(loading = false)
+      _viewModelState.update { it.copy(loading = false) }
     }
   }
   
