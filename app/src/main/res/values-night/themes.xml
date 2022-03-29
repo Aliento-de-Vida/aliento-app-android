@@ -11,12 +11,12 @@
     <item name="colorSecondaryVariant">@color/pantone_black_c</item>
     <item name="colorOnSecondary">@color/pantone_white_c</item>
 
-    <item name="android:colorBackground">@color/black</item>
-    <item name="backgroundColor">@color/white</item>
-    <item name="colorOnBackground">@color/pantone_white_c</item>
-
     <item name="colorSurface">@color/pantone_446_c</item>
     <item name="colorOnSurface">@color/pantone_white_c</item>
+
+    <item name="android:colorBackground">@color/black</item>
+    <item name="backgroundColor">@color/black</item>
+    <item name="colorOnBackground">@color/pantone_white_c</item>
 
     <item name="colorError">@color/pantone_black_c</item>
     <item name="colorOnError">@color/pantone_white_c</item>
