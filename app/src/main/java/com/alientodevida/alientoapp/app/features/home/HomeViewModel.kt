@@ -1,6 +1,7 @@
 package com.alientodevida.alientoapp.app.features.home
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.base.BaseViewModel
@@ -64,10 +65,10 @@ class HomeViewModel @Inject constructor(
   )
   
   private val _sermonsItems = MutableLiveData<ViewModelResult<List<CarouselItem>>>()
-  val sermonsItems = _sermonsItems
+  val sermonsItems: LiveData<ViewModelResult<List<CarouselItem>>> = _sermonsItems
   
   private val _home = MutableLiveData<ViewModelResult<Home>>()
-  val home = _home
+  val home: LiveData<ViewModelResult<Home>> = _home
   
   var latestVideo: YoutubeVideo? = null
   
