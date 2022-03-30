@@ -147,7 +147,7 @@ class EditCreateNotificationViewModel @Inject constructor(
           id = UUID.randomUUID().mostSignificantBits,
           title = "Éxito!",
           message = "Notificación guardada con éxito!",
-          action = "",
+          action = "Ok",
         )
         val messages = viewModelState.value.messages.toMutableList()
         messages.add(successMessage)

@@ -73,6 +73,9 @@
       app:exitAnim="@anim/wait_anim"
       app:popEnterAnim="@anim/wait_anim"
       app:popExitAnim="@anim/slide_right" />
+    <action
+      android:id="@+id/action_fragment_home_to_editHomeFragment"
+      app:destination="@id/fragment_edit_home" />
   </fragment>
 
   <fragment
@@ -148,5 +151,14 @@
   </fragment>
   <include app:graph="@navigation/notification_navigation" />
   <include app:graph="@navigation/admin_navigation" />
+  <fragment
+    android:id="@+id/fragment_edit_home"
+    android:name="com.alientodevida.alientoapp.app.features.home.edit.EditHomeFragment"
+    android:label="EditHomeFragment"
+    tools:layout="@layout/fragment_notifications" >
+    <argument
+      android:name="home"
+      app:argType="com.alientodevida.alientoapp.domain.home.Home" />
+  </fragment>
 
 </navigation>

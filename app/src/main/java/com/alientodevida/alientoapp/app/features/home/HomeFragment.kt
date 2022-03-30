@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ import com.alientodevida.alientoapp.app.utils.Utils
 import com.alientodevida.alientoapp.app.utils.extensions.*
 import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
+import com.alientodevida.alientoapp.domain.home.Home
 import com.synnapps.carouselview.ViewListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -47,10 +49,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     
     binding.swiperefresh.setOnRefreshListener { this@HomeFragment.viewModel.getHome() }
     
+    binding.fabEdit.setOnClickListener {
+      val home = (viewModel.home.value as? ViewModelResult.Success<Home>)?.data ?: return@setOnClickListener
+      val action = HomeFragmentDirections.actionFragmentHomeToEditHomeFragment(home)
+      findNavController().navigate(action)
+    }
+    binding.fabEdit.isGone = viewModel.isAdmin.not()
+    
     setupCarousel()
     setupQuickAccess()
     setupSocialMedia()
   }
+  
   
   private fun observeViewModel() {
     viewModel.sermonsItems.observe(viewLifecycleOwner) { result ->
@@ -111,14 +121,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
       R.layout.item_carousel,
       resourceListener,
     )
-  
+    
     binding.carrousel.layoutManager = LinearLayoutManager(
       requireContext(),
       LinearLayoutManager.HORIZONTAL,
       false
     )
     binding.carrousel.adapter = carouselAdapter
-  
+    
     carouselAdapter.submitList(viewModel.carouseItems)
   }
   
@@ -172,7 +182,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
           requireActivity().openSpotifyArtistPage(it.socialMedia.spotifyArtistId)
         }
       }
-  
+      
       setupAdminEntrypoint()
     }
   }
@@ -180,15 +190,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
   private fun setupAdminEntrypoint() {
     var twitterLongClickCount = 0
     var spotifyLongClickCount = 0
-  
+    
     binding.twitter.setOnLongClickListener {
-      it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING)
+      it.performHapticFeedback(
+        HapticFeedbackConstants.VIRTUAL_KEY,
+        HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
+      )
       twitterLongClickCount++
       true
     }
-  
+    
     binding.spotify.setOnLongClickListener {
-      it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING)
+      it.performHapticFeedback(
+        HapticFeedbackConstants.VIRTUAL_KEY,
+        HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
+      )
       spotifyLongClickCount++
       if (spotifyLongClickCount == 1 && twitterLongClickCount == 1) {
         twitterLongClickCount = 0
@@ -196,14 +212,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         
         if (viewModel.isAdmin) {
           viewModel.signAdminOut()
-          showToast(Message.Localized(
-            UUID.randomUUID().mostSignificantBits,
-            Message.Type.INFORMATIONAL,
-            R.drawable.ic_check_48,
-            "Signed Out!",
-            "",
-            "",
-          ))
+          binding.fabEdit.isGone = viewModel.isAdmin.not()
+          showToast(
+            Message.Localized(
+              UUID.randomUUID().mostSignificantBits,
+              Message.Type.INFORMATIONAL,
+              R.drawable.ic_check_48,
+              "Signed Out!",
+              "",
+              "",
+            )
+          )
         } else {
           val action = HomeFragmentDirections.actionFragmentHomeToAdminNavigation()
           findNavController().navigate(action)
