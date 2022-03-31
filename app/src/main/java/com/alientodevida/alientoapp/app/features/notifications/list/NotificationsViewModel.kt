@@ -24,7 +24,6 @@ data class NotificationsUiState(
   val notifications: List<Notification>,
   val loading: Boolean,
   val messages: List<Message>,
-  val isAdmin: Boolean,
 )
 
 @HiltViewModel
@@ -45,12 +44,13 @@ class NotificationsViewModel @Inject constructor(
   application,
 ) {
   
+  val isAdmin = preferences.isAdminFlow
+  
   private val _viewModelState = MutableStateFlow(
     NotificationsUiState(
       notifications = emptyList(),
       loading = true,
       messages = emptyList(),
-      preferences.isAdmin,
     )
   )
   val viewModelState: StateFlow<NotificationsUiState> = _viewModelState

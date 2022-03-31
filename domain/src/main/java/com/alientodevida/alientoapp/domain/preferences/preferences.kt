@@ -2,6 +2,7 @@ package com.alientodevida.alientoapp.domain.preferences
 
 import androidx.lifecycle.LiveData
 import com.alientodevida.alientoapp.domain.home.Home
+import kotlinx.coroutines.flow.Flow
 import com.alientodevida.alientoapp.domain.admin.Token as AdminToken
 import com.alientodevida.alientoapp.domain.entities.network.Token as SpotifyToken
 
@@ -18,7 +19,8 @@ interface Preferences {
   var isDarkTheme: Boolean
   val isDarkThemeLive: LiveData<Boolean>
   
-  val isAdmin: Boolean
+  suspend fun isAdmin(): Boolean
+  val isAdminFlow: Flow<Boolean>
   
   var pushEnabled: Boolean
   var spotifyToken: SpotifyToken?

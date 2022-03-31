@@ -9,6 +9,7 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.databinding.FragmentNotificationsBinding
+import com.alientodevida.alientoapp.domain.notification.Notification
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,29 +28,35 @@ class NotificationsFragment :
           Notifications(
             viewModel = viewModel,
             onBackPressed = { activity?.onBackPressed() },
-            goToNotificationDetail = { notification ->
-              findNavController().navigate(
-                NotificationsFragmentDirections.actionFragmentNotificationsToFragmentNotificationDetail(
-                  notification
-                )
-              )
-            },
-            goToEditNotification = { notification ->
-              findNavController().navigate(
-                NotificationsFragmentDirections.actionFragmentNotificationsToEditCreateNotificationFragment(
-                  notification
-                )
-              )
-            },
-            goToCreateNotification = {
-              findNavController().navigate(
-                NotificationsFragmentDirections.actionFragmentNotificationsToEditCreateNotificationFragment(null)
-              )
-            },
+            goToNotificationDetail = { notification -> goToNotificationDetail(notification)},
+            goToEditNotification = { notification -> goToEditNotification(notification)},
+            goToCreateNotification = { goToCreateNotification() },
           )
         }
       }
     }
+  }
+  
+  private fun goToNotificationDetail(notification: Notification) {
+    findNavController().navigate(
+      NotificationsFragmentDirections.actionFragmentNotificationsToFragmentNotificationDetail(
+        notification
+      )
+    )
+  }
+  
+  private fun goToEditNotification(notification: Notification) {
+    findNavController().navigate(
+      NotificationsFragmentDirections.actionFragmentNotificationsToEditCreateNotificationFragment(
+        notification
+      )
+    )
+  }
+  
+  private fun goToCreateNotification() {
+    findNavController().navigate(
+      NotificationsFragmentDirections.actionFragmentNotificationsToEditCreateNotificationFragment(null)
+    )
   }
   
 }

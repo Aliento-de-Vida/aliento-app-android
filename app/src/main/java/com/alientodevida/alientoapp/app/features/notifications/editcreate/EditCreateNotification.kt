@@ -1,25 +1,15 @@
 package com.alientodevida.alientoapp.app.features.notifications.editcreate
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -28,21 +18,17 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.Body2
+import com.alientodevida.alientoapp.app.compose.components.Attachment
+import com.alientodevida.alientoapp.app.compose.components.AttachmentModel
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
-import com.alientodevida.alientoapp.app.compose.components.FilledButton
 import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
 import com.alientodevida.alientoapp.app.compose.components.InputField
@@ -63,7 +49,6 @@ fun EditNotification(
     onMessageDismiss = viewModel::onMessageDismiss,
     onNotificationTitleChanged = viewModel::onNotificationTitleChanged,
     onNotificationDescriptionChanged = viewModel::onNotificationDescriptionChanged,
-    onNotificationImageNameChanged = viewModel::onNotificationImageNameChanged,
     onNotificationImageChanged = viewModel::onNotificationImageChanged,
     saveNotification = viewModel::saveNotification,
     onBackPressed = onBackPressed,
@@ -77,8 +62,7 @@ fun EditNotificationContent(
   onMessageDismiss: (Long) -> Unit,
   onNotificationTitleChanged: (String) -> Unit,
   onNotificationDescriptionChanged: (String) -> Unit,
-  onNotificationImageNameChanged: (String) -> Unit,
-  onNotificationImageChanged: (Attachment?) -> Unit,
+  onNotificationImageChanged: (AttachmentModel) -> Unit,
   saveNotification: (NotificationRequest) -> Unit,
   onBackPressed: () -> Unit,
 ) {
@@ -109,7 +93,6 @@ fun EditNotificationContent(
         notification = uiState.notificationRequest,
         onNotificationTitleChanged = onNotificationTitleChanged,
         onNotificationDescriptionChanged = onNotificationDescriptionChanged,
-        onNotificationImageNameChanged = onNotificationImageNameChanged,
         onNotificationImageChanged = onNotificationImageChanged,
       )
       
@@ -166,8 +149,7 @@ fun NotificationsBody(
   notification: NotificationRequest,
   onNotificationTitleChanged: (String) -> Unit,
   onNotificationDescriptionChanged: (String) -> Unit,
-  onNotificationImageNameChanged: (String) -> Unit,
-  onNotificationImageChanged: (Attachment?) -> Unit,
+  onNotificationImageChanged: (AttachmentModel) -> Unit,
 ) {
   Column(
     Modifier
@@ -200,75 +182,7 @@ fun NotificationsBody(
     )
     
     Spacer(modifier = Modifier.height(16.dp))
-    InputField(
-      modifier = Modifier.fillMaxWidth(),
-      value = notification.image?.name ?: "",
-      onChanged = onNotificationImageNameChanged,
-      placeholder = "Nombre de la imágen",
-      placeholderColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
-    )
-  
-    Spacer(modifier = Modifier.height(16.dp))
-  
-    Attachment(notification, onNotificationImageChanged)
-  }
-}
-
-@Composable
-private fun Attachment(
-  notification: NotificationRequest,
-  onNotificationImageChanged: (Attachment?) -> Unit,
-) {
-  var uri: Uri? by remember { mutableStateOf(null) }
-  val chooserTitle = "Imágen"
-  val launcher = rememberLauncherForActivityResult(
-    object : ActivityResultContract<Unit, Uri?>() {
-      override fun createIntent(context: Context, input: Unit): Intent =
-        Intent.createChooser(
-          Intent(Intent.ACTION_GET_CONTENT).apply { type = "image/*" },
-          chooserTitle,
-        )
-      
-      override fun parseResult(resultCode: Int, intent: Intent?): Uri? = intent?.data
-    }
-  ) { result ->
-    uri = result
-  }
-  uri?.let { value ->
-    val context = LocalContext.current
-    val attachment = context.createAttachment(value)
-    onNotificationImageChanged(attachment)
-    uri = null
-  }
-  FilledButton(
-    text = "Agregar Imágen".uppercase(),
-    modifier = Modifier.fillMaxWidth(),
-    colors = ButtonDefaults.buttonColors(MaterialTheme.colors.surface),
-    textColor = MaterialTheme.colors.onSurface,
-  ) { launcher.launch(Unit) }
-  
-  notification.attachment?.let {
-    Spacer(modifier = Modifier.height(16.dp))
-    Row(
-      modifier = Modifier
-        .border(width = 1.dp, color = MaterialTheme.colors.onBackground)
-        .padding(horizontal = 16.dp, vertical = 2.dp)
-        .fillMaxWidth(),
-      horizontalArrangement = Arrangement.Center,
-      verticalAlignment = Alignment.CenterVertically,
-    ) {
-      Icon(
-        icon = R.drawable.ic_attachment_24,
-        contentDescription = "Attachment",
-        tint = MaterialTheme.colors.onSurface,
-      )
-      
-      Spacer(modifier = Modifier.width(8.dp))
-      Body2(text = it.displayName, color = MaterialTheme.colors.onBackground)
-      
-      Spacer(modifier = Modifier.weight(1.0f))
-    }
-    Spacer(modifier = Modifier.height(16.dp))
+    Attachment(notification.attachment, onNotificationImageChanged)
   }
 }
 
@@ -291,7 +205,6 @@ fun NotificationsPreview() {
       onMessageDismiss = { },
       onNotificationTitleChanged = {},
       onNotificationDescriptionChanged = {},
-      onNotificationImageNameChanged = {},
       onNotificationImageChanged = {},
       saveNotification = {},
       onBackPressed = {},

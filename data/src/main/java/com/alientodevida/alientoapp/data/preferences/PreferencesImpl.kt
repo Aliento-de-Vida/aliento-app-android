@@ -4,24 +4,33 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import java.util.*
+import androidx.datastore.preferences.core.Preferences as DataStorePreferences
 import com.alientodevida.alientoapp.domain.admin.Token as AdminToken
 import com.alientodevida.alientoapp.domain.entities.network.Token as SpotifyToken
 
 class PreferencesImpl(
   private val preferences: SharedPreferences,
+  private val preferencesStore: DataStore<DataStorePreferences>,
 ) : Preferences {
   companion object {
-    const val SPOTIFY_TOKEN_KEY = "spotify-token"
-    const val ADMIN_TOKEN_KEY = "admin-token"
-    const val PUSH_ENABLED_KEY = "push-enabled"
-    const val HOME_KEY = "home"
+    private val ADMIN_TOKEN = stringPreferencesKey("admin-token")
+    private const val SPOTIFY_TOKEN_KEY = "spotify-token"
+    private const val PUSH_ENABLED_KEY = "push-enabled"
+    private const val HOME_KEY = "home"
     private const val NIGHT_MODE_KEY = "night_mode"
     private const val NIGHT_MODE_DEF_VAL = AppCompatDelegate.MODE_NIGHT_NO
   }
@@ -60,7 +69,25 @@ class PreferencesImpl(
       }
     }
   
-  override val isAdmin get() = adminToken != null
+  private var adminJwtToken: String
+    get() = runBlocking { preferencesStore.data.map { it[ADMIN_TOKEN] ?: "" }.first() }
+    set(value) {
+      runBlocking {
+        preferencesStore.edit { settings ->
+          settings[ADMIN_TOKEN] = value
+        }
+      }
+    }
+  
+  override var adminToken: AdminToken?
+    get() = if (adminJwtToken.isNotBlank()) AdminToken(adminJwtToken) else null
+    set(value) {
+      adminJwtToken = value?.jwt ?: ""
+    }
+  
+  override suspend fun isAdmin() = isAdminFlow.first()
+  override val isAdminFlow: Flow<Boolean> =
+    preferencesStore.data.map { it[ADMIN_TOKEN]?.isNotBlank() ?: false }
   
   private val _pushEnabled =
     PrimitivePreferenceProperty<Boolean>(Type.BOOLEAN, PUSH_ENABLED_KEY, preferences)
@@ -88,11 +115,6 @@ class PreferencesImpl(
     set(value) = value?.let { save(it, SPOTIFY_TOKEN_KEY) }
       ?: run { clear(SPOTIFY_TOKEN_KEY) }
   
-  override var adminToken: AdminToken?
-    get() = get(ADMIN_TOKEN_KEY, preferences)
-    set(value) = value?.let { save(it, ADMIN_TOKEN_KEY) }
-      ?: run { clear(ADMIN_TOKEN_KEY) }
-  
   override var home: Home?
     get() = get(HOME_KEY, preferences)
     set(value) = value?.let { save(it, HOME_KEY) }
@@ -100,7 +122,6 @@ class PreferencesImpl(
   
   override suspend fun clear() {
     clear(SPOTIFY_TOKEN_KEY)
-    clear(ADMIN_TOKEN_KEY)
     _pushEnabled.clear()
   }
   

@@ -42,13 +42,16 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.compose.components.Body2
 import com.alientodevida.alientoapp.app.compose.components.Caption
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
+import com.alientodevida.alientoapp.app.compose.components.Gradient
 import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
+import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
@@ -72,9 +75,11 @@ fun Notifications(
   }
   
   val viewModelState by viewModel.viewModelState.collectAsState()
+  val isAdmin by viewModel.isAdmin.collectAsState(false)
   
   NotificationsContent(
     uiState = viewModelState,
+    isAdmin = isAdmin,
     onMessageDismiss = viewModel::onMessageDismiss,
     deleteNotification = viewModel::deleteNotification,
     onBackPressed = onBackPressed,
@@ -87,6 +92,7 @@ fun Notifications(
 @Composable
 fun NotificationsContent(
   uiState: NotificationsUiState,
+  isAdmin: Boolean,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   onMessageDismiss: (Long) -> Unit,
   deleteNotification: (Notification) -> Unit,
@@ -101,7 +107,7 @@ fun NotificationsContent(
       TopAppBar(onBackPressed = onBackPressed)
     },
     floatingActionButton = {
-      if (uiState.isAdmin) FloatingActionButton(
+      if (isAdmin) FloatingActionButton(
         onClick = { goToCreateNotification() },
         contentColor = MaterialTheme.colors.surface,
       ) {
@@ -123,7 +129,7 @@ fun NotificationsContent(
         deleteNotification = deleteNotification,
         goToNotificationDetail = goToNotificationDetail,
         goToNotificationsAdmin = goToNotificationsAdmin,
-        isAdmin = uiState.isAdmin,
+        isAdmin = isAdmin,
       )
       if (uiState.loading) LoadingIndicator()
   
@@ -194,6 +200,7 @@ fun NotificationsBody(
           modifier = Modifier.animateItemPlacement(),
           notification = notification,
           isAdmin = isAdmin,
+          height = 120.dp,
           deleteNotification = deleteNotification,
           goToNotificationDetail = goToNotificationDetail,
           goToNotificationsAdmin = goToNotificationsAdmin,
@@ -206,8 +213,9 @@ fun NotificationsBody(
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 fun NotificationItem(
-  modifier: Modifier,
+  modifier: Modifier = Modifier,
   notification: Notification,
+  height: Dp,
   isAdmin: Boolean,
   deleteNotification: (Notification) -> Unit,
   goToNotificationDetail: (Notification) -> Unit,
@@ -219,7 +227,7 @@ fun NotificationItem(
   Card(
     modifier
       .fillMaxWidth()
-      .height(120.dp)
+      .height(height)
       .combinedClickable(
         onClick = { goToNotificationDetail(notification) },
         onLongClick = {
@@ -259,28 +267,15 @@ fun NotificationItem(
 @Composable
 private fun NotificationItemContent(notification: Notification) {
   Box {
-    CoilImage(
-      imageModel = notification.image?.name?.toImageUrl(), // TODO the ViewModel should do this conversion
-      shimmerParams = ShimmerParams(
-        baseColor = MaterialTheme.colors.background,
-        highlightColor = MaterialTheme.colors.onBackground,
-        durationMillis = 500,
-        dropOff = 0.65f,
-        tilt = 20f
-      ),
-      contentDescription = null,
-      contentScale = ContentScale.Crop,
-    )
-    
+    // TODO the ViewModel should do this conversion
+    notification.image?.name?.toImageUrl()?.let { imageUrl ->
+      ImageWithShimmering(url = imageUrl, description = notification.title)
+    }
+  
     Column {
       Spacer(Modifier.weight(0.38f))
-      Box(
-        Modifier
-          .fillMaxWidth()
-          .weight(0.62f)
-          .background(
-            brush = Brush.verticalGradient(colors = listOf(Color.Transparent, Color.Black))
-          )
+      Gradient(
+        modifier = Modifier.fillMaxWidth().weight(0.62f),
       ) {
         Column(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
           Spacer(Modifier.weight(1.0f))
@@ -329,8 +324,8 @@ fun NotificationsPreview() {
         ),
         true,
         emptyList(),
-      true,
       ),
+      isAdmin = true,
       onMessageDismiss = {},
       onBackPressed = {},
       deleteNotification = {},
