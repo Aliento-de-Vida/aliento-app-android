@@ -47,8 +47,10 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.compose.components.Body2
 import com.alientodevida.alientoapp.app.compose.components.Caption
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
+import com.alientodevida.alientoapp.app.compose.components.Gradient
 import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
+import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
@@ -259,28 +261,15 @@ fun NotificationItem(
 @Composable
 private fun NotificationItemContent(notification: Notification) {
   Box {
-    CoilImage(
-      imageModel = notification.image?.name?.toImageUrl(), // TODO the ViewModel should do this conversion
-      shimmerParams = ShimmerParams(
-        baseColor = MaterialTheme.colors.background,
-        highlightColor = MaterialTheme.colors.onBackground,
-        durationMillis = 500,
-        dropOff = 0.65f,
-        tilt = 20f
-      ),
-      contentDescription = null,
-      contentScale = ContentScale.Crop,
-    )
-    
+    // TODO the ViewModel should do this conversion
+    notification.image?.name?.toImageUrl()?.let { imageUrl ->
+      ImageWithShimmering(url = imageUrl, description = notification.title)
+    }
+  
     Column {
       Spacer(Modifier.weight(0.38f))
-      Box(
-        Modifier
-          .fillMaxWidth()
-          .weight(0.62f)
-          .background(
-            brush = Brush.verticalGradient(colors = listOf(Color.Transparent, Color.Black))
-          )
+      Gradient(
+        modifier = Modifier.fillMaxWidth().weight(0.62f),
       ) {
         Column(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
           Spacer(Modifier.weight(1.0f))
