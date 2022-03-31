@@ -8,7 +8,7 @@ import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun ImageWithShimmering(
-  url: String,
+  url: String?,
   description: String? = null,
 ) {
   CoilImage(

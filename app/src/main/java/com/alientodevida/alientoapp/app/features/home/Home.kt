@@ -1,66 +1,38 @@
 package com.alientodevida.alientoapp.app.features.home
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.Body2
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
-import com.alientodevida.alientoapp.app.compose.components.Gradient
-import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
-import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
-import com.alientodevida.alientoapp.app.compose.components.Subtitle1
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
-import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
-import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.rememberPagerState
-import com.skydoves.landscapist.ShimmerParams
-import com.skydoves.landscapist.coil.CoilImage
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.alientodevida.alientoapp.domain.home.HomeImages
 
 @Composable
 fun Home(
@@ -75,12 +47,19 @@ fun Home(
   goToPrayer: () -> Unit,
   goToDonations: () -> Unit,
   goToEbook: () -> Unit,
+  goToInstagram: () -> Unit,
+  goToYoutube: () -> Unit,
+  goToFacebook: () -> Unit,
+  goToTwitter: () -> Unit,
+  goToSpotify: () -> Unit,
+  goToAdminLogin: () -> Unit,
 ) {
   
   val viewModelState by viewModel.viewModelState.collectAsState()
   
   HomeContent(
     uiState = viewModelState,
+    isAdmin = viewModel.isAdmin,
     onMessageDismiss = viewModel::onMessageDismiss,
     goToEditHome = goToEditHome,
     goToNotifications = goToNotifications,
@@ -92,12 +71,20 @@ fun Home(
     goToPrayer = goToPrayer,
     goToDonations = goToDonations,
     goToEbook = goToEbook,
+    goToInstagram = goToInstagram,
+    goToYoutube = goToYoutube,
+    goToFacebook = goToFacebook,
+    goToTwitter = goToTwitter,
+    goToSpotify = goToSpotify,
+    goToAdminLogin = goToAdminLogin,
+    adminLogout = viewModel::adminLogout,
   )
 }
 
 @Composable
 fun HomeContent(
   uiState: HomeUiState,
+  isAdmin: Boolean,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   onMessageDismiss: (Long) -> Unit,
   goToEditHome: () -> Unit,
@@ -110,6 +97,13 @@ fun HomeContent(
   goToPrayer: () -> Unit,
   goToDonations: () -> Unit,
   goToEbook: () -> Unit,
+  goToInstagram: () -> Unit,
+  goToYoutube: () -> Unit,
+  goToFacebook: () -> Unit,
+  goToTwitter: () -> Unit,
+  goToSpotify: () -> Unit,
+  goToAdminLogin: () -> Unit,
+  adminLogout: () -> Unit
 ) {
   Scaffold(
     scaffoldState = scaffoldState,
@@ -120,7 +114,7 @@ fun HomeContent(
       )
     },
     floatingActionButton = {
-      if (uiState.isAdmin) FloatingActionButton(
+      if (isAdmin) FloatingActionButton(
         onClick = { goToEditHome() },
         contentColor = MaterialTheme.colors.surface,
       ) {
@@ -139,6 +133,7 @@ fun HomeContent(
     ) {
       HomeBody(
         uiState = uiState,
+        isAdmin = isAdmin,
         goToSermons = goToSermons,
         goToChurch = goToChurch,
         goToCampus = goToCampus,
@@ -146,6 +141,13 @@ fun HomeContent(
         goToPrayer = goToPrayer,
         goToDonations = goToDonations,
         goToEbook = goToEbook,
+        goToInstagram = goToInstagram,
+        goToYoutube = goToYoutube,
+        goToFacebook = goToFacebook,
+        goToTwitter = goToTwitter,
+        goToSpotify = goToSpotify,
+        goToAdminLogin = goToAdminLogin,
+        adminLogout = adminLogout,
       )
       if (uiState.loading) LoadingIndicator()
       
@@ -198,9 +200,9 @@ fun TopAppBar(
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 fun HomeBody(
   uiState: HomeUiState,
+  isAdmin: Boolean,
   goToSermons: () -> Unit,
   goToChurch: () -> Unit,
   goToCampus: () -> Unit,
@@ -208,189 +210,64 @@ fun HomeBody(
   goToPrayer: () -> Unit,
   goToDonations: () -> Unit,
   goToEbook: () -> Unit,
+  goToInstagram: () -> Unit,
+  goToYoutube: () -> Unit,
+  goToFacebook: () -> Unit,
+  goToTwitter: () -> Unit,
+  goToSpotify: () -> Unit,
+  goToAdminLogin: () -> Unit,
+  adminLogout: () -> Unit,
 ) {
-  Column(Modifier.padding(horizontal = 8.dp)) {
-    Pager(uiState.sermonItems.take(3))
-    
-    Spacer(modifier = Modifier.height(16.dp))
-    H5(
-      modifier = Modifier.padding(horizontal = 8.dp),
-      text = "Categorías",
-      color = MaterialTheme.colors.onBackground,
+  val scrollState = rememberScrollState()
+  
+  Column(Modifier.verticalScroll(scrollState)) {
+    Pager(
+      items = uiState.sermonItems.take(3),
+      goToSermons = goToSermons,
     )
-  
-    Spacer(modifier = Modifier.height(16.dp))
-    LazyRow(
-      contentPadding = PaddingValues(bottom = 16.dp),
-      horizontalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-      items(uiState.carouselItems, key = { it.title }) { item ->
-        CategoryItem(
-          modifier = Modifier.animateItemPlacement(),
-          item = item,
-          goToChurch = goToChurch,
-          goToCampus = goToCampus,
-          goToGallery = goToGallery,
-        )
-      }
-    }
-  }
-}
-
-@Composable
-fun CategoryItem(
-  modifier: Modifier,
-  item: CarouselItem,
-  goToChurch: () -> Unit,
-  goToCampus: () -> Unit,
-  goToGallery: () -> Unit,
-) {
-  Card(
-    modifier
-      .width(230.dp)
-      .height(160.dp)
-      .clickable {
-        when (item.categoryItem?.type) {
-          CategoryItemType.CHURCH -> {
-            goToChurch()
-          }
-          CategoryItemType.CAMPUSES -> {
-            goToCampus()
-          }
-          CategoryItemType.GALLERY -> {
-            goToGallery()
-          }
-          else -> {}
-        }
-      }
-  ) {
-    Box {
-      item.imageUrl?.let { imageUrl ->
-        ImageWithShimmering(url = imageUrl, description = item.title)
-      }
     
-      Column {
-        Spacer(Modifier.weight(0.38f))
-        Gradient(
-          modifier = Modifier
-            .fillMaxWidth()
-            .weight(0.62f),
-        ) {
-          Column(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
-            Spacer(Modifier.weight(1.0f))
-            Body2(
-              text = item.title,
-              color = colorResource(R.color.pantone_white_c),
-            )
-          }
-        }
-      }
-    }
-  }
-}
-
-@OptIn(ExperimentalPagerApi::class)
-@Composable
-fun Pager(carouselItems: List<CarouselItem>) {
-  Box(Modifier.height(250.dp)) {
-    val pagerState = rememberPagerState()
-  
-    LaunchedEffect(pagerState.currentPage) {
-      launch {
-        delay(3000)
-        with(pagerState) {
-          val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
-          animateScrollToPage(page = target)
-        }
-      }
-    }
+    Categories(
+      carouselItems = uiState.carouselItems,
+      goToChurch = goToChurch,
+      goToCampus = goToCampus,
+      goToGallery = goToGallery,
+    )
     
-    HorizontalPager(
-      modifier = Modifier.fillMaxSize(),
-      count = carouselItems.size,
-      state = pagerState,
-    ) { page ->
-      PagerItem(item = carouselItems[page])
-    }
+    QuickAccess(
+      homeImages = uiState.homeImages,
+      goToDonations = goToDonations,
+      goToPrayer = goToPrayer,
+      goToEbook = goToEbook,
+    )
     
-    Column(Modifier.align(Alignment.Center)) {
-      Spacer(modifier = Modifier.weight(1.0f))
-      HorizontalPagerIndicator(
-        pagerState = pagerState,
-        modifier = Modifier
-          .align(Alignment.CenterHorizontally)
-          .padding(16.dp),
-      )
-    }
+    SocialMedia(
+      isAdmin = isAdmin,
+      goToInstagram = goToInstagram,
+      goToYoutube = goToYoutube,
+      goToFacebook = goToFacebook,
+      goToTwitter = goToTwitter,
+      goToSpotify = goToSpotify,
+      goToAdminLogin = goToAdminLogin,
+      adminLogout = adminLogout,
+    )
+    Spacer(modifier = Modifier.height(if (isAdmin) 64.dp else 16.dp))
   }
 }
-
-@Composable
-private fun PagerItem(item: CarouselItem) {
-  Box {
-    item.imageUrl?.let { ImageWithShimmering(url = it, item.title) }
-    
-    Column {
-      Spacer(Modifier.weight(0.38f))
-      Gradient(
-        Modifier
-          .fillMaxWidth()
-          .weight(0.62f),
-        startColor = Color.Transparent,
-        endColor = MaterialTheme.colors.background,
-      ) {
-        Column {
-          if (item.categoryItem?.type == CategoryItemType.SERMONS) {
-            Spacer(Modifier.weight(1.0f))
-            SeeSermonsCard(Modifier.align(Alignment.Start))
-          }
-        }
-      }
-    }
-  }
-}
-
-@Composable
-private fun SeeSermonsCard(modifier: Modifier) {
-  Card(
-    modifier = modifier,
-    shape = RoundedCornerShape(
-      topStart = 0.dp,
-      bottomStart = 0.dp,
-      topEnd = 8.dp,
-      bottomEnd = 8.dp,
-    ),
-    backgroundColor = Color(0xffff6f00),
-  ) {
-    Box(
-      Modifier
-        .padding(horizontal = 40.dp, vertical = 8.dp)
-    ) {
-      Body2(
-        text = "Ver prédicas",
-        color = colorResource(R.color.pantone_white_c),
-      )
-    }
-  }
-  
-  Spacer(Modifier.height(40.dp))
-}
-
 
 @Preview
 @Composable
-fun NotificationsPreview() {
+fun HomePreview() {
   AppTheme {
     HomeContent(
       HomeUiState(
         home = null,
-        homeImages = null,
+        homeImages = HomeImages(),
         carouselItems = emptyList(),
         sermonItems = emptyList(),
         loading = true,
         emptyList(),
-        true,
       ),
+      isAdmin = true,
       onMessageDismiss = {},
       goToEditHome = {},
       goToNotifications = {},
@@ -402,6 +279,13 @@ fun NotificationsPreview() {
       goToPrayer = {},
       goToDonations = {},
       goToEbook = {},
+      goToInstagram = {},
+      goToYoutube = {},
+      goToFacebook = {},
+      goToTwitter = {},
+      goToSpotify = {},
+      goToAdminLogin = {},
+      adminLogout = {},
     )
   }
 }

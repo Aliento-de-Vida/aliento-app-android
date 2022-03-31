@@ -28,12 +28,11 @@ import javax.inject.Inject
 
 data class HomeUiState(
   val home: Home? = null,
-  val homeImages: HomeImages? = null,
+  val homeImages: HomeImages,
   val carouselItems: List<CarouselItem> = emptyList(),
   val sermonItems: List<CarouselItem> = emptyList(),
   val loading: Boolean = true,
   val messages: List<Message> = emptyList(),
-  val isAdmin: Boolean = false,
 )
 
 @HiltViewModel
@@ -55,10 +54,10 @@ class HomeViewModel @Inject constructor(
   application,
 ) {
   
-  val isAdmin get() = preferences.isAdmin
+  val isAdmin = preferences.isAdmin
   
   private val _viewModelState = MutableStateFlow(
-    HomeUiState(isAdmin = preferences.isAdmin)
+    HomeUiState(homeImages = HomeImages())
   )
   val viewModelState: StateFlow<HomeUiState> = _viewModelState
   
@@ -150,6 +149,6 @@ class HomeViewModel @Inject constructor(
     return carouselItems
   }
   
-  fun signAdminOut() { preferences.adminToken = null }
+  fun adminLogout() { preferences.adminToken = null }
   
 }
