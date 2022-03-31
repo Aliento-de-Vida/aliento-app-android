@@ -1,98 +1,48 @@
 package com.alientodevida.alientoapp.app.features.home
 
 import android.os.Bundle
-import android.view.HapticFeedbackConstants
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isGone
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
-import com.alientodevida.alientoapp.app.databinding.FragmentHomeBinding
-import com.alientodevida.alientoapp.app.databinding.ItemCarouselBinding
-import com.alientodevida.alientoapp.app.recyclerview.BaseDiffAdapter
-import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
-import com.alientodevida.alientoapp.app.state.Message
-import com.alientodevida.alientoapp.app.state.ViewModelResult
-import com.alientodevida.alientoapp.app.utils.Constants
+import com.alientodevida.alientoapp.app.compose.theme.AppTheme
+import com.alientodevida.alientoapp.app.databinding.FragmentNotificationsBinding
 import com.alientodevida.alientoapp.app.utils.Utils
-import com.alientodevida.alientoapp.app.utils.extensions.*
-import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
-import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
-import com.alientodevida.alientoapp.domain.home.Home
-import com.synnapps.carouselview.ViewListener
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+class HomeFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fragment_notifications) {
   
   private val viewModel by viewModels<HomeViewModel>()
   
-  private val carouselAdapter = BaseDiffAdapter(carouselDiffCallback)
-  
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    
-    setupUI()
-    observeViewModel()
-  }
   
-  private fun setupUI() {
-    binding.toolbarView.icSettings.setOnClickListener { goToSettings() }
-    binding.toolbarView.icNotifications.setOnClickListener { goToNotifications() }
-    
-    binding.swiperefresh.setOnRefreshListener { this@HomeFragment.viewModel.getHome() }
-    
-    binding.fabEdit.setOnClickListener {
-      val home = viewModel.homeResult ?: return@setOnClickListener
-      val action = HomeFragmentDirections.actionFragmentHomeToEditHomeFragment(home.home)
-      findNavController().navigate(action)
-    }
-    binding.fabEdit.isGone = viewModel.isAdmin.not()
-    
-    setupCarousel()
-    setupQuickAccess()
-    setupSocialMedia()
-  }
-  
-  
-  private fun observeViewModel() {
-    viewModel.sermonsItems.observe(viewLifecycleOwner) { result ->
-      viewModelResult(
-        result = result,
-        progressBar = binding.progressBar,
-      ) { items ->
-        binding.swiperefresh.isRefreshing = false
-        
-        binding.sermonsCarousel.setViewListener(viewListener)
-        binding.sermonsCarousel.pageCount =
-          if (items.size < MAX_ITEMS_CAROUSEL) items.size else MAX_ITEMS_CAROUSEL
+    binding.composeView.apply {
+      setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+      setContent {
+        AppTheme {
+          Home(
+            viewModel = viewModel,
+            goToEditHome = { goToEditHome() },
+            goToNotifications = { goToNotifications() },
+            goToSettings = { goToSettings() },
+            goToSermons = { goToSermons() },
+            goToChurch = { goToChurch() },
+            goToCampus = { goToCampus() },
+            goToGallery = { goToGallery() },
+            goToPrayer = { goToPrayer() },
+            goToDonations = { goToDonations() },
+            goToEbook = { goToEbook() }
+          )
+        }
       }
-    }
-  
-    viewModel.home.observe(viewLifecycleOwner) { result ->
-      viewModelResult(
-        result = result,
-        progressBar = binding.progressBar,
-      ) { images ->
-        binding.swiperefresh.isRefreshing = false
-  
-        carouselAdapter.submitList(images.carouselItems)
-  
-        binding.ivDonations.load(images.homeImages.donationsImage)
-        binding.ivPrayer.load(images.homeImages.prayerImage)
-        binding.ivEbook.load(images.homeImages.ebookImage)
-      }
-    }
+    }  
   }
   
-  private var viewListener: ViewListener = ViewListener { position ->
+  /*private var viewListener: ViewListener = ViewListener { position ->
     val customView = layoutInflater.inflate(R.layout.item_sermons_carrousel, null)
     
     (viewModel.sermonsItems.value as? ViewModelResult.Success)?.data?.get(position)?.let {
@@ -132,17 +82,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         CategoryItemType.SERMONS -> goToSermons()
       }
     }
-    carouselAdapter.register<CarouselItem, ItemCarouselBinding, CarouselViewHolder>(
-      R.layout.item_carousel,
-      resourceListener,
-    )
-    
-    binding.carrousel.layoutManager = LinearLayoutManager(
-      requireContext(),
-      LinearLayoutManager.HORIZONTAL,
-      false
-    )
-    binding.carrousel.adapter = carouselAdapter
   }
   
   private fun setupQuickAccess() {
@@ -235,7 +174,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
       }
       true
     }
-  }
+  }*/
   
   private fun goToNotifications() {
     val action = HomeFragmentDirections.actionFragmentHomeToNotificationNavigation()
@@ -277,7 +216,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     findNavController().navigate(action)
   }
   
-  companion object {
-    private const val MAX_ITEMS_CAROUSEL = 3
+  private fun goToEbook() {
+    // TODO is this the right way to pass ebook ?
+    viewModel.viewModelState.value.home?.ebook?.let {
+      Utils.goToUrl(requireContext(), it)
+    }
   }
+  
+  private fun goToEditHome() {
+    // TODO is this the right way to pass home ?
+    viewModel.viewModelState.value.home?.let {
+      val action = HomeFragmentDirections.actionFragmentHomeToEditHomeFragment(it)
+      findNavController().navigate(action)
+    }
+  }
+  
 }
