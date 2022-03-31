@@ -4,9 +4,10 @@ import android.content.Context
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import android.webkit.MimeTypeMap
+import com.alientodevida.alientoapp.app.compose.components.AttachmentModel
 
-fun Context.createAttachment(uri: Uri): Attachment =
-  Attachment(uri, uri.toString().getExtensionFromPathOrNull() ?: getFileExtension(uri))
+fun Context.createAttachment(uri: Uri): AttachmentModel =
+  AttachmentModel(uri, uri.toString().getExtensionFromPathOrNull() ?: getFileExtension(uri))
 
 fun String.getExtensionFromPathOrNull(): String? {
   val indexOfDash = lastIndexOf('/')

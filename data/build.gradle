@@ -45,6 +45,7 @@ dependencies {
     // Architecture components
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     // retrofit for networking
     implementation "com.squareup.retrofit2:retrofit:$retrofit2Version"

@@ -15,6 +15,9 @@ enum class CategoryItemType {
   CHURCH,
   CAMPUSES,
   GALLERY,
+  DONATIONS,
+  PRAYER,
+  EBOOK,
   SERMONS,
 }
 
