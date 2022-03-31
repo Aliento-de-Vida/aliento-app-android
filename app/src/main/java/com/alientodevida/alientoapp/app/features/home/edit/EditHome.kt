@@ -27,6 +27,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
+import com.alientodevida.alientoapp.app.compose.components.Attachment
+import com.alientodevida.alientoapp.app.compose.components.AttachmentModel
+import com.alientodevida.alientoapp.app.compose.components.Body1
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
@@ -45,6 +48,13 @@ fun EditHome(
   EditHomeContent(
     uiState = viewModelState,
     onMessageDismiss = viewModel::onMessageDismiss,
+    onSermonsImageChanged = viewModel::onSermonsImageChanged,
+    onChurchImageChanged = viewModel::onChurchImageChanged,
+    onCampusImageChanged = viewModel::onCampusImageChanged,
+    onGalleriesImageChanged = viewModel::onGalleriesImageChanged,
+    onDonationsImageChanged = viewModel::onDonationsImageChanged,
+    onPrayerImageChanged = viewModel::onPrayerImageChanged,
+    onEbookImageChanged = viewModel::onEbookImageChanged,
     onEbookChanged = viewModel::onEbookChanged,
     onYoutubePlaylistIdChanged = viewModel::onYoutubePlaylistIdChanged,
     onYoutubeChannelIdChanged = viewModel::onYoutubeChannelIdChanged,
@@ -67,6 +77,13 @@ fun EditHomeContent(
   uiState: HomeUiState,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   onMessageDismiss: (Long) -> Unit,
+  onSermonsImageChanged: (AttachmentModel?) -> Unit,
+  onChurchImageChanged: (AttachmentModel?) -> Unit,
+  onCampusImageChanged: (AttachmentModel?) -> Unit,
+  onGalleriesImageChanged: (AttachmentModel?) -> Unit,
+  onDonationsImageChanged: (AttachmentModel?) -> Unit,
+  onPrayerImageChanged: (AttachmentModel?) -> Unit,
+  onEbookImageChanged: (AttachmentModel?) -> Unit,
   onEbookChanged: (String) -> Unit,
   onYoutubePlaylistIdChanged: (String) -> Unit,
   onYoutubeChannelIdChanged: (String) -> Unit,
@@ -105,8 +122,16 @@ fun EditHomeContent(
         .padding(paddingValues = paddingValues)
         .background(color = MaterialTheme.colors.background),
     ) {
-      NotificationsBody(
+      EditHomeBody(
         home = uiState.home,
+        images = uiState.images,
+        onSermonsImageChanged = onSermonsImageChanged,
+        onChurchImageChanged = onChurchImageChanged,
+        onCampusImageChanged = onCampusImageChanged,
+        onGalleriesImageChanged = onGalleriesImageChanged,
+        onDonationsImageChanged = onDonationsImageChanged,
+        onPrayerImageChanged = onPrayerImageChanged,
+        onEbookImageChanged = onEbookImageChanged,
         onEbookChanged = onEbookChanged,
         onYoutubePlaylistIdChanged = onYoutubePlaylistIdChanged,
         onYoutubeChannelIdChanged = onYoutubeChannelIdChanged,
@@ -170,8 +195,16 @@ fun TopAppBar(
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun NotificationsBody(
+fun EditHomeBody(
   home: Home,
+  images: HomeImages,
+  onSermonsImageChanged: (AttachmentModel?) -> Unit,
+  onChurchImageChanged: (AttachmentModel?) -> Unit,
+  onCampusImageChanged: (AttachmentModel?) -> Unit,
+  onGalleriesImageChanged: (AttachmentModel?) -> Unit,
+  onDonationsImageChanged: (AttachmentModel?) -> Unit,
+  onPrayerImageChanged: (AttachmentModel?) -> Unit,
+  onEbookImageChanged: (AttachmentModel?) -> Unit,
   onEbookChanged: (String) -> Unit,
   onYoutubePlaylistIdChanged: (String) -> Unit,
   onYoutubeChannelIdChanged: (String) -> Unit,
@@ -193,13 +226,150 @@ fun NotificationsBody(
       .verticalScroll(scrollState)
       .padding(horizontal = 16.dp)
   ) {
+    EditImages(
+      images,
+      onSermonsImageChanged,
+      onChurchImageChanged,
+      onCampusImageChanged,
+      onGalleriesImageChanged,
+      onDonationsImageChanged,
+      onPrayerImageChanged,
+      onEbookImageChanged,
+    )
+    
+    EditHome(
+      home,
+      onEbookChanged,
+      onYoutubePlaylistIdChanged,
+      onYoutubeChannelIdChanged,
+      onSpotifyPlaylistIdChanged,
+      onPrayerEmailChanged,
+      onInstagramUrlChanged,
+      onYoutubeChanelUrlChanged,
+      onFacebookPageIdChanged,
+      onFacebookPageUrlChanged,
+      onTwitterUserIdChanged,
+      onTwitterUrlChanged,
+      onSpotifyArtistIdChanged
+    )
+  }
+}
+
+@Composable
+private fun EditImages(
+  images: HomeImages,
+  onSermonsImageChanged: (AttachmentModel?) -> Unit,
+  onChurchImageChanged: (AttachmentModel?) -> Unit,
+  onCampusImageChanged: (AttachmentModel?) -> Unit,
+  onGalleriesImageChanged: (AttachmentModel?) -> Unit,
+  onDonationsImageChanged: (AttachmentModel?) -> Unit,
+  onPrayerImageChanged: (AttachmentModel?) -> Unit,
+  onEbookImageChanged: (AttachmentModel?) -> Unit,
+) {
+  Column(Modifier.fillMaxWidth()) {
+    Spacer(modifier = Modifier.height(16.dp))
+    H5(
+      modifier = Modifier.padding(horizontal = 8.dp),
+      text = "Images",
+      color = MaterialTheme.colors.onBackground,
+    )
+    
+    Spacer(modifier = Modifier.height(16.dp))
+    Body1(
+      modifier = Modifier.padding(horizontal = 8.dp),
+      text = "Prédicas",
+      color = MaterialTheme.colors.onBackground,
+    )
+    
+    Spacer(modifier = Modifier.height(8.dp))
+    Attachment(attachment = images.sermonsImage, onImageChanged = onSermonsImageChanged)
+  
+    Spacer(modifier = Modifier.height(16.dp))
+    Body1(
+      modifier = Modifier.padding(horizontal = 8.dp),
+      text = "Nosotros",
+      color = MaterialTheme.colors.onBackground,
+    )
+  
+    Spacer(modifier = Modifier.height(8.dp))
+    Attachment(attachment = images.churchImage, onImageChanged = onChurchImageChanged)
+  
+    Spacer(modifier = Modifier.height(16.dp))
+    Body1(
+      modifier = Modifier.padding(horizontal = 8.dp),
+      text = "Campus",
+      color = MaterialTheme.colors.onBackground,
+    )
+  
+    Spacer(modifier = Modifier.height(8.dp))
+    Attachment(attachment = images.campusImage, onImageChanged = onCampusImageChanged)
+  
+    Spacer(modifier = Modifier.height(16.dp))
+    Body1(
+      modifier = Modifier.padding(horizontal = 8.dp),
+      text = "Galerías",
+      color = MaterialTheme.colors.onBackground,
+    )
+  
+    Spacer(modifier = Modifier.height(8.dp))
+    Attachment(attachment = images.galleriesImage, onImageChanged = onGalleriesImageChanged)
+  
+    Spacer(modifier = Modifier.height(16.dp))
+    Body1(
+      modifier = Modifier.padding(horizontal = 8.dp),
+      text = "Donaciones",
+      color = MaterialTheme.colors.onBackground,
+    )
+  
+    Spacer(modifier = Modifier.height(8.dp))
+    Attachment(attachment = images.donationsImage, onImageChanged = onDonationsImageChanged)
+  
+    Spacer(modifier = Modifier.height(16.dp))
+    Body1(
+      modifier = Modifier.padding(horizontal = 8.dp),
+      text = "Oración",
+      color = MaterialTheme.colors.onBackground,
+    )
+  
+    Spacer(modifier = Modifier.height(8.dp))
+    Attachment(attachment = images.prayerImage, onImageChanged = onPrayerImageChanged)
+  
+    Spacer(modifier = Modifier.height(16.dp))
+    Body1(
+      modifier = Modifier.padding(horizontal = 8.dp),
+      text = "Ebook",
+      color = MaterialTheme.colors.onBackground,
+    )
+  
+    Spacer(modifier = Modifier.height(8.dp))
+    Attachment(attachment = images.ebookImage, onImageChanged = onEbookImageChanged)
+  }
+}
+
+@Composable
+private fun EditHome(
+  home: Home,
+  onEbookChanged: (String) -> Unit,
+  onYoutubePlaylistIdChanged: (String) -> Unit,
+  onYoutubeChannelIdChanged: (String) -> Unit,
+  onSpotifyPlaylistIdChanged: (String) -> Unit,
+  onPrayerEmailChanged: (String) -> Unit,
+  onInstagramUrlChanged: (String) -> Unit,
+  onYoutubeChanelUrlChanged: (String) -> Unit,
+  onFacebookPageIdChanged: (String) -> Unit,
+  onFacebookPageUrlChanged: (String) -> Unit,
+  onTwitterUserIdChanged: (String) -> Unit,
+  onTwitterUrlChanged: (String) -> Unit,
+  onSpotifyArtistIdChanged: (String) -> Unit
+) {
+  Column(Modifier.fillMaxWidth()) {
     Spacer(modifier = Modifier.height(16.dp))
     H5(
       modifier = Modifier.padding(horizontal = 8.dp),
       text = "Home",
       color = MaterialTheme.colors.onBackground,
     )
-  
+    
     Spacer(modifier = Modifier.height(16.dp))
     InputField(
       modifier = Modifier.fillMaxWidth(),
@@ -210,7 +380,7 @@ fun NotificationsBody(
       label = "Ebook Url",
       labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
     )
-  
+    
     Spacer(modifier = Modifier.height(16.dp))
     InputField(
       modifier = Modifier.fillMaxWidth(),
@@ -254,7 +424,7 @@ fun NotificationsBody(
       label = "Prayer Email",
       labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
     )
-  
+    
     Spacer(modifier = Modifier.height(16.dp))
     H5(
       modifier = Modifier.padding(horizontal = 8.dp),
@@ -338,7 +508,7 @@ fun NotificationsBody(
       label = "Spotify Artist Id",
       labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
     )
-  
+    
     Spacer(modifier = Modifier.height(16.dp))
   }
 }

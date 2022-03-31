@@ -5,9 +5,12 @@ import android.os.Build
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.alientodevida.alientoapp.app.base.BaseViewModel
+import com.alientodevida.alientoapp.app.compose.components.AttachmentModel
+import com.alientodevida.alientoapp.app.compose.components.getDomainAttachment
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
+import com.alientodevida.alientoapp.domain.extensions.removeExtension
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.notification.Notification
 import com.alientodevida.alientoapp.domain.notification.NotificationRepository
@@ -39,7 +42,7 @@ private fun NotificationRequest.toDomain(domainAttachment: DomainAttachment?) =
     id = id,
     title = title,
     content = content,
-    image = image,
+    imageName = imageName,
     date = date,
     attachment = domainAttachment,
   )
@@ -49,7 +52,7 @@ fun Notification.toNotificationRequest() =
     id = id,
     title = title,
     content = content,
-    image = image,
+    imageName = image?.name ?: "",
     date = date,
     attachment = null,
   )
@@ -92,28 +95,21 @@ class EditCreateNotificationViewModel @Inject constructor(
   
   fun onNotificationTitleChanged(newTitle: String) {
     _viewModelState.update { it.copy(
-      notificationRequest = viewModelState.value.notificationRequest.copy(title = newTitle)
+      notificationRequest = it.notificationRequest.copy(title = newTitle)
     ) }
   }
   
   fun onNotificationDescriptionChanged(newDescription: String) {
     _viewModelState.update { it.copy(
-      notificationRequest = viewModelState.value.notificationRequest.copy(content = newDescription)
+      notificationRequest = it.notificationRequest.copy(content = newDescription)
     ) }
   }
   
-  fun onNotificationImageNameChanged(newImageName: String) {
+  fun onNotificationImageChanged(newAttachment: AttachmentModel) {
     _viewModelState.update { it.copy(
-      notificationRequest = viewModelState.value.notificationRequest.copy(
-        image = com.alientodevida.alientoapp.domain.common.Image(newImageName)
-      )
-    ) }
-  }
-  
-  fun onNotificationImageChanged(newAttachment: Attachment?) {
-    _viewModelState.update { it.copy(
-      notificationRequest = viewModelState.value.notificationRequest.copy(
-        image = com.alientodevida.alientoapp.domain.common.Image(newAttachment?.displayName ?: "")
+      notificationRequest = it.notificationRequest.copy(
+        attachment = newAttachment,
+        imageName = newAttachment.displayName,
       )
     ) }
   }
@@ -121,19 +117,8 @@ class EditCreateNotificationViewModel @Inject constructor(
   fun saveNotification(notification: NotificationRequest) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
     
-    val domainAttachment = notification.attachment?.let { attachment ->
-      val attachmentsDir = Paths.get(application.filesDir.path, "notification-attachment").toFile()
-      attachmentsDir.mkdir()
-      
-      application.parcelFileDescriptor(attachment.uri)?.use { descriptor ->
-        FileInputStream(descriptor.fileDescriptor).use { stream ->
-          val outputPath = Paths.get(attachmentsDir.path, attachment.displayName)
-          Files.copy(stream, outputPath, StandardCopyOption.REPLACE_EXISTING)
-          
-          DomainAttachment(attachment.displayName, outputPath.absolutePathString())
-        }
-      }
-    }
+    val attachment = notification.attachment
+    val domainAttachment = attachment?.getDomainAttachment(application, attachment.displayName.removeExtension())
     
     viewModelScope.launch {
       try {

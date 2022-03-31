@@ -50,8 +50,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     binding.swiperefresh.setOnRefreshListener { this@HomeFragment.viewModel.getHome() }
     
     binding.fabEdit.setOnClickListener {
-      val home = (viewModel.home.value as? ViewModelResult.Success<Home>)?.data ?: return@setOnClickListener
-      val action = HomeFragmentDirections.actionFragmentHomeToEditHomeFragment(home)
+      val home = viewModel.homeResult ?: return@setOnClickListener
+      val action = HomeFragmentDirections.actionFragmentHomeToEditHomeFragment(home.home)
       findNavController().navigate(action)
     }
     binding.fabEdit.isGone = viewModel.isAdmin.not()
@@ -73,6 +73,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.sermonsCarousel.setViewListener(viewListener)
         binding.sermonsCarousel.pageCount =
           if (items.size < MAX_ITEMS_CAROUSEL) items.size else MAX_ITEMS_CAROUSEL
+      }
+    }
+  
+    viewModel.home.observe(viewLifecycleOwner) { result ->
+      viewModelResult(
+        result = result,
+        progressBar = binding.progressBar,
+      ) { images ->
+        binding.swiperefresh.isRefreshing = false
+  
+        carouselAdapter.submitList(images.carouselItems)
+  
+        binding.ivDonations.load(images.homeImages.donationsImage)
+        binding.ivPrayer.load(images.homeImages.prayerImage)
+        binding.ivEbook.load(images.homeImages.ebookImage)
       }
     }
   }
@@ -128,58 +143,48 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
       false
     )
     binding.carrousel.adapter = carouselAdapter
-    
-    carouselAdapter.submitList(viewModel.carouseItems)
   }
   
   private fun setupQuickAccess() {
     with(binding) {
       donations.setOnClickListener { goToDonations() }
-      ivDonations.load(Constants.DONATIONS_IMAGE)
-      
       prayer.setOnClickListener { goToPrayer() }
-      ivPrayer.load(Constants.PRAYER_IMAGE)
-      
-      //            webPage.setOnClickListener { Utils.goToUrl(requireContext(), Constants.webPageUrl) }
-      //            ivDonations.load("https://todoserver-peter.herokuapp.com/v1/files/donaciones.png")
-      
       ebook.setOnClickListener {
-        (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
-          Utils.goToUrl(requireContext(), it.ebook)
+        viewModel.homeResult?.let {
+          Utils.goToUrl(requireContext(), it.home.ebook)
         }
       }
-      ivEbook.load(Constants.EBOOK_IMAGE)
     }
   }
   
   private fun setupSocialMedia() {
     with(binding) {
       instagram.setOnClickListener {
-        (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
-          requireActivity().openInstagramPage(it.socialMedia.instagramUrl)
+        viewModel.homeResult?.let {
+          requireActivity().openInstagramPage(it.home.socialMedia.instagramUrl)
         }
       }
       youtube.setOnClickListener {
-        (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
-          requireActivity().openYoutubeChannel(it.socialMedia.youtubeChannelUrl)
+        viewModel.homeResult?.let {
+          requireActivity().openYoutubeChannel(it.home.socialMedia.youtubeChannelUrl)
         }
       }
       facebook.setOnClickListener {
-        (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
+        viewModel.homeResult?.let {
           requireActivity().openFacebookPage(
-            it.socialMedia.facebookPageId,
-            it.socialMedia.facebookPageUrl
+            it.home.socialMedia.facebookPageId,
+            it.home.socialMedia.facebookPageUrl
           )
         }
       }
       twitter.setOnClickListener {
-        (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
-          requireActivity().openTwitterPage(it.socialMedia.twitterUserId, it.socialMedia.twitterUrl)
+        viewModel.homeResult?.let {
+          requireActivity().openTwitterPage(it.home.socialMedia.twitterUserId, it.home.socialMedia.twitterUrl)
         }
       }
       spotify.setOnClickListener {
-        (viewModel.home.value as? ViewModelResult.Success)?.data?.let {
-          requireActivity().openSpotifyArtistPage(it.socialMedia.spotifyArtistId)
+        viewModel.homeResult?.let {
+          requireActivity().openSpotifyArtistPage(it.home.socialMedia.spotifyArtistId)
         }
       }
       

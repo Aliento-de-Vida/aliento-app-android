@@ -18,12 +18,6 @@ interface NotificationAdminApi {
     @Field("id") id: Int,
   )
   
-  @Multipart
-  @POST("/v1/files")
-  suspend fun uploadImage(
-    @Part filePart: MultipartBody.Part?,
-  )
-  
   @PUT("/v1/notification")
   @FormUrlEncoded
   suspend fun editNotification(
