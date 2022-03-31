@@ -10,6 +10,11 @@ import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.databinding.FragmentNotificationsBinding
 import com.alientodevida.alientoapp.app.utils.Utils
+import com.alientodevida.alientoapp.app.utils.extensions.openFacebookPage
+import com.alientodevida.alientoapp.app.utils.extensions.openInstagramPage
+import com.alientodevida.alientoapp.app.utils.extensions.openSpotifyArtistPage
+import com.alientodevida.alientoapp.app.utils.extensions.openTwitterPage
+import com.alientodevida.alientoapp.app.utils.extensions.openYoutubeChannel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,7 +40,13 @@ class HomeFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fragmen
             goToGallery = { goToGallery() },
             goToPrayer = { goToPrayer() },
             goToDonations = { goToDonations() },
-            goToEbook = { goToEbook() }
+            goToEbook = { goToEbook() },
+            goToInstagram = { goToInstagram() },
+            goToYoutube = { goToYoutube() },
+            goToFacebook = { goToFacebook() },
+            goToTwitter = { goToTwitter() },
+            goToSpotify = { goToSpotify() },
+            goToAdminLogin = { goToAdminLogin() },
           )
         }
       }
@@ -98,35 +109,6 @@ class HomeFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fragmen
   
   private fun setupSocialMedia() {
     with(binding) {
-      instagram.setOnClickListener {
-        viewModel.homeResult?.let {
-          requireActivity().openInstagramPage(it.home.socialMedia.instagramUrl)
-        }
-      }
-      youtube.setOnClickListener {
-        viewModel.homeResult?.let {
-          requireActivity().openYoutubeChannel(it.home.socialMedia.youtubeChannelUrl)
-        }
-      }
-      facebook.setOnClickListener {
-        viewModel.homeResult?.let {
-          requireActivity().openFacebookPage(
-            it.home.socialMedia.facebookPageId,
-            it.home.socialMedia.facebookPageUrl
-          )
-        }
-      }
-      twitter.setOnClickListener {
-        viewModel.homeResult?.let {
-          requireActivity().openTwitterPage(it.home.socialMedia.twitterUserId, it.home.socialMedia.twitterUrl)
-        }
-      }
-      spotify.setOnClickListener {
-        viewModel.homeResult?.let {
-          requireActivity().openSpotifyArtistPage(it.home.socialMedia.spotifyArtistId)
-        }
-      }
-      
       setupAdminEntrypoint()
     }
   }
@@ -229,6 +211,42 @@ class HomeFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fragmen
       val action = HomeFragmentDirections.actionFragmentHomeToEditHomeFragment(it)
       findNavController().navigate(action)
     }
+  }
+  
+  private fun goToInstagram() {
+    viewModel.viewModelState.value.home?.socialMedia?.instagramUrl?.let { instagramUrl ->
+      requireActivity().openInstagramPage(instagramUrl)
+    }
+  }
+  
+  private fun goToYoutube() {
+    viewModel.viewModelState.value.home?.socialMedia?.youtubeChannelUrl?.let { youtubeChannelUrl ->
+      requireActivity().openYoutubeChannel(youtubeChannelUrl)
+    }
+  }
+  
+  private fun goToFacebook() {
+    viewModel.viewModelState.value.home?.socialMedia?.let { socialMedia ->
+      requireActivity().openFacebookPage(socialMedia.facebookPageId, socialMedia.facebookPageUrl)
+    }
+  }
+  
+  private fun goToTwitter() {
+    viewModel.viewModelState.value.home?.socialMedia?.let { socialMedia ->
+      requireActivity().openTwitterPage(socialMedia.twitterUserId, socialMedia.twitterUrl)
+    }
+  }
+  
+  
+  private fun goToSpotify() {
+    viewModel.viewModelState.value.home?.socialMedia?.spotifyArtistId?.let { spotifyArtistId ->
+      requireActivity().openSpotifyArtistPage(spotifyArtistId)
+    }
+  }
+  
+  private fun goToAdminLogin() {
+    val action = HomeFragmentDirections.actionFragmentHomeToAdminNavigation()
+    findNavController().navigate(action)
   }
   
 }

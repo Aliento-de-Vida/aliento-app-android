@@ -10,6 +10,7 @@ import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 import com.alientodevida.alientoapp.domain.admin.Token as AdminToken
 import com.alientodevida.alientoapp.domain.entities.network.Token as SpotifyToken
@@ -61,6 +62,7 @@ class PreferencesImpl(
     }
   
   override val isAdmin get() = adminToken != null
+  override val isAdminFlow: Flow<Boolean> = isAdmin.map { it[ARE_BIOMETRICS_ENABLED] ?: false }
   
   private val _pushEnabled =
     PrimitivePreferenceProperty<Boolean>(Type.BOOLEAN, PUSH_ENABLED_KEY, preferences)
