@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 data class HomeUiState(
@@ -54,7 +55,7 @@ class HomeViewModel @Inject constructor(
   application,
 ) {
   
-  val isAdmin = preferences.isAdmin
+  val isAdmin = preferences.isAdminFlow
   
   private val _viewModelState = MutableStateFlow(
     HomeUiState(homeImages = HomeImages())
@@ -149,6 +150,17 @@ class HomeViewModel @Inject constructor(
     return carouselItems
   }
   
-  fun adminLogout() { preferences.adminToken = null }
+  fun adminLogout() {
+    val messages = viewModelState.value.messages.toMutableList()
+    messages.add(Message.Localized.Informational(
+      id = UUID.randomUUID().mostSignificantBits,
+      title = "",
+      message = "Logged Out",
+      action = "",
+    ))
+    _viewModelState.update { it.copy(messages = messages) }
+  
+    preferences.adminToken = null
+  }
   
 }

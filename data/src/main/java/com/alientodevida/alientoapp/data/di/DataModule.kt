@@ -1,12 +1,13 @@
 package com.alientodevida.alientoapp.data.di
 
 import android.content.Context
+import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.preferencesDataStore
 import com.alientodevida.alientoapp.data.BuildConfig
 import com.alientodevida.alientoapp.data.admin.AdminAuthenticator
 import com.alientodevida.alientoapp.data.admin.AdminAuthenticatorInterceptor
 import com.alientodevida.alientoapp.data.preferences.PreferencesImpl
-import com.alientodevida.alientoapp.data.spotify.SpotifyAuthenticator
-import com.alientodevida.alientoapp.data.spotify.SpotifyAuthenticatorInterceptor
 import com.alientodevida.alientoapp.data.storage.AppDatabase
 import com.alientodevida.alientoapp.data.storage.RoomDao
 import com.alientodevida.alientoapp.data.storage.getDatabase
@@ -23,6 +24,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
+import androidx.datastore.preferences.core.Preferences as DataStorePreferences
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -74,8 +76,12 @@ object DataModule {
     @ApplicationContext
     context: Context,
   ): Preferences {
+    val preferences: SharedPreferences = context.sharedPreferences()
+    val preferencesStore: DataStore<DataStorePreferences> = context.preferencesStore
+  
     return PreferencesImpl(
-      preferences = context.getSharedPreferences("mobile-preferences", Context.MODE_PRIVATE),
+      preferences = preferences,
+      preferencesStore = preferencesStore,
     )
   }
   
@@ -88,3 +94,6 @@ object DataModule {
   fun videoDAO(database: AppDatabase): RoomDao = database.roomDao
   
 }
+
+private fun Context.sharedPreferences(): SharedPreferences = getSharedPreferences("mobile-preferences", Context.MODE_PRIVATE)
+private val Context.preferencesStore: DataStore<DataStorePreferences> by preferencesDataStore(name = "preferences")
