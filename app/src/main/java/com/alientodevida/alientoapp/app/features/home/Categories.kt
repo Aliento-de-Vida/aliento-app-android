@@ -30,15 +30,19 @@ import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Categories(
-  carouselItems: List<CarouselItem>,
+  items: List<CarouselItem>,
+  title: String,
   goToChurch: () -> Unit,
   goToCampus: () -> Unit,
   goToGallery: () -> Unit,
+  goToDonations: () -> Unit,
+  goToPrayer: () -> Unit,
+  goToEbook: () -> Unit
 ) {
   Column(Modifier.padding(8.dp)) {
     H5(
       modifier = Modifier.padding(horizontal = 8.dp),
-      text = "Categorías",
+      text = title,
       color = MaterialTheme.colors.onBackground,
     )
     
@@ -47,13 +51,16 @@ fun Categories(
       contentPadding = PaddingValues(bottom = 16.dp),
       horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-      items(carouselItems, key = { it.title }) { item ->
+      items(items, key = { it.title }) { item ->
         CategoryItem(
           modifier = Modifier.animateItemPlacement(),
           item = item,
           goToChurch = goToChurch,
           goToCampus = goToCampus,
           goToGallery = goToGallery,
+          goToDonations = goToDonations,
+          goToPrayer = goToPrayer,
+          goToEbook = goToEbook,
         )
       }
     }
@@ -67,6 +74,9 @@ fun CategoryItem(
   goToChurch: () -> Unit,
   goToCampus: () -> Unit,
   goToGallery: () -> Unit,
+  goToDonations: () -> Unit,
+  goToPrayer: () -> Unit,
+  goToEbook: () -> Unit
 ) {
   Card(
     modifier
@@ -82,6 +92,15 @@ fun CategoryItem(
           }
           CategoryItemType.GALLERY -> {
             goToGallery()
+          }
+          CategoryItemType.DONATIONS -> {
+            goToDonations()
+          }
+          CategoryItemType.PRAYER -> {
+            goToPrayer()
+          }
+          CategoryItemType.EBOOK -> {
+            goToEbook()
           }
           else -> {}
         }

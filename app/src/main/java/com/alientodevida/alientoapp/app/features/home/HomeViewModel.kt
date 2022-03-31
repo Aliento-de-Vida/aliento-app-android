@@ -15,6 +15,8 @@ import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.home.HomeImages
 import com.alientodevida.alientoapp.domain.home.HomeRepository
 import com.alientodevida.alientoapp.domain.logger.Logger
+import com.alientodevida.alientoapp.domain.notification.Notification
+import com.alientodevida.alientoapp.domain.notification.NotificationRepository
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.alientodevida.alientoapp.domain.video.VideoRepository
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
@@ -29,9 +31,10 @@ import javax.inject.Inject
 
 data class HomeUiState(
   val home: Home? = null,
-  val homeImages: HomeImages,
-  val carouselItems: List<CarouselItem> = emptyList(),
   val sermonItems: List<CarouselItem> = emptyList(),
+  val categoriesItems: List<CarouselItem> = emptyList(),
+  val quickAccessItems: List<CarouselItem> = emptyList(),
+  val notifications: List<Notification> = emptyList(),
   val loading: Boolean = true,
   val messages: List<Message> = emptyList(),
 )
@@ -40,6 +43,7 @@ data class HomeUiState(
 class HomeViewModel @Inject constructor(
   private val videoRepository: VideoRepository,
   private val homeRepository: HomeRepository,
+  private val notificationRepository: NotificationRepository,
   coroutineDispatchers: CoroutineDispatchers,
   errorParser: ErrorParser,
   logger: Logger,
@@ -57,9 +61,7 @@ class HomeViewModel @Inject constructor(
   
   val isAdmin = preferences.isAdminFlow
   
-  private val _viewModelState = MutableStateFlow(
-    HomeUiState(homeImages = HomeImages())
-  )
+  private val _viewModelState = MutableStateFlow(HomeUiState())
   val viewModelState: StateFlow<HomeUiState> = _viewModelState
   
   var latestVideo: YoutubeVideo? = null
@@ -79,16 +81,18 @@ class HomeViewModel @Inject constructor(
     viewModelScope.launch {
       try {
         val images = homeRepository.getHomeImages()
-        val home = homeRepository.getHome()
-        preferences.home = home
+        val home = homeRepository.getHome().apply { preferences.home = this }
         val sermons = getSermonItems(home.youtubeChannelId, images.sermonsImage)
         val carouselItems = getCategoriesItems(images)
+        val quickAccessItems = getQuickAccessItems(images)
+        val notifications = notificationRepository.getNotifications().filter { it.image != null }.take(5)
         
         _viewModelState.update { it.copy(
-          carouselItems = carouselItems,
-          homeImages = images,
+          categoriesItems = carouselItems,
+          quickAccessItems = quickAccessItems,
           home = home,
           sermonItems = sermons,
+          notifications = notifications,
         ) }
         
       } catch (ex: CancellationException) {
@@ -121,6 +125,28 @@ class HomeViewModel @Inject constructor(
         "Galería",
         images.galleriesImage,
         CategoryItem(CategoryItemType.GALLERY),
+        null,
+      )
+    )
+  
+  private fun getQuickAccessItems(images: HomeImages) =
+    listOf(
+      CarouselItem(
+        "Donaciones",
+        images.donationsImage,
+        CategoryItem(CategoryItemType.DONATIONS),
+        null,
+      ),
+      CarouselItem(
+        "Oración",
+        images.prayerImage,
+        CategoryItem(CategoryItemType.PRAYER),
+        null,
+      ),
+      CarouselItem(
+        "Ebook",
+        images.ebookImage,
+        CategoryItem(CategoryItemType.EBOOK),
         null,
       )
     )
