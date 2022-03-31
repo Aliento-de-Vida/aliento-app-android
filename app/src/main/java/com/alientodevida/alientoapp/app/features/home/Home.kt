@@ -56,10 +56,11 @@ fun Home(
 ) {
   
   val viewModelState by viewModel.viewModelState.collectAsState()
+  val isAdmin by viewModel.isAdmin.collectAsState(false)
   
   HomeContent(
     uiState = viewModelState,
-    isAdmin = viewModel.isAdmin,
+    isAdmin = isAdmin,
     onMessageDismiss = viewModel::onMessageDismiss,
     goToEditHome = goToEditHome,
     goToNotifications = goToNotifications,
@@ -250,7 +251,7 @@ fun HomeBody(
       goToAdminLogin = goToAdminLogin,
       adminLogout = adminLogout,
     )
-    Spacer(modifier = Modifier.height(if (isAdmin) 64.dp else 16.dp))
+    Spacer(modifier = Modifier.height(if (isAdmin) 80.dp else 16.dp))
   }
 }
 

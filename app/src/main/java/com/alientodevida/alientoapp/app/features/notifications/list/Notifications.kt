@@ -74,9 +74,11 @@ fun Notifications(
   }
   
   val viewModelState by viewModel.viewModelState.collectAsState()
+  val isAdmin by viewModel.isAdmin.collectAsState(false)
   
   NotificationsContent(
     uiState = viewModelState,
+    isAdmin = isAdmin,
     onMessageDismiss = viewModel::onMessageDismiss,
     deleteNotification = viewModel::deleteNotification,
     onBackPressed = onBackPressed,
@@ -89,6 +91,7 @@ fun Notifications(
 @Composable
 fun NotificationsContent(
   uiState: NotificationsUiState,
+  isAdmin: Boolean,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   onMessageDismiss: (Long) -> Unit,
   deleteNotification: (Notification) -> Unit,
@@ -103,7 +106,7 @@ fun NotificationsContent(
       TopAppBar(onBackPressed = onBackPressed)
     },
     floatingActionButton = {
-      if (uiState.isAdmin) FloatingActionButton(
+      if (isAdmin) FloatingActionButton(
         onClick = { goToCreateNotification() },
         contentColor = MaterialTheme.colors.surface,
       ) {
@@ -125,7 +128,7 @@ fun NotificationsContent(
         deleteNotification = deleteNotification,
         goToNotificationDetail = goToNotificationDetail,
         goToNotificationsAdmin = goToNotificationsAdmin,
-        isAdmin = uiState.isAdmin,
+        isAdmin = isAdmin,
       )
       if (uiState.loading) LoadingIndicator()
   
@@ -318,8 +321,8 @@ fun NotificationsPreview() {
         ),
         true,
         emptyList(),
-      true,
       ),
+      isAdmin = true,
       onMessageDismiss = {},
       onBackPressed = {},
       deleteNotification = {},

@@ -19,7 +19,7 @@ interface Preferences {
   var isDarkTheme: Boolean
   val isDarkThemeLive: LiveData<Boolean>
   
-  val isAdmin: Boolean
+  suspend fun isAdmin(): Boolean
   val isAdminFlow: Flow<Boolean>
   
   var pushEnabled: Boolean
