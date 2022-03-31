@@ -42,6 +42,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.compose.components.Body2
@@ -199,6 +200,7 @@ fun NotificationsBody(
           modifier = Modifier.animateItemPlacement(),
           notification = notification,
           isAdmin = isAdmin,
+          height = 120.dp,
           deleteNotification = deleteNotification,
           goToNotificationDetail = goToNotificationDetail,
           goToNotificationsAdmin = goToNotificationsAdmin,
@@ -211,8 +213,9 @@ fun NotificationsBody(
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 fun NotificationItem(
-  modifier: Modifier,
+  modifier: Modifier = Modifier,
   notification: Notification,
+  height: Dp,
   isAdmin: Boolean,
   deleteNotification: (Notification) -> Unit,
   goToNotificationDetail: (Notification) -> Unit,
@@ -224,7 +227,7 @@ fun NotificationItem(
   Card(
     modifier
       .fillMaxWidth()
-      .height(120.dp)
+      .height(height)
       .combinedClickable(
         onClick = { goToNotificationDetail(notification) },
         onLongClick = {

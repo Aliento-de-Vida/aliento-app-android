@@ -28,11 +28,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
+import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
-import com.alientodevida.alientoapp.domain.home.HomeImages
+import com.alientodevida.alientoapp.app.features.notifications.list.NotificationItem
+import com.alientodevida.alientoapp.domain.notification.Notification
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun Home(
@@ -61,6 +65,7 @@ fun Home(
   HomeContent(
     uiState = viewModelState,
     isAdmin = isAdmin,
+    refresh = viewModel::getHome,
     onMessageDismiss = viewModel::onMessageDismiss,
     goToEditHome = goToEditHome,
     goToNotifications = goToNotifications,
@@ -86,6 +91,7 @@ fun Home(
 fun HomeContent(
   uiState: HomeUiState,
   isAdmin: Boolean,
+  refresh: () -> Unit,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   onMessageDismiss: (Long) -> Unit,
   goToEditHome: () -> Unit,
@@ -135,6 +141,7 @@ fun HomeContent(
       HomeBody(
         uiState = uiState,
         isAdmin = isAdmin,
+        refresh = refresh,
         goToSermons = goToSermons,
         goToChurch = goToChurch,
         goToCampus = goToCampus,
@@ -204,6 +211,7 @@ fun TopAppBar(
 fun HomeBody(
   uiState: HomeUiState,
   isAdmin: Boolean,
+  refresh: () -> Unit,
   goToSermons: () -> Unit,
   goToChurch: () -> Unit,
   goToCampus: () -> Unit,
@@ -221,37 +229,78 @@ fun HomeBody(
 ) {
   val scrollState = rememberScrollState()
   
-  Column(Modifier.verticalScroll(scrollState)) {
-    Pager(
-      items = uiState.sermonItems.take(3),
-      goToSermons = goToSermons,
-    )
+  SwipeRefresh(
+    state = rememberSwipeRefreshState(uiState.loading),
+    onRefresh = refresh,
+  ) {
+    Column(Modifier.verticalScroll(scrollState)) {
+      Pager(
+        items = uiState.sermonItems.take(3),
+        goToSermons = goToSermons,
+      )
     
-    Categories(
-      carouselItems = uiState.carouselItems,
-      goToChurch = goToChurch,
-      goToCampus = goToCampus,
-      goToGallery = goToGallery,
-    )
+      Categories(
+        items = uiState.categoriesItems,
+        title = "Categorías",
+        goToChurch = goToChurch,
+        goToCampus = goToCampus,
+        goToGallery = goToGallery,
+        goToDonations = goToDonations,
+        goToPrayer = goToPrayer,
+        goToEbook = goToEbook,
+      )
+  
+      Categories(
+        items = uiState.quickAccessItems,
+        title = "Acceso Rápido",
+        goToChurch = goToChurch,
+        goToCampus = goToCampus,
+        goToGallery = goToGallery,
+        goToDonations = goToDonations,
+        goToPrayer = goToPrayer,
+        goToEbook = goToEbook,
+      )
     
-    QuickAccess(
-      homeImages = uiState.homeImages,
-      goToDonations = goToDonations,
-      goToPrayer = goToPrayer,
-      goToEbook = goToEbook,
+      Notifications(uiState.notifications)
+      
+      SocialMedia(
+        isAdmin = isAdmin,
+        goToInstagram = goToInstagram,
+        goToYoutube = goToYoutube,
+        goToFacebook = goToFacebook,
+        goToTwitter = goToTwitter,
+        goToSpotify = goToSpotify,
+        goToAdminLogin = goToAdminLogin,
+        adminLogout = adminLogout,
+      )
+      
+      Spacer(modifier = Modifier.height(if (isAdmin) 80.dp else 16.dp))
+    }
+  }
+}
+
+@Composable
+fun Notifications(notifications: List<Notification>) {
+  Column(Modifier.padding(horizontal = 8.dp)) {
+    Spacer(modifier = Modifier.height(8.dp))
+    H5(
+      modifier = Modifier.padding(horizontal = 8.dp),
+      text = "Notificaciones",
+      color = MaterialTheme.colors.onBackground,
     )
+    Spacer(modifier = Modifier.height(16.dp))
     
-    SocialMedia(
-      isAdmin = isAdmin,
-      goToInstagram = goToInstagram,
-      goToYoutube = goToYoutube,
-      goToFacebook = goToFacebook,
-      goToTwitter = goToTwitter,
-      goToSpotify = goToSpotify,
-      goToAdminLogin = goToAdminLogin,
-      adminLogout = adminLogout,
-    )
-    Spacer(modifier = Modifier.height(if (isAdmin) 80.dp else 16.dp))
+    notifications.forEach {
+      NotificationItem(
+        notification = it,
+        isAdmin = false,
+        height = 160.dp,
+        deleteNotification = {},
+        goToNotificationDetail = {},
+        goToNotificationsAdmin = {},
+      )
+      Spacer(modifier = Modifier.height(12.dp))
+    }
   }
 }
 
@@ -262,12 +311,12 @@ fun HomePreview() {
     HomeContent(
       HomeUiState(
         home = null,
-        homeImages = HomeImages(),
-        carouselItems = emptyList(),
+        categoriesItems = emptyList(),
         sermonItems = emptyList(),
+        notifications = emptyList(),
         loading = true,
-        emptyList(),
       ),
+      refresh = {},
       isAdmin = true,
       onMessageDismiss = {},
       goToEditHome = {},
