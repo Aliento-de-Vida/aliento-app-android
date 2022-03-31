@@ -3,6 +3,7 @@ package com.alientodevida.alientoapp.data.di
 import com.alientodevida.alientoapp.data.notification.NotificationAdminApi
 import com.alientodevida.alientoapp.data.notification.NotificationApi
 import com.alientodevida.alientoapp.data.notification.NotificationRepositoryImpl
+import com.alientodevida.alientoapp.domain.file.FileRepository
 import com.alientodevida.alientoapp.domain.notification.NotificationRepository
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -51,9 +52,11 @@ object NotificationModule {
   fun notificationRepository(
     notificationApi: NotificationApi,
     notificationAdminApi: NotificationAdminApi,
+    fileRepository: FileRepository,
   ): NotificationRepository = NotificationRepositoryImpl(
     notificationApi,
     notificationAdminApi,
+    fileRepository,
   )
   
 }

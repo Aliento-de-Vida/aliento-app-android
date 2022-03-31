@@ -1,15 +1,15 @@
 package com.alientodevida.alientoapp.app.features.notifications.editcreate
 
-import com.alientodevida.alientoapp.domain.common.Image
+import com.alientodevida.alientoapp.app.compose.components.AttachmentModel
 
 data class NotificationRequest(
   val id: Int,
   val title: String,
   val content: String,
-  val image: Image? = null,
+  val imageName: String,
   val date: String,
-  val attachment: Attachment? = null,
+  val attachment: AttachmentModel? = null,
 ) {
-  val isComplete: Boolean = title.isBlank().not() && content.isBlank().not()
+  val isComplete: Boolean = title.isBlank().not() && content.isBlank().not() && imageName.isNotBlank()
   val isNew: Boolean get() = id == 0
 }

@@ -1,17 +1,16 @@
 package com.alientodevida.alientoapp.data.notification
 
+import com.alientodevida.alientoapp.domain.extensions.addTimeStamp
+import com.alientodevida.alientoapp.domain.file.FileRepository
+import com.alientodevida.alientoapp.domain.notification.Attachment
 import com.alientodevida.alientoapp.domain.notification.Notification
 import com.alientodevida.alientoapp.domain.notification.NotificationRepository
 import com.alientodevida.alientoapp.domain.notification.NotificationRequest
-import com.alientodevida.alientoapp.domain.preferences.Preferences
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 
 class NotificationRepositoryImpl(
   private val api: NotificationApi,
   private val adminApi: NotificationAdminApi,
+  private val fileRepository: FileRepository,
 ) : NotificationRepository {
   
   override suspend fun getNotifications() = api.getNotifications()
@@ -19,9 +18,9 @@ class NotificationRepositoryImpl(
   override suspend fun deleteNotification(id: Int) = adminApi.deleteNotification(id)
   
   override suspend fun editNotification(notification: NotificationRequest): Notification {
-    val imageName = notification.image?.name ?: ""
-    notification.image?.let {
-      uploadImage(notification, imageName)
+    val imageName = if (notification.attachment != null) "notification".addTimeStamp() else notification.imageName
+    notification.attachment?.let {
+      fileRepository.uploadImage(Attachment(imageName, it.filePath))
     }
     return adminApi.editNotification(
       id = notification.id,
@@ -32,9 +31,9 @@ class NotificationRepositoryImpl(
   }
   
   override suspend fun createNotification(notification: NotificationRequest): Notification {
-    val imageName = notification.image?.name ?: ""
-    notification.image?.let {
-      uploadImage(notification, imageName)
+    val imageName = if (notification.attachment != null) "notification".addTimeStamp() else notification.imageName
+    notification.attachment?.let {
+      fileRepository.uploadImage(Attachment(imageName, it.filePath))
     }
   
     return adminApi.createNotification(
@@ -44,19 +43,4 @@ class NotificationRepositoryImpl(
     )
   }
 
-  private suspend fun uploadImage(
-    notification: NotificationRequest,
-    imageName: String
-  ) {
-    notification.attachment?.let {
-      val file = File(it.filePath)
-      val filePart = MultipartBody.Part.createFormData(
-        imageName,
-        file.name,
-        file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-      )
-      adminApi.uploadImage(filePart = filePart)
-    }
-  }
-  
 }
