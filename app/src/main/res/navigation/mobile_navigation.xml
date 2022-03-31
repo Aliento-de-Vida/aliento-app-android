@@ -76,6 +76,9 @@
     <action
       android:id="@+id/action_fragment_home_to_editHomeFragment"
       app:destination="@id/fragment_edit_home" />
+    <action
+      android:id="@+id/action_fragment_home_to_notificationDetailFragment"
+      app:destination="@id/dialog_notification_detail" />
   </fragment>
 
   <fragment
@@ -160,5 +163,14 @@
       android:name="home"
       app:argType="com.alientodevida.alientoapp.domain.home.Home" />
   </fragment>
+  <dialog
+    android:id="@+id/dialog_notification_detail"
+    android:name="com.alientodevida.alientoapp.app.features.notifications.detail.NotificationDetailFragment"
+    android:label="NotificationDetailFragment"
+    tools:layout="@layout/fragment_notifications" >
+    <argument
+      android:name="notification"
+      app:argType="com.alientodevida.alientoapp.domain.notification.Notification" />
+  </dialog>
 
 </navigation>

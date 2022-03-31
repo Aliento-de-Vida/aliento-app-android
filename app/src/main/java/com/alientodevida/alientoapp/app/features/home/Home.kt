@@ -43,6 +43,7 @@ fun Home(
   viewModel: HomeViewModel,
   goToEditHome: () -> Unit,
   goToNotifications: () -> Unit,
+  goToNotificationDetail: (Notification) -> Unit,
   goToSettings: () -> Unit,
   goToSermons: () -> Unit,
   goToChurch: () -> Unit,
@@ -69,6 +70,7 @@ fun Home(
     onMessageDismiss = viewModel::onMessageDismiss,
     goToEditHome = goToEditHome,
     goToNotifications = goToNotifications,
+    goToNotificationDetail = goToNotificationDetail,
     goToSettings = goToSettings,
     goToSermons = goToSermons,
     goToChurch = goToChurch,
@@ -96,6 +98,7 @@ fun HomeContent(
   onMessageDismiss: (Long) -> Unit,
   goToEditHome: () -> Unit,
   goToNotifications: () -> Unit,
+  goToNotificationDetail: (Notification) -> Unit,
   goToSettings: () -> Unit,
   goToSermons: () -> Unit,
   goToChurch: () -> Unit,
@@ -142,6 +145,7 @@ fun HomeContent(
         uiState = uiState,
         isAdmin = isAdmin,
         refresh = refresh,
+        goToNotificationDetail = goToNotificationDetail,
         goToSermons = goToSermons,
         goToChurch = goToChurch,
         goToCampus = goToCampus,
@@ -212,6 +216,7 @@ fun HomeBody(
   uiState: HomeUiState,
   isAdmin: Boolean,
   refresh: () -> Unit,
+  goToNotificationDetail: (Notification) -> Unit,
   goToSermons: () -> Unit,
   goToChurch: () -> Unit,
   goToCampus: () -> Unit,
@@ -261,7 +266,10 @@ fun HomeBody(
         goToEbook = goToEbook,
       )
     
-      Notifications(uiState.notifications)
+      Notifications(
+        uiState.notifications,
+        goToNotificationDetail,
+      )
       
       SocialMedia(
         isAdmin = isAdmin,
@@ -280,7 +288,10 @@ fun HomeBody(
 }
 
 @Composable
-fun Notifications(notifications: List<Notification>) {
+fun Notifications(
+  notifications: List<Notification>,
+  goToNotificationDetail: (Notification) -> Unit,
+) {
   Column(Modifier.padding(horizontal = 8.dp)) {
     Spacer(modifier = Modifier.height(8.dp))
     H5(
@@ -296,7 +307,7 @@ fun Notifications(notifications: List<Notification>) {
         isAdmin = false,
         height = 160.dp,
         deleteNotification = {},
-        goToNotificationDetail = {},
+        goToNotificationDetail = goToNotificationDetail,
         goToNotificationsAdmin = {},
       )
       Spacer(modifier = Modifier.height(12.dp))
@@ -321,6 +332,7 @@ fun HomePreview() {
       onMessageDismiss = {},
       goToEditHome = {},
       goToNotifications = {},
+      goToNotificationDetail = {},
       goToSettings = {},
       goToSermons = {},
       goToChurch = {},
