@@ -26,8 +26,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.Attachment
 import com.alientodevida.alientoapp.app.compose.components.AttachmentModel
+import com.alientodevida.alientoapp.app.compose.components.Attachments
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
@@ -49,7 +49,8 @@ fun EditNotification(
     onMessageDismiss = viewModel::onMessageDismiss,
     onNotificationTitleChanged = viewModel::onNotificationTitleChanged,
     onNotificationDescriptionChanged = viewModel::onNotificationDescriptionChanged,
-    onNotificationImageChanged = viewModel::onNotificationImageChanged,
+    addAttachment = viewModel::addAttachment,
+    removeAttachment = viewModel::removeAttachment,
     saveNotification = viewModel::saveNotification,
     onBackPressed = onBackPressed,
   )
@@ -62,7 +63,8 @@ fun EditNotificationContent(
   onMessageDismiss: (Long) -> Unit,
   onNotificationTitleChanged: (String) -> Unit,
   onNotificationDescriptionChanged: (String) -> Unit,
-  onNotificationImageChanged: (AttachmentModel) -> Unit,
+  addAttachment: (AttachmentModel) -> Unit,
+  removeAttachment: (AttachmentModel) -> Unit,
   saveNotification: (NotificationRequest) -> Unit,
   onBackPressed: () -> Unit,
 ) {
@@ -93,7 +95,8 @@ fun EditNotificationContent(
         notification = uiState.notificationRequest,
         onNotificationTitleChanged = onNotificationTitleChanged,
         onNotificationDescriptionChanged = onNotificationDescriptionChanged,
-        onNotificationImageChanged = onNotificationImageChanged,
+        addAttachment = addAttachment,
+        removeAttachment = removeAttachment,
       )
       
       if (uiState.loading) LoadingIndicator()
@@ -149,13 +152,16 @@ fun NotificationsBody(
   notification: NotificationRequest,
   onNotificationTitleChanged: (String) -> Unit,
   onNotificationDescriptionChanged: (String) -> Unit,
-  onNotificationImageChanged: (AttachmentModel) -> Unit,
+  addAttachment: (AttachmentModel) -> Unit,
+  removeAttachment: (AttachmentModel) -> Unit,
 ) {
   Column(
     Modifier
       .fillMaxWidth()
       .padding(horizontal = 16.dp)
   ) {
+    val onSurfaceAlpha = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
+  
     Spacer(modifier = Modifier.height(16.dp))
     H5(
       modifier = Modifier.padding(horizontal = 8.dp),
@@ -170,6 +176,8 @@ fun NotificationsBody(
       onChanged = onNotificationTitleChanged,
       placeholder = "Título",
       placeholderColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+      label = "Título",
+      labelColor = onSurfaceAlpha,
     )
   
     Spacer(modifier = Modifier.height(16.dp))
@@ -179,10 +187,17 @@ fun NotificationsBody(
       onChanged = onNotificationDescriptionChanged,
       placeholder = "Descripción",
       placeholderColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+      label = "Descripción",
+      labelColor = onSurfaceAlpha,
     )
     
     Spacer(modifier = Modifier.height(16.dp))
-    Attachment(notification.attachment, onNotificationImageChanged)
+    Attachments(
+      limit = 1,
+      attachments = if (notification.attachment != null) listOf(notification.attachment) else emptyList(),
+      addAttachment = addAttachment,
+      removeAttachment = removeAttachment,
+    )
   }
 }
 
@@ -205,7 +220,8 @@ fun NotificationsPreview() {
       onMessageDismiss = { },
       onNotificationTitleChanged = {},
       onNotificationDescriptionChanged = {},
-      onNotificationImageChanged = {},
+      addAttachment = {},
+      removeAttachment = {},
       saveNotification = {},
       onBackPressed = {},
     )

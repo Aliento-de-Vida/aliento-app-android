@@ -21,14 +21,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.io.FileInputStream
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.nio.file.StandardCopyOption
 import java.util.*
 import javax.inject.Inject
-import kotlin.io.path.absolutePathString
-import com.alientodevida.alientoapp.domain.notification.Attachment as DomainAttachment
+import com.alientodevida.alientoapp.domain.common.Attachment as DomainAttachment
 import com.alientodevida.alientoapp.domain.notification.NotificationRequest as DomainNotificationRequest
 
 data class NotificationUiState(
@@ -105,11 +100,20 @@ class EditCreateNotificationViewModel @Inject constructor(
     ) }
   }
   
-  fun onNotificationImageChanged(newAttachment: AttachmentModel) {
+  fun addAttachment(newAttachment: AttachmentModel) {
     _viewModelState.update { it.copy(
       notificationRequest = it.notificationRequest.copy(
         attachment = newAttachment,
         imageName = newAttachment.displayName,
+      )
+    ) }
+  }
+  
+  fun removeAttachment(newAttachment: AttachmentModel) {
+    _viewModelState.update { it.copy(
+      notificationRequest = it.notificationRequest.copy(
+        attachment = null,
+        imageName = "",
       )
     ) }
   }
