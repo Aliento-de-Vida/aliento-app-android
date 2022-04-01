@@ -27,8 +27,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.Attachment
 import com.alientodevida.alientoapp.app.compose.components.AttachmentModel
+import com.alientodevida.alientoapp.app.compose.components.Attachments
 import com.alientodevida.alientoapp.app.compose.components.Body1
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.H5
@@ -48,13 +48,20 @@ fun EditHome(
   EditHomeContent(
     uiState = viewModelState,
     onMessageDismiss = viewModel::onMessageDismiss,
-    onSermonsImageChanged = viewModel::onSermonsImageChanged,
-    onChurchImageChanged = viewModel::onChurchImageChanged,
-    onCampusImageChanged = viewModel::onCampusImageChanged,
-    onGalleriesImageChanged = viewModel::onGalleriesImageChanged,
-    onDonationsImageChanged = viewModel::onDonationsImageChanged,
-    onPrayerImageChanged = viewModel::onPrayerImageChanged,
-    onEbookImageChanged = viewModel::onEbookImageChanged,
+    addSermonsImage = viewModel::addSermonsImage,
+    removeSermonsImage = viewModel::removeSermonsImage,
+    addChurchImage = viewModel::addChurchImage,
+    removeChurchImage = viewModel::removeChurchImage,
+    addCampusImage = viewModel::addCampusImage,
+    removeCampusImage = viewModel::removeCampusImage,
+    addGalleriesImage = viewModel::addGalleriesImage,
+    removeGalleriesImage = viewModel::removeGalleriesImage,
+    addDonationsImage = viewModel::addDonationsImage,
+    removeDonationsImage = viewModel::removeDonationsImage,
+    addPrayerImage = viewModel::addPrayerImage,
+    removePrayerImage = viewModel::removePrayerImage,
+    addEbookImage = viewModel::addEbookImage,
+    removeEbookImage = viewModel::removeEbookImage,
     onEbookChanged = viewModel::onEbookChanged,
     onYoutubePlaylistIdChanged = viewModel::onYoutubePlaylistIdChanged,
     onYoutubeChannelIdChanged = viewModel::onYoutubeChannelIdChanged,
@@ -77,13 +84,20 @@ fun EditHomeContent(
   uiState: HomeUiState,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   onMessageDismiss: (Long) -> Unit,
-  onSermonsImageChanged: (AttachmentModel?) -> Unit,
-  onChurchImageChanged: (AttachmentModel?) -> Unit,
-  onCampusImageChanged: (AttachmentModel?) -> Unit,
-  onGalleriesImageChanged: (AttachmentModel?) -> Unit,
-  onDonationsImageChanged: (AttachmentModel?) -> Unit,
-  onPrayerImageChanged: (AttachmentModel?) -> Unit,
-  onEbookImageChanged: (AttachmentModel?) -> Unit,
+  addSermonsImage: (AttachmentModel) -> Unit,
+  removeSermonsImage: (AttachmentModel) -> Unit,
+  addChurchImage: (AttachmentModel) -> Unit,
+  removeChurchImage: (AttachmentModel) -> Unit,
+  addCampusImage: (AttachmentModel) -> Unit,
+  removeCampusImage: (AttachmentModel) -> Unit,
+  addGalleriesImage: (AttachmentModel) -> Unit,
+  removeGalleriesImage: (AttachmentModel) -> Unit,
+  addDonationsImage: (AttachmentModel) -> Unit,
+  removeDonationsImage: (AttachmentModel) -> Unit,
+  addPrayerImage: (AttachmentModel) -> Unit,
+  removePrayerImage: (AttachmentModel) -> Unit,
+  addEbookImage: (AttachmentModel) -> Unit,
+  removeEbookImage: (AttachmentModel) -> Unit,
   onEbookChanged: (String) -> Unit,
   onYoutubePlaylistIdChanged: (String) -> Unit,
   onYoutubeChannelIdChanged: (String) -> Unit,
@@ -125,13 +139,20 @@ fun EditHomeContent(
       EditHomeBody(
         home = uiState.home,
         images = uiState.images,
-        onSermonsImageChanged = onSermonsImageChanged,
-        onChurchImageChanged = onChurchImageChanged,
-        onCampusImageChanged = onCampusImageChanged,
-        onGalleriesImageChanged = onGalleriesImageChanged,
-        onDonationsImageChanged = onDonationsImageChanged,
-        onPrayerImageChanged = onPrayerImageChanged,
-        onEbookImageChanged = onEbookImageChanged,
+        addSermonsImage = addSermonsImage,
+        removeSermonsImage = removeSermonsImage,
+        addChurchImage = addChurchImage,
+        removeChurchImage = removeChurchImage,
+        addCampusImage = addCampusImage,
+        removeCampusImage = removeCampusImage,
+        addGalleriesImage = addGalleriesImage,
+        removeGalleriesImage = removeGalleriesImage,
+        addDonationsImage = addDonationsImage,
+        removeDonationsImage = removeDonationsImage,
+        addPrayerImage = addPrayerImage,
+        removePrayerImage = removePrayerImage,
+        addEbookImage = addEbookImage,
+        removeEbookImage = removeEbookImage,
         onEbookChanged = onEbookChanged,
         onYoutubePlaylistIdChanged = onYoutubePlaylistIdChanged,
         onYoutubeChannelIdChanged = onYoutubeChannelIdChanged,
@@ -198,13 +219,20 @@ fun TopAppBar(
 fun EditHomeBody(
   home: Home,
   images: HomeImages,
-  onSermonsImageChanged: (AttachmentModel?) -> Unit,
-  onChurchImageChanged: (AttachmentModel?) -> Unit,
-  onCampusImageChanged: (AttachmentModel?) -> Unit,
-  onGalleriesImageChanged: (AttachmentModel?) -> Unit,
-  onDonationsImageChanged: (AttachmentModel?) -> Unit,
-  onPrayerImageChanged: (AttachmentModel?) -> Unit,
-  onEbookImageChanged: (AttachmentModel?) -> Unit,
+  addSermonsImage: (AttachmentModel) -> Unit,
+  removeSermonsImage: (AttachmentModel) -> Unit,
+  addChurchImage: (AttachmentModel) -> Unit,
+  removeChurchImage: (AttachmentModel) -> Unit,
+  addCampusImage: (AttachmentModel) -> Unit,
+  removeCampusImage: (AttachmentModel) -> Unit,
+  addGalleriesImage: (AttachmentModel) -> Unit,
+  removeGalleriesImage: (AttachmentModel) -> Unit,
+  addDonationsImage: (AttachmentModel) -> Unit,
+  removeDonationsImage: (AttachmentModel) -> Unit,
+  addPrayerImage: (AttachmentModel) -> Unit,
+  removePrayerImage: (AttachmentModel) -> Unit,
+  addEbookImage: (AttachmentModel) -> Unit,
+  removeEbookImage: (AttachmentModel) -> Unit,
   onEbookChanged: (String) -> Unit,
   onYoutubePlaylistIdChanged: (String) -> Unit,
   onYoutubeChannelIdChanged: (String) -> Unit,
@@ -227,14 +255,21 @@ fun EditHomeBody(
       .padding(horizontal = 16.dp)
   ) {
     EditImages(
-      images,
-      onSermonsImageChanged,
-      onChurchImageChanged,
-      onCampusImageChanged,
-      onGalleriesImageChanged,
-      onDonationsImageChanged,
-      onPrayerImageChanged,
-      onEbookImageChanged,
+      images = images,
+      addSermonsImage = addSermonsImage,
+      removeSermonsImage = removeSermonsImage,
+      addChurchImage = addChurchImage,
+      removeChurchImage = removeChurchImage,
+      addCampusImage = addCampusImage,
+      removeCampusImage = removeCampusImage,
+      addGalleriesImage = addGalleriesImage,
+      removeGalleriesImage = removeGalleriesImage,
+      addDonationsImage = addDonationsImage,
+      removeDonationsImage = removeDonationsImage,
+      addPrayerImage = addPrayerImage,
+      removePrayerImage = removePrayerImage,
+      addEbookImage = addEbookImage,
+      removeEbookImage = removeEbookImage,
     )
     
     EditHome(
@@ -258,13 +293,20 @@ fun EditHomeBody(
 @Composable
 private fun EditImages(
   images: HomeImages,
-  onSermonsImageChanged: (AttachmentModel?) -> Unit,
-  onChurchImageChanged: (AttachmentModel?) -> Unit,
-  onCampusImageChanged: (AttachmentModel?) -> Unit,
-  onGalleriesImageChanged: (AttachmentModel?) -> Unit,
-  onDonationsImageChanged: (AttachmentModel?) -> Unit,
-  onPrayerImageChanged: (AttachmentModel?) -> Unit,
-  onEbookImageChanged: (AttachmentModel?) -> Unit,
+  addSermonsImage: (AttachmentModel) -> Unit,
+  removeSermonsImage: (AttachmentModel) -> Unit,
+  addChurchImage: (AttachmentModel) -> Unit,
+  removeChurchImage: (AttachmentModel) -> Unit,
+  addCampusImage: (AttachmentModel) -> Unit,
+  removeCampusImage: (AttachmentModel) -> Unit,
+  addGalleriesImage: (AttachmentModel) -> Unit,
+  removeGalleriesImage: (AttachmentModel) -> Unit,
+  addDonationsImage: (AttachmentModel) -> Unit,
+  removeDonationsImage: (AttachmentModel) -> Unit,
+  addPrayerImage: (AttachmentModel) -> Unit,
+  removePrayerImage: (AttachmentModel) -> Unit,
+  addEbookImage: (AttachmentModel) -> Unit,
+  removeEbookImage: (AttachmentModel) -> Unit,
 ) {
   Column(Modifier.fillMaxWidth()) {
     Spacer(modifier = Modifier.height(16.dp))
@@ -282,67 +324,102 @@ private fun EditImages(
     )
     
     Spacer(modifier = Modifier.height(8.dp))
-    Attachment(attachment = images.sermonsImage, onImageChanged = onSermonsImageChanged)
-  
+    Attachments(
+      limit = 1,
+      attachments = if (images.sermonsImage != null) listOf(images.sermonsImage) else emptyList(),
+      addAttachment = addSermonsImage,
+      removeAttachment = removeSermonsImage,
+    )
+    
     Spacer(modifier = Modifier.height(16.dp))
     Body1(
       modifier = Modifier.padding(horizontal = 8.dp),
       text = "Nosotros",
       color = MaterialTheme.colors.onBackground,
     )
-  
+    
     Spacer(modifier = Modifier.height(8.dp))
-    Attachment(attachment = images.churchImage, onImageChanged = onChurchImageChanged)
-  
+    Attachments(
+      limit = 1,
+      attachments = if (images.churchImage != null) listOf(images.churchImage) else emptyList(),
+      addAttachment = addChurchImage,
+      removeAttachment = removeChurchImage,
+    )
+    
     Spacer(modifier = Modifier.height(16.dp))
     Body1(
       modifier = Modifier.padding(horizontal = 8.dp),
       text = "Campus",
       color = MaterialTheme.colors.onBackground,
     )
-  
+    
     Spacer(modifier = Modifier.height(8.dp))
-    Attachment(attachment = images.campusImage, onImageChanged = onCampusImageChanged)
-  
+    Attachments(
+      limit = 1,
+      attachments = if (images.campusImage != null) listOf(images.campusImage) else emptyList(),
+      addAttachment = addCampusImage,
+      removeAttachment = removeCampusImage,
+    )
+    
     Spacer(modifier = Modifier.height(16.dp))
     Body1(
       modifier = Modifier.padding(horizontal = 8.dp),
       text = "Galerías",
       color = MaterialTheme.colors.onBackground,
     )
-  
+    
     Spacer(modifier = Modifier.height(8.dp))
-    Attachment(attachment = images.galleriesImage, onImageChanged = onGalleriesImageChanged)
-  
+    Attachments(
+      limit = 1,
+      attachments = if (images.galleriesImage != null) listOf(images.galleriesImage) else emptyList(),
+      addAttachment = addGalleriesImage,
+      removeAttachment = removeGalleriesImage,
+    )
+    
     Spacer(modifier = Modifier.height(16.dp))
     Body1(
       modifier = Modifier.padding(horizontal = 8.dp),
       text = "Donaciones",
       color = MaterialTheme.colors.onBackground,
     )
-  
+    
     Spacer(modifier = Modifier.height(8.dp))
-    Attachment(attachment = images.donationsImage, onImageChanged = onDonationsImageChanged)
-  
+    Attachments(
+      limit = 1,
+      attachments = if (images.donationsImage != null) listOf(images.donationsImage) else emptyList(),
+      addAttachment = addDonationsImage,
+      removeAttachment = removeDonationsImage,
+    )
+    
     Spacer(modifier = Modifier.height(16.dp))
     Body1(
       modifier = Modifier.padding(horizontal = 8.dp),
       text = "Oración",
       color = MaterialTheme.colors.onBackground,
     )
-  
+    
     Spacer(modifier = Modifier.height(8.dp))
-    Attachment(attachment = images.prayerImage, onImageChanged = onPrayerImageChanged)
-  
+    Attachments(
+      limit = 1,
+      attachments = if (images.prayerImage != null) listOf(images.prayerImage) else emptyList(),
+      addAttachment = addPrayerImage,
+      removeAttachment = removePrayerImage,
+    )
+    
     Spacer(modifier = Modifier.height(16.dp))
     Body1(
       modifier = Modifier.padding(horizontal = 8.dp),
       text = "Ebook",
       color = MaterialTheme.colors.onBackground,
     )
-  
+    
     Spacer(modifier = Modifier.height(8.dp))
-    Attachment(attachment = images.ebookImage, onImageChanged = onEbookImageChanged)
+    Attachments(
+      limit = 1,
+      attachments = if (images.ebookImage != null) listOf(images.ebookImage) else emptyList(),
+      addAttachment = addEbookImage,
+      removeAttachment = removeEbookImage,
+    )
   }
 }
 

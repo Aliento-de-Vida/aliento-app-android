@@ -16,7 +16,7 @@ import com.alientodevida.alientoapp.domain.file.FileRepository
 import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.home.HomeRepository
 import com.alientodevida.alientoapp.domain.logger.Logger
-import com.alientodevida.alientoapp.domain.notification.Attachment
+import com.alientodevida.alientoapp.domain.common.Attachment
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
@@ -77,32 +77,60 @@ class EditHomeViewModel @Inject constructor(
   val viewModelState: StateFlow<HomeUiState> = _viewModelState
   
   // Images
-  fun onSermonsImageChanged(newImage: AttachmentModel?) {
+  fun addSermonsImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(sermonsImage = newImage)) }
   }
 
-  fun onChurchImageChanged(newImage: AttachmentModel?) {
+  fun removeSermonsImage(newImage: AttachmentModel) {
+    _viewModelState.update { it.copy(images = it.images.copy(sermonsImage = null)) }
+  }
+
+  fun addChurchImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(churchImage = newImage)) }
   }
 
-  fun onCampusImageChanged(newImage: AttachmentModel?) {
+  fun removeChurchImage(newImage: AttachmentModel) {
+    _viewModelState.update { it.copy(images = it.images.copy(churchImage = null)) }
+  }
+
+  fun addCampusImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(campusImage = newImage)) }
   }
 
-  fun onGalleriesImageChanged(newImage: AttachmentModel?) {
+  fun removeCampusImage(newImage: AttachmentModel) {
+    _viewModelState.update { it.copy(images = it.images.copy(campusImage = null)) }
+  }
+
+  fun addGalleriesImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(galleriesImage = newImage)) }
   }
+
+  fun removeGalleriesImage(newImage: AttachmentModel) {
+    _viewModelState.update { it.copy(images = it.images.copy(galleriesImage = null)) }
+  }
   
-  fun onDonationsImageChanged(newImage: AttachmentModel?) {
+  fun addDonationsImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(donationsImage = newImage)) }
   }
   
-  fun onPrayerImageChanged(newImage: AttachmentModel?) {
+  fun removeDonationsImage(newImage: AttachmentModel) {
+    _viewModelState.update { it.copy(images = it.images.copy(donationsImage = null)) }
+  }
+  
+  fun addPrayerImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(prayerImage = newImage)) }
   }
+  
+  fun removePrayerImage(newImage: AttachmentModel) {
+    _viewModelState.update { it.copy(images = it.images.copy(prayerImage = null)) }
+  }
 
-  fun onEbookImageChanged(newImage: AttachmentModel?) {
+  fun addEbookImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(ebookImage = newImage)) }
+  }
+
+  fun removeEbookImage(newImage: AttachmentModel) {
+    _viewModelState.update { it.copy(images = it.images.copy(ebookImage = null)) }
   }
   
   // Home

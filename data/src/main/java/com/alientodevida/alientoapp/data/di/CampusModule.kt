@@ -1,8 +1,10 @@
 package com.alientodevida.alientoapp.data.di
 
+import com.alientodevida.alientoapp.data.campus.CampusAdminApi
 import com.alientodevida.alientoapp.data.campus.CampusApi
 import com.alientodevida.alientoapp.data.campus.CampusRepositoryImpl
 import com.alientodevida.alientoapp.domain.campus.CampusRepository
+import com.alientodevida.alientoapp.domain.file.FileRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -33,8 +35,23 @@ object CampusModule {
   
   @Singleton
   @Provides
+  fun campusAdminApi(
+    @Named("AdminAuthClient")
+    okHttpClient: OkHttpClient,
+    json: Json,
+  ): CampusAdminApi = Retrofit.Builder()
+    .client(okHttpClient)
+    .baseUrl("https://todoserver-peter.herokuapp.com")
+    .addConverterFactory(json.asConverterFactory(DataModule.contentType))
+    .build()
+    .create(CampusAdminApi::class.java)
+  
+  @Singleton
+  @Provides
   fun campusRepository(
     campusApi: CampusApi,
-  ): CampusRepository = CampusRepositoryImpl(campusApi)
+    campusAdminApi: CampusAdminApi,
+    fileRepository: FileRepository,
+  ): CampusRepository = CampusRepositoryImpl(campusApi, campusAdminApi, fileRepository)
   
 }

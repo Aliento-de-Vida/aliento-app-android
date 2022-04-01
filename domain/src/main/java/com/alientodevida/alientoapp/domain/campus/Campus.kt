@@ -1,8 +1,11 @@
 package com.alientodevida.alientoapp.domain.campus
 
 import android.os.Parcelable
+import com.alientodevida.alientoapp.domain.extensions.format
+import com.alientodevida.alientoapp.domain.notification.Notification
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
+import java.util.*
 
 @Parcelize
 @Serializable
@@ -11,16 +14,34 @@ data class Campus(
   val name: String,
   val description: String,
   val shortDescription: String,
-  val imageUrl: String?,
+  val imageUrl: String,
   val videoUrl: String?,
   val location: Location,
   val images: List<String>,
   val contact: String,
-) : Parcelable
+) : Parcelable {
+  
+  companion object {
+    fun empty() = Campus(
+      0,
+      "",
+      "",
+      "",
+      "",
+      "",
+      Location("", ""),
+      emptyList(),
+      "",
+    )
+  }
+  
+}
 
 @Parcelize
 @Serializable
 data class Location(
   val latitude: String,
   val longitude: String,
-) : Parcelable
+) : Parcelable {
+  val isValid: Boolean = latitude.isBlank().not() && longitude.isBlank().not()
+}
