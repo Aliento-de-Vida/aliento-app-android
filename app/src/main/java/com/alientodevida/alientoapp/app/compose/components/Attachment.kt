@@ -26,10 +26,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.features.notifications.editcreate.createAttachment
 import com.alientodevida.alientoapp.app.features.notifications.editcreate.parcelFileDescriptor
 import java.io.FileInputStream
@@ -69,6 +67,94 @@ fun AttachmentModel?.getDomainAttachment(context: Context, name: String? = null)
       }
     }
   }
+
+@Composable
+fun AttachmentsWithCurrentImages(
+  attachmentLimit: Int = 5,
+  newAttachmentsTitle: String? = null,
+  currentAttachmentsTitle: String? = null,
+  newAttachments: List<AttachmentModel>,
+  currentAttachments: List<String>,
+  addToNewAttachments: (AttachmentModel) -> Unit,
+  removeFromNewAttachments: (AttachmentModel) -> Unit,
+  removeCurrentAttachment: (String) -> Unit
+) {
+  Spacer(modifier = Modifier.height(16.dp))
+  Attachments(
+    limit = attachmentLimit - currentAttachments.count(),
+    attachmentsTitle = newAttachmentsTitle,
+    attachments = newAttachments,
+    addAttachment = addToNewAttachments,
+    removeAttachment = removeFromNewAttachments,
+  )
+  
+  if (currentAttachments.isNotEmpty()) {
+    Spacer(modifier = Modifier.height(16.dp))
+    CurrentAttachment(
+      currentImagesTitle = currentAttachmentsTitle,
+      images = currentAttachments,
+      removeImage = removeCurrentAttachment,
+    )
+  }
+}
+
+@Composable
+private fun CurrentAttachment(
+  currentImagesTitle: String? = null,
+  images: List<String>,
+  removeImage: (String) -> Unit,
+) {
+  if (images.isNotEmpty()) {
+    Spacer(Modifier.height(8.dp))
+    
+    Column(
+      modifier = Modifier.fillMaxWidth(),
+      verticalArrangement = Arrangement.Top,
+      horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+      currentImagesTitle?.let {
+        Body1(
+          modifier = Modifier.padding(horizontal = 8.dp),
+          text = currentImagesTitle,
+          color = MaterialTheme.colors.onBackground,
+        )
+        Spacer(Modifier.height(8.dp))
+      }
+      
+      images.forEach { imageName ->
+        Row(
+          modifier = Modifier
+            .border(width = 1.dp, color = MaterialTheme.colors.onBackground)
+            .padding(horizontal = 16.dp, vertical = 2.dp)
+            .fillMaxWidth(),
+          horizontalArrangement = Arrangement.Center,
+          verticalAlignment = Alignment.CenterVertically,
+        ) {
+          Icon(
+            icon = R.drawable.ic_attachment_24,
+            contentDescription = "image",
+            tint = MaterialTheme.colors.onSurface,
+          )
+          
+          Spacer(modifier = Modifier.width(8.dp))
+          Body2(
+            modifier = Modifier.weight(1.0f),
+            text = imageName, color = MaterialTheme.colors.onBackground
+          )
+          
+          Spacer(modifier = Modifier.width(8.dp))
+          ClickableIcon(
+            icon = R.drawable.ic_delete_24,
+            contentDescription = "Remove image",
+            tint = MaterialTheme.colors.onSurface,
+          ) { removeImage(imageName) }
+        }
+      }
+    }
+    
+    Spacer(modifier = Modifier.height(16.dp))
+  }
+}
 
 @Composable
 fun Attachments(

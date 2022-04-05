@@ -3,17 +3,13 @@ package com.alientodevida.alientoapp.app.features.campus.editcreate
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.FloatingActionButton
@@ -29,19 +25,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.compose.components.AttachmentModel
 import com.alientodevida.alientoapp.app.compose.components.Attachments
+import com.alientodevida.alientoapp.app.compose.components.AttachmentsWithCurrentImages
 import com.alientodevida.alientoapp.app.compose.components.Body1
-import com.alientodevida.alientoapp.app.compose.components.Body2
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
 import com.alientodevida.alientoapp.app.compose.components.InputField
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
-import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.Dialog
 
 @Composable
@@ -309,91 +303,18 @@ fun EditCreateCampusBody(
       text = "Albums Images",
       color = MaterialTheme.colors.onBackground,
     )
-    
-    Spacer(modifier = Modifier.height(16.dp))
-    Attachments(
-      attachmentsTitle = "New Images",
-      attachments = campus.attachmentList,
-      addAttachment = addAttachmentToList,
-      removeAttachment = removeAttachmentFromList,
+  
+    AttachmentsWithCurrentImages(
+      newAttachmentsTitle = "New Attachments",
+      currentAttachmentsTitle = "Current Images",
+      newAttachments = campus.attachmentList,
+      currentAttachments = campus.images,
+      addToNewAttachments = addAttachmentToList,
+      removeFromNewAttachments = removeAttachmentFromList,
+      removeCurrentAttachment = removeImage
     )
-    
-    Spacer(modifier = Modifier.height(16.dp))
-    CurrentImages(
-      images = campus.images,
-      removeImage = removeImage,
-    )
-
+  
     Spacer(modifier = Modifier.height(80.dp))
-  }
-}
-
-@Composable
-fun CurrentImages(
-  images: List<String>,
-  removeImage: (String) -> Unit,
-) {
-  if (images.isNotEmpty()) {
-    Spacer(Modifier.height(8.dp))
-    
-    Column(
-      modifier = Modifier.fillMaxWidth(),
-      verticalArrangement = Arrangement.Top,
-      horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-      Body1(
-        modifier = Modifier.padding(horizontal = 8.dp),
-        text = "Existing Images",
-        color = MaterialTheme.colors.onBackground,
-      )
-      Spacer(Modifier.height(8.dp))
-  
-      images.forEach { imageName ->
-        Row(
-          modifier = Modifier
-            .border(width = 1.dp, color = MaterialTheme.colors.onBackground)
-            .padding(horizontal = 16.dp, vertical = 2.dp)
-            .fillMaxWidth(),
-          horizontalArrangement = Arrangement.Center,
-          verticalAlignment = Alignment.CenterVertically,
-        ) {
-          Icon(
-            icon = R.drawable.ic_attachment_24,
-            contentDescription = "image",
-            tint = MaterialTheme.colors.onSurface,
-          )
-      
-          Spacer(modifier = Modifier.width(8.dp))
-          Body2(
-            modifier = Modifier.weight(1.0f),
-            text = imageName, color = MaterialTheme.colors.onBackground
-          )
-  
-          Spacer(modifier = Modifier.width(8.dp))
-          ClickableIcon(
-            icon = R.drawable.ic_delete_24,
-            contentDescription = "Remove image",
-            tint = MaterialTheme.colors.onSurface,
-          ) { removeImage(imageName) }
-        }
-      }
-    }
-    
-    Spacer(modifier = Modifier.height(16.dp))
-  }
-}
-
-@Preview
-@Composable
-fun AttachmentsPreview() {
-  AppTheme {
-    CurrentImages(
-      images = listOf(
-        "rfwerewfe rfwerewfe rfwerewfe rfwerewfe",
-        "rfwerewfe",
-      ),
-      removeImage = {},
-    )
   }
 }
 
