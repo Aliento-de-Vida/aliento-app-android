@@ -103,6 +103,7 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
 
     // Architecture components
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"

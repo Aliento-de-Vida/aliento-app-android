@@ -2,9 +2,9 @@ package com.alientodevida.alientoapp.domain.entities.local
 
 data class CarouselItem(
   val title: String,
-  val imageUrl: String?,
-  val categoryItem: CategoryItem?,
-  val youtubeItem: YoutubeItem?,
+  val imageUrl: String? = null,
+  val categoryItem: CategoryItem? = null,
+  val youtubeItem: YoutubeItem? = null,
 )
 
 data class CategoryItem(
