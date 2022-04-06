@@ -1,6 +1,6 @@
 package com.alientodevida.alientoapp.app.features.campus.editcreate
 
-import com.alientodevida.alientoapp.app.compose.components.AttachmentModel
+import com.alientodevida.alientoapp.app.compose.components.attachment.AttachmentModel
 import com.alientodevida.alientoapp.domain.campus.Location
 
 data class CampusRequest(

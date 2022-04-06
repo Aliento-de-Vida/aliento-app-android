@@ -21,9 +21,9 @@ import java.util.*
 import javax.inject.Inject
 
 data class NotificationsUiState(
-  val notifications: List<Notification>,
-  val loading: Boolean,
-  val messages: List<Message>,
+  val notifications: List<Notification> = emptyList(),
+  val loading: Boolean = true,
+  val messages: List<Message> = emptyList(),
 )
 
 @HiltViewModel
@@ -46,13 +46,7 @@ class NotificationsViewModel @Inject constructor(
   
   val isAdmin = preferences.isAdminFlow
   
-  private val _viewModelState = MutableStateFlow(
-    NotificationsUiState(
-      notifications = emptyList(),
-      loading = true,
-      messages = emptyList(),
-    )
-  )
+  private val _viewModelState = MutableStateFlow(NotificationsUiState())
   val viewModelState: StateFlow<NotificationsUiState> = _viewModelState
   
   fun onMessageDismiss(id: Long) {
