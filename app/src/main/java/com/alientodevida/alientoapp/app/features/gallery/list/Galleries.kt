@@ -24,6 +24,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -52,6 +53,8 @@ import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.gallery.Gallery
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun Galleries(
@@ -61,6 +64,9 @@ fun Galleries(
   goToEditGallery: (Gallery) -> Unit,
   goToCreateGallery: () -> Unit,
 ) {
+  LaunchedEffect(true) {
+    viewModel.getGalleries()
+  }
   
   val viewModelState by viewModel.viewModelState.collectAsState()
   val isAdmin by viewModel.isAdmin.collectAsState(false)
@@ -68,6 +74,7 @@ fun Galleries(
   GalleriesContent(
     uiState = viewModelState,
     isAdmin = isAdmin,
+    refresh = viewModel::getGalleries,
     onMessageDismiss = viewModel::onMessageDismiss,
     deleteGallery = viewModel::deleteGallery,
     onBackPressed = onBackPressed,
@@ -82,6 +89,7 @@ fun GalleriesContent(
   uiState: GalleriesUiState,
   isAdmin: Boolean,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
+  refresh: () -> Unit,
   onMessageDismiss: (Long) -> Unit,
   deleteGallery: (Gallery) -> Unit,
   onBackPressed: () -> Unit,
@@ -114,6 +122,8 @@ fun GalleriesContent(
     ) {
       GalleriesBody(
         galleries = uiState.galleries,
+        loading = uiState.loading,
+        refresh = refresh,
         deleteGallery = deleteGallery,
         goToGallery = goToGallery,
         goToEditGallery = goToEditGallery,
@@ -167,32 +177,39 @@ fun TopAppBar(
 fun GalleriesBody(
   galleries: List<Gallery>,
   isAdmin: Boolean,
+  loading: Boolean,
+  refresh: () -> Unit,
   goToGallery: (Gallery) -> Unit,
   goToEditGallery: (Gallery) -> Unit,
   deleteGallery: (Gallery) -> Unit,
 ) {
-  Column(Modifier.padding(horizontal = 8.dp)) {
-    Spacer(modifier = Modifier.height(8.dp))
-    H5(
-      modifier = Modifier.padding(horizontal = 8.dp),
-      text = "Galerías",
-      color = MaterialTheme.colors.onBackground,
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-    LazyColumn(
-      contentPadding = PaddingValues(bottom = 16.dp),
-      verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-      items(galleries, key = { it.id }) { gallery ->
-        GalleryItem(
-          modifier = Modifier.animateItemPlacement(),
-          Gallery = gallery,
-          isAdmin = isAdmin,
-          height = 180.dp,
-          deleteGallery = deleteGallery,
-          goToGallery = goToGallery,
-          goToEditGallery = goToEditGallery,
-        )
+  SwipeRefresh(
+    state = rememberSwipeRefreshState(loading),
+    onRefresh = refresh,
+  ) {
+    Column(Modifier.padding(horizontal = 8.dp)) {
+      Spacer(modifier = Modifier.height(8.dp))
+      H5(
+        modifier = Modifier.padding(horizontal = 8.dp),
+        text = "Galerías",
+        color = MaterialTheme.colors.onBackground,
+      )
+      Spacer(modifier = Modifier.height(16.dp))
+      LazyColumn(
+        contentPadding = PaddingValues(bottom = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+      ) {
+        items(galleries, key = { it.id }) { gallery ->
+          GalleryItem(
+            modifier = Modifier.animateItemPlacement(),
+            Gallery = gallery,
+            isAdmin = isAdmin,
+            height = 180.dp,
+            deleteGallery = deleteGallery,
+            goToGallery = goToGallery,
+            goToEditGallery = goToEditGallery,
+          )
+        }
       }
     }
   }
@@ -299,6 +316,7 @@ fun NotificationsPreview() {
         emptyList(),
       ),
       isAdmin = true,
+      refresh = {},
       onMessageDismiss = {},
       onBackPressed = {},
       deleteGallery = {},
