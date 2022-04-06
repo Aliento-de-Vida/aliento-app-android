@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.features.gallery
+package com.alientodevida.alientoapp.app.features.gallery.detail
 
 import android.widget.ImageView
 import androidx.databinding.ViewDataBinding

@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.features.campus.editcreate
+package com.alientodevida.alientoapp.app.features.gallery.editcreate
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -39,50 +39,38 @@ import com.alientodevida.alientoapp.app.compose.components.attachment.Attachment
 import com.alientodevida.alientoapp.app.extensions.Dialog
 
 @Composable
-fun EditCreateCampus(
-  viewModel: EditCreateNotificationViewModel,
+fun EditCreateGallery(
+  viewModel: EditCreateGalleryViewModel,
   onBackPressed: () -> Unit,
 ) {
   val viewModelState by viewModel.viewModelState.collectAsState()
   
-  EditCreateCampusContent(
+  EditCreateGalleryContent(
     uiState = viewModelState,
     onMessageDismiss = viewModel::onMessageDismiss,
     onNameChanged = viewModel::onNameChanged,
-    onDescriptionChanged = viewModel::onDescriptionChanged,
-    onShortDescriptionChanged = viewModel::onShortDescriptionChanged,
-    onLatitudeChanged = viewModel::onLatitudeChanged,
-    onLongitudeChanged = viewModel::onLongitudeChanged,
-    onContactChanged = viewModel::onContactChanged,
-    onVideoUrlChanged = viewModel::onVideoUrlChanged,
     addCoverAttachment = viewModel::addCoverAttachment,
     removeCoverAttachment = viewModel::removeCoverAttachment,
     addAttachmentToList = viewModel::addAttachmentToList,
     removeAttachmentFromList = viewModel::removeAttachmentFromList,
     removeImage = viewModel::removeImage,
-    saveCampus = viewModel::saveCampus,
+    saveGallery = viewModel::saveGallery,
     onBackPressed = onBackPressed,
   )
 }
 
 @Composable
-fun EditCreateCampusContent(
-  uiState: CampusUiState,
+fun EditCreateGalleryContent(
+  uiState: GalleryUiState,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   onMessageDismiss: (Long) -> Unit,
   onNameChanged: (String) -> Unit,
-  onDescriptionChanged: (String) -> Unit,
-  onShortDescriptionChanged: (String) -> Unit,
-  onLatitudeChanged: (String) -> Unit,
-  onLongitudeChanged: (String) -> Unit,
-  onContactChanged: (String) -> Unit,
-  onVideoUrlChanged: (String) -> Unit,
   addCoverAttachment: (AttachmentModel) -> Unit,
   removeCoverAttachment: (AttachmentModel) -> Unit,
   addAttachmentToList: (AttachmentModel) -> Unit,
   removeAttachmentFromList: (AttachmentModel) -> Unit,
   removeImage: (String) -> Unit,
-  saveCampus: (CampusRequest) -> Unit,
+  saveGallery: (GalleryRequest) -> Unit,
   onBackPressed: () -> Unit,
 ) {
   Scaffold(
@@ -91,13 +79,13 @@ fun EditCreateCampusContent(
       TopAppBar(onBackPressed = onBackPressed)
     },
     floatingActionButton = {
-      if (uiState.campusRequest.isComplete) FloatingActionButton(
-        onClick = { saveCampus(uiState.campusRequest) },
+      if (uiState.galleryRequest.isComplete) FloatingActionButton(
+        onClick = { saveGallery(uiState.galleryRequest) },
         contentColor = MaterialTheme.colors.surface,
       ) {
         Icon(
           icon = R.drawable.ic_send_24,
-          contentDescription = "Create Campus",
+          contentDescription = "Create Gallery",
           tint = MaterialTheme.colors.onSurface
         )
       }
@@ -108,15 +96,9 @@ fun EditCreateCampusContent(
         .padding(paddingValues = paddingValues)
         .background(color = MaterialTheme.colors.background),
     ) {
-      EditCreateCampusBody(
-        campus = uiState.campusRequest,
+      EditCreateGalleryBody(
+        campus = uiState.galleryRequest,
         onNameChanged = onNameChanged,
-        onDescriptionChanged = onDescriptionChanged,
-        onShortDescriptionChanged = onShortDescriptionChanged,
-        onLatitudeChanged = onLatitudeChanged,
-        onLongitudeChanged = onLongitudeChanged,
-        onContactChanged = onContactChanged,
-        onVideoUrlChanged = onVideoUrlChanged,
         addCoverAttachment = addCoverAttachment,
         removeCoverAttachment = removeCoverAttachment,
         addAttachmentToList = addAttachmentToList,
@@ -173,15 +155,9 @@ fun TopAppBar(
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun EditCreateCampusBody(
-  campus: CampusRequest,
+fun EditCreateGalleryBody(
+  campus: GalleryRequest,
   onNameChanged: (String) -> Unit,
-  onDescriptionChanged: (String) -> Unit,
-  onShortDescriptionChanged: (String) -> Unit,
-  onLatitudeChanged: (String) -> Unit,
-  onLongitudeChanged: (String) -> Unit,
-  onContactChanged: (String) -> Unit,
-  onVideoUrlChanged: (String) -> Unit,
   addCoverAttachment: (AttachmentModel) -> Unit,
   removeCoverAttachment: (AttachmentModel) -> Unit,
   addAttachmentToList: (AttachmentModel) -> Unit,
@@ -215,73 +191,7 @@ fun EditCreateCampusBody(
       label = "Nombre",
       labelColor = onSurfaceAlpha,
     )
-  
-    Spacer(modifier = Modifier.height(16.dp))
-    InputField(
-      modifier = Modifier.fillMaxWidth(),
-      value = campus.description,
-      onChanged = onDescriptionChanged,
-      placeholder = "Descripción",
-      placeholderColor = onSurfaceAlpha,
-      label = "Descripción",
-      labelColor = onSurfaceAlpha,
-    )
     
-    Spacer(modifier = Modifier.height(16.dp))
-    InputField(
-      modifier = Modifier.fillMaxWidth(),
-      value = campus.shortDescription,
-      onChanged = onShortDescriptionChanged,
-      placeholder = "Descripción corta",
-      placeholderColor = onSurfaceAlpha,
-      label = "Descripción corta",
-      labelColor = onSurfaceAlpha,
-    )
-    
-    Spacer(modifier = Modifier.height(16.dp))
-    InputField(
-      modifier = Modifier.fillMaxWidth(),
-      value = campus.location.latitude,
-      onChanged = onLatitudeChanged,
-      placeholder = "Latitud",
-      placeholderColor = onSurfaceAlpha,
-      label = "Latitud",
-      labelColor = onSurfaceAlpha,
-    )
-    
-    Spacer(modifier = Modifier.height(16.dp))
-    InputField(
-      modifier = Modifier.fillMaxWidth(),
-      value = campus.location.longitude,
-      onChanged = onLongitudeChanged,
-      placeholder = "Longitud",
-      placeholderColor = onSurfaceAlpha,
-      label = "Longitud",
-      labelColor = onSurfaceAlpha,
-    )
-    
-    Spacer(modifier = Modifier.height(16.dp))
-    InputField(
-      modifier = Modifier.fillMaxWidth(),
-      value = campus.contact,
-      onChanged = onContactChanged,
-      placeholder = "Contacto",
-      placeholderColor = onSurfaceAlpha,
-      label = "Contacto",
-      labelColor = onSurfaceAlpha,
-    )
-    
-    Spacer(modifier = Modifier.height(16.dp))
-    InputField(
-      modifier = Modifier.fillMaxWidth(),
-      value = campus.videoUrl ?: "",
-      onChanged = onVideoUrlChanged,
-      placeholder = "Video Url",
-      placeholderColor = onSurfaceAlpha,
-      label = "Video Url",
-      labelColor = onSurfaceAlpha,
-    )
-  
     Spacer(modifier = Modifier.height(16.dp))
     Body1(
       modifier = Modifier.padding(horizontal = 8.dp),
