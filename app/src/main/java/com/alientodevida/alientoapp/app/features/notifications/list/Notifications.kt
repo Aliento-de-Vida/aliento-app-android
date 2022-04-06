@@ -59,6 +59,8 @@ import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
 import com.alientodevida.alientoapp.domain.notification.Notification
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
 
@@ -80,6 +82,7 @@ fun Notifications(
   NotificationsContent(
     uiState = viewModelState,
     isAdmin = isAdmin,
+    refresh = viewModel::getNotifications,
     onMessageDismiss = viewModel::onMessageDismiss,
     deleteNotification = viewModel::deleteNotification,
     onBackPressed = onBackPressed,
@@ -94,6 +97,7 @@ fun NotificationsContent(
   uiState: NotificationsUiState,
   isAdmin: Boolean,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
+  refresh: () -> Unit,
   onMessageDismiss: (Long) -> Unit,
   deleteNotification: (Notification) -> Unit,
   onBackPressed: () -> Unit,
@@ -126,6 +130,8 @@ fun NotificationsContent(
     ) {
       NotificationsBody(
         notifications = uiState.notifications,
+        loading = uiState.loading,
+        refresh = refresh,
         deleteNotification = deleteNotification,
         goToNotificationDetail = goToNotificationDetail,
         goToNotificationsAdmin = goToNotificationsAdmin,
@@ -179,32 +185,39 @@ fun TopAppBar(
 fun NotificationsBody(
   notifications: List<Notification>,
   isAdmin: Boolean,
+  loading: Boolean,
+  refresh: () -> Unit,
   deleteNotification: (Notification) -> Unit,
   goToNotificationDetail: (Notification) -> Unit,
   goToNotificationsAdmin: (Notification) -> Unit,
 ) {
-  Column(Modifier.padding(horizontal = 8.dp)) {
-    Spacer(modifier = Modifier.height(8.dp))
-    H5(
-      modifier = Modifier.padding(horizontal = 8.dp),
-      text = "Notificaciones",
-      color = MaterialTheme.colors.onBackground,
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-    LazyColumn(
-      contentPadding = PaddingValues(bottom = 16.dp),
-      verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-      items(notifications, key = { it.id }) { notification ->
-        NotificationItem(
-          modifier = Modifier.animateItemPlacement(),
-          notification = notification,
-          isAdmin = isAdmin,
-          height = 120.dp,
-          deleteNotification = deleteNotification,
-          goToNotificationDetail = goToNotificationDetail,
-          goToNotificationsAdmin = goToNotificationsAdmin,
-        )
+  SwipeRefresh(
+    state = rememberSwipeRefreshState(loading),
+    onRefresh = refresh,
+  ) {
+    Column(Modifier.padding(horizontal = 8.dp)) {
+      Spacer(modifier = Modifier.height(8.dp))
+      H5(
+        modifier = Modifier.padding(horizontal = 8.dp),
+        text = "Notificaciones",
+        color = MaterialTheme.colors.onBackground,
+      )
+      Spacer(modifier = Modifier.height(16.dp))
+      LazyColumn(
+        contentPadding = PaddingValues(bottom = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+      ) {
+        items(notifications, key = { it.id }) { notification ->
+          NotificationItem(
+            modifier = Modifier.animateItemPlacement(),
+            notification = notification,
+            isAdmin = isAdmin,
+            height = 120.dp,
+            deleteNotification = deleteNotification,
+            goToNotificationDetail = goToNotificationDetail,
+            goToNotificationsAdmin = goToNotificationsAdmin,
+          )
+        }
       }
     }
   }
@@ -326,6 +339,7 @@ fun NotificationsPreview() {
         emptyList(),
       ),
       isAdmin = true,
+      refresh = {},
       onMessageDismiss = {},
       onBackPressed = {},
       deleteNotification = {},

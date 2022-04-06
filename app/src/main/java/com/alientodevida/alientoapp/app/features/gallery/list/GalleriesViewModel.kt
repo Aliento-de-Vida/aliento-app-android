@@ -48,16 +48,12 @@ class GalleriesViewModel @Inject constructor(
   private val _viewModelState = MutableStateFlow(GalleriesUiState())
   val viewModelState: StateFlow<GalleriesUiState> = _viewModelState
   
-  init {
-    getGalleries()
-  }
-  
   fun onMessageDismiss(id: Long) {
     val newMessages = viewModelState.value.messages.filter { it.id != id }
     _viewModelState.update { it.copy(messages = newMessages) }
   }
   
-  private fun getGalleries() {
+  fun getGalleries() {
     viewModelScope.launch {
       _viewModelState.update { it.copy(loading = true) }
       try {
