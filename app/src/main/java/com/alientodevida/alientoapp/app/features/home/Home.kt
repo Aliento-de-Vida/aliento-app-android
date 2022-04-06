@@ -292,25 +292,27 @@ fun Notifications(
   notifications: List<Notification>,
   goToNotificationDetail: (Notification) -> Unit,
 ) {
-  Column(Modifier.padding(horizontal = 8.dp)) {
-    Spacer(modifier = Modifier.height(8.dp))
-    H5(
-      modifier = Modifier.padding(horizontal = 8.dp),
-      text = "Notificaciones",
-      color = MaterialTheme.colors.onBackground,
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-    
-    notifications.forEach {
-      NotificationItem(
-        notification = it,
-        isAdmin = false,
-        height = 160.dp,
-        deleteNotification = {},
-        goToNotificationDetail = goToNotificationDetail,
-        goToNotificationsAdmin = {},
+  if (notifications.isNotEmpty()) {
+    Column(Modifier.padding(horizontal = 8.dp)) {
+      Spacer(modifier = Modifier.height(8.dp))
+      H5(
+        modifier = Modifier.padding(horizontal = 8.dp),
+        text = "Notificaciones",
+        color = MaterialTheme.colors.onBackground,
       )
-      Spacer(modifier = Modifier.height(12.dp))
+      Spacer(modifier = Modifier.height(16.dp))
+    
+      notifications.forEach {
+        NotificationItem(
+          notification = it,
+          isAdmin = false,
+          height = 220.dp,
+          deleteNotification = {},
+          goToNotificationDetail = goToNotificationDetail,
+          goToNotificationsAdmin = {},
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+      }
     }
   }
 }
