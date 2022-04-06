@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.LiveData
@@ -28,47 +29,38 @@ class PreferencesImpl(
 ) : Preferences {
   companion object {
     private val ADMIN_TOKEN = stringPreferencesKey("admin-token")
+    private val DARK_THEME = booleanPreferencesKey("dark-theme")
+    private val PUSH_NOTIFICATIONS = booleanPreferencesKey("push-notifications")
+    
     private const val SPOTIFY_TOKEN_KEY = "spotify-token"
-    private const val PUSH_ENABLED_KEY = "push-enabled"
     private const val HOME_KEY = "home"
-    private const val NIGHT_MODE_KEY = "night_mode"
-    private const val NIGHT_MODE_DEF_VAL = AppCompatDelegate.MODE_NIGHT_NO
   }
   
-  private val nightMode: Int
-    get() = preferences.getInt(NIGHT_MODE_KEY, NIGHT_MODE_DEF_VAL)
-  
-  private val _nightModeLive: MutableLiveData<Int> = MutableLiveData()
-  override val nightModeLive: LiveData<Int>
-    get() = _nightModeLive
-  
-  override var isDarkTheme: Boolean = false
-    get() = nightMode == AppCompatDelegate.MODE_NIGHT_YES
+  // Dark Theme
+  override var isDarkTheme: Boolean
+    get() = runBlocking { preferencesStore.data.map { it[DARK_THEME] ?: false }.first() }
     set(value) {
-      preferences.edit().putInt(
-        NIGHT_MODE_KEY, if (value) {
-          AppCompatDelegate.MODE_NIGHT_YES
-        } else {
-          AppCompatDelegate.MODE_NIGHT_NO
-        }
-      ).apply()
-      field = value
-    }
-  
-  private val _isDarkThemeLive: MutableLiveData<Boolean> = MutableLiveData()
-  override val isDarkThemeLive: LiveData<Boolean>
-    get() = _isDarkThemeLive
-  
-  private val preferenceChangedListener =
-    SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-      when (key) {
-        NIGHT_MODE_KEY -> {
-          _nightModeLive.value = nightMode
-          _isDarkThemeLive.value = isDarkTheme
+      runBlocking {
+        preferencesStore.edit { settings ->
+          settings[DARK_THEME] = value
         }
       }
     }
+  override var isDarkThemeFlow: Flow<Boolean> = preferencesStore.data.map { it[DARK_THEME] ?: false }
   
+  // Push Notifications
+  override var pushEnabled: Boolean
+    get() = runBlocking { preferencesStore.data.map { it[PUSH_NOTIFICATIONS] ?: true }.first() }
+    set(value) {
+      runBlocking {
+        preferencesStore.edit { settings ->
+          settings[PUSH_NOTIFICATIONS] = value
+        }
+      }
+    }
+  override var pushEnabledFlow: Flow<Boolean> = preferencesStore.data.map { it[PUSH_NOTIFICATIONS] ?: false }
+  
+  // Admin Token
   private var adminJwtToken: String
     get() = runBlocking { preferencesStore.data.map { it[ADMIN_TOKEN] ?: "" }.first() }
     set(value) {
@@ -89,40 +81,21 @@ class PreferencesImpl(
   override val isAdminFlow: Flow<Boolean> =
     preferencesStore.data.map { it[ADMIN_TOKEN]?.isNotBlank() ?: false }
   
-  private val _pushEnabled =
-    PrimitivePreferenceProperty<Boolean>(Type.BOOLEAN, PUSH_ENABLED_KEY, preferences)
-  override var pushEnabled: Boolean by _pushEnabled
-  
-  init {
-    if (!preferences.contains(NIGHT_MODE_KEY)) {
-      isDarkTheme = getRandomBoolean()
-    }
-    
-    if (!preferences.contains(PUSH_ENABLED_KEY)) {
-      pushEnabled = true
-    }
-    
-    _nightModeLive.value = nightMode
-    _isDarkThemeLive.value = isDarkTheme
-    
-    preferences.registerOnSharedPreferenceChangeListener(preferenceChangedListener)
-  }
-  
-  private fun getRandomBoolean() = (Random().nextInt(2) + 1) == 1
-  
+  // Spotify Token
   override var spotifyToken: SpotifyToken?
     get() = get(SPOTIFY_TOKEN_KEY, preferences)
     set(value) = value?.let { save(it, SPOTIFY_TOKEN_KEY) }
       ?: run { clear(SPOTIFY_TOKEN_KEY) }
   
+  // Home
   override var home: Home?
     get() = get(HOME_KEY, preferences)
     set(value) = value?.let { save(it, HOME_KEY) }
       ?: run { clear(HOME_KEY) }
   
+  // Helper
   override suspend fun clear() {
     clear(SPOTIFY_TOKEN_KEY)
-    _pushEnabled.clear()
   }
   
   private fun clear(name: String) {

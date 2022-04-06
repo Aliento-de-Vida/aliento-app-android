@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.features.campus.editcreate
+package com.alientodevida.alientoapp.app.features.gallery.editcreate
 
 import android.app.Application
 import android.os.Build
@@ -9,10 +9,10 @@ import com.alientodevida.alientoapp.app.compose.components.attachment.Attachment
 import com.alientodevida.alientoapp.app.compose.components.attachment.getDomainAttachment
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
-import com.alientodevida.alientoapp.domain.campus.Campus
-import com.alientodevida.alientoapp.domain.campus.CampusRepository
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.extensions.removeExtension
+import com.alientodevida.alientoapp.domain.gallery.Gallery
+import com.alientodevida.alientoapp.domain.gallery.GalleryRepository
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,51 +23,41 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
-import com.alientodevida.alientoapp.domain.campus.CampusRequest as DomainCampusRequest
 import com.alientodevida.alientoapp.domain.common.Attachment as DomainAttachment
+import com.alientodevida.alientoapp.domain.gallery.GalleryRequest as DomainGalleryRequest
 
-data class CampusUiState(
-  val campusRequest: CampusRequest,
+data class GalleryUiState(
+  val galleryRequest: GalleryRequest,
   val loading: Boolean,
   val messages: List<Message>,
 )
 
-private fun CampusRequest.toDomain(
+private fun GalleryRequest.toDomain(
   domainAttachment: DomainAttachment?,
   domainAttachmentLIst: List<DomainAttachment>
 ) =
-  DomainCampusRequest(
+  DomainGalleryRequest(
     id = id,
     name = name,
-    description = description,
-    shortDescription = shortDescription,
-    location = location,
-    contact = contact,
-    imageName = imageName,
+    coverPicture = coverPicture,
     attachment = domainAttachment,
-    videoUrl = videoUrl,
     images = images,
     attachmentList = domainAttachmentLIst,
   )
 
-fun Campus.toCampusRequest() =
-  CampusRequest(
+fun Gallery.toGalleryRequest() =
+  GalleryRequest(
     id = id,
     name = name,
-    description = description,
-    shortDescription = shortDescription,
-    location = location,
-    contact = contact,
-    imageName = imageUrl,
+    coverPicture = coverPicture,
     attachment = null,
-    videoUrl = videoUrl,
-    images = images,
+    images = images.map { it.name },
     attachmentList = emptyList(),
   )
 
 @HiltViewModel
-class EditCreateNotificationViewModel @Inject constructor(
-  private val campusRepository: CampusRepository,
+class EditCreateGalleryViewModel @Inject constructor(
+  private val galleryRepository: GalleryRepository,
   coroutineDispatchers: CoroutineDispatchers,
   errorParser: ErrorParser,
   logger: Logger,
@@ -83,17 +73,17 @@ class EditCreateNotificationViewModel @Inject constructor(
   application,
 ) {
   
-  private val initialCampusRequest: CampusRequest =
-    (savedStateHandle.get<Campus>("campus") ?: Campus.empty()).toCampusRequest()
+  private val initialGalleryRequest: GalleryRequest =
+    (savedStateHandle.get<Gallery>("gallery") ?: Gallery.empty()).toGalleryRequest()
   
   private val _viewModelState = MutableStateFlow(
-    CampusUiState(
-      campusRequest = initialCampusRequest,
+    GalleryUiState(
+      galleryRequest = initialGalleryRequest,
       loading = false,
       messages = emptyList(),
     )
   )
-  val viewModelState: StateFlow<CampusUiState> = _viewModelState
+  val viewModelState: StateFlow<GalleryUiState> = _viewModelState
   
   fun onMessageDismiss(id: Long) {
     val newMessages = viewModelState.value.messages.filter { it.id != id }
@@ -102,64 +92,16 @@ class EditCreateNotificationViewModel @Inject constructor(
   
   fun onNameChanged(newValue: String) {
     _viewModelState.update {
-      it.copy(campusRequest = it.campusRequest.copy(name = newValue))
-    }
-  }
-  
-  fun onDescriptionChanged(newValue: String) {
-    _viewModelState.update {
-      it.copy(campusRequest = it.campusRequest.copy(description = newValue))
-    }
-  }
-  
-  fun onShortDescriptionChanged(newValue: String) {
-    _viewModelState.update {
-      it.copy(campusRequest = it.campusRequest.copy(shortDescription = newValue))
-    }
-  }
-  
-  fun onLatitudeChanged(newValue: String) {
-    _viewModelState.update {
-      it.copy(
-        campusRequest = it.campusRequest.copy(
-          location = it.campusRequest.location.copy(
-            latitude = newValue
-          )
-        )
-      )
-    }
-  }
-  
-  fun onLongitudeChanged(newValue: String) {
-    _viewModelState.update {
-      it.copy(
-        campusRequest = it.campusRequest.copy(
-          location = it.campusRequest.location.copy(
-            longitude = newValue
-          )
-        )
-      )
-    }
-  }
-  
-  fun onContactChanged(newValue: String) {
-    _viewModelState.update {
-      it.copy(campusRequest = it.campusRequest.copy(contact = newValue))
-    }
-  }
-  
-  fun onVideoUrlChanged(newValue: String) {
-    _viewModelState.update {
-      it.copy(campusRequest = it.campusRequest.copy(videoUrl = newValue))
+      it.copy(galleryRequest = it.galleryRequest.copy(name = newValue))
     }
   }
   
   fun addCoverAttachment(newValue: AttachmentModel) {
     _viewModelState.update {
       it.copy(
-        campusRequest = it.campusRequest.copy(
+        galleryRequest = it.galleryRequest.copy(
           attachment = newValue,
-          imageName = newValue.displayName,
+          coverPicture = newValue.displayName,
         )
       )
     }
@@ -167,67 +109,67 @@ class EditCreateNotificationViewModel @Inject constructor(
   
   fun removeCoverAttachment(value: AttachmentModel) {
     _viewModelState.update {
-      it.copy(campusRequest = it.campusRequest.copy(attachment = null, imageName = ""))
+      it.copy(galleryRequest = it.galleryRequest.copy(attachment = null, coverPicture = ""))
     }
   }
   
   fun addAttachmentToList(newValue: AttachmentModel) {
-    val attachments = viewModelState.value.campusRequest.attachmentList.toMutableList()
+    val attachments = viewModelState.value.galleryRequest.attachmentList.toMutableList()
     attachments += newValue
     _viewModelState.update {
-      it.copy(campusRequest = it.campusRequest.copy(attachmentList = attachments))
+      it.copy(galleryRequest = it.galleryRequest.copy(attachmentList = attachments))
     }
   }
   
   fun removeAttachmentFromList(value: AttachmentModel) {
-    val attachments = viewModelState.value.campusRequest.attachmentList.toMutableList()
+    val attachments = viewModelState.value.galleryRequest.attachmentList.toMutableList()
     attachments.removeAll { it.displayName == value.displayName }
     _viewModelState.update {
-      it.copy(campusRequest = it.campusRequest.copy(attachmentList = attachments))
+      it.copy(galleryRequest = it.galleryRequest.copy(attachmentList = attachments))
     }
   }
   
   fun removeImage(value: String) {
-    val images = viewModelState.value.campusRequest.images.toMutableList()
+    val images = viewModelState.value.galleryRequest.images.toMutableList()
     images.removeAll { it == value }
     _viewModelState.update {
-      it.copy(campusRequest = it.campusRequest.copy(images = images))
+      it.copy(galleryRequest = it.galleryRequest.copy(images = images))
     }
   }
   
-  fun saveCampus(campus: CampusRequest) {
+  fun saveGallery(gallery: GalleryRequest) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
     
-    val attachment = campus.attachment
+    val attachment = gallery.attachment
     val domainAttachment =
       attachment?.getDomainAttachment(application, attachment.displayName.removeExtension())
     
     viewModelScope.launch {
       try {
         _viewModelState.update { it.copy(loading = true) }
-        val value = if (campus.isNew) {
-          val domainAttachments = campus.attachmentList.map {
+        val value = if (gallery.isNew) {
+          val domainAttachments = gallery.attachmentList.map {
             it.getDomainAttachment(application, it.displayName.removeExtension())
           }.filterNotNull()
-          campusRepository.createCampus(campus.toDomain(domainAttachment, domainAttachments))
+          galleryRepository.createGallery(gallery.toDomain(domainAttachment, domainAttachments))
         } else {
-          val domainAttachments = campus.attachmentList.map {
+          val domainAttachments = gallery.attachmentList.map {
             it.getDomainAttachment(application, it.displayName.removeExtension())
           }.filterNotNull()
-          campusRepository.editCampus(campus.toDomain(domainAttachment, domainAttachments))
+          galleryRepository.editGallery(gallery.toDomain(domainAttachment, domainAttachments))
         }
         
         val successMessage = Message.Localized.Informational(
           id = UUID.randomUUID().mostSignificantBits,
           title = "Éxito!",
-          message = "Campus guardado con éxito!",
+          message = "Galería guardada con éxito!",
           action = "Ok",
         )
         val messages = viewModelState.value.messages.toMutableList()
         messages.add(successMessage)
         _viewModelState.update {
           it.copy(
-            campusRequest = value.toCampusRequest(),
+            galleryRequest = value.toGalleryRequest(),
             messages = messages
           )
         }
@@ -235,7 +177,7 @@ class EditCreateNotificationViewModel @Inject constructor(
       } catch (ex: CancellationException) {
         return@launch
       } catch (ex: Exception) {
-        logger.d("EditCreateNotificationViewModel.saveCampus", tr = ex)
+        logger.d("EditCreateNotificationViewModel.saveGallery", tr = ex)
         val messages = viewModelState.value.messages.toMutableList()
         messages.add(errorParser(ex))
         _viewModelState.update { it.copy(messages = messages) }

@@ -1,6 +1,8 @@
 package com.alientodevida.alientoapp.domain.gallery
 
 import android.os.Parcelable
+import com.alientodevida.alientoapp.domain.campus.Campus
+import com.alientodevida.alientoapp.domain.campus.Location
 import com.alientodevida.alientoapp.domain.common.Image
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
@@ -8,7 +10,19 @@ import kotlinx.serialization.Serializable
 @Parcelize
 @Serializable
 data class Gallery(
+  val id: Int,
   val name: String,
   val coverPicture: String,
   val images: List<Image>,
-) : Parcelable
+) : Parcelable {
+  
+  companion object {
+    fun empty() = Gallery(
+      0,
+      "",
+      "",
+      emptyList(),
+    )
+  }
+  
+}

@@ -2,6 +2,7 @@ package com.alientodevida.alientoapp.app.di
 
 import com.alientodevida.alientoapp.app.logger.LoggerImpl
 import com.alientodevida.alientoapp.domain.logger.Logger
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,5 +16,9 @@ class AppModule {
   @Provides
   @Singleton
   fun logger(): Logger = LoggerImpl()
+  
+  @Provides
+  @Singleton
+  fun firebaseMessaging(): FirebaseMessaging = FirebaseMessaging.getInstance()
   
 }

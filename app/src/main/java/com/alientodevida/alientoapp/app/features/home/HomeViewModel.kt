@@ -61,7 +61,18 @@ class HomeViewModel @Inject constructor(
   
   val isAdmin = preferences.isAdminFlow
   
-  private val _viewModelState = MutableStateFlow(HomeUiState())
+  private val _viewModelState = MutableStateFlow(HomeUiState(
+    categoriesItems = listOf(
+      CarouselItem(title = "Aliento de Vida", categoryItem = CategoryItem(CategoryItemType.CHURCH)),
+      CarouselItem(title = "Campus", categoryItem = CategoryItem(CategoryItemType.CAMPUSES)),
+      CarouselItem(title = "Galería", categoryItem = CategoryItem(CategoryItemType.GALLERY)),
+    ),
+    quickAccessItems = listOf(
+      CarouselItem(title = "Donaciones", categoryItem = CategoryItem(CategoryItemType.DONATIONS)),
+      CarouselItem(title = "Oración", categoryItem = CategoryItem(CategoryItemType.PRAYER)),
+      CarouselItem(title = "Ebook", categoryItem = CategoryItem(CategoryItemType.EBOOK)),
+    ),
+  ))
   val viewModelState: StateFlow<HomeUiState> = _viewModelState
   
   var latestVideo: YoutubeVideo? = null
@@ -85,7 +96,7 @@ class HomeViewModel @Inject constructor(
         val sermons = getSermonItems(home.youtubeChannelId, images.sermonsImage)
         val carouselItems = getCategoriesItems(images)
         val quickAccessItems = getQuickAccessItems(images)
-        val notifications = notificationRepository.getNotifications().filter { it.image != null }.take(5)
+        val notifications = notificationRepository.getNotifications().filter { it.image != null }.take(2)
         
         _viewModelState.update { it.copy(
           categoriesItems = carouselItems,

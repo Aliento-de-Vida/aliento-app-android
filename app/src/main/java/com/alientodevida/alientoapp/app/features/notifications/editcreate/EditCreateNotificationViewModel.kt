@@ -5,8 +5,8 @@ import android.os.Build
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.alientodevida.alientoapp.app.base.BaseViewModel
-import com.alientodevida.alientoapp.app.compose.components.AttachmentModel
-import com.alientodevida.alientoapp.app.compose.components.getDomainAttachment
+import com.alientodevida.alientoapp.app.compose.components.attachment.AttachmentModel
+import com.alientodevida.alientoapp.app.compose.components.attachment.getDomainAttachment
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
