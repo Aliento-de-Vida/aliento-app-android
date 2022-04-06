@@ -27,14 +27,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.AttachmentModel
-import com.alientodevida.alientoapp.app.compose.components.Attachments
 import com.alientodevida.alientoapp.app.compose.components.Body1
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
 import com.alientodevida.alientoapp.app.compose.components.InputField
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
+import com.alientodevida.alientoapp.app.compose.components.attachment.AttachmentModel
+import com.alientodevida.alientoapp.app.compose.components.attachment.Attachments
 import com.alientodevida.alientoapp.app.extensions.Dialog
 import com.alientodevida.alientoapp.domain.home.Home
 

@@ -1,6 +1,5 @@
 package com.alientodevida.alientoapp.domain.preferences
 
-import androidx.lifecycle.LiveData
 import com.alientodevida.alientoapp.domain.home.Home
 import kotlinx.coroutines.flow.Flow
 import com.alientodevida.alientoapp.domain.admin.Token as AdminToken
@@ -15,14 +14,15 @@ interface Preferences {
     const val DEFAULT_STRING = ""
   }
   
-  val nightModeLive: LiveData<Int>
   var isDarkTheme: Boolean
-  val isDarkThemeLive: LiveData<Boolean>
+  var isDarkThemeFlow: Flow<Boolean>
   
   suspend fun isAdmin(): Boolean
   val isAdminFlow: Flow<Boolean>
   
   var pushEnabled: Boolean
+  var pushEnabledFlow: Flow<Boolean>
+  
   var spotifyToken: SpotifyToken?
   var adminToken: AdminToken?
   

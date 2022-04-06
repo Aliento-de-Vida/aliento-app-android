@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.features.notifications.list
+package com.alientodevida.alientoapp.app.features.gallery.list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,8 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
@@ -46,7 +43,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.compose.components.Body2
-import com.alientodevida.alientoapp.app.compose.components.Caption
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.Gradient
 import com.alientodevida.alientoapp.app.compose.components.H5
@@ -56,54 +52,50 @@ import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
-import com.alientodevida.alientoapp.domain.extensions.format
-import com.alientodevida.alientoapp.domain.extensions.toDate
-import com.alientodevida.alientoapp.domain.notification.Notification
+import com.alientodevida.alientoapp.domain.gallery.Gallery
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.skydoves.landscapist.ShimmerParams
-import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
-fun Notifications(
-  viewModel: NotificationsViewModel,
+fun Galleries(
+  viewModel: GalleriesViewModel,
   onBackPressed: () -> Unit,
-  goToNotificationDetail: (Notification) -> Unit,
-  goToEditNotification: (Notification) -> Unit,
-  goToCreateNotification: () -> Unit,
+  goToGallery: (Gallery) -> Unit,
+  goToEditGallery: (Gallery) -> Unit,
+  goToCreateGallery: () -> Unit,
 ) {
   LaunchedEffect(true) {
-    viewModel.getNotifications()
+    viewModel.getGalleries()
   }
   
   val viewModelState by viewModel.viewModelState.collectAsState()
   val isAdmin by viewModel.isAdmin.collectAsState(false)
   
-  NotificationsContent(
+  GalleriesContent(
     uiState = viewModelState,
     isAdmin = isAdmin,
-    refresh = viewModel::getNotifications,
+    refresh = viewModel::getGalleries,
     onMessageDismiss = viewModel::onMessageDismiss,
-    deleteNotification = viewModel::deleteNotification,
+    deleteGallery = viewModel::deleteGallery,
     onBackPressed = onBackPressed,
-    goToNotificationDetail = goToNotificationDetail,
-    goToNotificationsAdmin = goToEditNotification,
-    goToCreateNotification = goToCreateNotification,
+    goToGallery = goToGallery,
+    goToEditGallery = goToEditGallery,
+    goToCreateGallery = goToCreateGallery,
   )
 }
 
 @Composable
-fun NotificationsContent(
-  uiState: NotificationsUiState,
+fun GalleriesContent(
+  uiState: GalleriesUiState,
   isAdmin: Boolean,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   refresh: () -> Unit,
   onMessageDismiss: (Long) -> Unit,
-  deleteNotification: (Notification) -> Unit,
+  deleteGallery: (Gallery) -> Unit,
   onBackPressed: () -> Unit,
-  goToNotificationDetail: (Notification) -> Unit,
-  goToNotificationsAdmin: (Notification) -> Unit,
-  goToCreateNotification: () -> Unit,
+  goToGallery: (Gallery) -> Unit,
+  goToEditGallery: (Gallery) -> Unit,
+  goToCreateGallery: () -> Unit,
 ) {
   Scaffold(
     scaffoldState = scaffoldState,
@@ -112,12 +104,12 @@ fun NotificationsContent(
     },
     floatingActionButton = {
       if (isAdmin) FloatingActionButton(
-        onClick = { goToCreateNotification() },
+        onClick = { goToCreateGallery() },
         contentColor = MaterialTheme.colors.surface,
       ) {
         Icon(
           icon = R.drawable.ic_add_24,
-          contentDescription = "Create Notification",
+          contentDescription = "Create Gallery",
           tint = MaterialTheme.colors.onSurface
         )
       }
@@ -128,13 +120,13 @@ fun NotificationsContent(
         .padding(paddingValues = paddingValues)
         .background(color = MaterialTheme.colors.background),
     ) {
-      NotificationsBody(
-        notifications = uiState.notifications,
+      GalleriesBody(
+        galleries = uiState.galleries,
         loading = uiState.loading,
         refresh = refresh,
-        deleteNotification = deleteNotification,
-        goToNotificationDetail = goToNotificationDetail,
-        goToNotificationsAdmin = goToNotificationsAdmin,
+        deleteGallery = deleteGallery,
+        goToGallery = goToGallery,
+        goToEditGallery = goToEditGallery,
         isAdmin = isAdmin,
       )
       if (uiState.loading) LoadingIndicator()
@@ -182,14 +174,14 @@ fun TopAppBar(
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun NotificationsBody(
-  notifications: List<Notification>,
+fun GalleriesBody(
+  galleries: List<Gallery>,
   isAdmin: Boolean,
   loading: Boolean,
   refresh: () -> Unit,
-  deleteNotification: (Notification) -> Unit,
-  goToNotificationDetail: (Notification) -> Unit,
-  goToNotificationsAdmin: (Notification) -> Unit,
+  goToGallery: (Gallery) -> Unit,
+  goToEditGallery: (Gallery) -> Unit,
+  deleteGallery: (Gallery) -> Unit,
 ) {
   SwipeRefresh(
     state = rememberSwipeRefreshState(loading),
@@ -199,7 +191,7 @@ fun NotificationsBody(
       Spacer(modifier = Modifier.height(8.dp))
       H5(
         modifier = Modifier.padding(horizontal = 8.dp),
-        text = "Notificaciones",
+        text = "Galerías",
         color = MaterialTheme.colors.onBackground,
       )
       Spacer(modifier = Modifier.height(16.dp))
@@ -207,15 +199,15 @@ fun NotificationsBody(
         contentPadding = PaddingValues(bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
       ) {
-        items(notifications, key = { it.id }) { notification ->
-          NotificationItem(
+        items(galleries, key = { it.id }) { gallery ->
+          GalleryItem(
             modifier = Modifier.animateItemPlacement(),
-            notification = notification,
+            Gallery = gallery,
             isAdmin = isAdmin,
-            height = 120.dp,
-            deleteNotification = deleteNotification,
-            goToNotificationDetail = goToNotificationDetail,
-            goToNotificationsAdmin = goToNotificationsAdmin,
+            height = 180.dp,
+            deleteGallery = deleteGallery,
+            goToGallery = goToGallery,
+            goToEditGallery = goToEditGallery,
           )
         }
       }
@@ -225,14 +217,14 @@ fun NotificationsBody(
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun NotificationItem(
+fun GalleryItem(
   modifier: Modifier = Modifier,
-  notification: Notification,
+  Gallery: Gallery,
   height: Dp,
   isAdmin: Boolean,
-  deleteNotification: (Notification) -> Unit,
-  goToNotificationDetail: (Notification) -> Unit,
-  goToNotificationsAdmin: (Notification) -> Unit,
+  goToGallery: (Gallery) -> Unit,
+  goToEditGallery: (Gallery) -> Unit,
+  deleteGallery: (Gallery) -> Unit,
 ) {
   var expanded by remember { mutableStateOf(false) }
   val hapticFeedback = LocalHapticFeedback.current
@@ -242,7 +234,7 @@ fun NotificationItem(
       .fillMaxWidth()
       .height(height)
       .combinedClickable(
-        onClick = { goToNotificationDetail(notification) },
+        onClick = { goToGallery(Gallery) },
         onLongClick = {
           if (isAdmin) {
             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -252,7 +244,7 @@ fun NotificationItem(
       ),
   ) {
     Box {
-      NotificationItemContent(notification)
+      GalleryItemContent(Gallery)
       
       DropdownMenu(
         modifier = Modifier.background(MaterialTheme.colors.surface),
@@ -260,13 +252,13 @@ fun NotificationItem(
         onDismissRequest = { expanded = false }
       ) {
         DropdownMenuItem(
-          onClick = { deleteNotification(notification) }) {
+          onClick = { deleteGallery(Gallery) }) {
           Body2(
             text = "Eliminar",
             color = MaterialTheme.colors.onSurface,
           )
         }
-        DropdownMenuItem(onClick = { goToNotificationsAdmin(notification) }) {
+        DropdownMenuItem(onClick = { goToEditGallery(Gallery) }) {
           Body2(
             text = "Editar",
             color = MaterialTheme.colors.onSurface,
@@ -278,12 +270,9 @@ fun NotificationItem(
 }
 
 @Composable
-private fun NotificationItemContent(notification: Notification) {
+private fun GalleryItemContent(gallery: Gallery) {
   Box {
-    // TODO the ViewModel should do this conversion
-    notification.image?.name?.toImageUrl()?.let { imageUrl ->
-      ImageWithShimmering(url = imageUrl, description = notification.title)
-    }
+    ImageWithShimmering(url = gallery.coverPicture.toImageUrl(), description = gallery.name)
   
     Column {
       Spacer(Modifier.weight(0.38f))
@@ -293,19 +282,9 @@ private fun NotificationItemContent(notification: Notification) {
         Column(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
           Spacer(Modifier.weight(1.0f))
           H5(
-            text = notification.title,
+            text = gallery.name,
             color = colorResource(R.color.pantone_white_c),
           )
-          Row {
-            Body2(
-              text = notification.content,
-              color = colorResource(R.color.pantone_white_c),
-            )
-            Spacer(Modifier.weight(1.0f))
-            Caption(
-              text = notification.date.toDate()?.format("dd MMM yy") ?: ""
-            ) // TODO the ViewModel should do this conversion
-          }
         }
       }
     }
@@ -317,22 +296,20 @@ private fun NotificationItemContent(notification: Notification) {
 @Composable
 fun NotificationsPreview() {
   AppTheme {
-    NotificationsContent(
-      NotificationsUiState(
+    GalleriesContent(
+      GalleriesUiState(
         listOf(
-          Notification(
+          Gallery(
             1,
             "Test Notification",
             "This is a test",
-            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-            "2021-12-31T18:58:34Z"
+            emptyList(),
           ),
-          Notification(
+          Gallery(
             2,
             "Test Notification",
             "This is a test",
-            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-            "2021-12-31T18:58:34Z"
+            emptyList(),
           ),
         ),
         true,
@@ -342,10 +319,10 @@ fun NotificationsPreview() {
       refresh = {},
       onMessageDismiss = {},
       onBackPressed = {},
-      deleteNotification = {},
-      goToNotificationDetail = {},
-      goToNotificationsAdmin = {},
-      goToCreateNotification = {},
+      deleteGallery = {},
+      goToGallery = {},
+      goToEditGallery = {},
+      goToCreateGallery = {},
     )
   }
 }

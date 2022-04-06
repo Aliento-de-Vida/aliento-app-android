@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.compose.components
+package com.alientodevida.alientoapp.app.compose.components.attachment
 
 import android.content.Context
 import android.content.Intent
@@ -28,8 +28,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.features.notifications.editcreate.createAttachment
-import com.alientodevida.alientoapp.app.features.notifications.editcreate.parcelFileDescriptor
+import com.alientodevida.alientoapp.app.compose.components.Body1
+import com.alientodevida.alientoapp.app.compose.components.Body2
+import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
+import com.alientodevida.alientoapp.app.compose.components.FilledButton
+import com.alientodevida.alientoapp.app.compose.components.Icon
 import java.io.FileInputStream
 import java.nio.file.Files
 import java.nio.file.Paths

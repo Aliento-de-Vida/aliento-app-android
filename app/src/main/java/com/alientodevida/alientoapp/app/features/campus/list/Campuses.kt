@@ -54,6 +54,8 @@ import com.alientodevida.alientoapp.app.extensions.SnackBar
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.campus.Campus
 import com.alientodevida.alientoapp.domain.campus.Location
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun Campuses(
@@ -73,6 +75,7 @@ fun Campuses(
   CampusesContent(
     uiState = viewModelState,
     isAdmin = isAdmin,
+    refresh = viewModel::getCampuses,
     onMessageDismiss = viewModel::onMessageDismiss,
     deleteCampus = viewModel::deleteCampus,
     onBackPressed = onBackPressed,
@@ -87,6 +90,7 @@ fun CampusesContent(
   uiState: CampusesUiState,
   isAdmin: Boolean,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
+  refresh: () -> Unit,
   onMessageDismiss: (Long) -> Unit,
   deleteCampus: (Campus) -> Unit,
   onBackPressed: () -> Unit,
@@ -120,6 +124,8 @@ fun CampusesContent(
       CampusesBody(
         campuses = uiState.campuses,
         deleteCampus = deleteCampus,
+        loading = uiState.loading,
+        refresh = refresh,
         goToCampus = goToCampus,
         goToEditCampus = goToEditCampus,
         isAdmin = isAdmin,
@@ -172,32 +178,39 @@ fun TopAppBar(
 fun CampusesBody(
   campuses: List<Campus>,
   isAdmin: Boolean,
+  loading: Boolean,
+  refresh: () -> Unit,
   deleteCampus: (Campus) -> Unit,
   goToCampus: (Campus) -> Unit,
   goToEditCampus: (Campus) -> Unit,
 ) {
-  Column(Modifier.padding(horizontal = 8.dp)) {
-    Spacer(modifier = Modifier.height(8.dp))
-    H5(
-      modifier = Modifier.padding(horizontal = 8.dp),
-      text = "Campus",
-      color = MaterialTheme.colors.onBackground,
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-    LazyColumn(
-      contentPadding = PaddingValues(bottom = 16.dp),
-      verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-      items(campuses, key = { it.id }) { campus ->
-        CampusItem(
-          modifier = Modifier.animateItemPlacement(),
-          campus = campus,
-          isAdmin = isAdmin,
-          height = 220.dp,
-          deleteCampus = deleteCampus,
-          goToCampus = goToCampus,
-          goToEditCampus = goToEditCampus,
-        )
+  SwipeRefresh(
+    state = rememberSwipeRefreshState(loading),
+    onRefresh = refresh,
+  ) {
+    Column(Modifier.padding(horizontal = 8.dp)) {
+      Spacer(modifier = Modifier.height(8.dp))
+      H5(
+        modifier = Modifier.padding(horizontal = 8.dp),
+        text = "Campus",
+        color = MaterialTheme.colors.onBackground,
+      )
+      Spacer(modifier = Modifier.height(16.dp))
+      LazyColumn(
+        contentPadding = PaddingValues(bottom = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+      ) {
+        items(campuses, key = { it.id }) { campus ->
+          CampusItem(
+            modifier = Modifier.animateItemPlacement(),
+            campus = campus,
+            isAdmin = isAdmin,
+            height = 220.dp,
+            deleteCampus = deleteCampus,
+            goToCampus = goToCampus,
+            goToEditCampus = goToEditCampus,
+          )
+        }
       }
     }
   }
@@ -322,6 +335,7 @@ fun CampusesPreview() {
         emptyList(),
       ),
       isAdmin = true,
+      refresh = {},
       onMessageDismiss = {},
       onBackPressed = {},
       deleteCampus = {},

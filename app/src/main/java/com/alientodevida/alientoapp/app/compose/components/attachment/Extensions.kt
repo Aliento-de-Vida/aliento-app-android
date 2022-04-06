@@ -1,10 +1,9 @@
-package com.alientodevida.alientoapp.app.features.notifications.editcreate
+package com.alientodevida.alientoapp.app.compose.components.attachment
 
 import android.content.Context
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import android.webkit.MimeTypeMap
-import com.alientodevida.alientoapp.app.compose.components.AttachmentModel
 
 fun Context.createAttachment(uri: Uri): AttachmentModel =
   AttachmentModel(uri, uri.toString().getExtensionFromPathOrNull() ?: getFileExtension(uri))
