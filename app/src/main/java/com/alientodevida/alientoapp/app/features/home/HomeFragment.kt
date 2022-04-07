@@ -9,7 +9,6 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.databinding.FragmentNotificationsBinding
-import com.alientodevida.alientoapp.app.features.notifications.list.NotificationsFragmentDirections
 import com.alientodevida.alientoapp.app.utils.Utils
 import com.alientodevida.alientoapp.app.utils.extensions.openFacebookPage
 import com.alientodevida.alientoapp.app.utils.extensions.openInstagramPage

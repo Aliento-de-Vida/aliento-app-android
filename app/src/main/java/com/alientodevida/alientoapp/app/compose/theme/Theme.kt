@@ -5,8 +5,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Shapes
 import androidx.compose.material.Typography
 import androidx.compose.runtime.Composable
-import com.alientodevida.alientoapp.app.compose.theme.colors
-import com.alientodevida.alientoapp.app.compose.theme.shapes
 
 @Composable
 fun AppTheme(

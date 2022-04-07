@@ -12,7 +12,6 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.alientodevida.alientoapp.app.compose.components.Dialog
-import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.state.ViewModelResult
 

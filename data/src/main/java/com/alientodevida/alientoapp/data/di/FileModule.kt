@@ -2,12 +2,7 @@ package com.alientodevida.alientoapp.data.di
 
 import com.alientodevida.alientoapp.data.file.FileApi
 import com.alientodevida.alientoapp.data.file.FileRepositoryImpl
-import com.alientodevida.alientoapp.data.notification.NotificationAdminApi
-import com.alientodevida.alientoapp.data.notification.NotificationApi
-import com.alientodevida.alientoapp.data.notification.NotificationRepositoryImpl
 import com.alientodevida.alientoapp.domain.file.FileRepository
-import com.alientodevida.alientoapp.domain.notification.NotificationRepository
-import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

@@ -2,14 +2,11 @@ package com.alientodevida.alientoapp.data.preferences
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.google.gson.Gson
@@ -18,7 +15,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
-import java.util.*
 import androidx.datastore.preferences.core.Preferences as DataStorePreferences
 import com.alientodevida.alientoapp.domain.admin.Token as AdminToken
 import com.alientodevida.alientoapp.domain.entities.network.Token as SpotifyToken

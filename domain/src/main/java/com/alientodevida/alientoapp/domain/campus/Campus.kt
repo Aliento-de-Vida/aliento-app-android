@@ -1,11 +1,8 @@
 package com.alientodevida.alientoapp.domain.campus
 
 import android.os.Parcelable
-import com.alientodevida.alientoapp.domain.extensions.format
-import com.alientodevida.alientoapp.domain.notification.Notification
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
-import java.util.*
 
 @Parcelize
 @Serializable

@@ -1,8 +1,6 @@
 package com.alientodevida.alientoapp.domain.gallery
 
 import android.os.Parcelable
-import com.alientodevida.alientoapp.domain.campus.Campus
-import com.alientodevida.alientoapp.domain.campus.Location
 import com.alientodevida.alientoapp.domain.common.Image
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable

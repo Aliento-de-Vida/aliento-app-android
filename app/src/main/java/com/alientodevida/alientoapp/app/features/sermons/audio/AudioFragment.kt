@@ -9,7 +9,6 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.databinding.FragmentAudioBinding
 import com.alientodevida.alientoapp.app.databinding.ItemAudioCardBinding
-import com.alientodevida.alientoapp.app.features.sermons.video.videoDiffCallback
 import com.alientodevida.alientoapp.app.recyclerview.BaseDiffAdapter
 import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
 import com.alientodevida.alientoapp.app.utils.extensions.openSpotifyArtistPage
