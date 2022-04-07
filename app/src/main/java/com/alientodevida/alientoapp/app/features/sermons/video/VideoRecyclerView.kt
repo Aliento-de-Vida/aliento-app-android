@@ -12,7 +12,6 @@ import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
 import com.alientodevida.alientoapp.app.utils.extensions.load
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
-import com.alientodevida.alientoapp.domain.gallery.Gallery
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 import com.bumptech.glide.Glide
 

@@ -1,8 +1,8 @@
 package com.alientodevida.alientoapp.data.notification
 
+import com.alientodevida.alientoapp.domain.common.Attachment
 import com.alientodevida.alientoapp.domain.extensions.addTimeStamp
 import com.alientodevida.alientoapp.domain.file.FileRepository
-import com.alientodevida.alientoapp.domain.common.Attachment
 import com.alientodevida.alientoapp.domain.notification.Notification
 import com.alientodevida.alientoapp.domain.notification.NotificationRepository
 import com.alientodevida.alientoapp.domain.notification.NotificationRequest

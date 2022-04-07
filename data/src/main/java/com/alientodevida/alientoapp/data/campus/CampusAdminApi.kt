@@ -1,15 +1,11 @@
 package com.alientodevida.alientoapp.data.campus
 
 import com.alientodevida.alientoapp.domain.campus.Campus
-import com.alientodevida.alientoapp.domain.notification.Notification
-import okhttp3.MultipartBody
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.HTTP
-import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
-import retrofit2.http.Part
 
 interface CampusAdminApi {
   

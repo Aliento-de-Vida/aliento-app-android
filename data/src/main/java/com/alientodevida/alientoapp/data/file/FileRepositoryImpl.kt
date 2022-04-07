@@ -1,7 +1,7 @@
 package com.alientodevida.alientoapp.data.file
 
-import com.alientodevida.alientoapp.domain.file.FileRepository
 import com.alientodevida.alientoapp.domain.common.Attachment
+import com.alientodevida.alientoapp.domain.file.FileRepository
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody

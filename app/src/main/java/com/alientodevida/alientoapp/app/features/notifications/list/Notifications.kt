@@ -33,8 +33,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
@@ -61,8 +59,6 @@ import com.alientodevida.alientoapp.domain.extensions.toDate
 import com.alientodevida.alientoapp.domain.notification.Notification
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.skydoves.landscapist.ShimmerParams
-import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun Notifications(

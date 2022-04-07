@@ -1,7 +1,11 @@
 package com.alientodevida.alientoapp.data.di
 
 import com.alientodevida.alientoapp.data.BuildConfig
-import com.alientodevida.alientoapp.data.spotify.*
+import com.alientodevida.alientoapp.data.spotify.SpotifyApi
+import com.alientodevida.alientoapp.data.spotify.SpotifyAuthApi
+import com.alientodevida.alientoapp.data.spotify.SpotifyAuthenticator
+import com.alientodevida.alientoapp.data.spotify.SpotifyAuthenticatorInterceptor
+import com.alientodevida.alientoapp.data.spotify.SpotifyRepositoryImpl
 import com.alientodevida.alientoapp.data.storage.RoomDao
 import com.alientodevida.alientoapp.domain.audio.SpotifyRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory

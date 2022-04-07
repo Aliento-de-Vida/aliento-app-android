@@ -5,16 +5,10 @@ import android.view.View
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
-import com.alientodevida.alientoapp.app.databinding.FragmentCampusesBinding
 import com.alientodevida.alientoapp.app.databinding.FragmentNotificationsBinding
-import com.alientodevida.alientoapp.app.databinding.ItemCampusBinding
-import com.alientodevida.alientoapp.app.features.notifications.list.Notifications
-import com.alientodevida.alientoapp.app.recyclerview.BaseDiffAdapter
-import com.alientodevida.alientoapp.app.recyclerview.BaseViewHolder
 import com.alientodevida.alientoapp.domain.campus.Campus
 import dagger.hilt.android.AndroidEntryPoint
 
