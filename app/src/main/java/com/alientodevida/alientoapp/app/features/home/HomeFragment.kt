@@ -25,7 +25,7 @@ class HomeFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fragmen
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-  
+    
     binding.composeView.apply {
       setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
       setContent {
@@ -34,7 +34,7 @@ class HomeFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fragmen
             viewModel = viewModel,
             goToEditHome = { goToEditHome() },
             goToNotifications = { goToNotifications() },
-            goToNotificationDetail = { notification -> goToNotificationDetail(notification)},
+            goToNotificationDetail = { notification -> goToNotificationDetail(notification) },
             goToSettings = { goToSettings() },
             goToSermons = { goToSermons() },
             goToChurch = { goToChurch() },
@@ -52,7 +52,7 @@ class HomeFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fragmen
           )
         }
       }
-    }  
+    }
   }
   
   private fun goToNotifications() {

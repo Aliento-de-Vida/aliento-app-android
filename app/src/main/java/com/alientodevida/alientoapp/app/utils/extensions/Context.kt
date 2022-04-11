@@ -108,23 +108,3 @@ private fun Context.appInstalledOrNot(uri: String): Boolean {
   }
   return false
 }
-
-fun Context.sendEmail(to: String, subject: String, message: String) {
-  val emailIntent = Intent(Intent.ACTION_SEND)
-  
-  emailIntent.data = Uri.parse("mailto:")
-  emailIntent.type = "text/plain"
-  emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
-  emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
-  emailIntent.putExtra(Intent.EXTRA_TEXT, message)
-  
-  try {
-    startActivity(Intent.createChooser(emailIntent, "Send mail..."))
-  } catch (ex: ActivityNotFoundException) {
-    Utils.showDialog(
-      this,
-      "Lo sentimos",
-      "Ha habido un error, por favor intente más tarde"
-    )
-  }
-}

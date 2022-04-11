@@ -21,7 +21,7 @@ import com.alientodevida.alientoapp.domain.entities.network.Token as SpotifyToke
 
 class PreferencesImpl(
   private val preferences: SharedPreferences,
-  private val preferencesStore: DataStore<DataStorePreferences>,
+  private val preferencesStore: DataStore<DataStorePreferences>, // TODO use datastore correctly and remove sharedpreferences
 ) : Preferences {
   companion object {
     private val ADMIN_TOKEN = stringPreferencesKey("admin-token")

@@ -31,29 +31,6 @@ class SettingsFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fra
     }
   }
   
-  /*private fun setupUI() {
-    with(binding) {
-      toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
-      
-      preferences.isDarkThemeLive.observe(viewLifecycleOwner) { isDarkTheme ->
-        isDarkTheme?.let { swTheme.isChecked = it }
-      }
-      
-      swTheme.setOnCheckedChangeListener { _, isChecked ->
-        preferences.isDarkTheme = isChecked
-      }
-      
-      swPushNotifications.isChecked = preferences.pushEnabled
-      swPushNotifications.setOnCheckedChangeListener { _, isChecked ->
-        preferences.pushEnabled = isChecked
-        if (isChecked)
-          firebaseMessaging.subscribeToTopic("push_notifications")
-        else
-          firebaseMessaging.unsubscribeFromTopic("push_notifications")
-      }
-      
-    }
-  }*/
 }
 
 

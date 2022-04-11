@@ -107,9 +107,7 @@ fun CategoryItem(
       }
   ) {
     Box {
-      item.imageUrl?.let { imageUrl ->
-        ImageWithShimmering(url = imageUrl, description = item.title)
-      }
+      ImageWithShimmering(url = item.imageUrl, description = item.title)
       
       Column {
         Spacer(Modifier.weight(0.38f))

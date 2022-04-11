@@ -1,37 +1,38 @@
 package com.alientodevida.alientoapp.app.features.splashscreen
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.core.view.isInvisible
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.navigation.fragment.findNavController
-import com.alientodevida.alientoapp.app.databinding.FragmentSplashscreenBinding
+import com.alientodevida.alientoapp.app.R
+import com.alientodevida.alientoapp.app.base.BaseFragment
+import com.alientodevida.alientoapp.app.compose.theme.AppTheme
+import com.alientodevida.alientoapp.app.databinding.FragmentNotificationsBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SplashscreenFragment : Fragment() {
+class SplashscreenFragment :
+  BaseFragment<FragmentNotificationsBinding>(R.layout.fragment_notifications) {
   
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View {
-    val binding = FragmentSplashscreenBinding.inflate(layoutInflater)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
     
-    viewLifecycleOwner.lifecycleScope.launch {
-      delay(1000)
-      binding.progressBar.isInvisible = true
-      
-      val action =
-        SplashscreenFragmentDirections.actionFragmentSplashscreenToMobileNavigation()
-      findNavController().navigate(action)
+    binding.composeView.apply {
+      setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+      setContent {
+        AppTheme {
+          SplashScreen(
+            goToMobileNavigation = { goToMobileNavigation() },
+          )
+        }
+      }
     }
-    
-    return binding.root
   }
+  
+  
+  private fun goToMobileNavigation() {
+    val action = SplashscreenFragmentDirections.actionFragmentSplashscreenToMobileNavigation()
+    findNavController().navigate(action)
+  }
+  
 }

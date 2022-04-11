@@ -1,5 +1,6 @@
-package com.alientodevida.alientoapp.app.features.campus.list
+package com.alientodevida.alientoapp.app.features.prayer
 
+import android.os.Build
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,14 +37,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
+import coil.memory.MemoryCache
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.compose.components.Body2
+import com.alientodevida.alientoapp.app.compose.components.Caption
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.Gradient
 import com.alientodevida.alientoapp.app.compose.components.H5
@@ -51,52 +57,47 @@ import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
+import com.alientodevida.alientoapp.app.features.notifications.list.NotificationsUiState
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
-import com.alientodevida.alientoapp.domain.campus.Campus
-import com.alientodevida.alientoapp.domain.campus.Location
+import com.alientodevida.alientoapp.domain.extensions.format
+import com.alientodevida.alientoapp.domain.extensions.toDate
+import com.alientodevida.alientoapp.domain.notification.Notification
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
-fun Campuses(
-  viewModel: CampusesViewModel,
+fun Prayer(
+  viewModel: PrayerViewModel,
   onBackPressed: () -> Unit,
-  goToCampus: (Campus) -> Unit,
-  goToEditCampus: (Campus) -> Unit,
-  goToCreateCampus: () -> Unit,
 ) {
-  LaunchedEffect(true) {
-    viewModel.getCampuses()
-  }
   
   val viewModelState by viewModel.viewModelState.collectAsState()
-  val isAdmin by viewModel.isAdmin.collectAsState(false)
   
-  CampusesContent(
+  /*NotificationsContent(
     uiState = viewModelState,
-    isAdmin = isAdmin,
-    refresh = viewModel::getCampuses,
+    refresh = viewModel::getNotifications,
     onMessageDismiss = viewModel::onMessageDismiss,
-    deleteCampus = viewModel::deleteCampus,
+    deleteNotification = viewModel::deleteNotification,
     onBackPressed = onBackPressed,
-    goToCampus = goToCampus,
-    goToEditCampus = goToEditCampus,
-    goToCreateCampus = goToCreateCampus,
-  )
+    goToNotificationDetail = goToNotificationDetail,
+    goToNotificationsAdmin = goToEditNotification,
+    goToCreateNotification = goToCreateNotification,
+  )*/
 }
 
+/*
 @Composable
-fun CampusesContent(
-  uiState: CampusesUiState,
+fun NotificationsContent(
+  uiState: NotificationsUiState,
   isAdmin: Boolean,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   refresh: () -> Unit,
   onMessageDismiss: (Long) -> Unit,
-  deleteCampus: (Campus) -> Unit,
+  deleteNotification: (Notification) -> Unit,
   onBackPressed: () -> Unit,
-  goToCampus: (Campus) -> Unit,
-  goToEditCampus: (Campus) -> Unit,
-  goToCreateCampus: () -> Unit,
+  goToNotificationDetail: (Notification) -> Unit,
+  goToNotificationsAdmin: (Notification) -> Unit,
+  goToCreateNotification: () -> Unit,
 ) {
   Scaffold(
     scaffoldState = scaffoldState,
@@ -105,12 +106,12 @@ fun CampusesContent(
     },
     floatingActionButton = {
       if (isAdmin) FloatingActionButton(
-        onClick = { goToCreateCampus() },
+        onClick = { goToCreateNotification() },
         contentColor = MaterialTheme.colors.surface,
       ) {
         Icon(
           icon = R.drawable.ic_add_24,
-          contentDescription = "Create Campus",
+          contentDescription = "Create Notification",
           tint = MaterialTheme.colors.onSurface
         )
       }
@@ -121,17 +122,17 @@ fun CampusesContent(
         .padding(paddingValues = paddingValues)
         .background(color = MaterialTheme.colors.background),
     ) {
-      CampusesBody(
-        campuses = uiState.campuses,
-        deleteCampus = deleteCampus,
+      NotificationsBody(
+        notifications = uiState.notifications,
         loading = uiState.loading,
         refresh = refresh,
-        goToCampus = goToCampus,
-        goToEditCampus = goToEditCampus,
+        deleteNotification = deleteNotification,
+        goToNotificationDetail = goToNotificationDetail,
+        goToNotificationsAdmin = goToNotificationsAdmin,
         isAdmin = isAdmin,
       )
       if (uiState.loading) LoadingIndicator()
-      
+  
       uiState.messages.firstOrNull()?.SnackBar(scaffoldState, onMessageDismiss)
     }
   }
@@ -175,14 +176,14 @@ fun TopAppBar(
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun CampusesBody(
-  campuses: List<Campus>,
+fun NotificationsBody(
+  notifications: List<Notification>,
   isAdmin: Boolean,
   loading: Boolean,
   refresh: () -> Unit,
-  deleteCampus: (Campus) -> Unit,
-  goToCampus: (Campus) -> Unit,
-  goToEditCampus: (Campus) -> Unit,
+  deleteNotification: (Notification) -> Unit,
+  goToNotificationDetail: (Notification) -> Unit,
+  goToNotificationsAdmin: (Notification) -> Unit,
 ) {
   SwipeRefresh(
     state = rememberSwipeRefreshState(loading),
@@ -192,7 +193,7 @@ fun CampusesBody(
       Spacer(modifier = Modifier.height(8.dp))
       H5(
         modifier = Modifier.padding(horizontal = 8.dp),
-        text = "Campus",
+        text = "Notificaciones",
         color = MaterialTheme.colors.onBackground,
       )
       Spacer(modifier = Modifier.height(16.dp))
@@ -200,15 +201,15 @@ fun CampusesBody(
         contentPadding = PaddingValues(bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
       ) {
-        items(campuses, key = { it.id }) { campus ->
-          CampusItem(
+        items(notifications, key = { it.id }) { notification ->
+          NotificationItem(
             modifier = Modifier.animateItemPlacement(),
-            campus = campus,
+            notification = notification,
             isAdmin = isAdmin,
-            height = 220.dp,
-            deleteCampus = deleteCampus,
-            goToCampus = goToCampus,
-            goToEditCampus = goToEditCampus,
+            height = 120.dp,
+            deleteNotification = deleteNotification,
+            goToNotificationDetail = goToNotificationDetail,
+            goToNotificationsAdmin = goToNotificationsAdmin,
           )
         }
       }
@@ -218,14 +219,14 @@ fun CampusesBody(
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun CampusItem(
+fun NotificationItem(
   modifier: Modifier = Modifier,
-  campus: Campus,
+  notification: Notification,
   height: Dp,
   isAdmin: Boolean,
-  deleteCampus: (Campus) -> Unit,
-  goToCampus: (Campus) -> Unit,
-  goToEditCampus: (Campus) -> Unit,
+  deleteNotification: (Notification) -> Unit,
+  goToNotificationDetail: (Notification) -> Unit,
+  goToNotificationsAdmin: (Notification) -> Unit,
 ) {
   var expanded by remember { mutableStateOf(false) }
   val hapticFeedback = LocalHapticFeedback.current
@@ -235,7 +236,7 @@ fun CampusItem(
       .fillMaxWidth()
       .height(height)
       .combinedClickable(
-        onClick = { goToCampus(campus) },
+        onClick = { goToNotificationDetail(notification) },
         onLongClick = {
           if (isAdmin) {
             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -245,7 +246,7 @@ fun CampusItem(
       ),
   ) {
     Box {
-      CampusItemContent(campus)
+      NotificationItemContent(notification)
       
       DropdownMenu(
         modifier = Modifier.background(MaterialTheme.colors.surface),
@@ -253,13 +254,13 @@ fun CampusItem(
         onDismissRequest = { expanded = false }
       ) {
         DropdownMenuItem(
-          onClick = { deleteCampus(campus) }) {
+          onClick = { deleteNotification(notification) }) {
           Body2(
             text = "Eliminar",
             color = MaterialTheme.colors.onSurface,
           )
         }
-        DropdownMenuItem(onClick = { goToEditCampus(campus) }) {
+        DropdownMenuItem(onClick = { goToNotificationsAdmin(notification) }) {
           Body2(
             text = "Editar",
             color = MaterialTheme.colors.onSurface,
@@ -271,62 +272,61 @@ fun CampusItem(
 }
 
 @Composable
-private fun CampusItemContent(campus: Campus) {
+private fun NotificationItemContent(notification: Notification) {
   Box {
     // TODO the ViewModel should do this conversion
-    ImageWithShimmering(url = campus.imageUrl.toImageUrl(), description = campus.name)
-    
+    notification.image?.name?.toImageUrl()?.let { imageUrl ->
+      ImageWithShimmering(url = imageUrl, description = notification.title)
+    }
+  
     Column {
       Spacer(Modifier.weight(0.38f))
       Gradient(
-        modifier = Modifier
-          .fillMaxWidth()
-          .weight(0.62f),
+        modifier = Modifier.fillMaxWidth().weight(0.62f),
       ) {
         Column(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
           Spacer(Modifier.weight(1.0f))
           H5(
-            text = campus.name,
+            text = notification.title,
             color = colorResource(R.color.pantone_white_c),
           )
-          Body2(
-            text = campus.shortDescription,
-            color = colorResource(R.color.pantone_white_c),
-          )
+          Row {
+            Body2(
+              text = notification.content,
+              color = colorResource(R.color.pantone_white_c),
+            )
+            Spacer(Modifier.weight(1.0f))
+            Caption(
+              text = notification.date.toDate()?.format("dd MMM yy") ?: ""
+            ) // TODO the ViewModel should do this conversion
+          }
         }
       }
     }
   }
 }
 
+
 @Preview
 @Composable
-fun CampusesPreview() {
+fun NotificationsPreview() {
   AppTheme {
-    CampusesContent(
-      CampusesUiState(
+    NotificationsContent(
+      NotificationsUiState(
         listOf(
-          Campus(
+          Notification(
             1,
             "Test Notification",
             "This is a test",
-            "This is short description",
-            "cursos.png",
-            null,
-            Location("", ""),
-            emptyList(),
-            "",
+            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
+            "2021-12-31T18:58:34Z"
           ),
-          Campus(
+          Notification(
             2,
             "Test Notification",
             "This is a test",
-            "This is short description",
-            "cursos.png",
-            null,
-            Location("", ""),
-            emptyList(),
-            "",
+            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
+            "2021-12-31T18:58:34Z"
           ),
         ),
         true,
@@ -336,10 +336,10 @@ fun CampusesPreview() {
       refresh = {},
       onMessageDismiss = {},
       onBackPressed = {},
-      deleteCampus = {},
-      goToCampus = {},
-      goToEditCampus = {},
-      goToCreateCampus = {},
+      deleteNotification = {},
+      goToNotificationDetail = {},
+      goToNotificationsAdmin = {},
+      goToCreateNotification = {},
     )
   }
-}
+}*/

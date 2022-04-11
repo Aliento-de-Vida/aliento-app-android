@@ -41,7 +41,7 @@ fun EditCreateGallery(
   
   SettingsContent(
     isDarkTheme = isDarkTheme,
-    pushNotificatiosn = pushNotificatiosn,
+    pushNotifications = pushNotificatiosn,
     onDarkThemeChanged = viewModel::onDarkThemeChanged,
     onPushNotificationsChanged = viewModel::onPushNotificationsChanged,
     onBackPressed = onBackPressed,
@@ -51,7 +51,7 @@ fun EditCreateGallery(
 @Composable
 fun SettingsContent(
   isDarkTheme: Boolean,
-  pushNotificatiosn: Boolean,
+  pushNotifications: Boolean,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   onDarkThemeChanged: (Boolean) -> Unit,
   onPushNotificationsChanged: (Boolean) -> Unit,
@@ -70,7 +70,7 @@ fun SettingsContent(
     ) {
       SettingsBody(
         isDarkTheme = isDarkTheme,
-        pushNotificatiosn = pushNotificatiosn,
+        pushNotificatiosn = pushNotifications,
         onDarkThemeChanged = onDarkThemeChanged,
         onPushNotificationsChanged = onPushNotificationsChanged,
       )
