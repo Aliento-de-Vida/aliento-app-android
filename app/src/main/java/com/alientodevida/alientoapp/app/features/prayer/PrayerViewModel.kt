@@ -5,12 +5,36 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.base.BaseViewModel
+import com.alientodevida.alientoapp.app.features.notifications.list.NotificationsUiState
+import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
+import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.logger.Logger
+import com.alientodevida.alientoapp.domain.notification.Notification
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+
+data class PrayerUiState(
+  val home: Home?,
+  val name: String? = null,
+  val email: String? = null,
+  val whatsapp: String? = null,
+  val message: String? = null,
+  val topic: String? = null,
+  val loading: Boolean = true,
+  val messages: List<Message> = emptyList(),
+) {
+  val isValidForm = topic.isNullOrBlank().not() &&
+      name.isNullOrBlank().not() &&
+      email.isNullOrBlank().not() &&
+      whatsapp.isNullOrBlank().not() &&
+      message.isNullOrBlank().not()
+}
 
 @HiltViewModel
 class PrayerViewModel @Inject constructor(
@@ -28,28 +52,31 @@ class PrayerViewModel @Inject constructor(
   savedStateHandle,
   application,
 ) {
-  val home = preferences.home
   
-  private val _isDataValid = MutableLiveData<Boolean>()
-  val isDataValid: LiveData<Boolean>
-    get() = _isDataValid
+  private val _viewModelState = MutableStateFlow(PrayerUiState(preferences.home))
+  val viewModelState: StateFlow<PrayerUiState> = _viewModelState
   
-  private val _messageToShow = MutableLiveData<Pair<String, String>>()
-  val messageToShow: LiveData<Pair<String, String>>
-    get() = _messageToShow
+  fun onMessageDismiss(id: Long) {
+    val newMessages = viewModelState.value.messages.filter { it.id != id }
+    _viewModelState.update { it.copy(messages = newMessages) }
+  }
   
-  private val _sendEmail = MutableLiveData<Pair<String, String>?>()
-  val sendEmail: LiveData<Pair<String, String>?>
-    get() = _sendEmail
+  fun onNameChanged(value: String) {
+    _viewModelState.update { it.copy(name = value) }
+  }
   
-  private val _isGettingData = MutableLiveData<Boolean>()
-  val isGettingData: LiveData<Boolean> = _isGettingData
+  fun onEmailChanged(value: String) {
+    _viewModelState.update { it.copy(email = value) }
+  }
   
-  var name: String? = null
-  var email: String? = null
-  var whatsapp: String? = null
+  fun onWhatsappChanged(value: String) {
+    _viewModelState.update { it.copy(whatsapp = value) }
+  }
   
-  var message: String? = null
+  fun sendEmail() {
+  
+  }
+  
   val topics: List<String> = arrayListOf(
     "Elige un motivo de oración",
     "Salud",
@@ -58,23 +85,7 @@ class PrayerViewModel @Inject constructor(
     "Personal",
   )
   
-  var selectedTopic: String? = null
-  
-  fun emailSent() {
-    _sendEmail.value = null
-  }
-  
-  fun validation() {
-    _isDataValid.value = (
-        selectedTopic.isNullOrBlank().not() &&
-            name.isNullOrBlank().not() &&
-            email.isNullOrBlank().not() &&
-            whatsapp.isNullOrBlank().not() &&
-            message.isNullOrBlank().not()
-        )
-  }
-  
-  fun sendPrayerRequest() {
+  /*fun sendPrayerRequest() {
     _sendEmail.value = Pair(
       "Petición de oración: $selectedTopic", """
 							Datos de contacto:
@@ -88,6 +99,6 @@ class PrayerViewModel @Inject constructor(
 							${message!!}							
 						""".trimIndent()
     )
-  }
+  }*/
   
 }

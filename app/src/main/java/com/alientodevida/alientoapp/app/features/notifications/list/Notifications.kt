@@ -277,9 +277,7 @@ fun NotificationItem(
 private fun NotificationItemContent(notification: Notification) {
   Box {
     // TODO the ViewModel should do this conversion
-    notification.image?.name?.toImageUrl()?.let { imageUrl ->
-      ImageWithShimmering(url = imageUrl, description = notification.title)
-    }
+    ImageWithShimmering(url = notification.image?.name?.toImageUrl(), description = notification.title)
   
     Column {
       Spacer(Modifier.weight(0.38f))

@@ -78,7 +78,7 @@ fun Pager(
 @Composable
 private fun PagerItem(item: CarouselItem) {
   Box {
-    item.imageUrl?.let { ImageWithShimmering(url = it, description = item.title) }
+    ImageWithShimmering(url = item.imageUrl, description = item.title)
     
     Column {
       Spacer(Modifier.weight(0.38f))
