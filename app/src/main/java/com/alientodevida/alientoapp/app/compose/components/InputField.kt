@@ -47,7 +47,7 @@ fun InputField(
   textStyle: TextStyle = LocalTextStyle.current.copy(MaterialTheme.colors.onSurface),
   label: String? = null,
   labelColor: Color = MaterialTheme.colors.secondary,
-  placeholder: String,
+  placeholder: String = "",
   placeholderColor: Color = MaterialTheme.colors.secondary,
   isError: Boolean = false,
   errorColor: Color = MaterialTheme.colors.error,
