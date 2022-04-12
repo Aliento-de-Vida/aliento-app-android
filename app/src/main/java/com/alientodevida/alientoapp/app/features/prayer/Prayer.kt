@@ -1,32 +1,31 @@
 package com.alientodevida.alientoapp.app.features.prayer
 
-import android.os.Build
-import androidx.compose.foundation.ExperimentalFoundationApi
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,35 +34,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.ImageLoader
-import coil.memory.MemoryCache
+import androidx.core.content.ContextCompat.startActivity
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.Body2
-import com.alientodevida.alientoapp.app.compose.components.Caption
+import com.alientodevida.alientoapp.app.compose.components.Body1
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
-import com.alientodevida.alientoapp.app.compose.components.Gradient
 import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
-import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
+import com.alientodevida.alientoapp.app.compose.components.InputField
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
-import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
-import com.alientodevida.alientoapp.app.features.notifications.list.NotificationsUiState
-import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
-import com.alientodevida.alientoapp.domain.extensions.format
-import com.alientodevida.alientoapp.domain.extensions.toDate
-import com.alientodevida.alientoapp.domain.notification.Notification
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.alientodevida.alientoapp.app.utils.Utils
 
 @Composable
 fun Prayer(
@@ -73,31 +57,33 @@ fun Prayer(
   
   val viewModelState by viewModel.viewModelState.collectAsState()
   
-  /*NotificationsContent(
+  val context = LocalContext.current
+  
+  NotificationsContent(
     uiState = viewModelState,
-    refresh = viewModel::getNotifications,
     onMessageDismiss = viewModel::onMessageDismiss,
-    deleteNotification = viewModel::deleteNotification,
+    onNameChanged = viewModel::onNameChanged,
+    onEmailChanged = viewModel::onEmailChanged,
+    onWhatsappChanged = viewModel::onWhatsappChanged,
+    onMessageChanged = viewModel::onMessageChanged,
+    onTopicChanged = viewModel::onTopicChanged,
+    sendPrayerRequest = { sendPrayerRequest(context, viewModelState)},
     onBackPressed = onBackPressed,
-    goToNotificationDetail = goToNotificationDetail,
-    goToNotificationsAdmin = goToEditNotification,
-    goToCreateNotification = goToCreateNotification,
-  )*/
+  )
 }
 
-/*
 @Composable
 fun NotificationsContent(
-  uiState: NotificationsUiState,
-  isAdmin: Boolean,
+  uiState: PrayerUiState,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
-  refresh: () -> Unit,
   onMessageDismiss: (Long) -> Unit,
-  deleteNotification: (Notification) -> Unit,
+  onNameChanged: (String) -> Unit,
+  onEmailChanged: (String) -> Unit,
+  onWhatsappChanged: (String) -> Unit,
+  onMessageChanged: (String) -> Unit,
+  onTopicChanged: (Int) -> Unit,
+  sendPrayerRequest: () -> Unit,
   onBackPressed: () -> Unit,
-  goToNotificationDetail: (Notification) -> Unit,
-  goToNotificationsAdmin: (Notification) -> Unit,
-  goToCreateNotification: () -> Unit,
 ) {
   Scaffold(
     scaffoldState = scaffoldState,
@@ -105,13 +91,13 @@ fun NotificationsContent(
       TopAppBar(onBackPressed = onBackPressed)
     },
     floatingActionButton = {
-      if (isAdmin) FloatingActionButton(
-        onClick = { goToCreateNotification() },
+      if (uiState.isValidForm) FloatingActionButton(
+        onClick = { sendPrayerRequest() },
         contentColor = MaterialTheme.colors.surface,
       ) {
         Icon(
-          icon = R.drawable.ic_add_24,
-          contentDescription = "Create Notification",
+          icon = R.drawable.ic_send_24,
+          contentDescription = "Send Prayer Request",
           tint = MaterialTheme.colors.onSurface
         )
       }
@@ -123,16 +109,15 @@ fun NotificationsContent(
         .background(color = MaterialTheme.colors.background),
     ) {
       NotificationsBody(
-        notifications = uiState.notifications,
-        loading = uiState.loading,
-        refresh = refresh,
-        deleteNotification = deleteNotification,
-        goToNotificationDetail = goToNotificationDetail,
-        goToNotificationsAdmin = goToNotificationsAdmin,
-        isAdmin = isAdmin,
+        state = uiState,
+        onNameChanged = onNameChanged,
+        onEmailChanged = onEmailChanged,
+        onWhatsappChanged = onWhatsappChanged,
+        onMessageChanged = onMessageChanged,
+        onTopicChanged = onTopicChanged,
       )
       if (uiState.loading) LoadingIndicator()
-  
+      
       uiState.messages.firstOrNull()?.SnackBar(scaffoldState, onMessageDismiss)
     }
   }
@@ -175,130 +160,123 @@ fun TopAppBar(
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 fun NotificationsBody(
-  notifications: List<Notification>,
-  isAdmin: Boolean,
-  loading: Boolean,
-  refresh: () -> Unit,
-  deleteNotification: (Notification) -> Unit,
-  goToNotificationDetail: (Notification) -> Unit,
-  goToNotificationsAdmin: (Notification) -> Unit,
+  state: PrayerUiState,
+  onNameChanged: (String) -> Unit,
+  onEmailChanged: (String) -> Unit,
+  onWhatsappChanged: (String) -> Unit,
+  onMessageChanged: (String) -> Unit,
+  onTopicChanged: (Int) -> Unit,
 ) {
-  SwipeRefresh(
-    state = rememberSwipeRefreshState(loading),
-    onRefresh = refresh,
+  Column(
+    Modifier
+      .fillMaxWidth()
+      .padding(horizontal = 16.dp)
   ) {
-    Column(Modifier.padding(horizontal = 8.dp)) {
-      Spacer(modifier = Modifier.height(8.dp))
-      H5(
-        modifier = Modifier.padding(horizontal = 8.dp),
-        text = "Notificaciones",
-        color = MaterialTheme.colors.onBackground,
-      )
-      Spacer(modifier = Modifier.height(16.dp))
-      LazyColumn(
-        contentPadding = PaddingValues(bottom = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-      ) {
-        items(notifications, key = { it.id }) { notification ->
-          NotificationItem(
-            modifier = Modifier.animateItemPlacement(),
-            notification = notification,
-            isAdmin = isAdmin,
-            height = 120.dp,
-            deleteNotification = deleteNotification,
-            goToNotificationDetail = goToNotificationDetail,
-            goToNotificationsAdmin = goToNotificationsAdmin,
-          )
-        }
-      }
-    }
+    Spacer(modifier = Modifier.height(16.dp))
+    H5(
+      modifier = Modifier.padding(horizontal = 8.dp).align(Alignment.CenterHorizontally),
+      text = "Queremos orar por ti",
+      color = MaterialTheme.colors.onBackground,
+    )
+    
+    Spacer(modifier = Modifier.height(16.dp))
+    Body1(
+      modifier = Modifier.padding(horizontal = 8.dp).align(Alignment.CenterHorizontally),
+      text = "Por favor escríbenos tu petición de oración",
+      color = MaterialTheme.colors.onBackground,
+    )
+    
+    Spacer(modifier = Modifier.height(32.dp))
+    InputField(
+      modifier = Modifier.fillMaxWidth(),
+      value = state.name ?: "",
+      onChanged = onNameChanged,
+      label = "Nombre",
+      labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+    )
+    
+    Spacer(modifier = Modifier.height(16.dp))
+    InputField(
+      modifier = Modifier.fillMaxWidth(),
+      value = state.email ?: "",
+      onChanged = onEmailChanged,
+      label = "Email",
+      labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+    )
+    
+    Spacer(modifier = Modifier.height(16.dp))
+    InputField(
+      modifier = Modifier.fillMaxWidth(),
+      value = state.whatsapp ?: "",
+      onChanged = onWhatsappChanged,
+      label = "Whatsapp",
+      labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+    )
+    
+    Spacer(modifier = Modifier.height(16.dp))
+    InputField(
+      modifier = Modifier.fillMaxWidth(),
+      value = state.message ?: "",
+      onChanged = onMessageChanged,
+      label = "Mensaje",
+      labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+    )
+  
+    Spacer(modifier = Modifier.height(16.dp))
+    Body1(
+      modifier = Modifier.padding(horizontal = 8.dp),
+      text = "Asunto",
+      color = MaterialTheme.colors.onBackground,
+    )
+  
+    Spacer(modifier = Modifier.height(8.dp))
+    TopicDropDown(topic = state.topic, topics = state.topics, onTopicChanged = onTopicChanged)
   }
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
-fun NotificationItem(
-  modifier: Modifier = Modifier,
-  notification: Notification,
-  height: Dp,
-  isAdmin: Boolean,
-  deleteNotification: (Notification) -> Unit,
-  goToNotificationDetail: (Notification) -> Unit,
-  goToNotificationsAdmin: (Notification) -> Unit,
+fun TopicDropDown(
+  topic: Int,
+  topics: List<String>,
+  onTopicChanged: (Int) -> Unit,
 ) {
   var expanded by remember { mutableStateOf(false) }
-  val hapticFeedback = LocalHapticFeedback.current
   
-  Card(
-    modifier
-      .fillMaxWidth()
-      .height(height)
-      .combinedClickable(
-        onClick = { goToNotificationDetail(notification) },
-        onLongClick = {
-          if (isAdmin) {
-            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-            expanded = expanded.not()
-          }
+  Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.TopStart) {
+    Row(
+      Modifier
+        .clickable {
+          expanded = !expanded
         }
-      ),
-  ) {
-    Box {
-      NotificationItemContent(notification)
+        .padding(8.dp),
+      horizontalArrangement = Arrangement.Center,
+      verticalAlignment = Alignment.CenterVertically
+    ) {
+      Body1(
+        modifier = Modifier.padding(end = 8.dp),
+        color = MaterialTheme.colors.onBackground,
+        text = topics[topic],
+      )
+      Icon(
+        icon = Icons.Filled.ArrowDropDown,
+        contentDescription = "",
+        tint = MaterialTheme.colors.onSurface
+      )
       
-      DropdownMenu(
-        modifier = Modifier.background(MaterialTheme.colors.surface),
-        expanded = expanded,
-        onDismissRequest = { expanded = false }
-      ) {
-        DropdownMenuItem(
-          onClick = { deleteNotification(notification) }) {
-          Body2(
-            text = "Eliminar",
-            color = MaterialTheme.colors.onSurface,
-          )
-        }
-        DropdownMenuItem(onClick = { goToNotificationsAdmin(notification) }) {
-          Body2(
-            text = "Editar",
-            color = MaterialTheme.colors.onSurface,
-          )
-        }
-      }
-    }
-  }
-}
-
-@Composable
-private fun NotificationItemContent(notification: Notification) {
-  Box {
-    // TODO the ViewModel should do this conversion
-    notification.image?.name?.toImageUrl()?.let { imageUrl ->
-      ImageWithShimmering(url = imageUrl, description = notification.title)
-    }
-  
-    Column {
-      Spacer(Modifier.weight(0.38f))
-      Gradient(
-        modifier = Modifier.fillMaxWidth().weight(0.62f),
-      ) {
-        Column(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
-          Spacer(Modifier.weight(1.0f))
-          H5(
-            text = notification.title,
-            color = colorResource(R.color.pantone_white_c),
-          )
-          Row {
-            Body2(
-              text = notification.content,
-              color = colorResource(R.color.pantone_white_c),
+      DropdownMenu(expanded = expanded, onDismissRequest = {
+        expanded = false
+      }) {
+        topics.forEach { topic ->
+          DropdownMenuItem(onClick = {
+            val index = topics.indexOf(topic)
+            expanded = false
+            onTopicChanged(if (index > 0) index else 0)
+          }) {
+            Body1(
+              text = topic,
+              color = MaterialTheme.colors.onBackground,
             )
-            Spacer(Modifier.weight(1.0f))
-            Caption(
-              text = notification.date.toDate()?.format("dd MMM yy") ?: ""
-            ) // TODO the ViewModel should do this conversion
           }
         }
       }
@@ -306,40 +284,51 @@ private fun NotificationItemContent(notification: Notification) {
   }
 }
 
-
-@Preview
-@Composable
-fun NotificationsPreview() {
-  AppTheme {
-    NotificationsContent(
-      NotificationsUiState(
-        listOf(
-          Notification(
-            1,
-            "Test Notification",
-            "This is a test",
-            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-            "2021-12-31T18:58:34Z"
-          ),
-          Notification(
-            2,
-            "Test Notification",
-            "This is a test",
-            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-            "2021-12-31T18:58:34Z"
-          ),
-        ),
-        true,
-        emptyList(),
-      ),
-      isAdmin = true,
-      refresh = {},
-      onMessageDismiss = {},
-      onBackPressed = {},
-      deleteNotification = {},
-      goToNotificationDetail = {},
-      goToNotificationsAdmin = {},
-      goToCreateNotification = {},
+fun sendMail(context: Context, to: String, subject: String, message: String) {
+  val emailIntent = Intent(Intent.ACTION_SEND)
+  
+  emailIntent.data = Uri.parse("mailto:")
+  emailIntent.type = "text/plain"
+  emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
+  emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+  emailIntent.putExtra(Intent.EXTRA_TEXT, message)
+  
+  try {
+    startActivity(context, Intent.createChooser(emailIntent, "Send mail..."), null)
+  } catch (ex: ActivityNotFoundException) {
+    Utils.showDialog(
+      context,
+      "Lo sentimos",
+      "Ha habido un error, por favor intente más tarde"
     )
   }
-}*/
+}
+
+fun getMailMessage(name: String, email: String, whatsapp: String, message: String) =
+  """
+    Datos de contacto:
+    
+    nombre: $name
+    email: $email
+    whatsapp: $whatsapp
+    
+    mensaje:
+    
+    $message
+	""".trimIndent()
+
+fun sendPrayerRequest(context: Context, viewModelState: PrayerUiState) {
+  viewModelState.home?.let { home ->
+    sendMail(
+      context = context,
+      to = home.prayerEmail,
+      subject = viewModelState.email!!,
+      message = getMailMessage(
+        viewModelState.name!!,
+        viewModelState.email,
+        viewModelState.whatsapp!!,
+        viewModelState.message!!,
+      )
+    )
+  }
+}
