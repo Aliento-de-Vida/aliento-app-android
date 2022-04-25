@@ -6,13 +6,9 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
-import coil.request.CachePolicy
 import com.alientodevida.alientoapp.app.compose.coil.ResponseHeaderInterceptor
 import dagger.hilt.android.HiltAndroidApp
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
-import java.util.logging.Logger
 
 @HiltAndroidApp
 class AppController : Application(), ImageLoaderFactory {

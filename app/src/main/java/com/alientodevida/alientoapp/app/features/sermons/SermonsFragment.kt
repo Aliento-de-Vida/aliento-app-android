@@ -2,7 +2,6 @@ package com.alientodevida.alientoapp.app.features.sermons
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.alientodevida.alientoapp.app.R
@@ -12,8 +11,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SermonsFragment : BaseFragment<FragmentSermonsBinding>(R.layout.fragment_sermons) {
-  
-  private val viewModel by viewModels<SermonsViewModel>()
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)

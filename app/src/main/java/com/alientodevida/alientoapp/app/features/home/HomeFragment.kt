@@ -37,6 +37,7 @@ class HomeFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fragmen
             goToNotificationDetail = { notification -> goToNotificationDetail(notification) },
             goToSettings = { goToSettings() },
             goToSermons = { goToSermons() },
+            goToSermon = {  }, // TODO
             goToChurch = { goToChurch() },
             goToCampus = { goToCampus() },
             goToGallery = { goToGallery() },

@@ -53,8 +53,7 @@ class VideoRepositoryImpl(
     return items
   }
   
-  override fun getCachedVideos(): List<YoutubeVideo> {
-    return roomDao.getVideos()
-  }
+  override suspend fun getCachedVideos(): List<YoutubeVideo> =
+    withContext(Dispatchers.IO) { roomDao.getVideos() }
   
 }

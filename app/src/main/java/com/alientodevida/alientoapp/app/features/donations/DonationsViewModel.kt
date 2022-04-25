@@ -1,8 +1,6 @@
 package com.alientodevida.alientoapp.app.features.donations
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseViewModel
@@ -15,7 +13,11 @@ import com.alientodevida.alientoapp.domain.entities.local.Paypal
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
+
+data class DonationsUiState(val paymentOptions: List<PaymentItem>)
 
 @HiltViewModel
 class DonationsViewModel @Inject constructor(
@@ -34,12 +36,8 @@ class DonationsViewModel @Inject constructor(
   application,
 ) {
   
-  private val _offeringsOptions = MutableLiveData<List<PaymentItem>>()
-  val offeringsOptions: LiveData<List<PaymentItem>>
-    get() = _offeringsOptions
-  
-  init {
-    _offeringsOptions.value = arrayListOf(
+  private val _viewModelState = MutableStateFlow(
+    DonationsUiState(listOf(
       PaymentItem(
         0,
         DonationType.OFRENDA,
@@ -60,6 +58,9 @@ class DonationsViewModel @Inject constructor(
         Paypal("https://www.paypal.com/paypalme/AlientoDeVidaMx"),
         null,
       ),
-    )
-  }
+    ))
+  )
+  val viewModelState: StateFlow<DonationsUiState>
+    get() = _viewModelState
+  
 }

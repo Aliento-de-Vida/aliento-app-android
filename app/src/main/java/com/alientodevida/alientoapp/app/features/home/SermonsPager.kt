@@ -1,10 +1,8 @@
 package com.alientodevida.alientoapp.app.features.home
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,7 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,61 +19,29 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.compose.components.Body2
 import com.alientodevida.alientoapp.app.compose.components.Gradient
 import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
+import com.alientodevida.alientoapp.app.compose.components.Pager
 import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Pager(
+fun SermonsPager(
   items: List<CarouselItem>,
   goToSermons: () -> Unit,
+  goToSermon: (CarouselItem) -> Unit,
 ) {
-  Box(Modifier.height(250.dp)) {
-    val pagerState = rememberPagerState()
-    
-    LaunchedEffect(pagerState.currentPage) {
-      launch {
-        delay(3000)
-        with(pagerState) {
-          val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
-          animateScrollToPage(page = target)
-        }
+  Pager(
+    items = items,
+    goToItem = {
+      when {
+        it.youtubeItem != null -> goToSermon(it)
+        it.categoryItem != null -> goToSermons()
       }
     }
-    
-    HorizontalPager(
-      modifier = Modifier
-        .fillMaxSize()
-        .clickable {
-          goToSermons() // TODO open specific video
-        },
-      count = items.size,
-      state = pagerState,
-    ) { page ->
-      PagerItem(item = items[page])
-    }
-    
-    Column(Modifier.align(Alignment.Center)) {
-      Spacer(modifier = Modifier.weight(1.0f))
-      HorizontalPagerIndicator(
-        pagerState = pagerState,
-        modifier = Modifier
-          .align(Alignment.CenterHorizontally)
-          .padding(16.dp),
-      )
-      Spacer(modifier = Modifier.height(16.dp))
-    }
-  }
+  ) { item -> SermonsPageItem(item) }
 }
 
 @Composable
-private fun PagerItem(item: CarouselItem) {
+private fun SermonsPageItem(item: CarouselItem) {
   Box {
     ImageWithShimmering(url = item.imageUrl, description = item.title)
     

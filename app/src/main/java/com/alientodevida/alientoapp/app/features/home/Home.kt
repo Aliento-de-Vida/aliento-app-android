@@ -46,6 +46,7 @@ fun Home(
   goToNotificationDetail: (Notification) -> Unit,
   goToSettings: () -> Unit,
   goToSermons: () -> Unit,
+  goToSermon: (String) -> Unit,
   goToChurch: () -> Unit,
   goToCampus: () -> Unit,
   goToGallery: () -> Unit,
@@ -73,6 +74,7 @@ fun Home(
     goToNotificationDetail = goToNotificationDetail,
     goToSettings = goToSettings,
     goToSermons = goToSermons,
+    goToSermon = goToSermon,
     goToChurch = goToChurch,
     goToCampus = goToCampus,
     goToGallery = goToGallery,
@@ -101,6 +103,7 @@ fun HomeContent(
   goToNotificationDetail: (Notification) -> Unit,
   goToSettings: () -> Unit,
   goToSermons: () -> Unit,
+  goToSermon: (String) -> Unit,
   goToChurch: () -> Unit,
   goToCampus: () -> Unit,
   goToGallery: () -> Unit,
@@ -147,6 +150,7 @@ fun HomeContent(
         refresh = refresh,
         goToNotificationDetail = goToNotificationDetail,
         goToSermons = goToSermons,
+        goToSermon = goToSermon,
         goToChurch = goToChurch,
         goToCampus = goToCampus,
         goToGallery = goToGallery,
@@ -218,6 +222,7 @@ fun HomeBody(
   refresh: () -> Unit,
   goToNotificationDetail: (Notification) -> Unit,
   goToSermons: () -> Unit,
+  goToSermon: (String) -> Unit,
   goToChurch: () -> Unit,
   goToCampus: () -> Unit,
   goToGallery: () -> Unit,
@@ -239,9 +244,10 @@ fun HomeBody(
     onRefresh = refresh,
   ) {
     Column(Modifier.verticalScroll(scrollState)) {
-      Pager(
+      SermonsPager(
         items = uiState.sermonItems.take(3),
         goToSermons = goToSermons,
+        goToSermon = { it.youtubeItem?.youtubeId?.let { goToSermon(it) } },
       )
     
       Categories(
@@ -337,6 +343,7 @@ fun HomePreview() {
       goToNotificationDetail = {},
       goToSettings = {},
       goToSermons = {},
+      goToSermon = {},
       goToChurch = {},
       goToCampus = {},
       goToGallery = {},

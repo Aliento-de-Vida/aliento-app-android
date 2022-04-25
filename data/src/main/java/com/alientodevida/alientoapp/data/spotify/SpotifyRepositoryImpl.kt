@@ -39,8 +39,8 @@ class SpotifyRepositoryImpl(
   
   private suspend fun getTracks(album: Album) = spotifyApi.getTracks(album.id).asDomain(album)
   
-  override fun getCachedPodcasts(): List<Audio> {
-    return roomDao.getAudios()
+  override suspend fun getCachedPodcasts(): List<Audio> {
+    return withContext(Dispatchers.IO) { roomDao.getAudios() }
   }
   
 }
