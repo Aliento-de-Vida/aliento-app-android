@@ -12,6 +12,6 @@ interface VideoRepository {
     maxResults: Int = 50,
   ): List<YoutubeVideo>
   
-  fun getCachedVideos(): List<YoutubeVideo>
+  suspend fun getCachedVideos(): List<YoutubeVideo>
   
 }

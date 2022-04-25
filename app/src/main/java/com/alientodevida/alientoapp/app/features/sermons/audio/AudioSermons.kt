@@ -1,23 +1,24 @@
-package com.alientodevida.alientoapp.app.features.campus.list
+package com.alientodevida.alientoapp.app.features.sermons.audio
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -27,91 +28,78 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.Body2
+import com.alientodevida.alientoapp.app.compose.components.Caption
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
-import com.alientodevida.alientoapp.app.compose.components.Gradient
-import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
 import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
-import com.alientodevida.alientoapp.app.compose.theme.AppTheme
+import com.alientodevida.alientoapp.app.compose.components.Subtitle1
+import com.alientodevida.alientoapp.app.compose.components.Subtitle2
 import com.alientodevida.alientoapp.app.extensions.SnackBar
-import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
-import com.alientodevida.alientoapp.domain.campus.Campus
-import com.alientodevida.alientoapp.domain.campus.Location
+import com.alientodevida.alientoapp.domain.audio.Audio
+import com.alientodevida.alientoapp.domain.extensions.format
+import com.alientodevida.alientoapp.domain.extensions.toDate
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import java.util.concurrent.TimeUnit
 
 @Composable
-fun Campuses(
-  viewModel: CampusesViewModel,
+fun AudioSermons(
+  viewModel: AudioViewModel,
   onBackPressed: () -> Unit,
-  goToCampus: (Campus) -> Unit,
-  goToEditCampus: (Campus) -> Unit,
-  goToCreateCampus: () -> Unit,
+  goToSpotifyPage: () -> Unit,
+  goToSpotifyAudio: (Audio) -> Unit,
 ) {
   LaunchedEffect(true) {
-    viewModel.getCampuses()
+    viewModel.getPodcasts()
   }
   
   val viewModelState by viewModel.viewModelState.collectAsState()
-  val isAdmin by viewModel.isAdmin.collectAsState(false)
   
-  CampusesContent(
+  AudioSermonsContent(
     uiState = viewModelState,
-    isAdmin = isAdmin,
-    refresh = viewModel::getCampuses,
+    refresh = viewModel::refreshContent,
     onMessageDismiss = viewModel::onMessageDismiss,
-    deleteCampus = viewModel::deleteCampus,
     onBackPressed = onBackPressed,
-    goToCampus = goToCampus,
-    goToEditCampus = goToEditCampus,
-    goToCreateCampus = goToCreateCampus,
+    goToSpotifyPage = goToSpotifyPage,
+    goToSpotifyAudio = goToSpotifyAudio,
   )
 }
 
 @Composable
-fun CampusesContent(
-  uiState: CampusesUiState,
-  isAdmin: Boolean,
+fun AudioSermonsContent(
+  uiState: AudioSermonsUiState,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   refresh: () -> Unit,
   onMessageDismiss: (Long) -> Unit,
-  deleteCampus: (Campus) -> Unit,
   onBackPressed: () -> Unit,
-  goToCampus: (Campus) -> Unit,
-  goToEditCampus: (Campus) -> Unit,
-  goToCreateCampus: () -> Unit,
+  goToSpotifyPage: () -> Unit,
+  goToSpotifyAudio: (Audio) -> Unit,
 ) {
   Scaffold(
     scaffoldState = scaffoldState,
-    topBar = {
+    /*topBar = {
       TopAppBar(onBackPressed = onBackPressed)
-    },
+    },*/
     floatingActionButton = {
-      if (isAdmin) FloatingActionButton(
-        onClick = { goToCreateCampus() },
-        contentColor = MaterialTheme.colors.surface,
+      FloatingActionButton(
+        onClick = { goToSpotifyPage() },
+        backgroundColor = colorResource(id = R.color.green_spotify),
       ) {
         Icon(
-          icon = R.drawable.ic_add_24,
-          contentDescription = "Create Campus",
-          tint = MaterialTheme.colors.onSurface
+          icon = R.drawable.spotify_icon,
+          contentDescription = "Go To Spotify",
+          tint = Color.White,
         )
       }
     }
@@ -121,14 +109,11 @@ fun CampusesContent(
         .padding(paddingValues = paddingValues)
         .background(color = MaterialTheme.colors.background),
     ) {
-      CampusesBody(
-        campuses = uiState.campuses,
-        deleteCampus = deleteCampus,
+      AudioSermonsBody(
+        audios = uiState.audios,
         loading = uiState.loading,
         refresh = refresh,
-        goToCampus = goToCampus,
-        goToEditCampus = goToEditCampus,
-        isAdmin = isAdmin,
+        goToSpotifyAudio = goToSpotifyAudio,
       )
       if (uiState.loading) LoadingIndicator()
       
@@ -175,40 +160,27 @@ fun TopAppBar(
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun CampusesBody(
-  campuses: List<Campus>,
-  isAdmin: Boolean,
+fun AudioSermonsBody(
+  audios: List<Audio>,
   loading: Boolean,
   refresh: () -> Unit,
-  deleteCampus: (Campus) -> Unit,
-  goToCampus: (Campus) -> Unit,
-  goToEditCampus: (Campus) -> Unit,
+  goToSpotifyAudio: (Audio) -> Unit,
 ) {
   SwipeRefresh(
     state = rememberSwipeRefreshState(loading),
     onRefresh = refresh,
   ) {
     Column(Modifier.padding(horizontal = 8.dp)) {
-      Spacer(modifier = Modifier.height(8.dp))
-      H5(
-        modifier = Modifier.padding(horizontal = 8.dp),
-        text = "Campus",
-        color = MaterialTheme.colors.onBackground,
-      )
-      Spacer(modifier = Modifier.height(16.dp))
       LazyColumn(
         contentPadding = PaddingValues(bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
       ) {
-        items(campuses, key = { it.id }) { campus ->
-          CampusItem(
+        items(audios, key = { it.uri }) { audio ->
+          AudioItem(
             modifier = Modifier.animateItemPlacement(),
-            campus = campus,
-            isAdmin = isAdmin,
-            height = 220.dp,
-            deleteCampus = deleteCampus,
-            goToCampus = goToCampus,
-            goToEditCampus = goToEditCampus,
+            audio = audio,
+            height = 90.dp,
+            goToSpotifyAudio = goToSpotifyAudio,
           )
         }
       }
@@ -218,120 +190,77 @@ fun CampusesBody(
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun CampusItem(
+fun AudioItem(
   modifier: Modifier = Modifier,
-  campus: Campus,
+  audio: Audio,
   height: Dp,
-  isAdmin: Boolean,
-  deleteCampus: (Campus) -> Unit,
-  goToCampus: (Campus) -> Unit,
-  goToEditCampus: (Campus) -> Unit,
+  goToSpotifyAudio: (Audio) -> Unit,
 ) {
-  var expanded by remember { mutableStateOf(false) }
-  val hapticFeedback = LocalHapticFeedback.current
-  
   Card(
     modifier
       .fillMaxWidth()
       .height(height)
-      .combinedClickable(
-        onClick = { goToCampus(campus) },
-        onLongClick = {
-          if (isAdmin) {
-            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-            expanded = expanded.not()
-          }
-        }
-      ),
+      .clickable { goToSpotifyAudio(audio) },
   ) {
-    Box {
-      CampusItemContent(campus)
+    Row {
+      ImageWithShimmering(
+        Modifier
+          .fillMaxHeight()
+          .width(90.dp),
+        url = audio.imageUrl,
+        description = audio.title
+      )
       
-      DropdownMenu(
-        modifier = Modifier.background(MaterialTheme.colors.surface),
-        expanded = expanded,
-        onDismissRequest = { expanded = false }
-      ) {
-        DropdownMenuItem(
-          onClick = { deleteCampus(campus) }) {
-          Body2(
-            text = "Eliminar",
+      Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Subtitle2(
+          text = audio.title,
+          color = MaterialTheme.colors.onSurface,
+        )
+        Subtitle1(
+          text = audio.subtitle,
+          color = MaterialTheme.colors.onSurface,
+        )
+        
+        Spacer(Modifier.weight(1.0f))
+        Row {
+          Caption(
+            text = audio.releaseDate?.toDate("yyyy-MM-dd")?.format("d MMMM yyyy") ?: "",
             color = MaterialTheme.colors.onSurface,
           )
-        }
-        DropdownMenuItem(onClick = { goToEditCampus(campus) }) {
-          Body2(
-            text = "Editar",
-            color = MaterialTheme.colors.onSurface,
-          )
-        }
-      }
-    }
-  }
-}
-
-@Composable
-private fun CampusItemContent(campus: Campus) {
-  Box {
-    // TODO the ViewModel should do this conversion
-    ImageWithShimmering(
-      modifier = Modifier.align(Alignment.Center),
-      contentScale = ContentScale.Crop,
-      url = campus.imageUrl.toImageUrl(),
-      description = campus.name
-    )
-    
-    Column {
-      Spacer(Modifier.weight(0.38f))
-      Gradient(
-        modifier = Modifier
-          .fillMaxWidth()
-          .weight(0.62f),
-      ) {
-        Column(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
           Spacer(Modifier.weight(1.0f))
-          H5(
-            text = campus.name,
-            color = colorResource(R.color.pantone_white_c),
-          )
-          Body2(
-            text = campus.shortDescription,
-            color = colorResource(R.color.pantone_white_c),
+          Caption(
+            text = "${TimeUnit.MILLISECONDS.toMinutes(audio.duration.toLong())}  min",
+            color = MaterialTheme.colors.onSurface,
           )
         }
+        
       }
+      
     }
   }
 }
 
+/*
 @Preview
 @Composable
-fun CampusesPreview() {
+fun NotificationsPreview() {
   AppTheme {
-    CampusesContent(
-      CampusesUiState(
+    AudioSermonsContent(
+      NotificationsUiState(
         listOf(
-          Campus(
+          Notification(
             1,
             "Test Notification",
             "This is a test",
-            "This is short description",
-            "cursos.png",
-            null,
-            Location("", ""),
-            emptyList(),
-            "",
+            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
+            "2021-12-31T18:58:34Z"
           ),
-          Campus(
+          Notification(
             2,
             "Test Notification",
             "This is a test",
-            "This is short description",
-            "cursos.png",
-            null,
-            Location("", ""),
-            emptyList(),
-            "",
+            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
+            "2021-12-31T18:58:34Z"
           ),
         ),
         true,
@@ -341,10 +270,10 @@ fun CampusesPreview() {
       refresh = {},
       onMessageDismiss = {},
       onBackPressed = {},
-      deleteCampus = {},
-      goToCampus = {},
-      goToEditCampus = {},
-      goToCreateCampus = {},
+      deleteNotification = {},
+      goToNotificationDetail = {},
+      goToNotificationsAdmin = {},
+      goToCreateNotification = {},
     )
   }
-}
+}*/

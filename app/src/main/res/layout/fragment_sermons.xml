@@ -6,9 +6,6 @@
 
   <data>
 
-    <variable
-      name="viewModel"
-      type="com.alientodevida.alientoapp.app.features.sermons.SermonsViewModel" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import com.alientodevida.alientoapp.app.utils.Utils
 
 fun Context.openInstagramPage(instagramUrl: String) {
   val uri = Uri.parse(instagramUrl)

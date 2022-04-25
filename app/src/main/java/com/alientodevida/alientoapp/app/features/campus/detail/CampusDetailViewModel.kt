@@ -5,7 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.campus.Campus
-import com.alientodevida.alientoapp.domain.campus.CampusRepository
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
@@ -14,7 +13,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CampusDetailViewModel @Inject constructor(
-  private val campusRepository: CampusRepository,
   coroutineDispatchers: CoroutineDispatchers,
   errorParser: ErrorParser,
   logger: Logger,
