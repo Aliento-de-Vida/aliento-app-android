@@ -2,31 +2,25 @@ package com.alientodevida.alientoapp.app.features.sermons
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.Navigation
-import androidx.navigation.ui.setupWithNavController
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
-import com.alientodevida.alientoapp.app.databinding.FragmentSermonsBinding
+import com.alientodevida.alientoapp.app.compose.theme.AppTheme
+import com.alientodevida.alientoapp.app.databinding.FragmentNotificationsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SermonsFragment : BaseFragment<FragmentSermonsBinding>(R.layout.fragment_sermons) {
+class SermonsFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fragment_notifications) {
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     
-    setupUI(binding)
-  }
-  
-  private fun setupUI(binding: FragmentSermonsBinding) {
-    with(binding) {
-      toolbarView.icBack.setOnClickListener { activity?.onBackPressed() }
-      
-      val fragmentContainer = root.findViewById<View>(R.id.nav_host_fragment_sermons)
-      val navController = Navigation.findNavController(fragmentContainer)
-      
-      val bottomNavigationView = navView
-      bottomNavigationView.setupWithNavController(navController)
+    binding.composeView.apply {
+      setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+      setContent {
+        AppTheme { Sermons { activity?.onBackPressed() } }
+      }
     }
   }
+  
 }

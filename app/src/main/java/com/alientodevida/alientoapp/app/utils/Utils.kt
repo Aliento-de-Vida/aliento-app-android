@@ -23,15 +23,6 @@ class Utils {
       context.startActivity(openBrowserIntent)
     }
     
-    fun handleOnClick(activity: Activity, videoId: String) {
-      val intent: Intent = YouTubeStandalonePlayer.createVideoIntent(
-        activity,
-        BuildConfig.YOUTUBE_DEVELOPER_KEY,
-        videoId
-      )
-      activity.startActivity(intent)
-    }
-    
     fun copyToClipboard(
       context: Context,
       name: String,
