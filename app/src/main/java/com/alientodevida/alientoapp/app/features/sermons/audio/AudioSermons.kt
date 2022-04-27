@@ -1,5 +1,7 @@
 package com.alientodevida.alientoapp.app.features.sermons.audio
 
+import android.content.Context
+import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,7 +23,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -33,11 +34,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
+import com.alientodevida.alientoapp.app.compose.components.AlwaysRefreshableSwipeRefresh
 import com.alientodevida.alientoapp.app.compose.components.Caption
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.Icon
@@ -46,34 +49,38 @@ import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.components.Subtitle1
 import com.alientodevida.alientoapp.app.compose.components.Subtitle2
 import com.alientodevida.alientoapp.app.extensions.SnackBar
+import com.alientodevida.alientoapp.app.utils.extensions.openSpotifyArtistPage
+import com.alientodevida.alientoapp.app.utils.extensions.openSpotifyWith
 import com.alientodevida.alientoapp.domain.audio.Audio
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.alientodevida.alientoapp.domain.home.Home
 import java.util.concurrent.TimeUnit
 
 @Composable
 fun AudioSermons(
   viewModel: AudioViewModel,
-  onBackPressed: () -> Unit,
-  goToSpotifyPage: () -> Unit,
-  goToSpotifyAudio: (Audio) -> Unit,
 ) {
   LaunchedEffect(true) {
-    viewModel.getPodcasts()
+    viewModel.getCachedPodcasts()
   }
   
   val viewModelState by viewModel.viewModelState.collectAsState()
+  val context = LocalContext.current
   
   AudioSermonsContent(
     uiState = viewModelState,
     refresh = viewModel::refreshContent,
     onMessageDismiss = viewModel::onMessageDismiss,
-    onBackPressed = onBackPressed,
-    goToSpotifyPage = goToSpotifyPage,
-    goToSpotifyAudio = goToSpotifyAudio,
+    goToSpotifyPage = { goToSpotifyPage(context, viewModel.viewModelState.value.home) },
+    goToSpotifyAudio = { context.openSpotifyWith(Uri.parse(it.uri)) },
   )
+}
+
+private fun goToSpotifyPage(context: Context, home: Home?) {
+  home?.socialMedia?.spotifyArtistId?.let {
+    context.openSpotifyArtistPage(it)
+  }
 }
 
 @Composable
@@ -82,43 +89,49 @@ fun AudioSermonsContent(
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   refresh: () -> Unit,
   onMessageDismiss: (Long) -> Unit,
-  onBackPressed: () -> Unit,
   goToSpotifyPage: () -> Unit,
   goToSpotifyAudio: (Audio) -> Unit,
 ) {
-  Scaffold(
-    scaffoldState = scaffoldState,
-    /*topBar = {
-      TopAppBar(onBackPressed = onBackPressed)
-    },*/
-    floatingActionButton = {
-      FloatingActionButton(
-        onClick = { goToSpotifyPage() },
-        backgroundColor = colorResource(id = R.color.green_spotify),
-      ) {
-        Icon(
-          icon = R.drawable.spotify_icon,
-          contentDescription = "Go To Spotify",
-          tint = Color.White,
-        )
-      }
-    }
-  ) { paddingValues ->
-    Box(
+  Box(
+    modifier = Modifier
+      .background(color = MaterialTheme.colors.background),
+  ) {
+    AudioSermonsBody(
+      audios = uiState.audios,
+      loading = uiState.loading,
+      refresh = refresh,
+      goToSpotifyAudio = goToSpotifyAudio,
+    )
+    
+    SpotifyFab(
       modifier = Modifier
-        .padding(paddingValues = paddingValues)
-        .background(color = MaterialTheme.colors.background),
-    ) {
-      AudioSermonsBody(
-        audios = uiState.audios,
-        loading = uiState.loading,
-        refresh = refresh,
-        goToSpotifyAudio = goToSpotifyAudio,
-      )
-      if (uiState.loading) LoadingIndicator()
-      
-      uiState.messages.firstOrNull()?.SnackBar(scaffoldState, onMessageDismiss)
-    }
+        .align(Alignment.BottomEnd)
+        .padding(16.dp),
+      goToSpotifyPage = goToSpotifyPage,
+    )
+    
+    if (uiState.loading) LoadingIndicator()
+    
+    uiState.messages.firstOrNull()?.SnackBar(scaffoldState, onMessageDismiss)
+  }
+  
+}
+
+@Composable
+fun SpotifyFab(
+  modifier: Modifier,
+  goToSpotifyPage: () -> Unit,
+) {
+  FloatingActionButton(
+    modifier = modifier,
+    onClick = { goToSpotifyPage() },
+    backgroundColor = colorResource(id = R.color.green_spotify),
+  ) {
+    Icon(
+      icon = R.drawable.spotify_icon,
+      contentDescription = "Go To Spotify",
+      tint = Color.White,
+    )
   }
 }
 
@@ -166,23 +179,22 @@ fun AudioSermonsBody(
   refresh: () -> Unit,
   goToSpotifyAudio: (Audio) -> Unit,
 ) {
-  SwipeRefresh(
-    state = rememberSwipeRefreshState(loading),
+  AlwaysRefreshableSwipeRefresh(
+    isRefreshing = loading,
+    items = audios,
     onRefresh = refresh,
   ) {
-    Column(Modifier.padding(horizontal = 8.dp)) {
-      LazyColumn(
-        contentPadding = PaddingValues(bottom = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-      ) {
-        items(audios, key = { it.uri }) { audio ->
-          AudioItem(
-            modifier = Modifier.animateItemPlacement(),
-            audio = audio,
-            height = 90.dp,
-            goToSpotifyAudio = goToSpotifyAudio,
-          )
-        }
+    LazyColumn(
+      contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
+      verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+      items(audios, key = { it.uri }) { audio ->
+        AudioItem(
+          modifier = Modifier.animateItemPlacement(),
+          audio = audio,
+          height = 90.dp,
+          goToSpotifyAudio = goToSpotifyAudio,
+        )
       }
     }
   }
@@ -233,47 +245,7 @@ fun AudioItem(
             color = MaterialTheme.colors.onSurface,
           )
         }
-        
       }
-      
     }
   }
 }
-
-/*
-@Preview
-@Composable
-fun NotificationsPreview() {
-  AppTheme {
-    AudioSermonsContent(
-      NotificationsUiState(
-        listOf(
-          Notification(
-            1,
-            "Test Notification",
-            "This is a test",
-            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-            "2021-12-31T18:58:34Z"
-          ),
-          Notification(
-            2,
-            "Test Notification",
-            "This is a test",
-            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-            "2021-12-31T18:58:34Z"
-          ),
-        ),
-        true,
-        emptyList(),
-      ),
-      isAdmin = true,
-      refresh = {},
-      onMessageDismiss = {},
-      onBackPressed = {},
-      deleteNotification = {},
-      goToNotificationDetail = {},
-      goToNotificationsAdmin = {},
-      goToCreateNotification = {},
-    )
-  }
-}*/

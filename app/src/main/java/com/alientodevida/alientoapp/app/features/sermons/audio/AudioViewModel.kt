@@ -53,7 +53,7 @@ class AudioViewModel @Inject constructor(
     _viewModelState.update { it.copy(messages = newMessages) }
   }
   
-  fun getPodcasts() {
+  fun getCachedPodcasts() {
     viewModelScope.launch {
       _viewModelState.update { it.copy(loading = true) }
       try {
@@ -67,6 +67,8 @@ class AudioViewModel @Inject constructor(
         _viewModelState.update { it.copy(messages = messages) }
       }
       _viewModelState.update { it.copy(loading = false) }
+  
+      if (viewModelState.value.audios.isEmpty()) refreshContent()
     }
   }
   

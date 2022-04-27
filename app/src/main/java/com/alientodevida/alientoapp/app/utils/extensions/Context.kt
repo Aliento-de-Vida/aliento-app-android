@@ -2,9 +2,28 @@ package com.alientodevida.alientoapp.app.utils.extensions
 
 import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
+import com.alientodevida.alientoapp.app.BuildConfig
+import com.google.android.youtube.player.YouTubeStandalonePlayer
+
+fun Context.goToYoutubeVideo(videoId: String) {
+  val intent = YouTubeStandalonePlayer.createVideoIntent(
+    getActivity(),
+    BuildConfig.YOUTUBE_DEVELOPER_KEY,
+    videoId,
+  )
+  startActivity(intent)
+}
+
+fun Context.getActivity(): AppCompatActivity? = when (this) {
+  is AppCompatActivity -> this
+  is ContextWrapper -> baseContext.getActivity()
+  else -> null
+}
 
 fun Context.openInstagramPage(instagramUrl: String) {
   val uri = Uri.parse(instagramUrl)

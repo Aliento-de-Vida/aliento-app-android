@@ -1,5 +1,6 @@
 package com.alientodevida.alientoapp.app.features.sermons.video
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,7 +20,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -31,10 +31,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
+import com.alientodevida.alientoapp.app.compose.components.AlwaysRefreshableSwipeRefresh
 import com.alientodevida.alientoapp.app.compose.components.Caption
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.Icon
@@ -43,33 +45,35 @@ import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
 import com.alientodevida.alientoapp.app.compose.components.Subtitle1
 import com.alientodevida.alientoapp.app.compose.components.Subtitle2
 import com.alientodevida.alientoapp.app.extensions.SnackBar
+import com.alientodevida.alientoapp.app.utils.extensions.goToYoutubeVideo
+import com.alientodevida.alientoapp.app.utils.extensions.openYoutubeChannel
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
+import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
-fun VideoSermons(
-  viewModel: VideoViewModel,
-  onBackPressed: () -> Unit,
-  goToYoutubePage: () -> Unit,
-  goToYoutubeVideo: (YoutubeVideo) -> Unit,
-) {
+fun VideoSermons(viewModel: VideoViewModel) {
   LaunchedEffect(true) {
     viewModel.getCachedVideos()
   }
   
   val viewModelState by viewModel.viewModelState.collectAsState()
+  val context = LocalContext.current
   
   AudioSermonsContent(
     uiState = viewModelState,
     refresh = viewModel::refreshContent,
     onMessageDismiss = viewModel::onMessageDismiss,
-    onBackPressed = onBackPressed,
-    goToYoutubePage = goToYoutubePage,
-    goToYoutubeVideo = goToYoutubeVideo,
+    goToYoutubePage = { goToYoutubePage(context, viewModel.viewModelState.value.home) },
+    goToYoutubeVideo = { context.goToYoutubeVideo(it.id) },
   )
+}
+
+private fun goToYoutubePage(context: Context, home: Home?) {
+  home?.socialMedia?.youtubeChannelUrl?.let {
+    context.openYoutubeChannel(it)
+  }
 }
 
 @Composable
@@ -78,43 +82,48 @@ fun AudioSermonsContent(
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   refresh: () -> Unit,
   onMessageDismiss: (Long) -> Unit,
-  onBackPressed: () -> Unit,
   goToYoutubePage: () -> Unit,
   goToYoutubeVideo: (YoutubeVideo) -> Unit,
 ) {
-  Scaffold(
-    scaffoldState = scaffoldState,
-    /*topBar = {
-      TopAppBar(onBackPressed = onBackPressed)
-    },*/
-    floatingActionButton = {
-      FloatingActionButton(
-        onClick = { goToYoutubePage() },
-        backgroundColor = colorResource(id = R.color.red_youtube),
-      ) {
-        Icon(
-          icon = R.drawable.ic_001_youtube,
-          contentDescription = "Go To Spotify",
-          tint = Color.White,
-        )
-      }
-    }
-  ) { paddingValues ->
-    Box(
+  Box(
+    modifier = Modifier
+      .background(color = MaterialTheme.colors.background),
+  ) {
+    VideoSermonsBody(
+      videos = uiState.videos,
+      loading = uiState.loading,
+      refresh = refresh,
+      goToYoutubeVideo = goToYoutubeVideo,
+    )
+    
+    YoutubeFab(
       modifier = Modifier
-        .padding(paddingValues = paddingValues)
-        .background(color = MaterialTheme.colors.background),
-    ) {
-      VideoSermonsBody(
-        videos = uiState.videos,
-        loading = uiState.loading,
-        refresh = refresh,
-        goToYoutubeVideo = goToYoutubeVideo,
-      )
-      if (uiState.loading) LoadingIndicator()
-      
-      uiState.messages.firstOrNull()?.SnackBar(scaffoldState, onMessageDismiss)
-    }
+        .align(Alignment.BottomEnd)
+        .padding(16.dp),
+      goToYoutubePage = goToYoutubePage,
+    )
+    
+    if (uiState.loading) LoadingIndicator()
+    
+    uiState.messages.firstOrNull()?.SnackBar(scaffoldState, onMessageDismiss)
+  }
+}
+
+@Composable
+fun YoutubeFab(
+  modifier: Modifier,
+  goToYoutubePage: () -> Unit,
+) {
+  FloatingActionButton(
+    modifier = modifier,
+    onClick = { goToYoutubePage() },
+    backgroundColor = colorResource(id = R.color.red_youtube),
+  ) {
+    Icon(
+      icon = R.drawable.ic_001_youtube,
+      contentDescription = "Go To Spotify",
+      tint = Color.White,
+    )
   }
 }
 
@@ -162,22 +171,21 @@ fun VideoSermonsBody(
   refresh: () -> Unit,
   goToYoutubeVideo: (YoutubeVideo) -> Unit,
 ) {
-  SwipeRefresh(
-    state = rememberSwipeRefreshState(loading),
+  AlwaysRefreshableSwipeRefresh(
+    isRefreshing = loading,
+    items = videos,
     onRefresh = refresh,
   ) {
-    Column(Modifier.padding(horizontal = 8.dp)) {
-      LazyColumn(
-        contentPadding = PaddingValues(bottom = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-      ) {
-        items(videos, key = { it.id }) { video ->
-          VideoItem(
-            modifier = Modifier.animateItemPlacement(),
-            video = video,
-            goToYoutubeVideo = goToYoutubeVideo,
-          )
-        }
+    LazyColumn(
+      contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
+      verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+      items(videos, key = { it.id }) { video ->
+        VideoItem(
+          modifier = Modifier.animateItemPlacement(),
+          video = video,
+          goToYoutubeVideo = goToYoutubeVideo,
+        )
       }
     }
   }
@@ -205,7 +213,9 @@ fun VideoItem(
       )
       Row {
         Image(
-          modifier  = Modifier.padding(8.dp).align(Alignment.CenterVertically),
+          modifier = Modifier
+            .padding(8.dp)
+            .align(Alignment.CenterVertically),
           painter = painterResource(R.drawable.ic_logo_round),
           contentDescription = null,
         )
@@ -220,9 +230,9 @@ fun VideoItem(
             color = MaterialTheme.colors.onSurface,
             maxLines = 1,
           )
-      
+          
           Spacer(Modifier.weight(1.0f))
-      
+          
           Caption(
             modifier = Modifier.align(Alignment.End),
             text = video.date.toDate("yyyy-MM-dd")?.format("d MMMM yyyy") ?: "",
@@ -234,41 +244,3 @@ fun VideoItem(
     }
   }
 }
-
-/*
-@Preview
-@Composable
-fun NotificationsPreview() {
-  AppTheme {
-    AudioSermonsContent(
-      NotificationsUiState(
-        listOf(
-          Notification(
-            1,
-            "Test Notification",
-            "This is a test",
-            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-            "2021-12-31T18:58:34Z"
-          ),
-          Notification(
-            2,
-            "Test Notification",
-            "This is a test",
-            com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-            "2021-12-31T18:58:34Z"
-          ),
-        ),
-        true,
-        emptyList(),
-      ),
-      isAdmin = true,
-      refresh = {},
-      onMessageDismiss = {},
-      onBackPressed = {},
-      deleteNotification = {},
-      goToNotificationDetail = {},
-      goToNotificationsAdmin = {},
-      goToCreateNotification = {},
-    )
-  }
-}*/
