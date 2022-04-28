@@ -8,6 +8,7 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.databinding.FragmentNotificationsBinding
+import com.alientodevida.alientoapp.domain.gallery.Gallery
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +26,7 @@ class EditCreateGalleryFragment :
         AppTheme {
           EditCreateGallery(
             viewModel = viewModel,
+            gallery = Gallery.empty(),
             onBackPressed = { activity?.onBackPressed() },
           )
         }

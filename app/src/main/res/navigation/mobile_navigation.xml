@@ -162,7 +162,7 @@
   <include app:graph="@navigation/admin_navigation" />
   <fragment
     android:id="@+id/fragment_edit_home"
-    android:name="com.alientodevida.alientoapp.app.features.home.edit.EditHomeFragment"
+    android:name="com.alientodevida.alientoapp.app.features.home.admin.EditHomeFragment"
     android:label="EditHomeFragment"
     tools:layout="@layout/fragment_notifications" >
     <argument

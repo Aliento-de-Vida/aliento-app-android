@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.features.home.edit
+package com.alientodevida.alientoapp.app.features.home.admin
 
 import android.app.Application
 import android.os.Build
@@ -46,7 +46,7 @@ data class HomeImages(
 )
 
 @HiltViewModel
-class EditHomeViewModel @Inject constructor(
+class AdminHomeViewModel @Inject constructor(
   private val homeRepository: HomeRepository,
   private val fileRepository: FileRepository,
   coroutineDispatchers: CoroutineDispatchers,
@@ -64,17 +64,20 @@ class EditHomeViewModel @Inject constructor(
   application,
 ) {
   
-  private val initialHome: Home = savedStateHandle.get<Home>("home")!!
-  
   private val _viewModelState = MutableStateFlow(
     HomeUiState(
-      home = initialHome,
+      home = Home.empty(),
       images = HomeImages(),
       loading = false,
       messages = emptyList(),
     )
   )
   val viewModelState: StateFlow<HomeUiState> = _viewModelState
+  
+  
+  fun setHome(home: Home) {
+    _viewModelState.update { it.copy(home = home) }
+  }
   
   // Images
   fun addSermonsImage(newImage: AttachmentModel) {

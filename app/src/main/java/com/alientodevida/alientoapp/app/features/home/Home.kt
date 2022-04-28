@@ -1,5 +1,6 @@
 package com.alientodevida.alientoapp.app.features.home
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,39 +12,139 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Surface
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
+import com.alientodevida.alientoapp.app.compose.components.AlwaysRefreshableSwipeRefresh
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
+import com.alientodevida.alientoapp.app.compose.components.ModalExpandedOnlyBottomSheetLayout
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
+import com.alientodevida.alientoapp.app.features.notifications.detail.NotificationDetail
 import com.alientodevida.alientoapp.app.features.notifications.list.NotificationItem
+import com.alientodevida.alientoapp.app.utils.Utils
+import com.alientodevida.alientoapp.app.utils.extensions.openFacebookPage
+import com.alientodevida.alientoapp.app.utils.extensions.openInstagramPage
+import com.alientodevida.alientoapp.app.utils.extensions.openSpotifyArtistPage
+import com.alientodevida.alientoapp.app.utils.extensions.openTwitterPage
+import com.alientodevida.alientoapp.app.utils.extensions.openYoutubeChannel
+import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.notification.Notification
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.launch
 
 @Composable
 fun Home(
   viewModel: HomeViewModel,
+  goToHomeAdmin: (Home) -> Unit,
+  goToNotifications: () -> Unit,
+  goToSettings: () -> Unit,
+  goToSermons: () -> Unit,
+  goToChurch: () -> Unit,
+  goToCampus: () -> Unit,
+  goToGallery: () -> Unit,
+  goToPrayer: () -> Unit,
+  goToDonations: () -> Unit,
+  goToAdminLogin: () -> Unit,
+) {
+  
+  val viewModelState by viewModel.viewModelState.collectAsState()
+  val isAdmin by viewModel.isAdmin.collectAsState(false)
+  val context = LocalContext.current
+  
+  HomeWithDialog(
+    uiState = viewModelState,
+    isAdmin = isAdmin,
+    refresh = viewModel::getHome,
+    onMessageDismiss = viewModel::onMessageDismiss,
+    goToEditHome = { viewModel.viewModelState.value.home?.let(goToHomeAdmin) },
+    goToNotifications = goToNotifications,
+    goToSettings = goToSettings,
+    goToSermons = goToSermons,
+    goToSermon = { }, // TODO
+    goToChurch = goToChurch,
+    goToCampus = goToCampus,
+    goToGallery = goToGallery,
+    goToPrayer = goToPrayer,
+    goToDonations = goToDonations,
+    goToEbook = { goToEbook(viewModel.viewModelState.value, context) },
+    goToInstagram = { goToInstagram(viewModel.viewModelState.value, context) },
+    goToYoutube = { goToYoutube(viewModel.viewModelState.value, context) },
+    goToFacebook = { goToFacebook(viewModel.viewModelState.value, context) },
+    goToTwitter = { goToTwitter(viewModel.viewModelState.value, context) },
+    goToSpotify = { goToSpotify(viewModel.viewModelState.value, context) },
+    goToAdminLogin = goToAdminLogin,
+    adminLogout = viewModel::adminLogout,
+  )
+}
+
+private fun goToInstagram(state: HomeUiState, context: Context) {
+  state.home?.socialMedia?.instagramUrl?.let {
+    context.openInstagramPage(it)
+  }
+}
+
+private fun goToYoutube(state: HomeUiState, context: Context) {
+  state.home?.socialMedia?.youtubeChannelUrl?.let {
+    context.openYoutubeChannel(it)
+  }
+}
+
+private fun goToFacebook(state: HomeUiState, context: Context) {
+  state.home?.socialMedia?.let {
+    context.openFacebookPage(it.facebookPageId, it.facebookPageUrl)
+  }
+}
+
+private fun goToTwitter(state: HomeUiState, context: Context) {
+  state.home?.socialMedia?.let {
+    context.openTwitterPage(it.twitterUserId, it.twitterUrl)
+  }
+}
+
+private fun goToSpotify(state: HomeUiState, context: Context) {
+  state.home?.socialMedia?.spotifyArtistId?.let {
+    context.openSpotifyArtistPage(it)
+  }
+}
+
+private fun goToEbook(state: HomeUiState, context: Context) {
+  state.home?.ebook?.let { Utils.goToUrl(context, it) }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun HomeWithDialog(
+  uiState: HomeUiState,
+  isAdmin: Boolean,
+  refresh: () -> Unit,
+  onMessageDismiss: (Long) -> Unit,
   goToEditHome: () -> Unit,
   goToNotifications: () -> Unit,
-  goToNotificationDetail: (Notification) -> Unit,
   goToSettings: () -> Unit,
   goToSermons: () -> Unit,
   goToSermon: (String) -> Unit,
@@ -59,36 +160,49 @@ fun Home(
   goToTwitter: () -> Unit,
   goToSpotify: () -> Unit,
   goToAdminLogin: () -> Unit,
+  adminLogout: () -> Unit
 ) {
+  val modalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+  val coroutineScope = rememberCoroutineScope()
+  val notification = remember { mutableStateOf(Notification.empty()) }
   
-  val viewModelState by viewModel.viewModelState.collectAsState()
-  val isAdmin by viewModel.isAdmin.collectAsState(false)
-  
-  HomeContent(
-    uiState = viewModelState,
-    isAdmin = isAdmin,
-    refresh = viewModel::getHome,
-    onMessageDismiss = viewModel::onMessageDismiss,
-    goToEditHome = goToEditHome,
-    goToNotifications = goToNotifications,
-    goToNotificationDetail = goToNotificationDetail,
-    goToSettings = goToSettings,
-    goToSermons = goToSermons,
-    goToSermon = goToSermon,
-    goToChurch = goToChurch,
-    goToCampus = goToCampus,
-    goToGallery = goToGallery,
-    goToPrayer = goToPrayer,
-    goToDonations = goToDonations,
-    goToEbook = goToEbook,
-    goToInstagram = goToInstagram,
-    goToYoutube = goToYoutube,
-    goToFacebook = goToFacebook,
-    goToTwitter = goToTwitter,
-    goToSpotify = goToSpotify,
-    goToAdminLogin = goToAdminLogin,
-    adminLogout = viewModel::adminLogout,
-  )
+  ModalExpandedOnlyBottomSheetLayout(
+    sheetState = modalBottomSheetState,
+    sheetBackgroundColor = MaterialTheme.colors.background,
+    sheetContent = { NotificationDetail(notification.value) },
+    scrimColor = MaterialTheme.colors.onBackground.copy(alpha = 0.5f),
+  ) {
+    HomeContent(
+      uiState = uiState,
+      isAdmin = isAdmin,
+      refresh = refresh,
+      onMessageDismiss = onMessageDismiss,
+      goToEditHome = goToEditHome,
+      goToNotifications = goToNotifications,
+      goToNotificationDetail = {
+        coroutineScope.launch {
+          notification.value = it
+          modalBottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
+        }
+      },
+      goToSettings = goToSettings,
+      goToSermons = goToSermons,
+      goToSermon = goToSermon,
+      goToChurch = goToChurch,
+      goToCampus = goToCampus,
+      goToGallery = goToGallery,
+      goToPrayer = goToPrayer,
+      goToDonations = goToDonations,
+      goToEbook = goToEbook,
+      goToInstagram = goToInstagram,
+      goToYoutube = goToYoutube,
+      goToFacebook = goToFacebook,
+      goToTwitter = goToTwitter,
+      goToSpotify = goToSpotify,
+      goToAdminLogin = goToAdminLogin,
+      adminLogout = adminLogout,
+    )
+  }
 }
 
 @Composable
@@ -239,8 +353,9 @@ fun HomeBody(
 ) {
   val scrollState = rememberScrollState()
   
-  SwipeRefresh(
-    state = rememberSwipeRefreshState(uiState.loading),
+  AlwaysRefreshableSwipeRefresh(
+    isRefreshing = uiState.loading,
+    items = uiState.categoriesItems,
     onRefresh = refresh,
   ) {
     Column(Modifier.verticalScroll(scrollState)) {

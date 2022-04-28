@@ -8,9 +8,6 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.databinding.FragmentNotificationsBinding
-import com.alientodevida.alientoapp.app.utils.Constants
-import com.alientodevida.alientoapp.app.utils.Utils
-import com.alientodevida.alientoapp.app.utils.extensions.goToYoutubeVideo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,8 +24,6 @@ class ChurchFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fragm
         AppTheme {
           Church(
             viewModel = viewModel,
-            openVideo = { requireActivity().goToYoutubeVideo(Constants.US_VIDEO) },
-            goToVideo = { requireActivity().goToYoutubeVideo(it) },
             onBackPressed = { activity?.onBackPressed() },
           )
         }

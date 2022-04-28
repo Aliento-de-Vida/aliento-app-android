@@ -1,12 +1,14 @@
 package com.alientodevida.alientoapp.app
 
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.alientodevida.alientoapp.app.databinding.ActivityMainBinding
+import com.alientodevida.alientoapp.app.compose.theme.AppTheme
+import com.alientodevida.alientoapp.app.navigation.MainNavigationGraph
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
@@ -17,8 +19,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-  
-  private lateinit var binding: ActivityMainBinding
   
   @Inject
   lateinit var preferences: Preferences
@@ -31,17 +31,17 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     
     setupPushNotifications()
-  
-    binding = ActivityMainBinding.inflate(layoutInflater)
-    
     observe()
     
-    setContentView(binding.root)
+    setContent {
+      AppTheme {
+        MainNavigationGraph()
+      }
+    }
   }
   
   private fun setupPushNotifications() {
     FirebaseApp.initializeApp(this)
-    
     if (preferences.pushEnabled) firebaseMessaging.subscribeToTopic("push_notifications")
   }
   

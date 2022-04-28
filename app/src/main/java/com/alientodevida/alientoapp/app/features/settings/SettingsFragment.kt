@@ -22,7 +22,7 @@ class SettingsFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fra
       setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
       setContent {
         AppTheme {
-          EditCreateGallery(
+          Settings(
             viewModel = viewModel,
             onBackPressed = { activity?.onBackPressed() },
           )

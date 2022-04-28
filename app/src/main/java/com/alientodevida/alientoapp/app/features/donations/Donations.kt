@@ -1,5 +1,6 @@
 package com.alientodevida.alientoapp.app.features.donations
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,6 +41,7 @@ import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Subtitle1
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
+import com.alientodevida.alientoapp.app.utils.Utils
 import com.alientodevida.alientoapp.domain.entities.local.BankAccount
 import com.alientodevida.alientoapp.domain.entities.local.DonationType
 import com.alientodevida.alientoapp.domain.entities.local.PaymentItem
@@ -48,16 +51,29 @@ import com.alientodevida.alientoapp.domain.entities.local.Paypal
 fun Donations(
   viewModel: DonationsViewModel,
   onBackPressed: () -> Unit,
-  onCardClick: (PaymentItem) -> Unit,
 ) {
   
   val viewModelState by viewModel.viewModelState.collectAsState()
+  val context = LocalContext.current
   
   DonationsContent(
     uiState = viewModelState,
     onBackPressed = onBackPressed,
-    onCardClick = onCardClick,
+    onCardClick = { onCardClick(context, it) },
   )
+}
+
+private fun onCardClick(context: Context, item: PaymentItem) {
+  when {
+    item.paypal != null -> Utils.goToUrl(context, item.paypal!!.url)
+    item.bankAccount != null -> {
+      Utils.copyToClipboard(
+        context = context,
+        name = "Número de tarjeta",
+        value = item.bankAccount!!.cardNumber
+      )
+    }
+  }
 }
 
 @Composable

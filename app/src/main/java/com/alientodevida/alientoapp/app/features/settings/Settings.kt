@@ -32,7 +32,7 @@ import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.H5
 
 @Composable
-fun EditCreateGallery(
+fun Settings(
   viewModel: SettingsViewModel,
   onBackPressed: () -> Unit,
 ) {

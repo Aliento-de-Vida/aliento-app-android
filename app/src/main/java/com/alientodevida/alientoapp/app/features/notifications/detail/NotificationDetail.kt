@@ -14,12 +14,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.TextButton
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,37 +41,34 @@ private fun openGallery(context: Context, images: List<String>) {
 }
 
 @Composable
-fun NotificationDetail(viewModel: NotificationDetailViewModel) {
+fun NotificationDetail(notification: Notification) {
   val context = LocalContext.current
   
   NotificationDetailContent(
-    notification = viewModel.notification,
+    notification = notification,
     goToImage = { openGallery(context, listOf(it)) },
   )
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NotificationDetailContent(
   notification: Notification,
-  scaffoldState: ScaffoldState = rememberScaffoldState(),
   goToImage: (String) -> Unit,
 ) {
-  Scaffold(scaffoldState = scaffoldState) { paddingValues ->
-    Box(
-      modifier = Modifier
-        .padding(paddingValues = paddingValues)
-        .background(color = MaterialTheme.colors.background),
-    ) {
-      EditCreateCampusBody(
-        notification = notification,
-        goToImage = goToImage,
-      )
-    }
+  Box(
+    modifier = Modifier
+      .background(color = MaterialTheme.colors.background),
+  ) {
+    NotificationDetailBody(
+      notification = notification,
+      goToImage = goToImage,
+    )
   }
 }
 
 @Composable
-fun EditCreateCampusBody(
+fun NotificationDetailBody(
   notification: Notification,
   goToImage: (String) -> Unit,
 ) {
@@ -95,7 +90,7 @@ fun EditCreateCampusBody(
       text = notification.title,
       color = MaterialTheme.colors.onBackground,
     )
-  
+    
     Spacer(modifier = Modifier.height(16.dp))
     ImageWithShimmering(
       modifier = Modifier
@@ -110,7 +105,7 @@ fun EditCreateCampusBody(
       text = notification.content,
       color = MaterialTheme.colors.onBackground,
     )
-  
+    
     Spacer(modifier = Modifier.height(80.dp))
     
     Row(Modifier.clickable { imageUrl?.let { goToImage(imageUrl) } }) {
@@ -126,7 +121,10 @@ fun EditCreateCampusBody(
       TextButton(
         modifier = Modifier.align(Alignment.CenterVertically),
         onClick = { imageUrl?.let { goToImage(imageUrl) } },
-      ) { Button(text = "FULL SCREEN") }
+      ) { Button(
+        text = "FULL SCREEN",
+        color = MaterialTheme.colors.onBackground,
+      ) }
     }
   }
 }

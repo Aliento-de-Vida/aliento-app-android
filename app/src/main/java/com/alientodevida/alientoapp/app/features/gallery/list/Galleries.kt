@@ -18,10 +18,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,6 +32,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
+import com.alientodevida.alientoapp.app.compose.components.AlwaysRefreshableSwipeRefresh
 import com.alientodevida.alientoapp.app.compose.components.Body2
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.Gradient
@@ -49,18 +54,18 @@ import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
 import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
+import com.alientodevida.alientoapp.app.compose.components.ModalExpandedOnlyBottomSheetLayout
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
+import com.alientodevida.alientoapp.app.features.gallery.detail.Gallery
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.gallery.Gallery
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.launch
 
 @Composable
 fun Galleries(
   viewModel: GalleriesViewModel,
   onBackPressed: () -> Unit,
-  goToGallery: (Gallery) -> Unit,
   goToEditGallery: (Gallery) -> Unit,
   goToCreateGallery: () -> Unit,
 ) {
@@ -71,17 +76,57 @@ fun Galleries(
   val viewModelState by viewModel.viewModelState.collectAsState()
   val isAdmin by viewModel.isAdmin.collectAsState(false)
   
-  GalleriesContent(
+  GalleriesWithDialog(
     uiState = viewModelState,
     isAdmin = isAdmin,
     refresh = viewModel::getGalleries,
     onMessageDismiss = viewModel::onMessageDismiss,
     deleteGallery = viewModel::deleteGallery,
     onBackPressed = onBackPressed,
-    goToGallery = goToGallery,
     goToEditGallery = goToEditGallery,
     goToCreateGallery = goToCreateGallery,
   )
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun GalleriesWithDialog(
+  uiState: GalleriesUiState,
+  isAdmin: Boolean,
+  refresh: () -> Unit,
+  onMessageDismiss: (Long) -> Unit,
+  deleteGallery: (Gallery) -> Unit,
+  onBackPressed: () -> Unit,
+  goToEditGallery: (Gallery) -> Unit,
+  goToCreateGallery: () -> Unit,
+) {
+  val modalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+  val coroutineScope = rememberCoroutineScope()
+  val gallery = remember { mutableStateOf(Gallery.empty()) }
+  
+  ModalExpandedOnlyBottomSheetLayout(
+    sheetState = modalBottomSheetState,
+    sheetBackgroundColor = MaterialTheme.colors.background,
+    sheetContent = { Gallery(gallery.value) },
+    scrimColor = MaterialTheme.colors.onBackground.copy(alpha = 0.5f),
+  ) {
+    GalleriesContent(
+      uiState = uiState,
+      isAdmin = isAdmin,
+      refresh = refresh,
+      onMessageDismiss = onMessageDismiss,
+      deleteGallery = deleteGallery,
+      onBackPressed = onBackPressed,
+      goToGallery = {
+        coroutineScope.launch {
+          gallery.value = it
+          modalBottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
+        }
+      },
+      goToEditGallery = goToEditGallery,
+      goToCreateGallery = goToCreateGallery,
+    )
+  }
 }
 
 @Composable
@@ -130,7 +175,7 @@ fun GalleriesContent(
         isAdmin = isAdmin,
       )
       if (uiState.loading) LoadingIndicator()
-  
+      
       uiState.messages.firstOrNull()?.SnackBar(scaffoldState, onMessageDismiss)
     }
   }
@@ -183,8 +228,9 @@ fun GalleriesBody(
   goToEditGallery: (Gallery) -> Unit,
   deleteGallery: (Gallery) -> Unit,
 ) {
-  SwipeRefresh(
-    state = rememberSwipeRefreshState(loading),
+  AlwaysRefreshableSwipeRefresh(
+    isRefreshing = loading,
+    items = galleries,
     onRefresh = refresh,
   ) {
     Column(Modifier.padding(horizontal = 8.dp)) {
@@ -273,11 +319,13 @@ fun GalleryItem(
 private fun GalleryItemContent(gallery: Gallery) {
   Box {
     ImageWithShimmering(url = gallery.coverPicture.toImageUrl(), description = gallery.name)
-  
+    
     Column {
       Spacer(Modifier.weight(0.38f))
       Gradient(
-        modifier = Modifier.fillMaxWidth().weight(0.62f),
+        modifier = Modifier
+          .fillMaxWidth()
+          .weight(0.62f),
       ) {
         Column(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
           Spacer(Modifier.weight(1.0f))

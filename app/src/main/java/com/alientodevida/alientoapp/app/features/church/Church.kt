@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -32,21 +33,23 @@ import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
 import com.alientodevida.alientoapp.app.compose.components.Subtitle1
+import com.alientodevida.alientoapp.app.utils.Constants
+import com.alientodevida.alientoapp.app.utils.extensions.goToYoutubeVideo
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 
 @Composable
 fun Church(
   viewModel: ChurchViewModel,
-  openVideo: () -> Unit,
-  goToVideo: (String) -> Unit,
   onBackPressed: () -> Unit,
 ) {
+  
+  val context = LocalContext.current
   
   EditCreateCampusContent(
     latestVideo = viewModel.latestVideo,
     usImageUrl = viewModel.usImageUrl,
-    openVideo = openVideo,
-    goToVideo = goToVideo,
+    openVideo = { context.goToYoutubeVideo(Constants.US_VIDEO) },
+    goToVideo = { context.goToYoutubeVideo(it) },
     onBackPressed = onBackPressed,
   )
 }

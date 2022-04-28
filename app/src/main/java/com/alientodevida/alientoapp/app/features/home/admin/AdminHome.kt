@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.features.home.edit
+package com.alientodevida.alientoapp.app.features.home.admin
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -18,6 +18,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -39,13 +40,19 @@ import com.alientodevida.alientoapp.app.extensions.Dialog
 import com.alientodevida.alientoapp.domain.home.Home
 
 @Composable
-fun EditHome(
-  viewModel: EditHomeViewModel,
+fun AdminHome(
+  viewModel: AdminHomeViewModel,
+  home: Home,
   onBackPressed: () -> Unit,
 ) {
+  
+  LaunchedEffect(true) {
+    viewModel.setHome(home)
+  }
+  
   val viewModelState by viewModel.viewModelState.collectAsState()
   
-  EditHomeContent(
+  AdminHomeContent(
     uiState = viewModelState,
     onMessageDismiss = viewModel::onMessageDismiss,
     addSermonsImage = viewModel::addSermonsImage,
@@ -80,7 +87,7 @@ fun EditHome(
 }
 
 @Composable
-fun EditHomeContent(
+fun AdminHomeContent(
   uiState: HomeUiState,
   scaffoldState: ScaffoldState = rememberScaffoldState(),
   onMessageDismiss: (Long) -> Unit,
@@ -136,7 +143,7 @@ fun EditHomeContent(
         .padding(paddingValues = paddingValues)
         .background(color = MaterialTheme.colors.background),
     ) {
-      EditHomeBody(
+      AdminHomeBody(
         home = uiState.home,
         images = uiState.images,
         addSermonsImage = addSermonsImage,
@@ -216,7 +223,7 @@ fun TopAppBar(
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun EditHomeBody(
+fun AdminHomeBody(
   home: Home,
   images: HomeImages,
   addSermonsImage: (AttachmentModel) -> Unit,
@@ -272,7 +279,7 @@ fun EditHomeBody(
       removeEbookImage = removeEbookImage,
     )
     
-    EditHome(
+    AdminHome(
       home,
       onEbookChanged,
       onYoutubePlaylistIdChanged,
@@ -424,7 +431,7 @@ private fun EditImages(
 }
 
 @Composable
-private fun EditHome(
+private fun AdminHome(
   home: Home,
   onEbookChanged: (String) -> Unit,
   onYoutubePlaylistIdChanged: (String) -> Unit,
