@@ -73,17 +73,18 @@ class EditCreateGalleryViewModel @Inject constructor(
   application,
 ) {
   
-  private val initialGalleryRequest: GalleryRequest =
-    (savedStateHandle.get<Gallery>("gallery") ?: Gallery.empty()).toGalleryRequest()
-  
   private val _viewModelState = MutableStateFlow(
     GalleryUiState(
-      galleryRequest = initialGalleryRequest,
+      galleryRequest = Gallery.empty().toGalleryRequest(),
       loading = false,
       messages = emptyList(),
     )
   )
   val viewModelState: StateFlow<GalleryUiState> = _viewModelState
+  
+  fun setGallery(gallery: Gallery) {
+    _viewModelState.update { it.copy(galleryRequest = gallery.toGalleryRequest()) }
+  }
   
   fun onMessageDismiss(id: Long) {
     val newMessages = viewModelState.value.messages.filter { it.id != id }

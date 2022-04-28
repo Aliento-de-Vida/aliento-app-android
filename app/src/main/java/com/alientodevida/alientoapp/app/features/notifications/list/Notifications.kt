@@ -19,10 +19,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,6 +33,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +47,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
+import com.alientodevida.alientoapp.app.compose.components.AlwaysRefreshableSwipeRefresh
 import com.alientodevida.alientoapp.app.compose.components.Body2
 import com.alientodevida.alientoapp.app.compose.components.Caption
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
@@ -51,20 +56,20 @@ import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
 import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
+import com.alientodevida.alientoapp.app.compose.components.ModalExpandedOnlyBottomSheetLayout
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
+import com.alientodevida.alientoapp.app.features.notifications.detail.NotificationDetail
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
 import com.alientodevida.alientoapp.domain.notification.Notification
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.launch
 
 @Composable
 fun Notifications(
   viewModel: NotificationsViewModel,
   onBackPressed: () -> Unit,
-  goToNotificationDetail: (Notification) -> Unit,
   goToEditNotification: (Notification) -> Unit,
   goToCreateNotification: () -> Unit,
 ) {
@@ -75,17 +80,53 @@ fun Notifications(
   val viewModelState by viewModel.viewModelState.collectAsState()
   val isAdmin by viewModel.isAdmin.collectAsState(false)
   
-  NotificationsContent(
-    uiState = viewModelState,
-    isAdmin = isAdmin,
-    refresh = viewModel::getNotifications,
-    onMessageDismiss = viewModel::onMessageDismiss,
-    deleteNotification = viewModel::deleteNotification,
-    onBackPressed = onBackPressed,
-    goToNotificationDetail = goToNotificationDetail,
-    goToNotificationsAdmin = goToEditNotification,
-    goToCreateNotification = goToCreateNotification,
+  NotificationsWithDialog(
+    viewModelState,
+    isAdmin,
+    viewModel,
+    onBackPressed,
+    goToEditNotification,
+    goToCreateNotification
   )
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun NotificationsWithDialog(
+  viewModelState: NotificationsUiState,
+  isAdmin: Boolean,
+  viewModel: NotificationsViewModel,
+  onBackPressed: () -> Unit,
+  goToEditNotification: (Notification) -> Unit,
+  goToCreateNotification: () -> Unit
+) {
+  val modalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+  val coroutineScope = rememberCoroutineScope()
+  val notification = remember { mutableStateOf(Notification.empty()) }
+  
+  ModalExpandedOnlyBottomSheetLayout(
+    sheetState = modalBottomSheetState,
+    sheetBackgroundColor = MaterialTheme.colors.background,
+    sheetContent = { NotificationDetail(notification.value) },
+    scrimColor = MaterialTheme.colors.onBackground.copy(alpha = 0.5f),
+  ) {
+    NotificationsContent(
+      uiState = viewModelState,
+      isAdmin = isAdmin,
+      refresh = viewModel::getNotifications,
+      onMessageDismiss = viewModel::onMessageDismiss,
+      deleteNotification = viewModel::deleteNotification,
+      onBackPressed = onBackPressed,
+      goToNotificationDetail = {
+        coroutineScope.launch {
+          notification.value = it
+          modalBottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
+        }
+      },
+      goToNotificationsAdmin = goToEditNotification,
+      goToCreateNotification = goToCreateNotification,
+    )
+  }
 }
 
 @Composable
@@ -187,8 +228,9 @@ fun NotificationsBody(
   goToNotificationDetail: (Notification) -> Unit,
   goToNotificationsAdmin: (Notification) -> Unit,
 ) {
-  SwipeRefresh(
-    state = rememberSwipeRefreshState(loading),
+  AlwaysRefreshableSwipeRefresh(
+    isRefreshing = loading,
+    items = notifications,
     onRefresh = refresh,
   ) {
     Column(Modifier.padding(horizontal = 8.dp)) {
@@ -282,7 +324,9 @@ private fun NotificationItemContent(notification: Notification) {
     Column {
       Spacer(Modifier.weight(0.38f))
       Gradient(
-        modifier = Modifier.fillMaxWidth().weight(0.62f),
+        modifier = Modifier
+          .fillMaxWidth()
+          .weight(0.62f),
       ) {
         Column(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
           Spacer(Modifier.weight(1.0f))

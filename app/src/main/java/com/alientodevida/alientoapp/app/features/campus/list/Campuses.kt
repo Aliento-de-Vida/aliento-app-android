@@ -18,10 +18,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,6 +32,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
+import com.alientodevida.alientoapp.app.compose.components.AlwaysRefreshableSwipeRefresh
 import com.alientodevida.alientoapp.app.compose.components.Body2
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
 import com.alientodevida.alientoapp.app.compose.components.Gradient
@@ -49,19 +54,19 @@ import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
 import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
 import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
+import com.alientodevida.alientoapp.app.compose.components.ModalExpandedOnlyBottomSheetLayout
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
+import com.alientodevida.alientoapp.app.features.campus.detail.CampusDetail
 import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.campus.Campus
 import com.alientodevida.alientoapp.domain.campus.Location
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.launch
 
 @Composable
 fun Campuses(
   viewModel: CampusesViewModel,
   onBackPressed: () -> Unit,
-  goToCampus: (Campus) -> Unit,
   goToEditCampus: (Campus) -> Unit,
   goToCreateCampus: () -> Unit,
 ) {
@@ -72,17 +77,57 @@ fun Campuses(
   val viewModelState by viewModel.viewModelState.collectAsState()
   val isAdmin by viewModel.isAdmin.collectAsState(false)
   
-  CampusesContent(
+  CampusesWithDialog(
     uiState = viewModelState,
     isAdmin = isAdmin,
     refresh = viewModel::getCampuses,
     onMessageDismiss = viewModel::onMessageDismiss,
     deleteCampus = viewModel::deleteCampus,
     onBackPressed = onBackPressed,
-    goToCampus = goToCampus,
     goToEditCampus = goToEditCampus,
     goToCreateCampus = goToCreateCampus,
   )
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun CampusesWithDialog(
+  uiState: CampusesUiState,
+  isAdmin: Boolean,
+  refresh: () -> Unit,
+  onMessageDismiss: (Long) -> Unit,
+  deleteCampus: (Campus) -> Unit,
+  onBackPressed: () -> Unit,
+  goToEditCampus: (Campus) -> Unit,
+  goToCreateCampus: () -> Unit,
+) {
+  val modalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+  val coroutineScope = rememberCoroutineScope()
+  val campus = remember { mutableStateOf(Campus.empty()) }
+  
+  ModalExpandedOnlyBottomSheetLayout(
+    sheetState = modalBottomSheetState,
+    sheetBackgroundColor = MaterialTheme.colors.background,
+    sheetContent = { CampusDetail(campus.value) },
+    scrimColor = MaterialTheme.colors.onBackground.copy(alpha = 0.5f),
+  ) {
+    CampusesContent(
+      uiState = uiState,
+      isAdmin = isAdmin,
+      refresh = refresh,
+      onMessageDismiss = onMessageDismiss,
+      deleteCampus = deleteCampus,
+      goToCampus = {
+        coroutineScope.launch {
+          campus.value = it
+          modalBottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
+        }
+      },
+      onBackPressed = onBackPressed,
+      goToEditCampus = goToEditCampus,
+      goToCreateCampus = goToCreateCampus,
+    )
+  }
 }
 
 @Composable
@@ -184,8 +229,9 @@ fun CampusesBody(
   goToCampus: (Campus) -> Unit,
   goToEditCampus: (Campus) -> Unit,
 ) {
-  SwipeRefresh(
-    state = rememberSwipeRefreshState(loading),
+  AlwaysRefreshableSwipeRefresh(
+    isRefreshing = loading,
+    items = campuses,
     onRefresh = refresh,
   ) {
     Column(Modifier.padding(horizontal = 8.dp)) {

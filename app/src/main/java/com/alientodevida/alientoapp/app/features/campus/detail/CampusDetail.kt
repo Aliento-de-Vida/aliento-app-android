@@ -3,9 +3,7 @@ package com.alientodevida.alientoapp.app.features.campus.detail
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,10 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.TextButton
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,21 +51,21 @@ private fun openGallery(context: Context, images: List<String>) {
 }
 
 @Composable
-fun CampusDetail(viewModel: CampusDetailViewModel) {
+fun CampusDetail(campus: Campus) {
   val context = LocalContext.current
   
   CampusDetailContent(
-    campus = viewModel.campus,
+    campus = campus,
     openMap = {
       openMap(
         context,
-        viewModel.campus.location.latitude,
-        viewModel.campus.location.longitude,
-        viewModel.campus.name,
+        campus.location.latitude,
+        campus.location.longitude,
+        campus.name,
       )
     },
     openGallery = {
-      openGallery(context, viewModel.campus.images.map { it.toImageUrl() })
+      openGallery(context, campus.images.map { it.toImageUrl() })
     },
     goToImage = { openGallery(context, listOf(it)) },
   )
@@ -78,30 +73,6 @@ fun CampusDetail(viewModel: CampusDetailViewModel) {
 
 @Composable
 fun CampusDetailContent(
-  campus: Campus,
-  scaffoldState: ScaffoldState = rememberScaffoldState(),
-  openMap: () -> Unit,
-  openGallery: () -> Unit,
-  goToImage: (String) -> Unit,
-) {
-  Scaffold(scaffoldState = scaffoldState) { paddingValues ->
-    Box(
-      modifier = Modifier
-        .padding(paddingValues = paddingValues)
-        .background(color = MaterialTheme.colors.background),
-    ) {
-      EditCreateCampusBody(
-        campus = campus,
-        openMap = openMap,
-        openGallery = openGallery,
-        goToImage = goToImage,
-      )
-    }
-  }
-}
-
-@Composable
-fun EditCreateCampusBody(
   campus: Campus,
   openMap: () -> Unit,
   openGallery: () -> Unit,
@@ -162,7 +133,10 @@ fun EditCreateCampusBody(
         TextButton(
           modifier = Modifier.align(Alignment.CenterVertically),
           onClick = openGallery,
-        ) { Button(text = "VER GALERÍA") }
+        ) { Button(
+          text = "VER GALERÍA",
+          color = MaterialTheme.colors.onBackground,
+        ) }
       }
       
       Spacer(modifier = Modifier.weight(1.0f))
@@ -177,7 +151,10 @@ fun EditCreateCampusBody(
         TextButton(
           modifier = Modifier.align(Alignment.CenterVertically),
           onClick = openMap,
-        ) { Button(text = "ABRIR MAPS") }
+        ) { Button(
+          text = "ABRIR MAPS",
+          color = MaterialTheme.colors.onBackground,
+        ) }
       }
     }
   }

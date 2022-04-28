@@ -8,8 +8,6 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.databinding.FragmentNotificationsBinding
-import com.alientodevida.alientoapp.app.utils.Utils
-import com.alientodevida.alientoapp.domain.entities.local.PaymentItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,25 +25,12 @@ class DonationsFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fr
           Donations(
             viewModel = viewModel,
             onBackPressed = { activity?.onBackPressed() },
-            onCardClick = { item -> onCardClick(item)},
           )
         }
       }
     }
   }
   
-  private fun onCardClick(item: PaymentItem) {
-    when {
-      item.paypal != null -> Utils.goToUrl(requireContext(), item.paypal!!.url)
-      item.bankAccount != null -> {
-        Utils.copyToClipboard(
-          context = requireContext(),
-          name = "Número de tarjeta",
-          value = item.bankAccount!!.cardNumber
-        )
-      }
-    }
-  }
 }
 
 

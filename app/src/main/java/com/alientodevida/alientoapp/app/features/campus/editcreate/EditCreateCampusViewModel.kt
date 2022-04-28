@@ -83,17 +83,18 @@ class EditCreateNotificationViewModel @Inject constructor(
   application,
 ) {
   
-  private val initialCampusRequest: CampusRequest =
-    (savedStateHandle.get<Campus>("campus") ?: Campus.empty()).toCampusRequest()
-  
   private val _viewModelState = MutableStateFlow(
     CampusUiState(
-      campusRequest = initialCampusRequest,
+      campusRequest = Campus.empty().toCampusRequest(),
       loading = false,
       messages = emptyList(),
     )
   )
   val viewModelState: StateFlow<CampusUiState> = _viewModelState
+  
+  fun setCampus(campus: Campus) {
+    _viewModelState.update { it.copy(campusRequest = campus.toCampusRequest()) }
+  }
   
   fun onMessageDismiss(id: Long) {
     val newMessages = viewModelState.value.messages.filter { it.id != id }

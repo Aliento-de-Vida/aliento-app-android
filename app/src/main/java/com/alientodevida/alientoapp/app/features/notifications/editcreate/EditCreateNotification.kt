@@ -16,6 +16,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -40,8 +41,14 @@ import com.alientodevida.alientoapp.domain.notification.Notification
 @Composable
 fun EditNotification(
   viewModel: EditCreateNotificationViewModel,
+  notification: Notification,
   onBackPressed: () -> Unit,
 ) {
+  
+  LaunchedEffect(true) {
+    viewModel.setNotification(notification)
+  }
+  
   val viewModelState by viewModel.viewModelState.collectAsState()
   
   EditNotificationContent(

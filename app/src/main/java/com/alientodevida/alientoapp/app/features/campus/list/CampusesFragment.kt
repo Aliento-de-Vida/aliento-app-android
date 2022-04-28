@@ -27,7 +27,6 @@ class CampusesFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fra
           Campuses(
             viewModel = viewModel,
             onBackPressed = { activity?.onBackPressed() },
-            goToCampus = { campus -> goToCampus(campus)},
             goToEditCampus = { campus -> goToEditCampus(campus)},
             goToCreateCampus = { goToCreateCampus() },
           )

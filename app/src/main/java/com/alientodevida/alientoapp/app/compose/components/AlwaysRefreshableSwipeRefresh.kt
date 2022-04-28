@@ -1,6 +1,6 @@
 package com.alientodevida.alientoapp.app.compose.components
 
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -24,15 +24,19 @@ fun AlwaysRefreshableSwipeRefresh(
     onRefresh = onRefresh,
   ) {
     if (items.isEmpty()) {
-      Spacer(
-        Modifier
-          .fillMaxSize()
-          .verticalScroll(
-            rememberScrollState()
-          )
-      )
+      Box(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState()),
+      ) {
+        EmptyView()
+      }
     } else {
       content()
     }
   }
+}
+
+@Composable
+fun EmptyView() {
+  Box(Modifier.fillMaxSize())
 }

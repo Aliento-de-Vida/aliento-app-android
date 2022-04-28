@@ -18,6 +18,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -37,12 +38,19 @@ import com.alientodevida.alientoapp.app.compose.components.attachment.Attachment
 import com.alientodevida.alientoapp.app.compose.components.attachment.Attachments
 import com.alientodevida.alientoapp.app.compose.components.attachment.AttachmentsWithCurrentImages
 import com.alientodevida.alientoapp.app.extensions.Dialog
+import com.alientodevida.alientoapp.domain.gallery.Gallery
 
 @Composable
 fun EditCreateGallery(
   viewModel: EditCreateGalleryViewModel,
+  gallery: Gallery,
   onBackPressed: () -> Unit,
 ) {
+  
+  LaunchedEffect(true) {
+    viewModel.setGallery(gallery)
+  }
+  
   val viewModelState by viewModel.viewModelState.collectAsState()
   
   EditCreateGalleryContent(

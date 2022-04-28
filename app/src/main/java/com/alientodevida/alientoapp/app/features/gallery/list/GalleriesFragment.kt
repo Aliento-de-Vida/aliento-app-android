@@ -27,7 +27,6 @@ class GalleriesFragment : BaseFragment<FragmentNotificationsBinding>(R.layout.fr
           Galleries(
             viewModel = viewModel,
             onBackPressed = { activity?.onBackPressed() },
-            goToGallery = { gallery -> goToGallery(gallery)},
             goToEditGallery = { gallery -> goToEditGallery(gallery)},
             goToCreateGallery = { goToCreateGallery() },
           )

@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.features.home.edit
+package com.alientodevida.alientoapp.app.features.home.admin
 
 import android.os.Bundle
 import android.view.View
@@ -8,13 +8,14 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseFragment
 import com.alientodevida.alientoapp.app.compose.theme.AppTheme
 import com.alientodevida.alientoapp.app.databinding.FragmentNotificationsBinding
+import com.alientodevida.alientoapp.domain.home.Home
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class EditHomeFragment :
   BaseFragment<FragmentNotificationsBinding>(R.layout.fragment_notifications) {
   
-  private val viewModel by viewModels<EditHomeViewModel>()
+  private val viewModel by viewModels<AdminHomeViewModel>()
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -23,8 +24,9 @@ class EditHomeFragment :
       setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
       setContent {
         AppTheme {
-          EditHome(
+          AdminHome(
             viewModel = viewModel,
+            home = Home.empty(),
             onBackPressed = { activity?.onBackPressed() },
           )
         }

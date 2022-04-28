@@ -28,7 +28,6 @@ class NotificationsFragment :
           Notifications(
             viewModel = viewModel,
             onBackPressed = { activity?.onBackPressed() },
-            goToNotificationDetail = { notification -> goToNotificationDetail(notification)},
             goToEditNotification = { notification -> goToEditNotification(notification)},
             goToCreateNotification = { goToCreateNotification() },
           )

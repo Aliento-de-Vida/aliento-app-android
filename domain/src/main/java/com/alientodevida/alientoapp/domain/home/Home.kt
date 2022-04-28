@@ -21,6 +21,25 @@ data class Home(
         spotifyPlaylistId.isNotBlank() &&
         prayerEmail.isNotBlank() &&
         socialMedia.isComplete
+  
+  companion object {
+    fun empty() = Home(
+      ebook = "",
+      youtubePlaylistId = "",
+      youtubeChannelId = "",
+      spotifyPlaylistId = "",
+      prayerEmail = "",
+      socialMedia = SocialMedia(
+        instagramUrl = "",
+        youtubeChannelUrl = "",
+        facebookPageId = "",
+        facebookPageUrl = "",
+        twitterUserId = "",
+        twitterUrl = "",
+        spotifyArtistId = "",
+      ),
+    )
+  }
 }
 
 @Parcelize
