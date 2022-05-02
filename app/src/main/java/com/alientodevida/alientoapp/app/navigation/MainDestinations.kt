@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.alientodevida.alientoapp.app.features.admin.login.AdminLogin
 import com.alientodevida.alientoapp.app.features.campus.editcreate.EditCreateCampus
 import com.alientodevida.alientoapp.app.features.campus.list.Campuses
@@ -27,6 +28,8 @@ import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.notification.Notification
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 fun NavGraphBuilder.home(actions: MainActions) {
   composable(MainDestination.Home.path) {
@@ -122,9 +125,14 @@ fun NavGraphBuilder.notifications(
   genericActions: GenericNavigationActions,
   actions: MainActions,
 ) {
-  composable(MainDestination.Notifications.path) {
+  composable(
+    route = MainDestination.Notifications.path,
+    deepLinks = listOf(navDeepLink { uriPattern = "https://todoserver-peter.herokuapp.com/{notification_id}" }),
+  ) { backStackEntry ->
+    val notificationId = backStackEntry.arguments?.getString("notification_id")
     Notifications(
       viewModel = hiltViewModel(),
+      selectedNotificationId = notificationId,
       onBackPressed = genericActions::back,
       goToCreateNotification = actions::navigateToAdminNotification,
       goToEditNotification = actions::navigateToAdminNotification,

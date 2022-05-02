@@ -4,6 +4,7 @@
   package="com.alientodevida.alientoapp.app">
 
   <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
   <queries>
     <package android:name="com.google.android.apps.maps" />
@@ -33,11 +34,16 @@
       android:screenOrientation="portrait"
       android:theme="@style/AppTheme.Splashscreen"
       tools:ignore="LockedOrientationActivity">
+
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
-
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
+
+      <intent-filter>
+        <data android:scheme="https" android:host="todoserver-peter.herokuapp.com" />
+      </intent-filter>
+
     </activity>
 
     <service
