@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -51,6 +52,7 @@ import com.alientodevida.alientoapp.app.compose.components.AlwaysRefreshableSwip
 import com.alientodevida.alientoapp.app.compose.components.Body2
 import com.alientodevida.alientoapp.app.compose.components.Caption
 import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
+import com.alientodevida.alientoapp.app.compose.components.EmptyView
 import com.alientodevida.alientoapp.app.compose.components.Gradient
 import com.alientodevida.alientoapp.app.compose.components.H5
 import com.alientodevida.alientoapp.app.compose.components.Icon
@@ -69,6 +71,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun Notifications(
   viewModel: NotificationsViewModel,
+  selectedNotificationId: String?,
   onBackPressed: () -> Unit,
   goToEditNotification: (Notification) -> Unit,
   goToCreateNotification: () -> Unit,
@@ -83,6 +86,7 @@ fun Notifications(
   NotificationsWithDialog(
     viewModelState,
     isAdmin,
+    selectedNotificationId,
     viewModel,
     onBackPressed,
     goToEditNotification,
@@ -95,6 +99,7 @@ fun Notifications(
 private fun NotificationsWithDialog(
   viewModelState: NotificationsUiState,
   isAdmin: Boolean,
+  selectedNotificationId: String?,
   viewModel: NotificationsViewModel,
   onBackPressed: () -> Unit,
   goToEditNotification: (Notification) -> Unit,
@@ -102,12 +107,20 @@ private fun NotificationsWithDialog(
 ) {
   val modalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
   val coroutineScope = rememberCoroutineScope()
-  val notification = remember { mutableStateOf(Notification.empty()) }
+  var notification: Notification? by remember { mutableStateOf(null) }
+  
+  val temp = viewModelState.notifications.firstOrNull { it.id == selectedNotificationId?.toInt() }
+  temp?.let {
+    notification = it
+    LaunchedEffect(it) {
+      modalBottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
+    }
+  }
   
   ModalExpandedOnlyBottomSheetLayout(
     sheetState = modalBottomSheetState,
     sheetBackgroundColor = MaterialTheme.colors.background,
-    sheetContent = { NotificationDetail(notification.value) },
+    sheetContent = { if (notification != null) NotificationDetail(notification!!) else EmptyView() },
     scrimColor = MaterialTheme.colors.onBackground.copy(alpha = 0.5f),
   ) {
     NotificationsContent(
@@ -119,7 +132,7 @@ private fun NotificationsWithDialog(
       onBackPressed = onBackPressed,
       goToNotificationDetail = {
         coroutineScope.launch {
-          notification.value = it
+          notification = it
           modalBottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
         }
       },

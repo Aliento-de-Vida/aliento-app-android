@@ -19,7 +19,7 @@ enum class MainDestination(override val path: String) : MobileDestination {
   Galleries("main/gallery"),
   Donations("main/donations"),
   Prayer("main/prayer"),
-  Notifications("main/notification"),
+  Notifications("main/notification/{${MainDestination.NOTIFICATION}}"),
   Settings("main/settings"),
   
   AdminLogin("main/admin/login"),
