@@ -1,15 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = "1.6.10"
+    ext.kotlin_version = '1.7.0'
     ext.navigationVersion = '2.4.1'
-    ext.hiltVersion = "2.40"
+    ext.hiltVersion = '2.42'
 
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.android.tools.build:gradle:7.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
@@ -44,12 +44,12 @@ ext {
     swipeRefreshVersion = "1.1.0"
 
     // Hilt
-    hiltVersion = "2.40"
+    hiltVersion = "2.42"
     hiltAndroidXVersion = '1.0.0'
 
     // Architecture components
     lifecycleVersion = "2.4.0"
-    roomVersion = "2.2.5"
+    roomVersion = "2.4.0"
 
     // GSON
     gsonVersion = "2.8.6"

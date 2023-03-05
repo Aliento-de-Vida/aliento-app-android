@@ -46,7 +46,7 @@ object DataModule {
       .retryOnConnectionFailure(false)
       .apply {
         if (BuildConfig.DEBUG) addInterceptor(
-          HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+          HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
         )
       }.build()
   

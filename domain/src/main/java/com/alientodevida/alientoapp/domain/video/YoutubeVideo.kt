@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @Entity
 @Parcelize
-data class YoutubeVideo(
+data class  YoutubeVideo(
   var name: String,
   @PrimaryKey
   val id: String,
