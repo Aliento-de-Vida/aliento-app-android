@@ -63,6 +63,7 @@ class GalleriesViewModel @Inject constructor(
       } catch (ex: CancellationException) {
         return@launch
       } catch (ex: Exception) {
+        logger.d("GalleriesViewModel.getGalleries", tr = ex)
         val messages = viewModelState.value.messages.toMutableList()
         messages.add(errorParser(ex))
         _viewModelState.update { it.copy(messages = messages) }
@@ -82,6 +83,7 @@ class GalleriesViewModel @Inject constructor(
       } catch (ex: CancellationException) {
         return@launch
       } catch (ex: Exception) {
+        logger.d("GalleriesViewModel.deleteGallery", tr = ex)
         val messages = viewModelState.value.messages.toMutableList()
         messages.add(errorParser(ex))
         _viewModelState.update { it.copy(messages = messages) }

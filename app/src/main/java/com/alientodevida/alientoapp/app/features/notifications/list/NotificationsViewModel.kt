@@ -63,6 +63,7 @@ class NotificationsViewModel @Inject constructor(
       } catch (ex: CancellationException) {
         return@launch
       } catch (ex: Exception) {
+        logger.d("NotificationsViewModel.getNotifications", tr = ex)
         val messages = viewModelState.value.messages.toMutableList()
         messages.add(errorParser(ex))
         _viewModelState.update { it.copy(messages = messages) }
@@ -82,6 +83,7 @@ class NotificationsViewModel @Inject constructor(
       } catch (ex: CancellationException) {
         return@launch
       } catch (ex: Exception) {
+        logger.d("NotificationsViewModel.deleteNotification", tr = ex)
         val messages = viewModelState.value.messages.toMutableList()
         messages.add(errorParser(ex))
         _viewModelState.update { it.copy(messages = messages) }

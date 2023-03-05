@@ -62,6 +62,7 @@ class AudioViewModel @Inject constructor(
       } catch (ex: CancellationException) {
         return@launch
       } catch (ex: Exception) {
+        logger.e("AudioViewModel.getCachedPodcasts()", tr = ex)
         val messages = viewModelState.value.messages.toMutableList()
         messages.add(errorParser(ex))
         _viewModelState.update { it.copy(messages = messages) }
@@ -82,6 +83,7 @@ class AudioViewModel @Inject constructor(
         } catch (ex: CancellationException) {
           return@launch
         } catch (ex: Exception) {
+          logger.e("AudioViewModel.refreshContent()", tr = ex)
           val messages = viewModelState.value.messages.toMutableList()
           messages.add(errorParser(ex))
           _viewModelState.update { it.copy(messages = messages) }
