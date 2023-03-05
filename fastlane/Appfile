@@ -1,2 +1,2 @@
-json_key_file("/Users/user/Developer/play-api/adv/pc-api-7068476234413575643-558-974a8afd7aa8.json")
-package_name("com.alientodevida.app") # e.g. com.krausefx.app
+json_key_file("../../_SigningKeys/pc-api-7068476234413575643-558-e28679cd6fe7.json")
+package_name("com.alientodevida.app")

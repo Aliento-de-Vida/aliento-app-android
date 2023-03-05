@@ -15,13 +15,13 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.alientodevida.app"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 17
         versionName "1.1.0"
 
@@ -70,7 +70,7 @@ android {
         jvmTarget = rootProject.ext.jvmTarget
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.1.1'
+        kotlinCompilerExtensionVersion '1.2.0'
     }
 }
 
@@ -113,11 +113,11 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:2.4.2"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
     implementation 'androidx.activity:activity-compose:1.4.0'
-    implementation 'androidx.compose.material:material:1.1.1'
-    implementation 'androidx.compose.material:material-icons-extended:1.1.1'
-    implementation 'androidx.compose.animation:animation:1.1.1'
-    implementation 'androidx.compose.ui:ui-tooling:1.1.1'
-    implementation 'androidx.compose.runtime:runtime-livedata:1.1.1'
+    implementation 'androidx.compose.material:material:1.2.0'
+    implementation 'androidx.compose.material:material-icons-extended:1.2.0'
+    implementation 'androidx.compose.animation:animation:1.2.0'
+    implementation 'androidx.compose.ui:ui-tooling:1.2.0'
+    implementation 'androidx.compose.runtime:runtime-livedata:1.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0"
     implementation "com.google.accompanist:accompanist-pager:0.23.0"
