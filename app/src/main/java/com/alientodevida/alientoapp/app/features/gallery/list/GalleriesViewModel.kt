@@ -7,7 +7,7 @@ import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.analytics.Analytics
-import com.alientodevida.alientoapp.domain.analytics.AnalyticsScreen
+import com.alientodevida.alientoapp.app.extensions.logScreenView
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.gallery.Gallery
 import com.alientodevida.alientoapp.domain.gallery.GalleryRepository
@@ -47,7 +47,7 @@ class GalleriesViewModel @Inject constructor(
 ) {
 
   init {
-      analytics.logScreen(GalleriesScreen())
+      analytics.logScreenView("galleries_screen")
   }
 
   val isAdmin = preferences.isAdminFlow
@@ -100,7 +100,3 @@ class GalleriesViewModel @Inject constructor(
   }
   
 }
-
-data class GalleriesScreen(
-  override val name: String = "GalleriesScreen"
-): AnalyticsScreen()

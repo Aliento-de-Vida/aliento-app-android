@@ -1,35 +1,19 @@
 package com.alientodevida.alientoapp.app.navigation
 
-import android.os.Bundle
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
-import com.alientodevida.alientoapp.app.features.admin.login.AdminLogin
-import com.alientodevida.alientoapp.app.features.campus.editcreate.EditCreateCampus
 import com.alientodevida.alientoapp.app.features.campus.list.Campuses
 import com.alientodevida.alientoapp.app.features.church.Church
 import com.alientodevida.alientoapp.app.features.donations.Donations
-import com.alientodevida.alientoapp.app.features.gallery.editcreate.EditCreateGallery
 import com.alientodevida.alientoapp.app.features.gallery.list.Galleries
 import com.alientodevida.alientoapp.app.features.home.Home
-import com.alientodevida.alientoapp.app.features.home.admin.AdminHome
-import com.alientodevida.alientoapp.app.features.notifications.editcreate.EditNotification
 import com.alientodevida.alientoapp.app.features.notifications.list.Notifications
 import com.alientodevida.alientoapp.app.features.prayer.Prayer
 import com.alientodevida.alientoapp.app.features.sermons.Sermons
 import com.alientodevida.alientoapp.app.features.settings.Settings
-import com.alientodevida.alientoapp.domain.campus.Campus
-import com.alientodevida.alientoapp.domain.gallery.Gallery
-import com.alientodevida.alientoapp.domain.home.Home
-import com.alientodevida.alientoapp.domain.notification.Notification
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 fun NavGraphBuilder.home(actions: MainActions) {
   composable(MainDestination.Home.path) {

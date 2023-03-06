@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.analytics.Analytics
-import com.alientodevida.alientoapp.domain.analytics.AnalyticsScreen
+import com.alientodevida.alientoapp.app.extensions.logScreenView
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
@@ -32,7 +32,7 @@ class SettingsViewModel @Inject constructor(
   application,
 ) {
   init {
-    analytics.logScreen(SettingsScreen())
+    analytics.logScreenView("settings_screen")
   }
 
   val isDarkTheme = preferences.isDarkThemeFlow
@@ -52,7 +52,3 @@ class SettingsViewModel @Inject constructor(
   }
   
 }
-
-data class SettingsScreen(
-  override val name: String = "SettingsScreen"
-): AnalyticsScreen()

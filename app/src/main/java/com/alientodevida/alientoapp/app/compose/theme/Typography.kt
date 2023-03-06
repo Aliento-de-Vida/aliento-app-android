@@ -13,19 +13,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.toFontFamily
+import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import androidx.core.content.res.FontResourcesParserCompat
+import androidx.core.content.res.*
 import androidx.core.content.res.FontResourcesParserCompat.FontFileResourceEntry
-import androidx.core.content.res.getColorOrThrow
-import androidx.core.content.res.getDimensionOrThrow
-import androidx.core.content.res.getStringOrThrow
-import androidx.core.content.res.use
 import com.alientodevida.alientoapp.app.R
 
 @Composable

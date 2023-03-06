@@ -6,7 +6,7 @@ import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.analytics.Analytics
-import com.alientodevida.alientoapp.domain.analytics.AnalyticsScreen
+import com.alientodevida.alientoapp.app.extensions.logScreenView
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.entities.local.BankAccount
 import com.alientodevida.alientoapp.domain.entities.local.DonationType
@@ -40,7 +40,7 @@ class DonationsViewModel @Inject constructor(
 ) {
 
   init {
-      analytics.logScreen(DonationsScreen())
+      analytics.logScreenView("donations_screen")
   }
 
   private val _viewModelState = MutableStateFlow(
@@ -71,7 +71,3 @@ class DonationsViewModel @Inject constructor(
     get() = _viewModelState
   
 }
-
-data class DonationsScreen(
-  override val name: String = "DonationsScreen"
-): AnalyticsScreen()
