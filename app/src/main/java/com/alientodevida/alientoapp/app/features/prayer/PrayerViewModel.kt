@@ -5,6 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
+import com.alientodevida.alientoapp.domain.analytics.Analytics
+import com.alientodevida.alientoapp.domain.analytics.AnalyticsScreen
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.logger.Logger
@@ -47,6 +49,7 @@ class PrayerViewModel @Inject constructor(
   preferences: Preferences,
   savedStateHandle: SavedStateHandle,
   application: Application,
+  analytics: Analytics,
 ) : BaseViewModel(
   coroutineDispatchers,
   errorParser,
@@ -55,7 +58,11 @@ class PrayerViewModel @Inject constructor(
   savedStateHandle,
   application,
 ) {
-  
+
+  init {
+    analytics.logScreen(PrayerScreen())
+  }
+
   private val _viewModelState = MutableStateFlow(PrayerUiState(preferences.home))
   val viewModelState: StateFlow<PrayerUiState> = _viewModelState
   
@@ -85,3 +92,7 @@ class PrayerViewModel @Inject constructor(
   }
   
 }
+
+data class PrayerScreen(
+  override val name: String = "PrayerScreen"
+): AnalyticsScreen()

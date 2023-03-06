@@ -43,7 +43,7 @@ fun <T>Pager(
       modifier = Modifier
         .fillMaxSize()
         .clickable {
-          goToItem(items[pagerState.currentPage])
+          if (items.isNotEmpty()) goToItem(items[pagerState.currentPage])
         },
       count = items.size,
       state = pagerState,

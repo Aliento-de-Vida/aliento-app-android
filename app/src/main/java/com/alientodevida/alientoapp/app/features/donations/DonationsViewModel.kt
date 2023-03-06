@@ -5,6 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.R
 import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
+import com.alientodevida.alientoapp.domain.analytics.Analytics
+import com.alientodevida.alientoapp.domain.analytics.AnalyticsScreen
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.entities.local.BankAccount
 import com.alientodevida.alientoapp.domain.entities.local.DonationType
@@ -27,6 +29,7 @@ class DonationsViewModel @Inject constructor(
   preferences: Preferences,
   savedStateHandle: SavedStateHandle,
   application: Application,
+  analytics: Analytics,
 ) : BaseViewModel(
   coroutineDispatchers,
   errorParser,
@@ -35,7 +38,11 @@ class DonationsViewModel @Inject constructor(
   savedStateHandle,
   application,
 ) {
-  
+
+  init {
+      analytics.logScreen(DonationsScreen())
+  }
+
   private val _viewModelState = MutableStateFlow(
     DonationsUiState(listOf(
       PaymentItem(
@@ -64,3 +71,7 @@ class DonationsViewModel @Inject constructor(
     get() = _viewModelState
   
 }
+
+data class DonationsScreen(
+  override val name: String = "DonationsScreen"
+): AnalyticsScreen()

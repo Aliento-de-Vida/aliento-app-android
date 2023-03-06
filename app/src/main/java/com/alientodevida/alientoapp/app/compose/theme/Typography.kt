@@ -237,6 +237,7 @@ private fun TypedArray.getFontFamilyOrNull(index: Int): FontFamily? {
   return null
 }
 
+@SuppressLint("RestrictedApi")
 private fun Resources.parseXmlFontFamily(resourceId: Int): FontFamily? {
   getXml(resourceId).use { parser: XmlResourceParser ->
     @SuppressLint("RestrictedApi")
