@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
+import com.alientodevida.alientoapp.domain.analytics.Analytics
+import com.alientodevida.alientoapp.domain.analytics.AnalyticsScreen
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.notification.Notification
@@ -34,6 +36,7 @@ class NotificationsViewModel @Inject constructor(
   preferences: Preferences,
   savedStateHandle: SavedStateHandle,
   application: Application,
+  analytics: Analytics,
 ) : BaseViewModel(
   coroutineDispatchers,
   errorParser,
@@ -42,7 +45,11 @@ class NotificationsViewModel @Inject constructor(
   savedStateHandle,
   application,
 ) {
-  
+
+  init {
+      analytics.logScreen(NotificationsScreen())
+  }
+
   val isAdmin = preferences.isAdminFlow
   
   private val _viewModelState = MutableStateFlow(NotificationsUiState())
@@ -93,3 +100,7 @@ class NotificationsViewModel @Inject constructor(
   }
   
 }
+
+data class NotificationsScreen(
+  override val name: String = "NotificationsScreen"
+): AnalyticsScreen()

@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
+import com.alientodevida.alientoapp.domain.analytics.Analytics
+import com.alientodevida.alientoapp.domain.analytics.AnalyticsScreen
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItem
@@ -44,6 +46,7 @@ class HomeViewModel @Inject constructor(
   private val videoRepository: VideoRepository,
   private val homeRepository: HomeRepository,
   private val notificationRepository: NotificationRepository,
+  private val analytics: Analytics,
   coroutineDispatchers: CoroutineDispatchers,
   errorParser: ErrorParser,
   logger: Logger,
@@ -78,6 +81,7 @@ class HomeViewModel @Inject constructor(
   var latestVideo: YoutubeVideo? = null
   
   init {
+    analytics.logScreen(HomeScreen())
     getHome()
   }
   
@@ -202,3 +206,7 @@ class HomeViewModel @Inject constructor(
   }
   
 }
+
+data class HomeScreen(
+  override val name: String = "HomeScreen"
+): AnalyticsScreen()

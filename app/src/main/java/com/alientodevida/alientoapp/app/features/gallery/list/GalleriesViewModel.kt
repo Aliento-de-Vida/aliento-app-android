@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
+import com.alientodevida.alientoapp.domain.analytics.Analytics
+import com.alientodevida.alientoapp.domain.analytics.AnalyticsScreen
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.gallery.Gallery
 import com.alientodevida.alientoapp.domain.gallery.GalleryRepository
@@ -34,6 +36,7 @@ class GalleriesViewModel @Inject constructor(
   preferences: Preferences,
   savedStateHandle: SavedStateHandle,
   application: Application,
+  analytics: Analytics,
 ) : BaseViewModel(
   coroutineDispatchers,
   errorParser,
@@ -42,7 +45,11 @@ class GalleriesViewModel @Inject constructor(
   savedStateHandle,
   application,
 ) {
-  
+
+  init {
+      analytics.logScreen(GalleriesScreen())
+  }
+
   val isAdmin = preferences.isAdminFlow
   
   private val _viewModelState = MutableStateFlow(GalleriesUiState())
@@ -93,3 +100,7 @@ class GalleriesViewModel @Inject constructor(
   }
   
 }
+
+data class GalleriesScreen(
+  override val name: String = "GalleriesScreen"
+): AnalyticsScreen()
