@@ -4,10 +4,10 @@ import android.app.Application
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.alientodevida.alientoapp.app.base.BaseViewModel
+import com.alientodevida.alientoapp.app.extensions.logScreenView
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.analytics.Analytics
-import com.alientodevida.alientoapp.domain.analytics.AnalyticsScreen
 import com.alientodevida.alientoapp.domain.campus.Campus
 import com.alientodevida.alientoapp.domain.campus.CampusRepository
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
@@ -47,7 +47,7 @@ class CampusesViewModel @Inject constructor(
 ) {
 
   init {
-    analytics.logScreen(CampusesScreen())
+    analytics.logScreenView("campuses_screen")
   }
 
   private val _viewModelState = MutableStateFlow(CampusesUiState(emptyList(), false, emptyList()))
@@ -100,7 +100,3 @@ class CampusesViewModel @Inject constructor(
   }
   
 }
-
-data class CampusesScreen(
-  override val name: String = "CampusesScreen"
-): AnalyticsScreen()

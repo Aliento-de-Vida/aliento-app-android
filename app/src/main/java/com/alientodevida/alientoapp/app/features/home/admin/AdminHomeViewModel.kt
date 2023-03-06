@@ -10,6 +10,8 @@ import com.alientodevida.alientoapp.app.compose.components.attachment.Attachment
 import com.alientodevida.alientoapp.app.compose.components.attachment.getDomainAttachment
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
+import com.alientodevida.alientoapp.domain.analytics.Analytics
+import com.alientodevida.alientoapp.app.extensions.logScreenView
 import com.alientodevida.alientoapp.domain.common.Attachment
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.extensions.addTimeStamp
@@ -54,6 +56,7 @@ class AdminHomeViewModel @Inject constructor(
   logger: Logger,
   preferences: Preferences,
   savedStateHandle: SavedStateHandle,
+  analytics: Analytics,
   val application: Application,
 ) : BaseViewModel(
   coroutineDispatchers,
@@ -63,7 +66,11 @@ class AdminHomeViewModel @Inject constructor(
   savedStateHandle,
   application,
 ) {
-  
+
+  init {
+    analytics.logScreenView("admin_home_screen")
+  }
+
   private val _viewModelState = MutableStateFlow(
     HomeUiState(
       home = Home.empty(),

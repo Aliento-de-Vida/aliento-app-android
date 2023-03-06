@@ -1,7 +1,6 @@
 package com.alientodevida.alientoapp.app.di
 
 import android.content.Context
-import com.alientodevida.alientoapp.app.analytics.AnalyticsImpl
 import com.alientodevida.alientoapp.app.logger.LoggerImpl
 import com.alientodevida.alientoapp.domain.analytics.Analytics
 import com.alientodevida.alientoapp.domain.logger.Logger
@@ -13,7 +12,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-
+import com.alientodevida.alientoapp.app.analytics.FirebaseAnalytics as AppFirebaseAnalytics
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
@@ -36,6 +35,6 @@ class AppModule {
   @Singleton
   fun analytics(
     firebaseAnalytics: FirebaseAnalytics
-  ): Analytics = AnalyticsImpl(firebaseAnalytics)
+  ): Analytics = AppFirebaseAnalytics(firebaseAnalytics)
 
 }

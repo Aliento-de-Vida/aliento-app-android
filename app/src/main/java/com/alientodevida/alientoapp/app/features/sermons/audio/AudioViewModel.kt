@@ -7,7 +7,7 @@ import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.analytics.Analytics
-import com.alientodevida.alientoapp.domain.analytics.AnalyticsScreen
+import com.alientodevida.alientoapp.app.extensions.logScreenView
 import com.alientodevida.alientoapp.domain.audio.Audio
 import com.alientodevida.alientoapp.domain.audio.SpotifyRepository
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
@@ -49,7 +49,7 @@ class AudioViewModel @Inject constructor(
 ) {
 
   init {
-      analytics.logScreen(AudioSermonsScreen())
+      analytics.logScreenView("audio_sermons_screen")
   }
 
   private val _viewModelState = MutableStateFlow(AudioSermonsUiState(home = preferences.home))
@@ -100,7 +100,3 @@ class AudioViewModel @Inject constructor(
     }
   }
 }
-
-data class AudioSermonsScreen(
-  override val name: String = "AudioSermonsScreen"
-): AnalyticsScreen()

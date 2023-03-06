@@ -1,19 +1,7 @@
 package com.alientodevida.alientoapp.app.features.church
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
@@ -28,11 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.Body1
-import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
-import com.alientodevida.alientoapp.app.compose.components.H5
-import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
-import com.alientodevida.alientoapp.app.compose.components.Subtitle1
+import com.alientodevida.alientoapp.app.compose.components.*
 import com.alientodevida.alientoapp.app.utils.Constants
 import com.alientodevida.alientoapp.app.utils.extensions.goToYoutubeVideo
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo

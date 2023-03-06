@@ -7,7 +7,7 @@ import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.analytics.Analytics
-import com.alientodevida.alientoapp.domain.analytics.AnalyticsScreen
+import com.alientodevida.alientoapp.app.extensions.logScreenView
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.logger.Logger
@@ -49,7 +49,7 @@ class VideoViewModel @Inject constructor(
 ) {
 
   init {
-    analytics.logScreen(VideoSermonsScreen())
+    analytics.logScreenView("video_sermons_screen")
   }
 
   private val _viewModelState = MutableStateFlow(VideoSermonsUiState(home = preferences.home))
@@ -99,7 +99,3 @@ class VideoViewModel @Inject constructor(
   }
   
 }
-
-data class VideoSermonsScreen(
-  override val name: String = "VideoSermonsScreen"
-): AnalyticsScreen()

@@ -7,7 +7,7 @@ import com.alientodevida.alientoapp.app.base.BaseViewModel
 import com.alientodevida.alientoapp.app.state.Message
 import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.analytics.Analytics
-import com.alientodevida.alientoapp.domain.analytics.AnalyticsScreen
+import com.alientodevida.alientoapp.app.extensions.logScreenView
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.logger.Logger
 import com.alientodevida.alientoapp.domain.notification.Notification
@@ -47,7 +47,7 @@ class NotificationsViewModel @Inject constructor(
 ) {
 
   init {
-      analytics.logScreen(NotificationsScreen())
+      analytics.logScreenView("notifications_screen")
   }
 
   val isAdmin = preferences.isAdminFlow
@@ -100,7 +100,3 @@ class NotificationsViewModel @Inject constructor(
   }
   
 }
-
-data class NotificationsScreen(
-  override val name: String = "NotificationsScreen"
-): AnalyticsScreen()
