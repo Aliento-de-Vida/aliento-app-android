@@ -17,11 +17,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.Button
-import com.alientodevida.alientoapp.app.compose.components.H5
-import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
-import com.alientodevida.alientoapp.app.compose.components.Subtitle2
-import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
+import com.alientodevida.alientoapp.ui.components.Button
+import com.alientodevida.alientoapp.ui.components.H5
+import com.alientodevida.alientoapp.ui.components.ImageWithShimmering
+import com.alientodevida.alientoapp.ui.components.Subtitle2
+import com.alientodevida.alientoapp.ui.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.notification.Notification
 import com.bumptech.glide.Glide
 import com.stfalcon.imageviewer.StfalconImageViewer

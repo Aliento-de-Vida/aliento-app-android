@@ -7,7 +7,6 @@
 
   <string name="comming_soon_title">Próximamente</string>
   <string name="comming_soon_message">Espéralo pronto</string>
-  <string name="ok">Ok</string>
   <string name="under_development">En desarrollo</string>
   <string name="social_networks">Redes Sociales</string>
   <string name="home">Inicio</string>
@@ -17,10 +16,6 @@
   <string name="donations">Donaciones</string>
   <string name="title_splashscreen">Splashscreen</string>
 
-  <string name="error_generic_title">Error</string>
-  <string name="error_generic_message">Something went wrong!</string>
-  <string name="error_api_title">Error</string>
-  <string name="error_server_message">Ups, Something went wrong!</string>
   <string name="our_campuses">Nuestros Campus</string>
   <string name="open_maps">Abrir maps</string>
   <string name="open_gallery">Ver galería</string>

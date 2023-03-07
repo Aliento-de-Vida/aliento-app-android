@@ -15,6 +15,7 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
+    namespace 'com.alientodevida.alientoapp.app'
     compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
@@ -78,10 +79,16 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(path: ':domain')
     implementation project(path: ':data')
+    implementation project(path: ':core:analytics')
+    implementation project(path: ':core:ui')
+    implementation project(path: ':core:common')
+    implementation project(path: ':feature:gallery')
+    implementation project(path: ':feature:campus')
+    implementation project(path: ':feature:sermons')
+    implementation project(path: ':feature:settings')
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-messaging'
 

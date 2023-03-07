@@ -28,14 +28,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.*
-import com.alientodevida.alientoapp.app.compose.theme.AppTheme
+import com.alientodevida.alientoapp.ui.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
 import com.alientodevida.alientoapp.app.features.notifications.detail.NotificationDetail
-import com.alientodevida.alientoapp.app.utils.extensions.toImageUrl
+import com.alientodevida.alientoapp.ui.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
 import com.alientodevida.alientoapp.domain.notification.Notification
+import com.alientodevida.alientoapp.ui.components.*
 import kotlinx.coroutines.launch
 
 @Composable
@@ -135,11 +135,11 @@ fun NotificationsContent(
         onClick = { goToCreateNotification() },
         contentColor = MaterialTheme.colors.surface,
       ) {
-        Icon(
-          icon = R.drawable.ic_add_24,
-          contentDescription = "Create Notification",
-          tint = MaterialTheme.colors.onSurface
-        )
+          com.alientodevida.alientoapp.ui.components.Icon(
+              icon = R.drawable.ic_add_24,
+              contentDescription = "Create Notification",
+              tint = MaterialTheme.colors.onSurface
+          )
       }
     }
   ) { paddingValues ->

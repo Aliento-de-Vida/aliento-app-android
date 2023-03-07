@@ -4,11 +4,14 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.alientodevida.alientoapp.app.compose.theme.AppTheme
+import com.alientodevida.alientoapp.ui.theme.AppTheme
 import com.alientodevida.alientoapp.app.navigation.MainNavigationGraph
+import com.alientodevida.alientoapp.core.analytics.Analytics
+import com.alientodevida.alientoapp.core.analytics.LocalAnalyticsHelper
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
@@ -25,6 +28,9 @@ class MainActivity : AppCompatActivity() {
   
   @Inject
   lateinit var firebaseMessaging: FirebaseMessaging
+
+  @Inject
+  lateinit var analytics: Analytics
   
   override fun onCreate(savedInstanceState: Bundle?) {
     setTheme(R.style.AppTheme)
@@ -32,10 +38,12 @@ class MainActivity : AppCompatActivity() {
     
     setupPushNotifications()
     observe()
-    
+
     setContent {
-      AppTheme {
-        MainNavigationGraph()
+      CompositionLocalProvider(LocalAnalyticsHelper provides analytics) {
+        AppTheme {
+          MainNavigationGraph()
+        }
       }
     }
   }

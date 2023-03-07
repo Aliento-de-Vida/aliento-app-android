@@ -2,14 +2,14 @@ package com.alientodevida.alientoapp.app.features.admin.login
 
 import android.app.Application
 import androidx.lifecycle.SavedStateHandle
-import com.alientodevida.alientoapp.app.base.BaseViewModel
-import com.alientodevida.alientoapp.app.extensions.logAdminLogin
-import com.alientodevida.alientoapp.app.state.ViewModelResult
-import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
+import com.alientodevida.alientoapp.ui.base.BaseViewModel
+import com.alientodevida.alientoapp.ui.extensions.logAdminLogin
+import com.alientodevida.alientoapp.ui.state.ViewModelResult
+import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.admin.AdminRepository
-import com.alientodevida.alientoapp.domain.analytics.Analytics
+import com.alientodevida.alientoapp.core.analytics.Analytics
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
-import com.alientodevida.alientoapp.domain.logger.Logger
+import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,14 +18,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AdminLoginViewModel @Inject constructor(
-  private val adminRepository: AdminRepository,
-  private val analytics: Analytics,
-  coroutineDispatchers: CoroutineDispatchers,
-  errorParser: ErrorParser,
-  logger: Logger,
-  preferences: Preferences,
-  savedStateHandle: SavedStateHandle,
-  application: Application,
+    private val adminRepository: AdminRepository,
+    private val analytics: Analytics,
+    coroutineDispatchers: CoroutineDispatchers,
+    errorParser: ErrorParser,
+    logger: Logger,
+    preferences: Preferences,
+    savedStateHandle: SavedStateHandle,
+    application: Application,
 ) : BaseViewModel(
   coroutineDispatchers,
   errorParser,

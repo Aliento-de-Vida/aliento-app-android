@@ -5,20 +5,20 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.alientodevida.alientoapp.app.base.BaseViewModel
-import com.alientodevida.alientoapp.app.compose.components.attachment.AttachmentModel
-import com.alientodevida.alientoapp.app.compose.components.attachment.getDomainAttachment
-import com.alientodevida.alientoapp.app.state.Message
-import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
-import com.alientodevida.alientoapp.domain.analytics.Analytics
-import com.alientodevida.alientoapp.app.extensions.logScreenView
+import com.alientodevida.alientoapp.ui.base.BaseViewModel
+import com.alientodevida.alientoapp.ui.components.attachment.AttachmentModel
+import com.alientodevida.alientoapp.ui.components.attachment.getDomainAttachment
+import com.alientodevida.alientoapp.ui.state.Message
+import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
+import com.alientodevida.alientoapp.core.analytics.Analytics
+import com.alientodevida.alientoapp.ui.extensions.logScreenView
 import com.alientodevida.alientoapp.domain.common.Attachment
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.extensions.addTimeStamp
 import com.alientodevida.alientoapp.domain.file.FileRepository
 import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.home.HomeRepository
-import com.alientodevida.alientoapp.domain.logger.Logger
+import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
@@ -31,33 +31,33 @@ import javax.inject.Inject
 import com.alientodevida.alientoapp.domain.home.HomeImages as DomainHomeImages
 
 data class HomeUiState(
-  val home: Home,
-  val images: HomeImages,
-  val loading: Boolean,
-  val messages: List<Message>,
+    val home: Home,
+    val images: HomeImages,
+    val loading: Boolean,
+    val messages: List<Message>,
 )
 
 data class HomeImages(
-  val sermonsImage: AttachmentModel? = null,
-  val churchImage: AttachmentModel? = null,
-  val campusImage: AttachmentModel? = null,
-  val galleriesImage: AttachmentModel? = null,
-  val donationsImage: AttachmentModel? = null,
-  val prayerImage: AttachmentModel? = null,
-  val ebookImage: AttachmentModel? = null,
+    val sermonsImage: AttachmentModel? = null,
+    val churchImage: AttachmentModel? = null,
+    val campusImage: AttachmentModel? = null,
+    val galleriesImage: AttachmentModel? = null,
+    val donationsImage: AttachmentModel? = null,
+    val prayerImage: AttachmentModel? = null,
+    val ebookImage: AttachmentModel? = null,
 )
 
 @HiltViewModel
 class AdminHomeViewModel @Inject constructor(
-  private val homeRepository: HomeRepository,
-  private val fileRepository: FileRepository,
-  coroutineDispatchers: CoroutineDispatchers,
-  errorParser: ErrorParser,
-  logger: Logger,
-  preferences: Preferences,
-  savedStateHandle: SavedStateHandle,
-  analytics: Analytics,
-  val application: Application,
+    private val homeRepository: HomeRepository,
+    private val fileRepository: FileRepository,
+    coroutineDispatchers: CoroutineDispatchers,
+    errorParser: ErrorParser,
+    logger: Logger,
+    preferences: Preferences,
+    savedStateHandle: SavedStateHandle,
+    analytics: Analytics,
+    val application: Application,
 ) : BaseViewModel(
   coroutineDispatchers,
   errorParser,
@@ -91,6 +91,7 @@ class AdminHomeViewModel @Inject constructor(
     _viewModelState.update { it.copy(images = it.images.copy(sermonsImage = newImage)) }
   }
 
+  @Suppress("UNUSED_PARAMETER")
   fun removeSermonsImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(sermonsImage = null)) }
   }
@@ -99,6 +100,7 @@ class AdminHomeViewModel @Inject constructor(
     _viewModelState.update { it.copy(images = it.images.copy(churchImage = newImage)) }
   }
 
+  @Suppress("UNUSED_PARAMETER")
   fun removeChurchImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(churchImage = null)) }
   }
@@ -107,6 +109,7 @@ class AdminHomeViewModel @Inject constructor(
     _viewModelState.update { it.copy(images = it.images.copy(campusImage = newImage)) }
   }
 
+  @Suppress("UNUSED_PARAMETER")
   fun removeCampusImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(campusImage = null)) }
   }
@@ -115,6 +118,7 @@ class AdminHomeViewModel @Inject constructor(
     _viewModelState.update { it.copy(images = it.images.copy(galleriesImage = newImage)) }
   }
 
+  @Suppress("UNUSED_PARAMETER")
   fun removeGalleriesImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(galleriesImage = null)) }
   }
@@ -122,7 +126,8 @@ class AdminHomeViewModel @Inject constructor(
   fun addDonationsImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(donationsImage = newImage)) }
   }
-  
+
+  @Suppress("UNUSED_PARAMETER")
   fun removeDonationsImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(donationsImage = null)) }
   }
@@ -130,7 +135,8 @@ class AdminHomeViewModel @Inject constructor(
   fun addPrayerImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(prayerImage = newImage)) }
   }
-  
+
+  @Suppress("UNUSED_PARAMETER")
   fun removePrayerImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(prayerImage = null)) }
   }
@@ -139,6 +145,7 @@ class AdminHomeViewModel @Inject constructor(
     _viewModelState.update { it.copy(images = it.images.copy(ebookImage = newImage)) }
   }
 
+  @Suppress("UNUSED_PARAMETER")
   fun removeEbookImage(newImage: AttachmentModel) {
     _viewModelState.update { it.copy(images = it.images.copy(ebookImage = null)) }
   }

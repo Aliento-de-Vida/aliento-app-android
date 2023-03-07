@@ -3,11 +3,11 @@ package com.alientodevida.alientoapp.app.features.home
 import android.app.Application
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.alientodevida.alientoapp.app.base.BaseViewModel
-import com.alientodevida.alientoapp.app.state.Message
-import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
-import com.alientodevida.alientoapp.domain.analytics.Analytics
-import com.alientodevida.alientoapp.app.extensions.logScreenView
+import com.alientodevida.alientoapp.ui.base.BaseViewModel
+import com.alientodevida.alientoapp.ui.state.Message
+import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
+import com.alientodevida.alientoapp.core.analytics.Analytics
+import com.alientodevida.alientoapp.ui.extensions.logScreenView
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItem
@@ -16,7 +16,7 @@ import com.alientodevida.alientoapp.domain.entities.local.YoutubeItem
 import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.home.HomeImages
 import com.alientodevida.alientoapp.domain.home.HomeRepository
-import com.alientodevida.alientoapp.domain.logger.Logger
+import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.domain.notification.Notification
 import com.alientodevida.alientoapp.domain.notification.NotificationRepository
 import com.alientodevida.alientoapp.domain.preferences.Preferences
@@ -32,27 +32,27 @@ import java.util.*
 import javax.inject.Inject
 
 data class HomeUiState(
-  val home: Home? = null,
-  val sermonItems: List<CarouselItem> = emptyList(),
-  val categoriesItems: List<CarouselItem> = emptyList(),
-  val quickAccessItems: List<CarouselItem> = emptyList(),
-  val notifications: List<Notification> = emptyList(),
-  val loading: Boolean = true,
-  val messages: List<Message> = emptyList(),
+    val home: Home? = null,
+    val sermonItems: List<CarouselItem> = emptyList(),
+    val categoriesItems: List<CarouselItem> = emptyList(),
+    val quickAccessItems: List<CarouselItem> = emptyList(),
+    val notifications: List<Notification> = emptyList(),
+    val loading: Boolean = true,
+    val messages: List<Message> = emptyList(),
 )
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-  private val videoRepository: VideoRepository,
-  private val homeRepository: HomeRepository,
-  private val notificationRepository: NotificationRepository,
-  private val analytics: Analytics,
-  coroutineDispatchers: CoroutineDispatchers,
-  errorParser: ErrorParser,
-  logger: Logger,
-  preferences: Preferences,
-  savedStateHandle: SavedStateHandle,
-  application: Application,
+    private val videoRepository: VideoRepository,
+    private val homeRepository: HomeRepository,
+    private val notificationRepository: NotificationRepository,
+    private val analytics: Analytics,
+    coroutineDispatchers: CoroutineDispatchers,
+    errorParser: ErrorParser,
+    logger: Logger,
+    preferences: Preferences,
+    savedStateHandle: SavedStateHandle,
+    application: Application,
 ) : BaseViewModel(
   coroutineDispatchers,
   errorParser,
@@ -194,7 +194,8 @@ class HomeViewModel @Inject constructor(
   
   fun adminLogout() {
     val messages = viewModelState.value.messages.toMutableList()
-    messages.add(Message.Localized.Informational(
+    messages.add(
+        Message.Localized.Informational(
       id = UUID.randomUUID().mostSignificantBits,
       title = "",
       message = "Logged Out",

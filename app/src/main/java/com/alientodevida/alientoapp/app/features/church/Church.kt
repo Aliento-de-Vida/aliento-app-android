@@ -16,10 +16,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.*
-import com.alientodevida.alientoapp.app.utils.Constants
-import com.alientodevida.alientoapp.app.utils.extensions.goToYoutubeVideo
+import com.alientodevida.alientoapp.ui.utils.Constants
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
+import com.alientodevida.alientoapp.ui.components.*
+import com.alientodevida.alientoapp.ui.extensions.goToYoutubeVideo
 
 @Composable
 fun Church(

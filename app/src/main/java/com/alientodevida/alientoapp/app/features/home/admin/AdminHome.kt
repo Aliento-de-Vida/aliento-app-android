@@ -14,11 +14,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.*
-import com.alientodevida.alientoapp.app.compose.components.attachment.AttachmentModel
-import com.alientodevida.alientoapp.app.compose.components.attachment.Attachments
+import com.alientodevida.alientoapp.ui.components.attachment.AttachmentModel
+import com.alientodevida.alientoapp.ui.components.attachment.Attachments
 import com.alientodevida.alientoapp.app.extensions.Dialog
 import com.alientodevida.alientoapp.domain.home.Home
+import com.alientodevida.alientoapp.ui.components.*
 
 @Composable
 fun AdminHome(
@@ -69,37 +69,37 @@ fun AdminHome(
 
 @Composable
 fun AdminHomeContent(
-  uiState: HomeUiState,
-  scaffoldState: ScaffoldState = rememberScaffoldState(),
-  onMessageDismiss: (Long) -> Unit,
-  addSermonsImage: (AttachmentModel) -> Unit,
-  removeSermonsImage: (AttachmentModel) -> Unit,
-  addChurchImage: (AttachmentModel) -> Unit,
-  removeChurchImage: (AttachmentModel) -> Unit,
-  addCampusImage: (AttachmentModel) -> Unit,
-  removeCampusImage: (AttachmentModel) -> Unit,
-  addGalleriesImage: (AttachmentModel) -> Unit,
-  removeGalleriesImage: (AttachmentModel) -> Unit,
-  addDonationsImage: (AttachmentModel) -> Unit,
-  removeDonationsImage: (AttachmentModel) -> Unit,
-  addPrayerImage: (AttachmentModel) -> Unit,
-  removePrayerImage: (AttachmentModel) -> Unit,
-  addEbookImage: (AttachmentModel) -> Unit,
-  removeEbookImage: (AttachmentModel) -> Unit,
-  onEbookChanged: (String) -> Unit,
-  onYoutubePlaylistIdChanged: (String) -> Unit,
-  onYoutubeChannelIdChanged: (String) -> Unit,
-  onSpotifyPlaylistIdChanged: (String) -> Unit,
-  onPrayerEmailChanged: (String) -> Unit,
-  onInstagramUrlChanged: (String) -> Unit,
-  onYoutubeChanelUrlChanged: (String) -> Unit,
-  onFacebookPageIdChanged: (String) -> Unit,
-  onFacebookPageUrlChanged: (String) -> Unit,
-  onTwitterUserIdChanged: (String) -> Unit,
-  onTwitterUrlChanged: (String) -> Unit,
-  onSpotifyArtistIdChanged: (String) -> Unit,
-  saveHome: (Home) -> Unit,
-  onBackPressed: () -> Unit,
+    uiState: HomeUiState,
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    onMessageDismiss: (Long) -> Unit,
+    addSermonsImage: (AttachmentModel) -> Unit,
+    removeSermonsImage: (AttachmentModel) -> Unit,
+    addChurchImage: (AttachmentModel) -> Unit,
+    removeChurchImage: (AttachmentModel) -> Unit,
+    addCampusImage: (AttachmentModel) -> Unit,
+    removeCampusImage: (AttachmentModel) -> Unit,
+    addGalleriesImage: (AttachmentModel) -> Unit,
+    removeGalleriesImage: (AttachmentModel) -> Unit,
+    addDonationsImage: (AttachmentModel) -> Unit,
+    removeDonationsImage: (AttachmentModel) -> Unit,
+    addPrayerImage: (AttachmentModel) -> Unit,
+    removePrayerImage: (AttachmentModel) -> Unit,
+    addEbookImage: (AttachmentModel) -> Unit,
+    removeEbookImage: (AttachmentModel) -> Unit,
+    onEbookChanged: (String) -> Unit,
+    onYoutubePlaylistIdChanged: (String) -> Unit,
+    onYoutubeChannelIdChanged: (String) -> Unit,
+    onSpotifyPlaylistIdChanged: (String) -> Unit,
+    onPrayerEmailChanged: (String) -> Unit,
+    onInstagramUrlChanged: (String) -> Unit,
+    onYoutubeChanelUrlChanged: (String) -> Unit,
+    onFacebookPageIdChanged: (String) -> Unit,
+    onFacebookPageUrlChanged: (String) -> Unit,
+    onTwitterUserIdChanged: (String) -> Unit,
+    onTwitterUrlChanged: (String) -> Unit,
+    onSpotifyArtistIdChanged: (String) -> Unit,
+    saveHome: (Home) -> Unit,
+    onBackPressed: () -> Unit,
 ) {
   Scaffold(
     scaffoldState = scaffoldState,
@@ -111,11 +111,11 @@ fun AdminHomeContent(
         onClick = { saveHome(uiState.home) },
         contentColor = MaterialTheme.colors.surface,
       ) {
-        Icon(
-          icon = R.drawable.ic_send_24,
-          contentDescription = "Edit",
-          tint = MaterialTheme.colors.onSurface
-        )
+          com.alientodevida.alientoapp.ui.components.Icon(
+              icon = R.drawable.ic_send_24,
+              contentDescription = "Edit",
+              tint = MaterialTheme.colors.onSurface
+          )
       }
     }
   ) { paddingValues ->
@@ -205,34 +205,34 @@ fun TopAppBar(
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 fun AdminHomeBody(
-  home: Home,
-  images: HomeImages,
-  addSermonsImage: (AttachmentModel) -> Unit,
-  removeSermonsImage: (AttachmentModel) -> Unit,
-  addChurchImage: (AttachmentModel) -> Unit,
-  removeChurchImage: (AttachmentModel) -> Unit,
-  addCampusImage: (AttachmentModel) -> Unit,
-  removeCampusImage: (AttachmentModel) -> Unit,
-  addGalleriesImage: (AttachmentModel) -> Unit,
-  removeGalleriesImage: (AttachmentModel) -> Unit,
-  addDonationsImage: (AttachmentModel) -> Unit,
-  removeDonationsImage: (AttachmentModel) -> Unit,
-  addPrayerImage: (AttachmentModel) -> Unit,
-  removePrayerImage: (AttachmentModel) -> Unit,
-  addEbookImage: (AttachmentModel) -> Unit,
-  removeEbookImage: (AttachmentModel) -> Unit,
-  onEbookChanged: (String) -> Unit,
-  onYoutubePlaylistIdChanged: (String) -> Unit,
-  onYoutubeChannelIdChanged: (String) -> Unit,
-  onSpotifyPlaylistIdChanged: (String) -> Unit,
-  onPrayerEmailChanged: (String) -> Unit,
-  onInstagramUrlChanged: (String) -> Unit,
-  onYoutubeChanelUrlChanged: (String) -> Unit,
-  onFacebookPageIdChanged: (String) -> Unit,
-  onFacebookPageUrlChanged: (String) -> Unit,
-  onTwitterUserIdChanged: (String) -> Unit,
-  onTwitterUrlChanged: (String) -> Unit,
-  onSpotifyArtistIdChanged: (String) -> Unit,
+    home: Home,
+    images: HomeImages,
+    addSermonsImage: (AttachmentModel) -> Unit,
+    removeSermonsImage: (AttachmentModel) -> Unit,
+    addChurchImage: (AttachmentModel) -> Unit,
+    removeChurchImage: (AttachmentModel) -> Unit,
+    addCampusImage: (AttachmentModel) -> Unit,
+    removeCampusImage: (AttachmentModel) -> Unit,
+    addGalleriesImage: (AttachmentModel) -> Unit,
+    removeGalleriesImage: (AttachmentModel) -> Unit,
+    addDonationsImage: (AttachmentModel) -> Unit,
+    removeDonationsImage: (AttachmentModel) -> Unit,
+    addPrayerImage: (AttachmentModel) -> Unit,
+    removePrayerImage: (AttachmentModel) -> Unit,
+    addEbookImage: (AttachmentModel) -> Unit,
+    removeEbookImage: (AttachmentModel) -> Unit,
+    onEbookChanged: (String) -> Unit,
+    onYoutubePlaylistIdChanged: (String) -> Unit,
+    onYoutubeChannelIdChanged: (String) -> Unit,
+    onSpotifyPlaylistIdChanged: (String) -> Unit,
+    onPrayerEmailChanged: (String) -> Unit,
+    onInstagramUrlChanged: (String) -> Unit,
+    onYoutubeChanelUrlChanged: (String) -> Unit,
+    onFacebookPageIdChanged: (String) -> Unit,
+    onFacebookPageUrlChanged: (String) -> Unit,
+    onTwitterUserIdChanged: (String) -> Unit,
+    onTwitterUrlChanged: (String) -> Unit,
+    onSpotifyArtistIdChanged: (String) -> Unit,
 ) {
   val scrollState = rememberScrollState()
   
@@ -280,21 +280,21 @@ fun AdminHomeBody(
 
 @Composable
 private fun EditImages(
-  images: HomeImages,
-  addSermonsImage: (AttachmentModel) -> Unit,
-  removeSermonsImage: (AttachmentModel) -> Unit,
-  addChurchImage: (AttachmentModel) -> Unit,
-  removeChurchImage: (AttachmentModel) -> Unit,
-  addCampusImage: (AttachmentModel) -> Unit,
-  removeCampusImage: (AttachmentModel) -> Unit,
-  addGalleriesImage: (AttachmentModel) -> Unit,
-  removeGalleriesImage: (AttachmentModel) -> Unit,
-  addDonationsImage: (AttachmentModel) -> Unit,
-  removeDonationsImage: (AttachmentModel) -> Unit,
-  addPrayerImage: (AttachmentModel) -> Unit,
-  removePrayerImage: (AttachmentModel) -> Unit,
-  addEbookImage: (AttachmentModel) -> Unit,
-  removeEbookImage: (AttachmentModel) -> Unit,
+    images: HomeImages,
+    addSermonsImage: (AttachmentModel) -> Unit,
+    removeSermonsImage: (AttachmentModel) -> Unit,
+    addChurchImage: (AttachmentModel) -> Unit,
+    removeChurchImage: (AttachmentModel) -> Unit,
+    addCampusImage: (AttachmentModel) -> Unit,
+    removeCampusImage: (AttachmentModel) -> Unit,
+    addGalleriesImage: (AttachmentModel) -> Unit,
+    removeGalleriesImage: (AttachmentModel) -> Unit,
+    addDonationsImage: (AttachmentModel) -> Unit,
+    removeDonationsImage: (AttachmentModel) -> Unit,
+    addPrayerImage: (AttachmentModel) -> Unit,
+    removePrayerImage: (AttachmentModel) -> Unit,
+    addEbookImage: (AttachmentModel) -> Unit,
+    removeEbookImage: (AttachmentModel) -> Unit,
 ) {
   Column(Modifier.fillMaxWidth()) {
     Spacer(modifier = Modifier.height(16.dp))

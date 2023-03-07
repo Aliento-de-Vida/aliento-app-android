@@ -5,15 +5,15 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
-import com.alientodevida.alientoapp.app.features.campus.list.Campuses
+import com.alientodevida.alientoapp.campus.list.Campuses
 import com.alientodevida.alientoapp.app.features.church.Church
 import com.alientodevida.alientoapp.app.features.donations.Donations
-import com.alientodevida.alientoapp.app.features.gallery.list.Galleries
+import com.alientodevida.alientoapp.gallery.list.Galleries
 import com.alientodevida.alientoapp.app.features.home.Home
 import com.alientodevida.alientoapp.app.features.notifications.list.Notifications
 import com.alientodevida.alientoapp.app.features.prayer.Prayer
-import com.alientodevida.alientoapp.app.features.sermons.Sermons
-import com.alientodevida.alientoapp.app.features.settings.Settings
+import com.alientodevida.alientoapp.sermons.Sermons
+import com.alientodevida.alientoapp.settings.Settings
 
 fun NavGraphBuilder.home(actions: MainActions) {
   composable(MainDestination.Home.path) {
@@ -33,6 +33,7 @@ fun NavGraphBuilder.home(actions: MainActions) {
   }
 }
 
+@Suppress("UNUSED_PARAMETER")
 fun NavGraphBuilder.sermons( // TODO use same navigation design and move everything here
   navController: NavHostController,
   genericActions: GenericNavigationActions,
