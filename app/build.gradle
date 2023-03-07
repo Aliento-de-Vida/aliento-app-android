@@ -86,6 +86,12 @@ dependencies {
     implementation project(path: ':feature:campus')
     implementation project(path: ':feature:sermons')
     implementation project(path: ':feature:settings')
+    implementation project(path: ':feature:notifications')
+    implementation project(path: ':feature:prayer')
+    implementation project(path: ':feature:admin')
+    implementation project(path: ':feature:church')
+    implementation project(path: ':feature:donations')
+    implementation project(path: ':feature:home')
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:29.0.3')

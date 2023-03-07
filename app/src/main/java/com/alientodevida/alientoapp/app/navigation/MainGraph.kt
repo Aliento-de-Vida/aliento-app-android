@@ -1,88 +1,46 @@
 package com.alientodevida.alientoapp.app.navigation
 
-import android.net.Uri
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.alientodevida.alientoapp.domain.gallery.Gallery
-import com.alientodevida.alientoapp.domain.notification.Notification
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import com.alientodevida.alientoapp.domain.campus.Campus as DomainCampus
-import com.alientodevida.alientoapp.domain.home.Home as DomainHome
+import com.alientodevida.alientoapp.admin.navigation.*
+import com.alientodevida.alientoapp.campus.navigation.adminCampus
+import com.alientodevida.alientoapp.campus.navigation.campuses
+import com.alientodevida.alientoapp.church.navigation.church
+import com.alientodevida.alientoapp.donations.navigation.donations
+import com.alientodevida.alientoapp.gallery.navigation.adminGallery
+import com.alientodevida.alientoapp.gallery.navigation.galleries
+import com.alientodevida.alientoapp.home.navigation.home
+import com.alientodevida.alientoapp.notifications.navigation.adminNotifications
+import com.alientodevida.alientoapp.notifications.navigation.notifications
+import com.alientodevida.alientoapp.prayer.navigation.prayer
+import com.alientodevida.alientoapp.sermons.navigation.sermons
+import com.alientodevida.alientoapp.settings.navigation.settings
+import com.alientodevida.alientoapp.ui.navigation.GenericNavigationActions
+import com.alientodevida.alientoapp.ui.navigation.MainActions
+import com.alientodevida.alientoapp.ui.navigation.MainDestination
+import com.alientodevida.alientoapp.ui.navigation.MobileGraph
 
-const val HOME_DESTINATION = "home"
-const val GALLERY_DESTINATION = "gallery"
-const val CAMPUS_DESTINATION = "campus"
-const val NOTIFICATION_DESTINATION = "notification"
+@Composable
+fun MainNavigationGraph() {
+  val navController = rememberNavController()
+  val genericActions = remember(navController) { GenericNavigationActions(navController) }
+  val mainActions = remember(navController) { MainActions(navController) }
 
-enum class MainDestination(override val path: String) : MobileDestination {
-  Home("main/home"),
-  Sermons("main/sermons"),
-  Church("main/church"),
-  Campuses("main/campus"),
-  Galleries("main/gallery"),
-  Donations("main/donations"),
-  Prayer("main/prayer"),
-  Notifications("main/notification/{$NOTIFICATION_DESTINATION}"),
-  Settings("main/settings"),
-
-  AdminLogin("main/admin/login"),
-  AdminHome("main/admin/home/{$HOME_DESTINATION}"),
-  AdminCampus("main/admin/campus/{$CAMPUS_DESTINATION}"),
-  AdminNotifications("main/admin/notification/{$NOTIFICATION_DESTINATION}"),
-  AdminGallery("main/admin/gallery/{$GALLERY_DESTINATION}");
-
-  companion object {
-
-    fun homeAdmin(home: DomainHome): String {
-      val homeString = Uri.encode(Json.encodeToString(home))
-      return "main/admin/home/$homeString"
-    }
-
-    fun campusAdmin(campus: DomainCampus?): String {
-      val campusString = Uri.encode(Json.encodeToString(campus ?: DomainCampus.empty()))
-      return "main/admin/campus/$campusString"
-    }
-
-    fun galleryAdmin(gallery: Gallery?): String {
-      val galleryString = Uri.encode(Json.encodeToString(gallery ?: Gallery.empty()))
-      return "main/admin/gallery/$galleryString"
-    }
-
-    fun notificationAdmin(notification: Notification?): String {
-      val galleryString = Uri.encode(Json.encodeToString(notification ?: Notification.empty()))
-      return "main/admin/notification/$galleryString"
-    }
+  NavHost(
+    navController = navController,
+    startDestination = MobileGraph.Main.path,
+  ) {
+    mainNavigation(
+      navController = navController,
+      genericActions = genericActions,
+      mainActions = mainActions,
+    )
   }
-}
-
-class MainActions(private val controller: NavHostController) {
-  
-  fun navigateToSermons() = controller.navigate(MainDestination.Sermons.path)
-  fun navigateToChurch() = controller.navigate(MainDestination.Church.path)
-  fun navigateToCampuses() = controller.navigate(MainDestination.Campuses.path)
-  fun navigateToGalleries() = controller.navigate(MainDestination.Galleries.path)
-  fun navigateToDonations() = controller.navigate(MainDestination.Donations.path)
-  fun navigateToPrayer() = controller.navigate(MainDestination.Prayer.path)
-  fun navigateToNotifications() = controller.navigate(MainDestination.Notifications.path)
-  fun navigateToSettings() = controller.navigate(MainDestination.Settings.path)
-  
-  fun navigateToAdminLogin() = controller.navigate(MainDestination.AdminLogin.path)
-  fun navigateToAdminHome(home: DomainHome) = controller.navigate(MainDestination.homeAdmin(home))
-  fun navigateToAdminCampus(campus: DomainCampus?) =
-    controller.navigate(MainDestination.campusAdmin(campus))
-  
-  fun navigateToAdminCampus() = controller.navigate(MainDestination.campusAdmin(null))
-  fun navigateToAdminGallery(campus: Gallery?) =
-    controller.navigate(MainDestination.galleryAdmin(campus))
-  
-  fun navigateToAdminGallery() = controller.navigate(MainDestination.galleryAdmin(null))
-  fun navigateToAdminNotification(campus: Notification?) =
-    controller.navigate(MainDestination.notificationAdmin(campus))
-  
-  fun navigateToAdminNotification() = controller.navigate(MainDestination.notificationAdmin(null))
-  
 }
 
 fun NavGraphBuilder.mainNavigation(
