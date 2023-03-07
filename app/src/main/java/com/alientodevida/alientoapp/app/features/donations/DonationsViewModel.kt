@@ -3,16 +3,16 @@ package com.alientodevida.alientoapp.app.features.donations
 import android.app.Application
 import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.base.BaseViewModel
-import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
-import com.alientodevida.alientoapp.domain.analytics.Analytics
-import com.alientodevida.alientoapp.app.extensions.logScreenView
+import com.alientodevida.alientoapp.ui.base.BaseViewModel
+import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
+import com.alientodevida.alientoapp.core.analytics.Analytics
+import com.alientodevida.alientoapp.ui.extensions.logScreenView
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.entities.local.BankAccount
 import com.alientodevida.alientoapp.domain.entities.local.DonationType
 import com.alientodevida.alientoapp.domain.entities.local.PaymentItem
 import com.alientodevida.alientoapp.domain.entities.local.Paypal
-import com.alientodevida.alientoapp.domain.logger.Logger
+import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,13 +23,13 @@ data class DonationsUiState(val paymentOptions: List<PaymentItem>)
 
 @HiltViewModel
 class DonationsViewModel @Inject constructor(
-  coroutineDispatchers: CoroutineDispatchers,
-  errorParser: ErrorParser,
-  logger: Logger,
-  preferences: Preferences,
-  savedStateHandle: SavedStateHandle,
-  application: Application,
-  analytics: Analytics,
+    coroutineDispatchers: CoroutineDispatchers,
+    errorParser: ErrorParser,
+    logger: Logger,
+    preferences: Preferences,
+    savedStateHandle: SavedStateHandle,
+    application: Application,
+    analytics: Analytics,
 ) : BaseViewModel(
   coroutineDispatchers,
   errorParser,

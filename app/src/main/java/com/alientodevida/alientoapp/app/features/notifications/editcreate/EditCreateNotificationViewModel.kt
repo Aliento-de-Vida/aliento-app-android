@@ -4,14 +4,14 @@ import android.app.Application
 import android.os.Build
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.alientodevida.alientoapp.app.base.BaseViewModel
-import com.alientodevida.alientoapp.app.compose.components.attachment.AttachmentModel
-import com.alientodevida.alientoapp.app.compose.components.attachment.getDomainAttachment
-import com.alientodevida.alientoapp.app.state.Message
-import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
+import com.alientodevida.alientoapp.ui.base.BaseViewModel
+import com.alientodevida.alientoapp.ui.components.attachment.AttachmentModel
+import com.alientodevida.alientoapp.ui.components.attachment.getDomainAttachment
+import com.alientodevida.alientoapp.ui.state.Message
+import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.extensions.removeExtension
-import com.alientodevida.alientoapp.domain.logger.Logger
+import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.domain.notification.Notification
 import com.alientodevida.alientoapp.domain.notification.NotificationRepository
 import com.alientodevida.alientoapp.domain.preferences.Preferences
@@ -27,9 +27,9 @@ import com.alientodevida.alientoapp.domain.common.Attachment as DomainAttachment
 import com.alientodevida.alientoapp.domain.notification.NotificationRequest as DomainNotificationRequest
 
 data class NotificationUiState(
-  val notificationRequest: NotificationRequest,
-  val loading: Boolean,
-  val messages: List<Message>,
+    val notificationRequest: NotificationRequest,
+    val loading: Boolean,
+    val messages: List<Message>,
 )
 
 private fun NotificationRequest.toDomain(domainAttachment: DomainAttachment?) =
@@ -108,7 +108,8 @@ class EditCreateNotificationViewModel @Inject constructor(
       )
     ) }
   }
-  
+
+  @Suppress("UNUSED_PARAMETER")
   fun removeAttachment(newAttachment: AttachmentModel) {
     _viewModelState.update { it.copy(
       notificationRequest = it.notificationRequest.copy(

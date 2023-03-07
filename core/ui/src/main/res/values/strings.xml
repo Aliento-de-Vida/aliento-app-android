@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_generic_title">Error</string>
+    <string name="error_generic_message">Something went wrong!</string>
+
+    <string name="error_api_title">Error</string>
+    <string name="error_server_message">Ups, Something went wrong!</string>
+
+    <string name="ok">Ok</string>
+</resources>

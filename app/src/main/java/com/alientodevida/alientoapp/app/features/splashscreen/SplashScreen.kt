@@ -14,8 +14,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.LoadingIndicator
-import com.alientodevida.alientoapp.app.compose.theme.AppTheme
+import com.alientodevida.alientoapp.ui.components.LoadingIndicator
+import com.alientodevida.alientoapp.ui.theme.AppTheme
 import kotlinx.coroutines.delay
 
 @Composable

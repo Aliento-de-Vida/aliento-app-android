@@ -11,6 +11,11 @@ import kotlinx.serialization.json.Json
 import com.alientodevida.alientoapp.domain.campus.Campus as DomainCampus
 import com.alientodevida.alientoapp.domain.home.Home as DomainHome
 
+const val HOME_DESTINATION = "home"
+const val GALLERY_DESTINATION = "gallery"
+const val CAMPUS_DESTINATION = "campus"
+const val NOTIFICATION_DESTINATION = "notification"
+
 enum class MainDestination(override val path: String) : MobileDestination {
   Home("main/home"),
   Sermons("main/sermons"),
@@ -19,36 +24,32 @@ enum class MainDestination(override val path: String) : MobileDestination {
   Galleries("main/gallery"),
   Donations("main/donations"),
   Prayer("main/prayer"),
-  Notifications("main/notification/{${MainDestination.NOTIFICATION}}"),
+  Notifications("main/notification/{$NOTIFICATION_DESTINATION}"),
   Settings("main/settings"),
-  
+
   AdminLogin("main/admin/login"),
-  AdminHome("main/admin/home/{${MainDestination.HOME}}"),
-  AdminCampus("main/admin/campus/{${MainDestination.CAMPUS}}"),
-  AdminNotifications("main/admin/notification/{${MainDestination.NOTIFICATION}}"),
-  AdminGallery("main/admin/gallery/{${MainDestination.GALLERY}}");
-  
+  AdminHome("main/admin/home/{$HOME_DESTINATION}"),
+  AdminCampus("main/admin/campus/{$CAMPUS_DESTINATION}"),
+  AdminNotifications("main/admin/notification/{$NOTIFICATION_DESTINATION}"),
+  AdminGallery("main/admin/gallery/{$GALLERY_DESTINATION}");
+
   companion object {
-    const val HOME = "home"
-    const val GALLERY = "gallery"
-    const val CAMPUS = "campus"
-    const val NOTIFICATION = "notification"
-    
+
     fun homeAdmin(home: DomainHome): String {
       val homeString = Uri.encode(Json.encodeToString(home))
       return "main/admin/home/$homeString"
     }
-    
+
     fun campusAdmin(campus: DomainCampus?): String {
       val campusString = Uri.encode(Json.encodeToString(campus ?: DomainCampus.empty()))
       return "main/admin/campus/$campusString"
     }
-    
+
     fun galleryAdmin(gallery: Gallery?): String {
       val galleryString = Uri.encode(Json.encodeToString(gallery ?: Gallery.empty()))
       return "main/admin/gallery/$galleryString"
     }
-    
+
     fun notificationAdmin(notification: Notification?): String {
       val galleryString = Uri.encode(Json.encodeToString(notification ?: Notification.empty()))
       return "main/admin/notification/$galleryString"

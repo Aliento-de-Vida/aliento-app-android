@@ -13,8 +13,8 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.ClickableIcon
-import com.alientodevida.alientoapp.app.compose.components.H5
+import com.alientodevida.alientoapp.ui.components.ClickableIcon
+import com.alientodevida.alientoapp.ui.components.H5
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

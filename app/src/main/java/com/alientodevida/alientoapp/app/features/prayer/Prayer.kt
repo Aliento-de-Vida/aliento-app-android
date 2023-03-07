@@ -21,9 +21,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.*
 import com.alientodevida.alientoapp.app.extensions.SnackBar
-import com.alientodevida.alientoapp.app.utils.Utils
+import com.alientodevida.alientoapp.ui.components.*
+import com.alientodevida.alientoapp.ui.extensions.showDialog
 
 @Composable
 fun Prayer(
@@ -71,11 +71,11 @@ fun NotificationsContent(
         onClick = { sendPrayerRequest() },
         contentColor = MaterialTheme.colors.surface,
       ) {
-        Icon(
-          icon = R.drawable.ic_send_24,
-          contentDescription = "Send Prayer Request",
-          tint = MaterialTheme.colors.onSurface
-        )
+          com.alientodevida.alientoapp.ui.components.Icon(
+              icon = R.drawable.ic_send_24,
+              contentDescription = "Send Prayer Request",
+              tint = MaterialTheme.colors.onSurface
+          )
       }
     }
   ) { paddingValues ->
@@ -234,11 +234,11 @@ fun TopicDropDown(
         color = MaterialTheme.colors.onBackground,
         text = topics[topic],
       )
-      Icon(
-        icon = Icons.Filled.ArrowDropDown,
-        contentDescription = "",
-        tint = MaterialTheme.colors.onSurface
-      )
+        com.alientodevida.alientoapp.ui.components.Icon(
+            icon = Icons.Filled.ArrowDropDown,
+            contentDescription = "",
+            tint = MaterialTheme.colors.onSurface
+        )
       
       DropdownMenu(expanded = expanded, onDismissRequest = {
         expanded = false
@@ -272,8 +272,7 @@ fun sendMail(context: Context, to: String, subject: String, message: String) {
   try {
     startActivity(context, Intent.createChooser(emailIntent, "Send mail..."), null)
   } catch (ex: ActivityNotFoundException) {
-    Utils.showDialog(
-      context,
+    context.showDialog(
       "Lo sentimos",
       "Ha habido un error, por favor intente más tarde"
     )

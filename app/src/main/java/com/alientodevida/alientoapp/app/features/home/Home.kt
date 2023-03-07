@@ -17,15 +17,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.*
-import com.alientodevida.alientoapp.app.compose.theme.AppTheme
+import com.alientodevida.alientoapp.ui.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.SnackBar
 import com.alientodevida.alientoapp.app.features.notifications.detail.NotificationDetail
 import com.alientodevida.alientoapp.app.features.notifications.list.NotificationItem
-import com.alientodevida.alientoapp.app.utils.Utils
-import com.alientodevida.alientoapp.app.utils.extensions.*
 import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.notification.Notification
+import com.alientodevida.alientoapp.ui.components.*
+import com.alientodevida.alientoapp.ui.extensions.*
 import kotlinx.coroutines.launch
 
 @Composable
@@ -104,7 +103,7 @@ private fun goToSpotify(state: HomeUiState, context: Context) {
 }
 
 private fun goToEbook(state: HomeUiState, context: Context) {
-  state.home?.ebook?.let { Utils.goToUrl(context, it) }
+  state.home?.ebook?.let { context.goToUrl(it) }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -216,11 +215,11 @@ fun HomeContent(
         onClick = { goToEditHome() },
         contentColor = MaterialTheme.colors.surface,
       ) {
-        Icon(
-          icon = R.drawable.ic_edit_24,
-          contentDescription = "Edit Home",
-          tint = MaterialTheme.colors.onSurface
-        )
+          Icon(
+              icon = R.drawable.ic_edit_24,
+              contentDescription = "Edit Home",
+              tint = MaterialTheme.colors.onSurface
+          )
       }
     }
   ) { paddingValues ->
@@ -265,7 +264,7 @@ fun TopAppBar(
 ) {
   val modifier = Modifier.size(width = 60.dp, height = 50.dp)
   
-  androidx.compose.material.TopAppBar(
+  TopAppBar(
     title = {
       Image(
         painter = painterResource(id = R.drawable.logo_negro),

@@ -18,10 +18,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.*
-import com.alientodevida.alientoapp.app.compose.theme.AppTheme
+import com.alientodevida.alientoapp.ui.components.*
+import com.alientodevida.alientoapp.ui.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.Dialog
-import com.alientodevida.alientoapp.app.state.ViewModelResult
+import com.alientodevida.alientoapp.ui.state.ViewModelResult
 
 @Composable
 fun AdminLogin(

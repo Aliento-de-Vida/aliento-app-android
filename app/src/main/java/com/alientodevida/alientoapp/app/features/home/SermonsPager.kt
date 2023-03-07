@@ -11,10 +11,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.Body2
-import com.alientodevida.alientoapp.app.compose.components.Gradient
-import com.alientodevida.alientoapp.app.compose.components.ImageWithShimmering
-import com.alientodevida.alientoapp.app.compose.components.Pager
+import com.alientodevida.alientoapp.ui.components.Body2
+import com.alientodevida.alientoapp.ui.components.Gradient
+import com.alientodevida.alientoapp.ui.components.ImageWithShimmering
+import com.alientodevida.alientoapp.ui.components.Pager
 import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
 import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
 

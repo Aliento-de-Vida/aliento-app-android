@@ -3,13 +3,13 @@ package com.alientodevida.alientoapp.app.features.notifications.list
 import android.app.Application
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.alientodevida.alientoapp.app.base.BaseViewModel
-import com.alientodevida.alientoapp.app.state.Message
-import com.alientodevida.alientoapp.app.utils.errorparser.ErrorParser
-import com.alientodevida.alientoapp.domain.analytics.Analytics
-import com.alientodevida.alientoapp.app.extensions.logScreenView
+import com.alientodevida.alientoapp.ui.base.BaseViewModel
+import com.alientodevida.alientoapp.ui.state.Message
+import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
+import com.alientodevida.alientoapp.core.analytics.Analytics
+import com.alientodevida.alientoapp.ui.extensions.logScreenView
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
-import com.alientodevida.alientoapp.domain.logger.Logger
+import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.domain.notification.Notification
 import com.alientodevida.alientoapp.domain.notification.NotificationRepository
 import com.alientodevida.alientoapp.domain.preferences.Preferences
@@ -22,21 +22,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class NotificationsUiState(
-  val notifications: List<Notification> = emptyList(),
-  val loading: Boolean = true,
-  val messages: List<Message> = emptyList(),
+    val notifications: List<Notification> = emptyList(),
+    val loading: Boolean = true,
+    val messages: List<Message> = emptyList(),
 )
 
 @HiltViewModel
 class NotificationsViewModel @Inject constructor(
-  private val notificationRepository: NotificationRepository,
-  coroutineDispatchers: CoroutineDispatchers,
-  errorParser: ErrorParser,
-  logger: Logger,
-  preferences: Preferences,
-  savedStateHandle: SavedStateHandle,
-  application: Application,
-  analytics: Analytics,
+    private val notificationRepository: NotificationRepository,
+    coroutineDispatchers: CoroutineDispatchers,
+    errorParser: ErrorParser,
+    logger: Logger,
+    preferences: Preferences,
+    savedStateHandle: SavedStateHandle,
+    application: Application,
+    analytics: Analytics,
 ) : BaseViewModel(
   coroutineDispatchers,
   errorParser,

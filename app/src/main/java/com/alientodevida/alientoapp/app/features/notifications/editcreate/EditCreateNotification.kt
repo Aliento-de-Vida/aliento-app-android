@@ -17,12 +17,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.R
-import com.alientodevida.alientoapp.app.compose.components.*
-import com.alientodevida.alientoapp.app.compose.components.attachment.AttachmentModel
-import com.alientodevida.alientoapp.app.compose.components.attachment.Attachments
-import com.alientodevida.alientoapp.app.compose.theme.AppTheme
+import com.alientodevida.alientoapp.ui.components.attachment.AttachmentModel
+import com.alientodevida.alientoapp.ui.components.attachment.Attachments
+import com.alientodevida.alientoapp.ui.theme.AppTheme
 import com.alientodevida.alientoapp.app.extensions.Dialog
 import com.alientodevida.alientoapp.domain.notification.Notification
+import com.alientodevida.alientoapp.ui.components.ClickableIcon
+import com.alientodevida.alientoapp.ui.components.H5
+import com.alientodevida.alientoapp.ui.components.InputField
+import com.alientodevida.alientoapp.ui.components.LoadingIndicator
 
 @Composable
 fun EditNotification(
@@ -51,15 +54,15 @@ fun EditNotification(
 
 @Composable
 fun EditNotificationContent(
-  uiState: NotificationUiState,
-  scaffoldState: ScaffoldState = rememberScaffoldState(),
-  onMessageDismiss: (Long) -> Unit,
-  onNotificationTitleChanged: (String) -> Unit,
-  onNotificationDescriptionChanged: (String) -> Unit,
-  addAttachment: (AttachmentModel) -> Unit,
-  removeAttachment: (AttachmentModel) -> Unit,
-  saveNotification: (NotificationRequest) -> Unit,
-  onBackPressed: () -> Unit,
+    uiState: NotificationUiState,
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    onMessageDismiss: (Long) -> Unit,
+    onNotificationTitleChanged: (String) -> Unit,
+    onNotificationDescriptionChanged: (String) -> Unit,
+    addAttachment: (AttachmentModel) -> Unit,
+    removeAttachment: (AttachmentModel) -> Unit,
+    saveNotification: (NotificationRequest) -> Unit,
+    onBackPressed: () -> Unit,
 ) {
   Scaffold(
     scaffoldState = scaffoldState,
@@ -71,11 +74,11 @@ fun EditNotificationContent(
         onClick = { saveNotification(uiState.notificationRequest) },
         contentColor = MaterialTheme.colors.surface,
       ) {
-        Icon(
-          icon = R.drawable.ic_send_24,
-          contentDescription = "Create Notification",
-          tint = MaterialTheme.colors.onSurface
-        )
+          com.alientodevida.alientoapp.ui.components.Icon(
+              icon = R.drawable.ic_send_24,
+              contentDescription = "Create Notification",
+              tint = MaterialTheme.colors.onSurface
+          )
       }
     }
   ) { paddingValues ->
@@ -142,11 +145,11 @@ fun TopAppBar(
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 fun NotificationsBody(
-  notification: NotificationRequest,
-  onNotificationTitleChanged: (String) -> Unit,
-  onNotificationDescriptionChanged: (String) -> Unit,
-  addAttachment: (AttachmentModel) -> Unit,
-  removeAttachment: (AttachmentModel) -> Unit,
+    notification: NotificationRequest,
+    onNotificationTitleChanged: (String) -> Unit,
+    onNotificationDescriptionChanged: (String) -> Unit,
+    addAttachment: (AttachmentModel) -> Unit,
+    removeAttachment: (AttachmentModel) -> Unit,
 ) {
   Column(
     Modifier
