@@ -8,11 +8,11 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.alientodevida.alientoapp.ui.theme.AppTheme
 import com.alientodevida.alientoapp.app.navigation.MainNavigationGraph
 import com.alientodevida.alientoapp.core.analytics.Analytics
 import com.alientodevida.alientoapp.core.analytics.LocalAnalyticsHelper
 import com.alientodevida.alientoapp.domain.preferences.Preferences
+import com.alientodevida.alientoapp.ui.theme.AppTheme
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
