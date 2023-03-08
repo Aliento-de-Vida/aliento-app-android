@@ -18,6 +18,3 @@
 -keepclassmembers class <1>.<2> {
   <1>.<2>$Companion Companion;
 }
-
-# our base recycler view classes require this
--keepclassmembers class * { public <init>(...); }

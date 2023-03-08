@@ -9,13 +9,13 @@ import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.alientodevida.alientoapp.ui.base.BaseViewModel
 import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
 import com.alientodevida.alientoapp.ui.extensions.logScreenView
-import com.google.firebase.messaging.FirebaseMessaging
+import com.alientodevida.alientoapp.ui.messaging.NotificationsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val firebaseMessaging: FirebaseMessaging,
+    private val notificationsManager: NotificationsManager,
     coroutineDispatchers: CoroutineDispatchers,
     errorParser: ErrorParser,
     logger: Logger,
@@ -24,31 +24,27 @@ class SettingsViewModel @Inject constructor(
     application: Application,
     analytics: Analytics,
 ) : BaseViewModel(
-  coroutineDispatchers,
-  errorParser,
-  logger,
-  preferences,
-  savedStateHandle,
-  application,
+    coroutineDispatchers,
+    errorParser,
+    logger,
+    preferences,
+    savedStateHandle,
+    application,
 ) {
-  init {
-    analytics.logScreenView("settings_screen")
-  }
+    init {
+        analytics.logScreenView("settings_screen")
+    }
 
-  val isDarkTheme = preferences.isDarkThemeFlow
-  val areNotificationsEnabled = preferences.pushEnabledFlow
-  
-  fun onDarkThemeChanged(newValue: Boolean) {
-    preferences.isDarkTheme = newValue
-  }
-  
-  fun onPushNotificationsChanged(newValue: Boolean) {
-    if (newValue)
-      firebaseMessaging.subscribeToTopic("push_notifications")
-    else
-      firebaseMessaging.unsubscribeFromTopic("push_notifications")
-    
-    preferences.pushEnabled = newValue
-  }
-  
+    val isDarkTheme = preferences.isDarkThemeFlow
+    val areNotificationsEnabled = preferences.pushEnabledFlow
+
+    fun onDarkThemeChanged(newValue: Boolean) {
+        preferences.isDarkTheme = newValue
+    }
+
+    fun onPushNotificationsChanged(enabled: Boolean) {
+        notificationsManager.subscribeToPushNotifications(subscribe = enabled)
+        preferences.pushEnabled = enabled
+    }
+
 }

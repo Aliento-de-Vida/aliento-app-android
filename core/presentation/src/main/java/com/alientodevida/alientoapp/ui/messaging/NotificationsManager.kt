@@ -14,7 +14,10 @@ import androidx.core.net.toUri
 import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.domain.common.Image
 import com.alientodevida.alientoapp.domain.common.Notification
+import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.alientodevida.alientoapp.ui.R
+import com.google.firebase.FirebaseApp
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -23,8 +26,9 @@ import javax.inject.Named
 import android.app.Notification as AndroidNotification
 
 private const val CHANNEL_ID = "aliento_channel"
+const val PUSH_NOTIFICATIONS_TOPIC = "push_notifications"
 
-class NotificationsService @Inject constructor(): FirebaseMessagingService() {
+class NotificationsManager @Inject constructor(): FirebaseMessagingService() {
 
     @Inject
     lateinit var logger: Logger
@@ -37,13 +41,29 @@ class NotificationsService @Inject constructor(): FirebaseMessagingService() {
     @ApplicationContext
     lateinit var context: Context
 
+    @Inject
+    lateinit var firebaseMessaging: FirebaseMessaging
+
+    @Inject
+    lateinit var preferences: Preferences
+
     private lateinit var activityIntent: Class<*>
+
+    init {
+        FirebaseApp.initializeApp(this)
+        subscribeToPushNotifications(preferences.pushEnabled)
+    }
 
     /**
      * Required method to initialize this component, must be called on app startup
      */
     fun <T: Activity>setActivityClass(activity: Class<T>) {
         activityIntent = activity
+    }
+
+    fun subscribeToPushNotifications(subscribe: Boolean) {
+        if (subscribe) firebaseMessaging.subscribeToTopic(PUSH_NOTIFICATIONS_TOPIC)
+        else firebaseMessaging.unsubscribeFromTopic(PUSH_NOTIFICATIONS_TOPIC)
     }
 
     override fun onNewToken(token: String) { logger.d("Refreshed token: $token") }

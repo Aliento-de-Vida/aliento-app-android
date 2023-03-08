@@ -25,9 +25,6 @@ class MainActivity : AppCompatActivity() {
   
   @Inject
   lateinit var preferences: Preferences
-  
-  @Inject
-  lateinit var firebaseMessaging: FirebaseMessaging
 
   @Inject
   lateinit var utilsEntryPoint: Utils
@@ -36,7 +33,6 @@ class MainActivity : AppCompatActivity() {
     setTheme(R.style.AppTheme)
     super.onCreate(savedInstanceState)
     
-    setupPushNotifications()
     observe()
 
     setContent {
@@ -49,12 +45,7 @@ class MainActivity : AppCompatActivity() {
       }
     }
   }
-  
-  private fun setupPushNotifications() {
-    FirebaseApp.initializeApp(this)
-    if (preferences.pushEnabled) firebaseMessaging.subscribeToTopic("push_notifications")
-  }
-  
+
   private fun observe() {
     lifecycleScope.launch {
       lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {

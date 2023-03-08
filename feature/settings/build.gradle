@@ -45,13 +45,13 @@ dependencies {
     implementation project(path: ':core:common')
     implementation project(path: ':core:designsystem')
 
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:31.2.3')
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+
     // Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
-
-    // Firebase
-    implementation platform('com.google.firebase:firebase-bom:29.0.3')
-    implementation 'com.google.firebase:firebase-messaging'
 
     // Architecture components
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
