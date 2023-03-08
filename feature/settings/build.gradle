@@ -39,10 +39,11 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':domain')
+    implementation project(path: ':core:domain')
     implementation project(path: ':core:analytics')
-    implementation project(path: ':core:ui')
+    implementation project(path: ':core:presentation')
     implementation project(path: ':core:common')
+    implementation project(path: ':core:designsystem')
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"

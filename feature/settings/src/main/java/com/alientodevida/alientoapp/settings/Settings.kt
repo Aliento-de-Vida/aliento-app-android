@@ -16,9 +16,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.settings.R
-import com.alientodevida.alientoapp.ui.components.Body1
-import com.alientodevida.alientoapp.ui.components.ClickableIcon
-import com.alientodevida.alientoapp.ui.components.H5
+import com.alientodevida.alientoapp.designsystem.components.Body1
+import com.alientodevida.alientoapp.designsystem.components.ClickableIcon
+import com.alientodevida.alientoapp.designsystem.components.H5
 
 @Composable
 fun Settings(
@@ -88,13 +88,13 @@ fun TopAppBar(
       )
     },
     navigationIcon = {
-      ClickableIcon(
-        modifier = modifier,
-        icon = R.drawable.ic_back_24,
-        contentDescription = "Back Button",
-        tint = MaterialTheme.colors.onBackground,
-        onClick = onBackPressed,
-      )
+        com.alientodevida.alientoapp.designsystem.components.ClickableIcon(
+            modifier = modifier,
+            icon = R.drawable.ic_back_24,
+            contentDescription = "Back Button",
+            tint = MaterialTheme.colors.onBackground,
+            onClick = onBackPressed,
+        )
     },
     actions = {
       Box(modifier = modifier, contentAlignment = Alignment.Center) { }
@@ -120,18 +120,18 @@ fun SettingsBody(
   ) {
   
     Spacer(modifier = Modifier.height(16.dp))
-    H5(
-      modifier = Modifier.padding(horizontal = 8.dp),
-      text = "Configuración",
-      color = MaterialTheme.colors.onBackground,
-    )
+      com.alientodevida.alientoapp.designsystem.components.H5(
+          modifier = Modifier.padding(horizontal = 8.dp),
+          text = "Configuración",
+          color = MaterialTheme.colors.onBackground,
+      )
     
     Spacer(modifier = Modifier.height(32.dp))
     Row(verticalAlignment = Alignment.CenterVertically) {
-      Body1(
-        modifier = Modifier.padding(horizontal = 8.dp),
-        text = "Tema Oscuro",
-        color = MaterialTheme.colors.onBackground,
+      com.alientodevida.alientoapp.designsystem.components.Body1(
+          modifier = Modifier.padding(horizontal = 8.dp),
+          text = "Tema Oscuro",
+          color = MaterialTheme.colors.onBackground,
       )
       Spacer(modifier = Modifier.weight(1.0f))
       Switch(checked = isDarkTheme, onCheckedChange = onDarkThemeChanged)
@@ -139,10 +139,10 @@ fun SettingsBody(
   
     Spacer(modifier = Modifier.height(16.dp))
     Row(verticalAlignment = Alignment.CenterVertically) {
-      Body1(
-        modifier = Modifier.padding(horizontal = 8.dp),
-        text = "Notificaciones Push",
-        color = MaterialTheme.colors.onBackground,
+      com.alientodevida.alientoapp.designsystem.components.Body1(
+          modifier = Modifier.padding(horizontal = 8.dp),
+          text = "Notificaciones Push",
+          color = MaterialTheme.colors.onBackground,
       )
       Spacer(modifier = Modifier.weight(1.0f))
       Switch(checked = pushNotificatiosn, onCheckedChange = onPushNotificationsChanged)

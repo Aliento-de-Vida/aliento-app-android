@@ -47,14 +47,6 @@
 
     </activity>
 
-    <service
-      android:name="com.alientodevida.alientoapp.app.com.alientodevida.alientoapp.common.messaging.MessagingService"
-      android:exported="false">
-      <intent-filter>
-        <action android:name="com.google.firebase.MESSAGING_EVENT" />
-      </intent-filter>
-    </service>
-
     <meta-data android:name="google_analytics_automatic_screen_reporting_enabled" android:value="false" />
 
   </application>

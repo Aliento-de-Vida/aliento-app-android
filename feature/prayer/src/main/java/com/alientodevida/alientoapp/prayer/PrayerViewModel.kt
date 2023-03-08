@@ -8,7 +8,7 @@ import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
 import com.alientodevida.alientoapp.core.analytics.Analytics
 import com.alientodevida.alientoapp.ui.extensions.logScreenView
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
-import com.alientodevida.alientoapp.domain.home.Home
+import com.alientodevida.alientoapp.domain.common.Home
 import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,21 +18,21 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 data class PrayerUiState(
-  val home: Home?,
-  val name: String? = null,
-  val email: String? = null,
-  val whatsapp: String? = null,
-  val message: String? = null,
-  val topic: Int = 0,
-  val topics: List<String> = arrayListOf(
+    val home: Home?,
+    val name: String? = null,
+    val email: String? = null,
+    val whatsapp: String? = null,
+    val message: String? = null,
+    val topic: Int = 0,
+    val topics: List<String> = arrayListOf(
     "Elige un motivo de oración",
     "Salud",
     "Finanzas",
     "Familiar",
     "Personal",
   ),
-  val loading: Boolean = false,
-  val messages: List<Message> = emptyList(),
+    val loading: Boolean = false,
+    val messages: List<Message> = emptyList(),
 ) {
   val isValidForm = topic != 0 &&
       name.isNullOrBlank().not() &&

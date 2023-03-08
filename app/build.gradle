@@ -52,10 +52,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 	        signingConfig signingConfigs.release
             buildConfigField "String", "YOUTUBE_DEVELOPER_KEY", "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\""
+            buildConfigField "String", "BASE_URL", "\"https://todoserver-peter.herokuapp.com\""
         }
         debug {
             minifyEnabled false
             buildConfigField "String", "YOUTUBE_DEVELOPER_KEY", "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\""
+            buildConfigField "String", "BASE_URL", "\"https://todoserver-peter.herokuapp.com\""
         }
     }
     buildFeatures {
@@ -77,10 +79,10 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(path: ':domain')
-    implementation project(path: ':data')
+    implementation project(path: ':core:domain')
     implementation project(path: ':core:analytics')
-    implementation project(path: ':core:ui')
+    implementation project(path: ':core:presentation')
+    implementation project(path: ':core:designsystem')
     implementation project(path: ':core:common')
     implementation project(path: ':feature:gallery')
     implementation project(path: ':feature:campus')
@@ -105,9 +107,6 @@ dependencies {
     implementation "androidx.core:core-ktx:$kotlinExtensionsVersion"
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
 
-    // Carousel
-    implementation 'com.synnapps:carouselview:0.1.5'
-
     // Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
@@ -116,8 +115,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-    implementation "androidx.room:room-runtime:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
 
     // GSON
     implementation "com.google.code.gson:gson:$gsonVersion"
@@ -136,25 +133,12 @@ dependencies {
 
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
-    implementation "com.google.accompanist:accompanist-pager:0.23.0"
-    implementation "com.google.accompanist:accompanist-pager-indicators:0.23.0"
-    implementation "com.google.accompanist:accompanist-swiperefresh:0.23.0"
-    implementation "io.coil-kt:coil-compose:2.0.0-rc02"
 
-    // retrofit for networking
-    implementation "com.squareup.retrofit2:retrofit:$retrofit2Version"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofitCoroutinesAdapterVersion"
-    implementation "com.squareup.retrofit2:converter-moshi:$moshiConverterVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
+    implementation "io.coil-kt:coil-compose:2.0.0-rc02"
 
     // Serialization
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$kotlinxSerializationConverterVersion"
-
-    // images
-    implementation "com.github.bumptech.glide:glide:$glideVersion"
-    kapt "com.github.bumptech.glide:compiler:$glideVersion"
-    implementation 'com.github.stfalcon-studio:StfalconImageViewer:v1.0.1'
 
 }
 

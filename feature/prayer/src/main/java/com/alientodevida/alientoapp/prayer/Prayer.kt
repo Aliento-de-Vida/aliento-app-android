@@ -21,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.alientodevida.alientoapp.app.extensions.SnackBar
-import com.alientodevida.alientoapp.ui.components.*
 import com.alientodevida.alientoapp.ui.extensions.showDialog
 
 @Composable
@@ -70,7 +69,7 @@ fun NotificationsContent(
         onClick = { sendPrayerRequest() },
         contentColor = MaterialTheme.colors.surface,
       ) {
-          com.alientodevida.alientoapp.ui.components.Icon(
+          com.alientodevida.alientoapp.designsystem.components.Icon(
               icon = R.drawable.ic_send_24,
               contentDescription = "Send Prayer Request",
               tint = MaterialTheme.colors.onSurface
@@ -91,7 +90,7 @@ fun NotificationsContent(
         onMessageChanged = onMessageChanged,
         onTopicChanged = onTopicChanged,
       )
-      if (uiState.loading) LoadingIndicator()
+      if (uiState.loading) com.alientodevida.alientoapp.designsystem.components.LoadingIndicator()
       
       uiState.messages.firstOrNull()?.SnackBar(scaffoldState, onMessageDismiss)
     }
@@ -119,13 +118,13 @@ fun TopAppBar(
       )
     },
     navigationIcon = {
-      ClickableIcon(
-        modifier = modifier,
-        icon = R.drawable.ic_back_24,
-        contentDescription = "Back Button",
-        tint = MaterialTheme.colors.onBackground,
-        onClick = onBackPressed,
-      )
+        com.alientodevida.alientoapp.designsystem.components.ClickableIcon(
+            modifier = modifier,
+            icon = R.drawable.ic_back_24,
+            contentDescription = "Back Button",
+            tint = MaterialTheme.colors.onBackground,
+            onClick = onBackPressed,
+        )
     },
     actions = {
       Box(modifier = modifier, contentAlignment = Alignment.Center) { }
@@ -149,61 +148,61 @@ fun NotificationsBody(
       .padding(horizontal = 16.dp)
   ) {
     Spacer(modifier = Modifier.height(16.dp))
-    H5(
-      modifier = Modifier.padding(horizontal = 8.dp).align(Alignment.CenterHorizontally),
-      text = "Queremos orar por ti",
-      color = MaterialTheme.colors.onBackground,
-    )
+      com.alientodevida.alientoapp.designsystem.components.H5(
+          modifier = Modifier.padding(horizontal = 8.dp).align(Alignment.CenterHorizontally),
+          text = "Queremos orar por ti",
+          color = MaterialTheme.colors.onBackground,
+      )
     
     Spacer(modifier = Modifier.height(16.dp))
-    Body1(
-      modifier = Modifier.padding(horizontal = 8.dp).align(Alignment.CenterHorizontally),
-      text = "Por favor escríbenos tu petición de oración",
-      color = MaterialTheme.colors.onBackground,
-    )
+      com.alientodevida.alientoapp.designsystem.components.Body1(
+          modifier = Modifier.padding(horizontal = 8.dp).align(Alignment.CenterHorizontally),
+          text = "Por favor escríbenos tu petición de oración",
+          color = MaterialTheme.colors.onBackground,
+      )
     
     Spacer(modifier = Modifier.height(32.dp))
-    InputField(
-      modifier = Modifier.fillMaxWidth(),
-      value = state.name ?: "",
-      onChanged = onNameChanged,
-      label = "Nombre",
-      labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
-    )
+      com.alientodevida.alientoapp.designsystem.components.InputField(
+          modifier = Modifier.fillMaxWidth(),
+          value = state.name ?: "",
+          onChanged = onNameChanged,
+          label = "Nombre",
+          labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+      )
     
     Spacer(modifier = Modifier.height(16.dp))
-    InputField(
-      modifier = Modifier.fillMaxWidth(),
-      value = state.email ?: "",
-      onChanged = onEmailChanged,
-      label = "Email",
-      labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
-    )
+      com.alientodevida.alientoapp.designsystem.components.InputField(
+          modifier = Modifier.fillMaxWidth(),
+          value = state.email ?: "",
+          onChanged = onEmailChanged,
+          label = "Email",
+          labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+      )
     
     Spacer(modifier = Modifier.height(16.dp))
-    InputField(
-      modifier = Modifier.fillMaxWidth(),
-      value = state.whatsapp ?: "",
-      onChanged = onWhatsappChanged,
-      label = "Whatsapp",
-      labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
-    )
+      com.alientodevida.alientoapp.designsystem.components.InputField(
+          modifier = Modifier.fillMaxWidth(),
+          value = state.whatsapp ?: "",
+          onChanged = onWhatsappChanged,
+          label = "Whatsapp",
+          labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+      )
     
     Spacer(modifier = Modifier.height(16.dp))
-    InputField(
-      modifier = Modifier.fillMaxWidth(),
-      value = state.message ?: "",
-      onChanged = onMessageChanged,
-      label = "Mensaje",
-      labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
-    )
+      com.alientodevida.alientoapp.designsystem.components.InputField(
+          modifier = Modifier.fillMaxWidth(),
+          value = state.message ?: "",
+          onChanged = onMessageChanged,
+          label = "Mensaje",
+          labelColor = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+      )
   
     Spacer(modifier = Modifier.height(16.dp))
-    Body1(
-      modifier = Modifier.padding(horizontal = 8.dp),
-      text = "Asunto",
-      color = MaterialTheme.colors.onBackground,
-    )
+      com.alientodevida.alientoapp.designsystem.components.Body1(
+          modifier = Modifier.padding(horizontal = 8.dp),
+          text = "Asunto",
+          color = MaterialTheme.colors.onBackground,
+      )
   
     Spacer(modifier = Modifier.height(8.dp))
     TopicDropDown(topic = state.topic, topics = state.topics, onTopicChanged = onTopicChanged)
@@ -228,12 +227,12 @@ fun TopicDropDown(
       horizontalArrangement = Arrangement.Center,
       verticalAlignment = Alignment.CenterVertically
     ) {
-      Body1(
-        modifier = Modifier.padding(end = 8.dp),
-        color = MaterialTheme.colors.onBackground,
-        text = topics[topic],
+      com.alientodevida.alientoapp.designsystem.components.Body1(
+          modifier = Modifier.padding(end = 8.dp),
+          color = MaterialTheme.colors.onBackground,
+          text = topics[topic],
       )
-        com.alientodevida.alientoapp.ui.components.Icon(
+        com.alientodevida.alientoapp.designsystem.components.Icon(
             icon = Icons.Filled.ArrowDropDown,
             contentDescription = "",
             tint = MaterialTheme.colors.onSurface
@@ -248,10 +247,10 @@ fun TopicDropDown(
             expanded = false
             onTopicChanged(if (index > 0) index else 0)
           }) {
-            Body1(
-              text = topic,
-              color = MaterialTheme.colors.onBackground,
-            )
+              com.alientodevida.alientoapp.designsystem.components.Body1(
+                  text = topic,
+                  color = MaterialTheme.colors.onBackground,
+              )
           }
         }
       }
