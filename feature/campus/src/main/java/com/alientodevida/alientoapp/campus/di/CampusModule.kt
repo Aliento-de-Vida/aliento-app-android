@@ -3,8 +3,8 @@ package com.alientodevida.alientoapp.campus.di
 import com.alientodevida.alientoapp.campus.data.CampusAdminApi
 import com.alientodevida.alientoapp.campus.data.CampusApi
 import com.alientodevida.alientoapp.campus.data.CampusRepositoryImpl
-import com.alientodevida.alientoapp.data.di.DataModule
 import com.alientodevida.alientoapp.campus.domain.CampusRepository
+import com.alientodevida.alientoapp.data.di.DataModule
 import com.alientodevida.alientoapp.domain.file.FileRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module

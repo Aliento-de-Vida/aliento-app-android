@@ -27,13 +27,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.alientodevida.alientoapp.notifications.R
 import com.alientodevida.alientoapp.app.extensions.SnackBar
-import com.alientodevida.alientoapp.notifications.presentation.detail.NotificationDetail
-import com.alientodevida.alientoapp.domain.extensions.toImageUrl
+import com.alientodevida.alientoapp.domain.common.Notification
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
-import com.alientodevida.alientoapp.domain.common.Notification
+import com.alientodevida.alientoapp.domain.extensions.toImageUrl
+import com.alientodevida.alientoapp.notifications.R
+import com.alientodevida.alientoapp.notifications.presentation.detail.NotificationDetail
 import kotlinx.coroutines.launch
 
 @Composable

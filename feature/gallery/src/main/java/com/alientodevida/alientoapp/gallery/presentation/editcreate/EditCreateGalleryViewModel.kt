@@ -5,13 +5,13 @@ import android.os.Build
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.alientodevida.alientoapp.common.logger.Logger
+import com.alientodevida.alientoapp.designsystem.components.attachment.getDomainAttachment
+import com.alientodevida.alientoapp.domain.common.Gallery
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.extensions.removeExtension
-import com.alientodevida.alientoapp.domain.common.Gallery
-import com.alientodevida.alientoapp.gallery.domain.GalleryRepository
 import com.alientodevida.alientoapp.domain.preferences.Preferences
+import com.alientodevida.alientoapp.gallery.domain.GalleryRepository
 import com.alientodevida.alientoapp.ui.base.BaseViewModel
-import com.alientodevida.alientoapp.designsystem.components.attachment.getDomainAttachment
 import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
 import com.alientodevida.alientoapp.ui.state.Message
 import dagger.hilt.android.lifecycle.HiltViewModel

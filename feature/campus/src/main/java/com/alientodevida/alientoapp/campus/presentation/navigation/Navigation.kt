@@ -8,8 +8,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.alientodevida.alientoapp.campus.presentation.editcreate.EditCreateCampus
 import com.alientodevida.alientoapp.campus.presentation.list.Campuses
-import com.alientodevida.alientoapp.ui.extensions.getParcelableValue
 import com.alientodevida.alientoapp.domain.common.Campus
+import com.alientodevida.alientoapp.ui.extensions.getParcelableValue
 import com.alientodevida.alientoapp.ui.navigation.CAMPUS_DESTINATION
 import com.alientodevida.alientoapp.ui.navigation.GenericNavigationActions
 import com.alientodevida.alientoapp.ui.navigation.MainActions

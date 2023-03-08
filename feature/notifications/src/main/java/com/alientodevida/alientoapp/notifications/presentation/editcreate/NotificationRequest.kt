@@ -1,7 +1,5 @@
 package com.alientodevida.alientoapp.notifications.presentation.editcreate
 
-import com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel
-
 data class NotificationRequest(
     val id: Int,
     val title: String,

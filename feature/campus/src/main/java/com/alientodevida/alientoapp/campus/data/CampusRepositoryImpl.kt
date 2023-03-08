@@ -1,9 +1,9 @@
 package com.alientodevida.alientoapp.campus.data
 
-import com.alientodevida.alientoapp.domain.common.Campus
 import com.alientodevida.alientoapp.campus.domain.CampusRepository
 import com.alientodevida.alientoapp.campus.domain.CampusRequest
 import com.alientodevida.alientoapp.domain.common.Attachment
+import com.alientodevida.alientoapp.domain.common.Campus
 import com.alientodevida.alientoapp.domain.extensions.addTimeStamp
 import com.alientodevida.alientoapp.domain.file.FileRepository
 

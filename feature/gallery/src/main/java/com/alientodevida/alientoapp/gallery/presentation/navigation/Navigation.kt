@@ -6,10 +6,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.alientodevida.alientoapp.ui.extensions.getParcelableValue
 import com.alientodevida.alientoapp.domain.common.Gallery
 import com.alientodevida.alientoapp.gallery.presentation.editcreate.EditCreateGallery
 import com.alientodevida.alientoapp.gallery.presentation.list.Galleries
+import com.alientodevida.alientoapp.ui.extensions.getParcelableValue
 import com.alientodevida.alientoapp.ui.navigation.GALLERY_DESTINATION
 import com.alientodevida.alientoapp.ui.navigation.GenericNavigationActions
 import com.alientodevida.alientoapp.ui.navigation.MainActions

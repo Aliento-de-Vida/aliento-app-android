@@ -26,13 +26,8 @@ import com.alientodevida.alientoapp.domain.entities.local.BankAccount
 import com.alientodevida.alientoapp.domain.entities.local.DonationType
 import com.alientodevida.alientoapp.domain.entities.local.PaymentItem
 import com.alientodevida.alientoapp.domain.entities.local.Paypal
-import com.alientodevida.alientoapp.designsystem.components.Body2
-import com.alientodevida.alientoapp.designsystem.components.ClickableIcon
-import com.alientodevida.alientoapp.designsystem.components.H5
-import com.alientodevida.alientoapp.designsystem.components.Subtitle1
 import com.alientodevida.alientoapp.ui.extensions.copyToClipboard
 import com.alientodevida.alientoapp.ui.extensions.goToUrl
-import com.alientodevida.alientoapp.designsystem.theme.AppTheme
 
 @Composable
 fun Donations(

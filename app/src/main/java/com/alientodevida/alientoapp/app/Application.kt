@@ -6,8 +6,8 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
-import com.alientodevida.alientoapp.ui.messaging.NotificationsService
 import com.alientodevida.alientoapp.ui.coil.ResponseHeaderInterceptor
+import com.alientodevida.alientoapp.ui.messaging.NotificationsService
 import dagger.hilt.android.HiltAndroidApp
 import okhttp3.OkHttpClient
 import javax.inject.Inject

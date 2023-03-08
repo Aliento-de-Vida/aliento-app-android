@@ -1,10 +1,10 @@
 package com.alientodevida.alientoapp.home.di
 
 import com.alientodevida.alientoapp.data.di.DataModule
-import com.alientodevida.alientoapp.home.data.HomeApi
-import com.alientodevida.alientoapp.home.data.HomeRepositoryImpl
 import com.alientodevida.alientoapp.domain.file.FileRepository
 import com.alientodevida.alientoapp.domain.home.HomeRepository
+import com.alientodevida.alientoapp.home.data.HomeApi
+import com.alientodevida.alientoapp.home.data.HomeRepositoryImpl
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

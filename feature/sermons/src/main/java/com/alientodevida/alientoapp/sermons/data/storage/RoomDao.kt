@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.alientodevida.alientoapp.sermons.domain.audio.Audio
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
+import com.alientodevida.alientoapp.sermons.domain.audio.Audio
 
 @Dao
 interface RoomDao {

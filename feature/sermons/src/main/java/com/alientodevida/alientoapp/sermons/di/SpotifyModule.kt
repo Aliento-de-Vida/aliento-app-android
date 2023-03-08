@@ -4,6 +4,7 @@ import com.alientodevida.alientoapp.data.BuildConfig
 import com.alientodevida.alientoapp.data.di.DataModule
 import com.alientodevida.alientoapp.sermons.data.spotify.*
 import com.alientodevida.alientoapp.sermons.data.storage.RoomDao
+import com.alientodevida.alientoapp.sermons.domain.audio.SpotifyRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -17,7 +18,6 @@ import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
-import com.alientodevida.alientoapp.sermons.domain.audio.SpotifyRepository
 
 @Module
 @InstallIn(SingletonComponent::class)

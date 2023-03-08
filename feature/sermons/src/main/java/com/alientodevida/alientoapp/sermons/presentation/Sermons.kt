@@ -21,9 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.alientodevida.alientoapp.sermons.R
-import com.alientodevida.alientoapp.designsystem.components.Caption
-import com.alientodevida.alientoapp.designsystem.components.ClickableIcon
 import com.alientodevida.alientoapp.sermons.presentation.navigation.BottomNavItem
 import com.alientodevida.alientoapp.sermons.presentation.navigation.NavigationGraph
 

@@ -16,8 +16,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
-import com.alientodevida.alientoapp.ui.utils.LocalUtils
 import com.alientodevida.alientoapp.ui.extensions.goToYoutubeVideo
+import com.alientodevida.alientoapp.ui.utils.LocalUtils
 
 private const val US_VIDEO = "ieOwvnk2B4I"
 private const val usImageUrl: String = "https://img.youtube.com/vi/$US_VIDEO/hqdefault.jpg"

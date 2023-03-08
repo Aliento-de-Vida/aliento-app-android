@@ -17,10 +17,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.app.extensions.SnackBar
-import com.alientodevida.alientoapp.notifications.presentation.detail.NotificationDetail
-import com.alientodevida.alientoapp.notifications.presentation.list.NotificationItem
 import com.alientodevida.alientoapp.domain.common.Home
 import com.alientodevida.alientoapp.domain.common.Notification
+import com.alientodevida.alientoapp.notifications.presentation.detail.NotificationDetail
+import com.alientodevida.alientoapp.notifications.presentation.list.NotificationItem
 import com.alientodevida.alientoapp.ui.extensions.*
 import kotlinx.coroutines.launch
 

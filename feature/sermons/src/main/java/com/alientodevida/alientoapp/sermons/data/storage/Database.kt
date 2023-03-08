@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.alientodevida.alientoapp.sermons.domain.audio.Audio
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
+import com.alientodevida.alientoapp.sermons.domain.audio.Audio
 
 @Database(entities = [YoutubeVideo::class, Audio::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {

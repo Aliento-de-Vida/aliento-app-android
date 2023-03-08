@@ -1,11 +1,7 @@
 package com.alientodevida.alientoapp.gallery.data
 
 import com.alientodevida.alientoapp.domain.common.Gallery
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.HTTP
-import retrofit2.http.POST
-import retrofit2.http.PUT
+import retrofit2.http.*
 
 interface GalleryAdminApi {
   

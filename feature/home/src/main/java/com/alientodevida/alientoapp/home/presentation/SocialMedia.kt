@@ -11,8 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
-import com.alientodevida.alientoapp.designsystem.components.ClickableIcon
-import com.alientodevida.alientoapp.designsystem.components.H5
 
 @Composable
 fun SocialMedia(

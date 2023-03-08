@@ -1,11 +1,7 @@
 package com.alientodevida.alientoapp.sermons.data.spotify
 
 import com.alientodevida.alientoapp.domain.common.SpotifyToken
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.Url
+import retrofit2.http.*
 
 interface SpotifyAuthApi {
   
