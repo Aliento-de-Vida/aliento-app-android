@@ -26,13 +26,13 @@ import com.alientodevida.alientoapp.domain.entities.local.BankAccount
 import com.alientodevida.alientoapp.domain.entities.local.DonationType
 import com.alientodevida.alientoapp.domain.entities.local.PaymentItem
 import com.alientodevida.alientoapp.domain.entities.local.Paypal
-import com.alientodevida.alientoapp.ui.components.Body2
-import com.alientodevida.alientoapp.ui.components.ClickableIcon
-import com.alientodevida.alientoapp.ui.components.H5
-import com.alientodevida.alientoapp.ui.components.Subtitle1
+import com.alientodevida.alientoapp.designsystem.components.Body2
+import com.alientodevida.alientoapp.designsystem.components.ClickableIcon
+import com.alientodevida.alientoapp.designsystem.components.H5
+import com.alientodevida.alientoapp.designsystem.components.Subtitle1
 import com.alientodevida.alientoapp.ui.extensions.copyToClipboard
 import com.alientodevida.alientoapp.ui.extensions.goToUrl
-import com.alientodevida.alientoapp.ui.theme.AppTheme
+import com.alientodevida.alientoapp.designsystem.theme.AppTheme
 
 @Composable
 fun Donations(
@@ -109,13 +109,13 @@ fun TopAppBar(
       )
     },
     navigationIcon = {
-      ClickableIcon(
-        modifier = modifier,
-        icon = R.drawable.ic_back_24,
-        contentDescription = "Back Button",
-        tint = MaterialTheme.colors.onBackground,
-        onClick = onBackPressed,
-      )
+        com.alientodevida.alientoapp.designsystem.components.ClickableIcon(
+            modifier = modifier,
+            icon = R.drawable.ic_back_24,
+            contentDescription = "Back Button",
+            tint = MaterialTheme.colors.onBackground,
+            onClick = onBackPressed,
+        )
     },
     actions = {
       Box(modifier = modifier, contentAlignment = Alignment.Center) { }
@@ -132,17 +132,17 @@ fun DonationsBody(
 ) {
   Column(Modifier.padding(horizontal = 8.dp)) {
     Spacer(modifier = Modifier.height(8.dp))
-    H5(
-      modifier = Modifier.padding(horizontal = 8.dp),
-      text = "Participa junto con nosotros para avanzar en la obra",
-      color = MaterialTheme.colors.onBackground,
-    )
+      com.alientodevida.alientoapp.designsystem.components.H5(
+          modifier = Modifier.padding(horizontal = 8.dp),
+          text = "Participa junto con nosotros para avanzar en la obra",
+          color = MaterialTheme.colors.onBackground,
+      )
     Spacer(modifier = Modifier.height(8.dp))
-    Body2(
-      modifier = Modifier.align(Alignment.End),
-      text = "(Haz click para copiar los datos)",
-      color = MaterialTheme.colors.onBackground,
-    )
+      com.alientodevida.alientoapp.designsystem.components.Body2(
+          modifier = Modifier.align(Alignment.End),
+          text = "(Haz click para copiar los datos)",
+          color = MaterialTheme.colors.onBackground,
+      )
     Spacer(modifier = Modifier.height(16.dp))
     LazyColumn(
       contentPadding = PaddingValues(bottom = 16.dp),
@@ -190,32 +190,32 @@ private fun BankAccountItem(item: BankAccount) {
     
     Column(Modifier.padding(8.dp)) {
       Spacer(modifier = Modifier.weight(1.0f))
-      Subtitle1(
-        text = "No. de Cuenta",
-        color = colorResource(R.color.pantone_white_c),
-      )
-      Subtitle1(
-        text = item.accountNumber,
-        color = colorResource(R.color.pantone_white_c),
-      )
-      
-      Subtitle1(
-        text = "Clabe",
-        color = colorResource(R.color.pantone_white_c),
-      )
-      Subtitle1(
-        text = item.clabe,
-        color = colorResource(R.color.pantone_white_c),
-      )
- 
-      Subtitle1(
-        text = "No. de Tarjeta",
-        color = colorResource(R.color.pantone_white_c),
-      )
-      Subtitle1(
-        text = item.cardNumber,
-        color = colorResource(R.color.pantone_white_c),
-      )
+        com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+            text = "No. de Cuenta",
+            color = colorResource(R.color.pantone_white_c),
+        )
+        com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+            text = item.accountNumber,
+            color = colorResource(R.color.pantone_white_c),
+        )
+
+        com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+            text = "Clabe",
+            color = colorResource(R.color.pantone_white_c),
+        )
+        com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+            text = item.clabe,
+            color = colorResource(R.color.pantone_white_c),
+        )
+
+        com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+            text = "No. de Tarjeta",
+            color = colorResource(R.color.pantone_white_c),
+        )
+        com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+            text = item.cardNumber,
+            color = colorResource(R.color.pantone_white_c),
+        )
     }
   }
 }
@@ -236,11 +236,11 @@ private fun PayPalItemContent() {
         .align(Alignment.Center),
       contentDescription = null,
     )
-    Subtitle1(
-      modifier = Modifier.align(Alignment.BottomStart),
-      text = "Click para donar",
-      color = Color.Black,
-    )
+      com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+          modifier = Modifier.align(Alignment.BottomStart),
+          text = "Click para donar",
+          color = Color.Black,
+      )
   }
 }
 
@@ -248,7 +248,7 @@ private fun PayPalItemContent() {
 @Preview
 @Composable
 fun NotificationsPreview() {
-  AppTheme {
+  com.alientodevida.alientoapp.designsystem.theme.AppTheme {
     DonationsContent(
       DonationsUiState(
         listOf(

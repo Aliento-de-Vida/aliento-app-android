@@ -22,13 +22,13 @@ data class DonationsUiState(val paymentOptions: List<PaymentItem>)
 
 @HiltViewModel
 class DonationsViewModel @Inject constructor(
-    coroutineDispatchers: CoroutineDispatchers,
-    errorParser: ErrorParser,
-    logger: Logger,
-    preferences: Preferences,
-    savedStateHandle: SavedStateHandle,
-    application: Application,
-    analytics: Analytics,
+  coroutineDispatchers: CoroutineDispatchers,
+  errorParser: ErrorParser,
+  logger: Logger,
+  preferences: Preferences,
+  savedStateHandle: SavedStateHandle,
+  application: Application,
+  analytics: Analytics,
 ) : BaseViewModel(
   coroutineDispatchers,
   errorParser,
