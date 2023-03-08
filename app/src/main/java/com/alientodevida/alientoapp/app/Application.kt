@@ -7,7 +7,7 @@ import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import com.alientodevida.alientoapp.ui.coil.ResponseHeaderInterceptor
-import com.alientodevida.alientoapp.ui.messaging.NotificationsService
+import com.alientodevida.alientoapp.ui.messaging.NotificationsManager
 import dagger.hilt.android.HiltAndroidApp
 import okhttp3.OkHttpClient
 import javax.inject.Inject
@@ -16,11 +16,11 @@ import javax.inject.Inject
 class AppController : Application(), ImageLoaderFactory {
 
   @Inject
-  lateinit var notificationsService: NotificationsService
+  lateinit var notificationsManager: NotificationsManager
 
   override fun onCreate() {
     super.onCreate()
-    notificationsService.setActivityClass(MainActivity::class.java)
+    notificationsManager.setActivityClass(activity = MainActivity::class.java)
   }
 
   override fun newImageLoader(): ImageLoader  = imageLoader
