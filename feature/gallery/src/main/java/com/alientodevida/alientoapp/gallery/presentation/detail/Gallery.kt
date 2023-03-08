@@ -14,9 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.alientodevida.alientoapp.ui.extensions.load
-import com.alientodevida.alientoapp.domain.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.common.Gallery
+import com.alientodevida.alientoapp.domain.extensions.toImageUrl
+import com.alientodevida.alientoapp.ui.extensions.load
 import com.stfalcon.imageviewer.StfalconImageViewer
 
 private fun openGallery(context: Context, images: List<String>) {

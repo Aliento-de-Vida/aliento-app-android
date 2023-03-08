@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.alientodevida.alientoapp.designsystem.components.*
 import com.alientodevida.alientoapp.designsystem.R
+import com.alientodevida.alientoapp.designsystem.components.*
 import java.io.FileInputStream
 import java.nio.file.Files
 import java.nio.file.Paths

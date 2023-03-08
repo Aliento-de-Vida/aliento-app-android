@@ -27,12 +27,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.alientodevida.alientoapp.campus.R
 import com.alientodevida.alientoapp.app.extensions.SnackBar
+import com.alientodevida.alientoapp.campus.R
 import com.alientodevida.alientoapp.campus.presentation.detail.CampusDetail
-import com.alientodevida.alientoapp.domain.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.common.Campus
 import com.alientodevida.alientoapp.domain.common.Location
+import com.alientodevida.alientoapp.domain.extensions.toImageUrl
 import kotlinx.coroutines.launch
 
 @Composable

@@ -24,14 +24,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.alientodevida.alientoapp.sermons.R
 import com.alientodevida.alientoapp.app.extensions.SnackBar
-import com.alientodevida.alientoapp.ui.extensions.openSpotifyArtistPage
-import com.alientodevida.alientoapp.ui.extensions.openSpotifyWith
-import com.alientodevida.alientoapp.sermons.domain.audio.Audio
+import com.alientodevida.alientoapp.domain.common.Home
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
-import com.alientodevida.alientoapp.domain.common.Home
+import com.alientodevida.alientoapp.sermons.R
+import com.alientodevida.alientoapp.sermons.domain.audio.Audio
+import com.alientodevida.alientoapp.ui.extensions.openSpotifyArtistPage
+import com.alientodevida.alientoapp.ui.extensions.openSpotifyWith
 import java.util.concurrent.TimeUnit
 
 @Composable

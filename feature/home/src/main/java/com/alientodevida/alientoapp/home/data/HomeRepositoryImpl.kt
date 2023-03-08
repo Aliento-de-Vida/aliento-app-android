@@ -1,8 +1,8 @@
 package com.alientodevida.alientoapp.home.data
 
+import com.alientodevida.alientoapp.domain.common.Home
 import com.alientodevida.alientoapp.domain.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.file.FileRepository
-import com.alientodevida.alientoapp.domain.common.Home
 import com.alientodevida.alientoapp.domain.home.HomeImages
 import com.alientodevida.alientoapp.domain.home.HomeRepository
 

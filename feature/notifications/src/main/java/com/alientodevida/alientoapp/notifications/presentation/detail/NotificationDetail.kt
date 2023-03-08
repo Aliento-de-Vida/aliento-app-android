@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.alientodevida.alientoapp.notifications.R
-import com.alientodevida.alientoapp.domain.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.common.Notification
+import com.alientodevida.alientoapp.domain.extensions.toImageUrl
+import com.alientodevida.alientoapp.notifications.R
 import com.bumptech.glide.Glide
 import com.stfalcon.imageviewer.StfalconImageViewer
 

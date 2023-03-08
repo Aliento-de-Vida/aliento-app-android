@@ -5,21 +5,21 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.alientodevida.alientoapp.ui.base.BaseViewModel
-import com.alientodevida.alientoapp.designsystem.components.attachment.getDomainAttachment
-import com.alientodevida.alientoapp.ui.state.Message
-import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
+import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.core.analytics.Analytics
-import com.alientodevida.alientoapp.ui.extensions.logScreenView
+import com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel
+import com.alientodevida.alientoapp.designsystem.components.attachment.getDomainAttachment
 import com.alientodevida.alientoapp.domain.common.Attachment
+import com.alientodevida.alientoapp.domain.common.Home
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.extensions.addTimeStamp
 import com.alientodevida.alientoapp.domain.file.FileRepository
-import com.alientodevida.alientoapp.domain.common.Home
-import com.alientodevida.alientoapp.common.logger.Logger
-import com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel
 import com.alientodevida.alientoapp.domain.home.HomeRepository
 import com.alientodevida.alientoapp.domain.preferences.Preferences
+import com.alientodevida.alientoapp.ui.base.BaseViewModel
+import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
+import com.alientodevida.alientoapp.ui.extensions.logScreenView
+import com.alientodevida.alientoapp.ui.state.Message
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +29,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import com.alientodevida.alientoapp.domain.home.HomeImages as DomainHomeImages
+
 data class HomeUiState(
   val home: Home,
   val images: HomeImages,

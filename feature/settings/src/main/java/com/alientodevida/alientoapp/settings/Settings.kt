@@ -15,10 +15,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.alientodevida.alientoapp.settings.R
-import com.alientodevida.alientoapp.designsystem.components.Body1
-import com.alientodevida.alientoapp.designsystem.components.ClickableIcon
-import com.alientodevida.alientoapp.designsystem.components.H5
 
 @Composable
 fun Settings(

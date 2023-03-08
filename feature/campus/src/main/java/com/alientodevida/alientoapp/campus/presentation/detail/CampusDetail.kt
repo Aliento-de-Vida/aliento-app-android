@@ -18,8 +18,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.alientodevida.alientoapp.campus.R
-import com.alientodevida.alientoapp.domain.extensions.toImageUrl
 import com.alientodevida.alientoapp.domain.common.Campus
+import com.alientodevida.alientoapp.domain.extensions.toImageUrl
 import com.bumptech.glide.Glide
 import com.stfalcon.imageviewer.StfalconImageViewer
 

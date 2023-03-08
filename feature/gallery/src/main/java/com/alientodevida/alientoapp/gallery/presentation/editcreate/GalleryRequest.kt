@@ -1,7 +1,5 @@
 package com.alientodevida.alientoapp.gallery.presentation.editcreate
 
-import com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel
-
 data class GalleryRequest(
     val id: Int,
     val name: String,

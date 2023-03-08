@@ -1,8 +1,8 @@
 package com.alientodevida.alientoapp.core.analytics.di
 
 import android.content.Context
-import com.alientodevida.alientoapp.core.analytics.FirebaseAnalyticsHelper
 import com.alientodevida.alientoapp.core.analytics.Analytics
+import com.alientodevida.alientoapp.core.analytics.FirebaseAnalyticsHelper
 import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.Module
 import dagger.Provides

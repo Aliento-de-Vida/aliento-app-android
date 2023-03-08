@@ -6,11 +6,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.alientodevida.alientoapp.ui.navigation.GenericNavigationActions
 import com.alientodevida.alientoapp.sermons.R
 import com.alientodevida.alientoapp.sermons.Sermons
 import com.alientodevida.alientoapp.sermons.presentation.audio.AudioSermons
 import com.alientodevida.alientoapp.sermons.presentation.video.VideoSermons
+import com.alientodevida.alientoapp.ui.navigation.GenericNavigationActions
 import com.alientodevida.alientoapp.ui.navigation.MainDestination
 
 sealed class BottomNavItem(var title:String, var icon:Int, var screen_route:String){

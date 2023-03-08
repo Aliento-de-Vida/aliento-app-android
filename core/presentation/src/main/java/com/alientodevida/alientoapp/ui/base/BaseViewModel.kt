@@ -6,10 +6,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alientodevida.alientoapp.common.logger.Logger
-import com.alientodevida.alientoapp.ui.state.ViewModelResult
-import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.preferences.Preferences
+import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
+import com.alientodevida.alientoapp.ui.state.ViewModelResult
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 

@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.alientodevida.alientoapp.domain.common.Home
+import com.alientodevida.alientoapp.domain.common.SpotifyToken
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -17,7 +18,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import androidx.datastore.preferences.core.Preferences as DataStorePreferences
 import com.alientodevida.alientoapp.domain.common.Token as AdminToken
-import com.alientodevida.alientoapp.domain.common.SpotifyToken as SpotifyToken
 
 class PreferencesImpl(
   private val preferences: SharedPreferences,

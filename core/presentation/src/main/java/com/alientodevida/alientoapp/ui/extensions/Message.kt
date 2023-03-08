@@ -5,7 +5,6 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarResult
 import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
-import com.alientodevida.alientoapp.designsystem.components.Dialog
 import com.alientodevida.alientoapp.ui.state.Message
 import com.alientodevida.alientoapp.ui.state.ViewModelResult
 
