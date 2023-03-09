@@ -14,7 +14,6 @@ import androidx.core.net.toUri
 import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.domain.common.Image
 import com.alientodevida.alientoapp.domain.common.Notification
-import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.alientodevida.alientoapp.ui.R
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
@@ -44,14 +43,10 @@ class NotificationsManager @Inject constructor(): FirebaseMessagingService() {
     @Inject
     lateinit var firebaseMessaging: FirebaseMessaging
 
-    @Inject
-    lateinit var preferences: Preferences
-
     private lateinit var activityIntent: Class<*>
 
     init {
         FirebaseApp.initializeApp(this)
-        subscribeToPushNotifications(preferences.pushEnabled)
     }
 
     /**
