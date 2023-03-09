@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.domain.entities.local
+package com.alientodevida.alientoapp.domain.common
 
 data class CarouselItem(
   val title: String,

@@ -5,10 +5,10 @@ import androidx.lifecycle.SavedStateHandle
 import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.core.analytics.Analytics
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
-import com.alientodevida.alientoapp.domain.entities.local.BankAccount
-import com.alientodevida.alientoapp.domain.entities.local.DonationType
-import com.alientodevida.alientoapp.domain.entities.local.PaymentItem
-import com.alientodevida.alientoapp.domain.entities.local.Paypal
+import com.alientodevida.alientoapp.domain.common.BankAccount
+import com.alientodevida.alientoapp.domain.common.DonationType
+import com.alientodevida.alientoapp.domain.common.PaymentItem
+import com.alientodevida.alientoapp.domain.common.Paypal
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.alientodevida.alientoapp.ui.base.BaseViewModel
 import com.alientodevida.alientoapp.ui.errorparser.ErrorParser

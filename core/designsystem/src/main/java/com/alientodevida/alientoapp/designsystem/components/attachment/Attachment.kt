@@ -37,7 +37,6 @@ data class AttachmentModel(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun AttachmentModel?.getDomainAttachment(context: Context, name: String? = null) =
   this?.let { attachment ->
     val attachmentsDir = Paths.get(context.filesDir.path, "notification-attachment").toFile()

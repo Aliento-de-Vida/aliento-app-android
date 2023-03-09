@@ -22,10 +22,10 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.alientodevida.alientoapp.domain.entities.local.BankAccount
-import com.alientodevida.alientoapp.domain.entities.local.DonationType
-import com.alientodevida.alientoapp.domain.entities.local.PaymentItem
-import com.alientodevida.alientoapp.domain.entities.local.Paypal
+import com.alientodevida.alientoapp.domain.common.BankAccount
+import com.alientodevida.alientoapp.domain.common.DonationType
+import com.alientodevida.alientoapp.domain.common.PaymentItem
+import com.alientodevida.alientoapp.domain.common.Paypal
 import com.alientodevida.alientoapp.ui.extensions.copyToClipboard
 import com.alientodevida.alientoapp.ui.extensions.goToUrl
 
@@ -59,10 +59,10 @@ private fun onCardClick(context: Context, item: PaymentItem) {
 
 @Composable
 fun DonationsContent(
-  uiState: DonationsUiState,
-  scaffoldState: ScaffoldState = rememberScaffoldState(),
-  onBackPressed: () -> Unit,
-  onCardClick: (PaymentItem) -> Unit,
+    uiState: DonationsUiState,
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    onBackPressed: () -> Unit,
+    onCardClick: (PaymentItem) -> Unit,
 ) {
   Scaffold(
     scaffoldState = scaffoldState,
@@ -122,8 +122,8 @@ fun TopAppBar(
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 fun DonationsBody(
-  paymentOptions: List<PaymentItem>,
-  onCardClick: (PaymentItem) -> Unit,
+    paymentOptions: List<PaymentItem>,
+    onCardClick: (PaymentItem) -> Unit,
 ) {
   Column(Modifier.padding(horizontal = 8.dp)) {
     Spacer(modifier = Modifier.height(8.dp))
@@ -156,9 +156,9 @@ fun DonationsBody(
 
 @Composable
 fun DonationItem(
-  modifier: Modifier = Modifier,
-  item: PaymentItem,
-  onClick: (PaymentItem) -> Unit,
+    modifier: Modifier = Modifier,
+    item: PaymentItem,
+    onClick: (PaymentItem) -> Unit,
 ) {
   Card(
     modifier
