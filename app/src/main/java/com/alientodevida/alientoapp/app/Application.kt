@@ -6,6 +6,7 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
+import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.alientodevida.alientoapp.ui.coil.ResponseHeaderInterceptor
 import com.alientodevida.alientoapp.ui.messaging.NotificationsManager
 import dagger.hilt.android.HiltAndroidApp
@@ -18,9 +19,13 @@ class AppController : Application(), ImageLoaderFactory {
   @Inject
   lateinit var notificationsManager: NotificationsManager
 
+  @Inject
+  lateinit var preferences: Preferences
+
   override fun onCreate() {
     super.onCreate()
     notificationsManager.setActivityClass(activity = MainActivity::class.java)
+    notificationsManager.subscribeToPushNotifications(preferences.pushEnabled)
   }
 
   override fun newImageLoader(): ImageLoader  = imageLoader
