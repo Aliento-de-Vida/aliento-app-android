@@ -8,10 +8,10 @@ import com.alientodevida.alientoapp.core.analytics.Analytics
 import com.alientodevida.alientoapp.domain.common.Home
 import com.alientodevida.alientoapp.domain.common.Notification
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
-import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
-import com.alientodevida.alientoapp.domain.entities.local.CategoryItem
-import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
-import com.alientodevida.alientoapp.domain.entities.local.YoutubeItem
+import com.alientodevida.alientoapp.domain.common.CarouselItem
+import com.alientodevida.alientoapp.domain.common.CategoryItem
+import com.alientodevida.alientoapp.domain.common.CategoryItemType
+import com.alientodevida.alientoapp.domain.common.YoutubeItem
 import com.alientodevida.alientoapp.domain.home.HomeImages
 import com.alientodevida.alientoapp.domain.home.HomeRepository
 import com.alientodevida.alientoapp.domain.preferences.Preferences
@@ -32,13 +32,13 @@ import java.util.*
 import javax.inject.Inject
 
 data class HomeUiState(
-  val home: Home? = null,
-  val sermonItems: List<CarouselItem> = emptyList(),
-  val categoriesItems: List<CarouselItem> = emptyList(),
-  val quickAccessItems: List<CarouselItem> = emptyList(),
-  val notifications: List<Notification> = emptyList(),
-  val loading: Boolean = true,
-  val messages: List<Message> = emptyList(),
+    val home: Home? = null,
+    val sermonItems: List<CarouselItem> = emptyList(),
+    val categoriesItems: List<CarouselItem> = emptyList(),
+    val quickAccessItems: List<CarouselItem> = emptyList(),
+    val notifications: List<Notification> = emptyList(),
+    val loading: Boolean = true,
+    val messages: List<Message> = emptyList(),
 )
 
 @HiltViewModel

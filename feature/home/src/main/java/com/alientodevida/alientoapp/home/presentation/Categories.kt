@@ -11,20 +11,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
-import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
+import com.alientodevida.alientoapp.domain.common.CarouselItem
+import com.alientodevida.alientoapp.domain.common.CategoryItemType
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Categories(
-  items: List<CarouselItem>,
-  title: String,
-  goToChurch: () -> Unit,
-  goToCampus: () -> Unit,
-  goToGallery: () -> Unit,
-  goToDonations: () -> Unit,
-  goToPrayer: () -> Unit,
-  goToEbook: () -> Unit
+    items: List<CarouselItem>,
+    title: String,
+    goToChurch: () -> Unit,
+    goToCampus: () -> Unit,
+    goToGallery: () -> Unit,
+    goToDonations: () -> Unit,
+    goToPrayer: () -> Unit,
+    goToEbook: () -> Unit
 ) {
   Column(Modifier.padding(8.dp)) {
     com.alientodevida.alientoapp.designsystem.components.H5(
@@ -56,14 +56,14 @@ fun Categories(
 
 @Composable
 fun CategoryItem(
-  modifier: Modifier,
-  item: CarouselItem,
-  goToChurch: () -> Unit,
-  goToCampus: () -> Unit,
-  goToGallery: () -> Unit,
-  goToDonations: () -> Unit,
-  goToPrayer: () -> Unit,
-  goToEbook: () -> Unit
+    modifier: Modifier,
+    item: CarouselItem,
+    goToChurch: () -> Unit,
+    goToCampus: () -> Unit,
+    goToGallery: () -> Unit,
+    goToDonations: () -> Unit,
+    goToPrayer: () -> Unit,
+    goToEbook: () -> Unit
 ) {
   Card(
     modifier

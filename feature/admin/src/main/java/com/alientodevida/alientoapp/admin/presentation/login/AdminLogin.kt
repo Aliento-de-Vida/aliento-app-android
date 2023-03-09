@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.admin.R
-import com.alientodevida.alientoapp.app.extensions.Dialog
+import com.alientodevida.alientoapp.ui.extensions.Dialog
 import com.alientodevida.alientoapp.ui.state.ViewModelResult
 
 @Composable

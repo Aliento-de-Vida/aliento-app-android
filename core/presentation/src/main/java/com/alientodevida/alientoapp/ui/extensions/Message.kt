@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.app.extensions
+package com.alientodevida.alientoapp.ui.extensions
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState

@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.alientodevida.alientoapp.app.extensions.Dialog
+import com.alientodevida.alientoapp.ui.extensions.Dialog
 import com.alientodevida.alientoapp.domain.common.Gallery
 import com.alientodevida.alientoapp.gallery.R
 

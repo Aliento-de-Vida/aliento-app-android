@@ -10,14 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.alientodevida.alientoapp.domain.entities.local.CarouselItem
-import com.alientodevida.alientoapp.domain.entities.local.CategoryItemType
+import com.alientodevida.alientoapp.domain.common.CarouselItem
+import com.alientodevida.alientoapp.domain.common.CategoryItemType
 
 @Composable
 fun SermonsPager(
-  items: List<CarouselItem>,
-  goToSermons: () -> Unit,
-  goToSermon: (CarouselItem) -> Unit,
+    items: List<CarouselItem>,
+    goToSermons: () -> Unit,
+    goToSermon: (CarouselItem) -> Unit,
 ) {
     com.alientodevida.alientoapp.designsystem.components.Pager(
         items = items,
