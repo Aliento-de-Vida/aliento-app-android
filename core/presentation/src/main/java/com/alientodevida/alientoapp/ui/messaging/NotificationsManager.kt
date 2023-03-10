@@ -46,7 +46,7 @@ class NotificationsManager @Inject constructor(): FirebaseMessagingService() {
     private lateinit var activityIntent: Class<*>
 
     init {
-        FirebaseApp.initializeApp(this)
+        FirebaseApp.initializeApp(this) // TODO probably not here
     }
 
     /**
