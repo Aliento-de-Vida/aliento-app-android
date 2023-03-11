@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.sermons
+package com.alientodevida.alientoapp.sermons.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.alientodevida.alientoapp.sermons.R
 import com.alientodevida.alientoapp.sermons.presentation.navigation.BottomNavItem
 import com.alientodevida.alientoapp.sermons.presentation.navigation.NavigationGraph
 

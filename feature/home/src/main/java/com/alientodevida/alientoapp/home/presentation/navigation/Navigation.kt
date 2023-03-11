@@ -3,7 +3,7 @@ package com.alientodevida.alientoapp.home.presentation.navigation
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.alientodevida.alientoapp.home.Home
+import com.alientodevida.alientoapp.home.presentation.Home
 import com.alientodevida.alientoapp.ui.navigation.MainActions
 import com.alientodevida.alientoapp.ui.navigation.MainDestination
 

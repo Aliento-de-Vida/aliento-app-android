@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.preferencesDataStore
-import com.alientodevida.alientoapp.data.BuildConfig
+import com.alientodevida.alientoapp.core.data.BuildConfig
 import com.alientodevida.alientoapp.data.network.AdminAuthenticator
 import com.alientodevida.alientoapp.data.network.AdminAuthenticatorInterceptor
 import com.alientodevida.alientoapp.domain.preferences.Preferences

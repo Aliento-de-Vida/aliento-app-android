@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.home
+package com.alientodevida.alientoapp.home.presentation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,6 +12,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.domain.common.CarouselItem
 import com.alientodevida.alientoapp.domain.common.CategoryItemType
+import com.alientodevida.alientoapp.designsystem.R
 
 @Composable
 fun SermonsPager(

@@ -1,7 +1,7 @@
 package com.alientodevida.alientoapp.sermons.di
 
-import com.alientodevida.alientoapp.data.BuildConfig
 import com.alientodevida.alientoapp.data.di.DataModule
+import com.alientodevida.alientoapp.sermons.BuildConfig
 import com.alientodevida.alientoapp.sermons.data.spotify.*
 import com.alientodevida.alientoapp.sermons.data.storage.RoomDao
 import com.alientodevida.alientoapp.sermons.domain.audio.SpotifyRepository
