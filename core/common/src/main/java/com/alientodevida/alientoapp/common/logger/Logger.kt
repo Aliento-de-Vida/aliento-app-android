@@ -1,6 +1,7 @@
 package com.alientodevida.alientoapp.common.logger
 
-import com.alientodevida.alientoapp.common.BuildConfig
+import com.alientodevida.alientoapp.core.common.BuildConfig
+
 
 class Logger() {
   

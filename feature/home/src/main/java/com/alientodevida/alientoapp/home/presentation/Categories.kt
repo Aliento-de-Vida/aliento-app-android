@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.home
+package com.alientodevida.alientoapp.home.presentation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -13,6 +13,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.domain.common.CarouselItem
 import com.alientodevida.alientoapp.domain.common.CategoryItemType
+import com.alientodevida.alientoapp.designsystem.R
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

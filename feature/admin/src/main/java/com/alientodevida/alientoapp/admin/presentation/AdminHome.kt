@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.admin
+package com.alientodevida.alientoapp.admin.presentation
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -13,6 +13,10 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.alientodevida.alientoapp.admin.AdminHomeViewModel
+import com.alientodevida.alientoapp.admin.HomeImages
+import com.alientodevida.alientoapp.admin.HomeUiState
+import com.alientodevida.alientoapp.admin.R
 import com.alientodevida.alientoapp.ui.extensions.Dialog
 import com.alientodevida.alientoapp.domain.common.Home
 

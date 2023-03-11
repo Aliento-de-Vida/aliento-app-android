@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.home
+package com.alientodevida.alientoapp.home.presentation
 
 import android.content.Context
 import androidx.compose.foundation.Image
@@ -19,6 +19,10 @@ import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.ui.extensions.SnackBar
 import com.alientodevida.alientoapp.domain.common.Home
 import com.alientodevida.alientoapp.domain.common.Notification
+import com.alientodevida.alientoapp.home.HomeUiState
+import com.alientodevida.alientoapp.home.HomeViewModel
+import com.alientodevida.alientoapp.home.R
+import com.alientodevida.alientoapp.home.SocialMedia
 import com.alientodevida.alientoapp.notifications.presentation.detail.NotificationDetail
 import com.alientodevida.alientoapp.notifications.presentation.list.NotificationItem
 import com.alientodevida.alientoapp.ui.extensions.*
@@ -106,28 +110,28 @@ private fun goToEbook(state: HomeUiState, context: Context) {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun HomeWithDialog(
-  uiState: HomeUiState,
-  isAdmin: Boolean,
-  refresh: () -> Unit,
-  onMessageDismiss: (Long) -> Unit,
-  goToEditHome: () -> Unit,
-  goToNotifications: () -> Unit,
-  goToSettings: () -> Unit,
-  goToSermons: () -> Unit,
-  goToSermon: (String) -> Unit,
-  goToChurch: () -> Unit,
-  goToCampus: () -> Unit,
-  goToGallery: () -> Unit,
-  goToPrayer: () -> Unit,
-  goToDonations: () -> Unit,
-  goToEbook: () -> Unit,
-  goToInstagram: () -> Unit,
-  goToYoutube: () -> Unit,
-  goToFacebook: () -> Unit,
-  goToTwitter: () -> Unit,
-  goToSpotify: () -> Unit,
-  goToAdminLogin: () -> Unit,
-  adminLogout: () -> Unit
+    uiState: HomeUiState,
+    isAdmin: Boolean,
+    refresh: () -> Unit,
+    onMessageDismiss: (Long) -> Unit,
+    goToEditHome: () -> Unit,
+    goToNotifications: () -> Unit,
+    goToSettings: () -> Unit,
+    goToSermons: () -> Unit,
+    goToSermon: (String) -> Unit,
+    goToChurch: () -> Unit,
+    goToCampus: () -> Unit,
+    goToGallery: () -> Unit,
+    goToPrayer: () -> Unit,
+    goToDonations: () -> Unit,
+    goToEbook: () -> Unit,
+    goToInstagram: () -> Unit,
+    goToYoutube: () -> Unit,
+    goToFacebook: () -> Unit,
+    goToTwitter: () -> Unit,
+    goToSpotify: () -> Unit,
+    goToAdminLogin: () -> Unit,
+    adminLogout: () -> Unit
 ) {
   val modalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
   val coroutineScope = rememberCoroutineScope()
