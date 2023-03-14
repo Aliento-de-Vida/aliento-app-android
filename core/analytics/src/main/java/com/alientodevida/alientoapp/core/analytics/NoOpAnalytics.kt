@@ -1,5 +1,5 @@
 package com.alientodevida.alientoapp.core.analytics
 
-class NoOpAnalytics: Analytics {
+class NoOpAnalytics : Analytics {
     override fun logEvent(event: AnalyticsEvent) = Unit
 }

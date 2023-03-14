@@ -20,20 +20,20 @@ import com.alientodevida.alientoapp.ui.extensions.load
 import com.stfalcon.imageviewer.StfalconImageViewer
 
 private fun openGallery(context: Context, images: List<String>) {
-  StfalconImageViewer.Builder(context, images) { view, imageUrl ->
-    view.load(imageUrl, false)
-  }
-    .show()
+    StfalconImageViewer.Builder(context, images) { view, imageUrl ->
+        view.load(imageUrl, false)
+    }
+        .show()
 }
 
 @Composable
 fun Gallery(gallery: Gallery) {
-  val context = LocalContext.current
-  
-  GalleryContent(
-    gallery = gallery,
-    goToImage = { openGallery(context, listOf(it)) },
-  )
+    val context = LocalContext.current
+
+    GalleryContent(
+        gallery = gallery,
+        goToImage = { openGallery(context, listOf(it)) },
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -42,30 +42,30 @@ fun GalleryContent(
     gallery: Gallery,
     goToImage: (String) -> Unit,
 ) {
-  Column(
-    Modifier
-      .fillMaxWidth()
-      .background(color = MaterialTheme.colors.background),
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .background(color = MaterialTheme.colors.background),
     ) {
-    Spacer(modifier = Modifier.height(16.dp))
-      com.alientodevida.alientoapp.designsystem.components.H5(
-          modifier = Modifier.align(Alignment.CenterHorizontally),
-          text = gallery.name,
-          color = MaterialTheme.colors.onBackground,
-      )
-    
-    Spacer(modifier = Modifier.height(16.dp))
-    
-    LazyVerticalGrid(columns = GridCells.Fixed(3)) {
-      items(gallery.images) { image ->
-        val imageUrl = image.name.toImageUrl()
-          com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(
-              modifier = Modifier
-                  .aspectRatio(0.66f)
-                  .clickable { goToImage(imageUrl) },
-              url = imageUrl,
-          )
-      }
+        Spacer(modifier = Modifier.height(16.dp))
+        com.alientodevida.alientoapp.designsystem.components.H5(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            text = gallery.name,
+            color = MaterialTheme.colors.onBackground,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LazyVerticalGrid(columns = GridCells.Fixed(3)) {
+            items(gallery.images) { image ->
+                val imageUrl = image.name.toImageUrl()
+                com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(
+                    modifier = Modifier
+                        .aspectRatio(0.66f)
+                        .clickable { goToImage(imageUrl) },
+                    url = imageUrl,
+                )
+            }
+        }
     }
-  }
 }

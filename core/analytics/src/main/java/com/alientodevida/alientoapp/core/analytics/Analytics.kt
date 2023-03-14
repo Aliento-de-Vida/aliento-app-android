@@ -21,5 +21,4 @@ data class AnalyticsEvent(
             const val SCREEN_NAME = "screen_name"
         }
     }
-
 }

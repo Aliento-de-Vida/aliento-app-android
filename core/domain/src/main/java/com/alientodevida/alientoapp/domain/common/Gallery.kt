@@ -12,14 +12,13 @@ data class Gallery(
     val coverPicture: String,
     val images: List<Image>,
 ) : Parcelable {
-  
-  companion object {
-    fun empty() = Gallery(
-      0,
-      "",
-      "",
-      emptyList(),
-    )
-  }
-  
+
+    companion object {
+        fun empty() = Gallery(
+            0,
+            "",
+            "",
+            emptyList(),
+        )
+    }
 }

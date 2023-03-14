@@ -17,26 +17,25 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object FileModule {
-  
-  @Singleton
-  @Provides
-  fun fileApi(
-    @Named("base-url")
-    baseUrl: String,
-    @Named("AdminAuthClient")
-    okHttpClient: OkHttpClient,
-    json: Json,
-  ): FileApi = Retrofit.Builder()
-    .client(okHttpClient)
-    .baseUrl(baseUrl)
-    .addConverterFactory(json.asConverterFactory(DataModule.contentType))
-    .build()
-    .create(FileApi::class.java)
-  
-  @Singleton
-  @Provides
-  fun fileRepository(
-      fileApi: FileApi,
-  ): FileRepository = FileRepositoryImpl(fileApi)
-  
+
+    @Singleton
+    @Provides
+    fun fileApi(
+        @Named("base-url")
+        baseUrl: String,
+        @Named("AdminAuthClient")
+        okHttpClient: OkHttpClient,
+        json: Json,
+    ): FileApi = Retrofit.Builder()
+        .client(okHttpClient)
+        .baseUrl(baseUrl)
+        .addConverterFactory(json.asConverterFactory(DataModule.contentType))
+        .build()
+        .create(FileApi::class.java)
+
+    @Singleton
+    @Provides
+    fun fileRepository(
+        fileApi: FileApi,
+    ): FileRepository = FileRepositoryImpl(fileApi)
 }

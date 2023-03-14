@@ -14,29 +14,30 @@ SwipeRefresh needs a scrollable content in order to be able to swipe to refresh
 */
 @Composable
 fun AlwaysRefreshableSwipeRefresh(
-  items: List<Any>,
-  isRefreshing: Boolean,
-  onRefresh: () -> Unit,
-  content: @Composable () -> Unit,
+    items: List<Any>,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
+    content: @Composable () -> Unit,
 ) {
-  SwipeRefresh(
-    state = rememberSwipeRefreshState(isRefreshing),
-    onRefresh = onRefresh,
-  ) {
-    if (items.isEmpty()) {
-      Box(modifier = Modifier
-        .fillMaxSize()
-        .verticalScroll(rememberScrollState()),
-      ) {
-        EmptyView()
-      }
-    } else {
-      content()
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing),
+        onRefresh = onRefresh,
+    ) {
+        if (items.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                EmptyView()
+            }
+        } else {
+            content()
+        }
     }
-  }
 }
 
 @Composable
 fun EmptyView() {
-  Box(Modifier.fillMaxSize())
+    Box(Modifier.fillMaxSize())
 }

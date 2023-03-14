@@ -46,5 +46,4 @@ class SettingsViewModel @Inject constructor(
         notificationsManager.subscribeToPushNotifications(subscribe = enabled)
         preferences.pushEnabled = enabled
     }
-
 }

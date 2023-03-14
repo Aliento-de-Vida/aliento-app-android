@@ -9,15 +9,15 @@ import com.alientodevida.alientoapp.sermons.domain.audio.Audio
 
 @Dao
 interface RoomDao {
-  @Query("select * from youtubevideo")
-  fun getVideos(): List<YoutubeVideo>
-  
-  @Insert(onConflict = OnConflictStrategy.REPLACE)
-  fun insertVideos(items: List<YoutubeVideo>)
-  
-  @Query("select * from audio")
-  fun getAudios(): List<Audio>
-  
-  @Insert(onConflict = OnConflictStrategy.REPLACE)
-  fun insertAudios(items: List<Audio>)
+    @Query("select * from youtubevideo")
+    fun getVideos(): List<YoutubeVideo>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertVideos(items: List<YoutubeVideo>)
+
+    @Query("select * from audio")
+    fun getAudios(): List<Audio>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAudios(items: List<Audio>)
 }

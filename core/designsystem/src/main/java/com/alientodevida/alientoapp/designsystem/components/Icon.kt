@@ -27,12 +27,12 @@ import androidx.compose.material.Icon as ComposeIcon
 
 @Composable
 fun Icon(
-  @DrawableRes
-  icon: Int,
-  @StringRes
-  contentDescription: Int,
-  tint: Color,
-  modifier: Modifier = Modifier,
+    @DrawableRes
+    icon: Int,
+    @StringRes
+    contentDescription: Int,
+    tint: Color,
+    modifier: Modifier = Modifier,
 ) = Icon(
     icon = icon,
     contentDescription = stringResource(contentDescription),
@@ -42,25 +42,25 @@ fun Icon(
 
 @Composable
 fun Icon(
-  @DrawableRes
-  icon: Int,
-  contentDescription: String,
-  tint: Color,
-  modifier: Modifier = Modifier,
+    @DrawableRes
+    icon: Int,
+    contentDescription: String,
+    tint: Color,
+    modifier: Modifier = Modifier,
 ) = ComposeIcon(
-  painter = painterResource(icon),
-  contentDescription = contentDescription,
-  tint = tint,
-  modifier = modifier.size(24.dp),
+    painter = painterResource(icon),
+    contentDescription = contentDescription,
+    tint = tint,
+    modifier = modifier.size(24.dp),
 )
 
 @Composable
 fun Icon(
-  icon: ImageVector,
-  @StringRes
-  contentDescription: Int,
-  tint: Color,
-  modifier: Modifier = Modifier,
+    icon: ImageVector,
+    @StringRes
+    contentDescription: Int,
+    tint: Color,
+    modifier: Modifier = Modifier,
 ) = Icon(
     icon = icon,
     contentDescription = stringResource(contentDescription),
@@ -70,26 +70,26 @@ fun Icon(
 
 @Composable
 fun Icon(
-  icon: ImageVector,
-  contentDescription: String,
-  tint: Color,
-  modifier: Modifier = Modifier,
+    icon: ImageVector,
+    contentDescription: String,
+    tint: Color,
+    modifier: Modifier = Modifier,
 ) = ComposeIcon(
-  imageVector = icon,
-  contentDescription = contentDescription,
-  tint = tint,
-  modifier = modifier.size(24.dp),
+    imageVector = icon,
+    contentDescription = contentDescription,
+    tint = tint,
+    modifier = modifier.size(24.dp),
 )
 
 @Composable
 fun ClickableIcon(
-  @DrawableRes
-  icon: Int,
-  @StringRes
-  contentDescription: Int,
-  tint: Color,
-  modifier: Modifier = Modifier,
-  onClick: () -> Unit,
+    @DrawableRes
+    icon: Int,
+    @StringRes
+    contentDescription: Int,
+    tint: Color,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
 ) = ClickableIcon(
     icon = icon,
     contentDescription = stringResource(contentDescription),
@@ -100,37 +100,37 @@ fun ClickableIcon(
 
 @Composable
 fun ClickableIcon(
-  @DrawableRes
-  icon: Int,
-  contentDescription: String,
-  tint: Color,
-  modifier: Modifier = Modifier,
-  onClick: () -> Unit,
+    @DrawableRes
+    icon: Int,
+    contentDescription: String,
+    tint: Color,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
 ) {
-  IconButton(
-    onClick = onClick,
-    modifier = modifier
-      .size(48.dp)
-      .padding(12.dp),
-  ) {
-    ComposeIcon(
-      painter = painterResource(icon),
-      contentDescription = contentDescription,
-      tint = tint,
-      modifier = Modifier.size(24.dp),
-    )
-  }
+    IconButton(
+        onClick = onClick,
+        modifier = modifier
+            .size(48.dp)
+            .padding(12.dp),
+    ) {
+        ComposeIcon(
+            painter = painterResource(icon),
+            contentDescription = contentDescription,
+            tint = tint,
+            modifier = Modifier.size(24.dp),
+        )
+    }
 }
 
 @Composable
 fun ClickableIcon(
-  icon: ImageVector,
-  @StringRes
-  contentDescription: Int,
-  tint: Color,
-  modifier: Modifier = Modifier,
-  enabled: Boolean = true,
-  onClick: () -> Unit,
+    icon: ImageVector,
+    @StringRes
+    contentDescription: Int,
+    tint: Color,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
 ) = ClickableIcon(
     icon = icon,
     contentDescription = stringResource(contentDescription),
@@ -142,81 +142,81 @@ fun ClickableIcon(
 
 @Composable
 fun ClickableIcon(
-  icon: ImageVector,
-  contentDescription: String,
-  tint: Color,
-  modifier: Modifier = Modifier,
-  enabled: Boolean = true,
-  onClick: () -> Unit,
+    icon: ImageVector,
+    contentDescription: String,
+    tint: Color,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
 ) {
-  IconButton(
-    onClick = onClick,
-    enabled = enabled,
-    modifier = modifier
-      .size(48.dp)
-      .padding(12.dp),
-  ) {
-    ComposeIcon(
-      imageVector = icon,
-      contentDescription = contentDescription,
-      tint = tint,
-      modifier = Modifier.size(24.dp),
-    )
-  }
+    IconButton(
+        onClick = onClick,
+        enabled = enabled,
+        modifier = modifier
+            .size(48.dp)
+            .padding(12.dp),
+    ) {
+        ComposeIcon(
+            imageVector = icon,
+            contentDescription = contentDescription,
+            tint = tint,
+            modifier = Modifier.size(24.dp),
+        )
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ClickableIcon(
-  @DrawableRes
-  icon: Int,
-  contentDescription: String,
-  tint: Color,
-  modifier: Modifier = Modifier,
-  enabled: Boolean = true,
-  onClick: () -> Unit,
-  onLongClick: () -> Unit,
+    @DrawableRes
+    icon: Int,
+    contentDescription: String,
+    tint: Color,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
 ) {
-  IconButton(
-    onClick = onClick,
-    onLongClick = onLongClick,
-    enabled = enabled,
-    modifier = modifier
-      .size(48.dp)
-      .padding(12.dp),
-  ) {
-    ComposeIcon(
-      painter = painterResource(icon),
-      contentDescription = contentDescription,
-      tint = tint,
-      modifier = modifier.size(24.dp)
-    )
-  }
+    IconButton(
+        onClick = onClick,
+        onLongClick = onLongClick,
+        enabled = enabled,
+        modifier = modifier
+            .size(48.dp)
+            .padding(12.dp),
+    ) {
+        ComposeIcon(
+            painter = painterResource(icon),
+            contentDescription = contentDescription,
+            tint = tint,
+            modifier = modifier.size(24.dp)
+        )
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun IconButton(
-  onClick: () -> Unit,
-  onLongClick: () -> Unit,
-  modifier: Modifier = Modifier,
-  enabled: Boolean = true,
-  interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-  content: @Composable () -> Unit
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    content: @Composable () -> Unit
 ) {
-  Box(
-    modifier = modifier
-      .combinedClickable(
-        onClick = onClick,
-        onLongClick = onLongClick,
-        enabled = enabled,
-        role = Role.Button,
-        interactionSource = interactionSource,
-        indication = rememberRipple(bounded = false, radius = 24.dp)
-      ),
-    contentAlignment = Alignment.Center
-  ) {
-    val contentAlpha = if (enabled) LocalContentAlpha.current else ContentAlpha.disabled
-    CompositionLocalProvider(LocalContentAlpha provides contentAlpha, content = content)
-  }
+    Box(
+        modifier = modifier
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick,
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = rememberRipple(bounded = false, radius = 24.dp)
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        val contentAlpha = if (enabled) LocalContentAlpha.current else ContentAlpha.disabled
+        CompositionLocalProvider(LocalContentAlpha provides contentAlpha, content = content)
+    }
 }

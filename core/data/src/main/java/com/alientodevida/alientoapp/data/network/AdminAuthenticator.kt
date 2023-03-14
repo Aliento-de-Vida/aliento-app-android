@@ -10,15 +10,15 @@ import javax.inject.Inject
 class AdminAuthenticator @Inject constructor(
     private val preferences: Preferences,
 ) : Authenticator {
-  
-  override fun authenticate(route: Route?, response: Response): Request? {
-    if (response.code == 401) {
-      preferences.adminToken = null
-      return null
-    } else {
-      return response.request.newBuilder().header(
-        "Authorization", "Bearer ${preferences.adminToken?.jwt}"
-      ).build()
+
+    override fun authenticate(route: Route?, response: Response): Request? {
+        if (response.code == 401) {
+            preferences.adminToken = null
+            return null
+        } else {
+            return response.request.newBuilder().header(
+                "Authorization", "Bearer ${preferences.adminToken?.jwt}"
+            ).build()
+        }
     }
-  }
 }

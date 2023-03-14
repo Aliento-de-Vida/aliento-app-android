@@ -20,32 +20,31 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object HomeModule {
-  
-  @OptIn(ExperimentalSerializationApi::class)
-  @Singleton
-  @Provides
-  fun homeApi(
-    @Named("base-url")
-    baseUrl: String,
-    @Named("Client")
-    okHttpClient: OkHttpClient,
-    json: Json,
-  ): HomeApi = Retrofit.Builder()
-    .client(okHttpClient)
-    .baseUrl(baseUrl)
-    .addConverterFactory(json.asConverterFactory(DataModule.contentType))
-    .build()
-    .create(HomeApi::class.java)
-  
-  @Singleton
-  @Provides
-  fun homeRepository(
-      homeApi: HomeApi,
-      filesRepository: FileRepository,
-  ): HomeRepository =
-    HomeRepositoryImpl(
-      homeApi,
-      filesRepository,
-    )
-  
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Singleton
+    @Provides
+    fun homeApi(
+        @Named("base-url")
+        baseUrl: String,
+        @Named("Client")
+        okHttpClient: OkHttpClient,
+        json: Json,
+    ): HomeApi = Retrofit.Builder()
+        .client(okHttpClient)
+        .baseUrl(baseUrl)
+        .addConverterFactory(json.asConverterFactory(DataModule.contentType))
+        .build()
+        .create(HomeApi::class.java)
+
+    @Singleton
+    @Provides
+    fun homeRepository(
+        homeApi: HomeApi,
+        filesRepository: FileRepository,
+    ): HomeRepository =
+        HomeRepositoryImpl(
+            homeApi,
+            filesRepository,
+        )
 }

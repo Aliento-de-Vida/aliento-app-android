@@ -17,28 +17,27 @@ data class Campus(
     val images: List<String>,
     val contact: String,
 ) : Parcelable {
-  
-  companion object {
-    fun empty() = Campus(
-      0,
-      "",
-      "",
-      "",
-      "",
-      "",
-      Location("", ""),
-      emptyList(),
-      "",
-    )
-  }
-  
+
+    companion object {
+        fun empty() = Campus(
+            0,
+            "",
+            "",
+            "",
+            "",
+            "",
+            Location("", ""),
+            emptyList(),
+            "",
+        )
+    }
 }
 
 @Parcelize
 @Serializable
 data class Location(
-  val latitude: String,
-  val longitude: String,
+    val latitude: String,
+    val longitude: String,
 ) : Parcelable {
-  val isValid: Boolean = latitude.isBlank().not() && longitude.isBlank().not()
+    val isValid: Boolean = latitude.isBlank().not() && longitude.isBlank().not()
 }

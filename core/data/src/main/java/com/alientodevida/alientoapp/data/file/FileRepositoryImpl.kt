@@ -10,17 +10,16 @@ import java.io.File
 class FileRepositoryImpl(
     private val fileApi: FileApi,
 ) : FileRepository {
-  
-  override suspend fun uploadImage(attachment: Attachment) {
-    val file = File(attachment.filePath)
-    val filePart = MultipartBody.Part.createFormData(
-      file.name,
-      attachment.name,
-      file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-    )
-    fileApi.uploadImage(filePart = filePart)
-  }
-  
-  override suspend fun getAllImages(): List<String> = fileApi.geAllImages()
-  
+
+    override suspend fun uploadImage(attachment: Attachment) {
+        val file = File(attachment.filePath)
+        val filePart = MultipartBody.Part.createFormData(
+            file.name,
+            attachment.name,
+            file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+        )
+        fileApi.uploadImage(filePart = filePart)
+    }
+
+    override suspend fun getAllImages(): List<String> = fileApi.geAllImages()
 }

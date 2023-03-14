@@ -32,129 +32,138 @@ data class NotificationUiState(
 )
 
 private fun NotificationRequest.toDomain(domainAttachment: DomainAttachment?) =
-  DomainNotificationRequest(
-    id = id,
-    title = title,
-    content = content,
-    imageName = imageName,
-    date = date,
-    attachment = domainAttachment,
-  )
+    DomainNotificationRequest(
+        id = id,
+        title = title,
+        content = content,
+        imageName = imageName,
+        date = date,
+        attachment = domainAttachment,
+    )
 
 fun Notification.toNotificationRequest() =
-  NotificationRequest(
-    id = id,
-    title = title,
-    content = content,
-    imageName = image?.name ?: "",
-    date = date,
-    attachment = null,
-  )
+    NotificationRequest(
+        id = id,
+        title = title,
+        content = content,
+        imageName = image?.name ?: "",
+        date = date,
+        attachment = null,
+    )
 
 @HiltViewModel
 class EditCreateNotificationViewModel @Inject constructor(
-  private val notificationRepository: NotificationRepository,
-  coroutineDispatchers: CoroutineDispatchers,
-  errorParser: ErrorParser,
-  logger: Logger,
-  preferences: Preferences,
-  savedStateHandle: SavedStateHandle,
-  val application: Application,
+    private val notificationRepository: NotificationRepository,
+    coroutineDispatchers: CoroutineDispatchers,
+    errorParser: ErrorParser,
+    logger: Logger,
+    preferences: Preferences,
+    savedStateHandle: SavedStateHandle,
+    val application: Application,
 ) : BaseViewModel(
-  coroutineDispatchers,
-  errorParser,
-  logger,
-  preferences,
-  savedStateHandle,
-  application,
+    coroutineDispatchers,
+    errorParser,
+    logger,
+    preferences,
+    savedStateHandle,
+    application,
 ) {
-  
-  private val _viewModelState = MutableStateFlow(
-    NotificationUiState(
-      notificationRequest = Notification.empty().toNotificationRequest(),
-      loading = false,
-      messages = emptyList(),
-    )
-  )
-  val viewModelState: StateFlow<NotificationUiState> = _viewModelState
-  
-  fun setNotification(notification: Notification) {
-    _viewModelState.update { it.copy(notificationRequest = notification.toNotificationRequest()) }
-  }
-  
-  fun onMessageDismiss(id: Long) {
-    val newMessages = viewModelState.value.messages.filter { it.id != id }
-    _viewModelState.update { it.copy(messages = newMessages) }
-  }
-  
-  fun onNotificationTitleChanged(newTitle: String) {
-    _viewModelState.update { it.copy(
-      notificationRequest = it.notificationRequest.copy(title = newTitle)
-    ) }
-  }
-  
-  fun onNotificationDescriptionChanged(newDescription: String) {
-    _viewModelState.update { it.copy(
-      notificationRequest = it.notificationRequest.copy(content = newDescription)
-    ) }
-  }
-  
-  fun addAttachment(newAttachment: com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) {
-    _viewModelState.update { it.copy(
-      notificationRequest = it.notificationRequest.copy(
-        attachment = newAttachment,
-        imageName = newAttachment.displayName,
-      )
-    ) }
-  }
 
-  @Suppress("UNUSED_PARAMETER")
-  fun removeAttachment(newAttachment: com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) {
-    _viewModelState.update { it.copy(
-      notificationRequest = it.notificationRequest.copy(
-        attachment = null,
-        imageName = "",
-      )
-    ) }
-  }
-  
-  fun saveNotification(notification: NotificationRequest) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
-    
-    val attachment = notification.attachment
-    val domainAttachment = attachment?.getDomainAttachment(application, attachment.displayName.removeExtension())
-    
-    viewModelScope.launch {
-      try {
-        _viewModelState.update { it.copy(loading = true) }
-        val value = if (notification.isNew)
-          notificationRepository.createNotification(notification.toDomain(domainAttachment))
-        else
-          notificationRepository.editNotification(notification.toDomain(domainAttachment))
-        
-        val successMessage = Message.Localized.Informational(
-          id = UUID.randomUUID().mostSignificantBits,
-          title = "Éxito!",
-          message = "Notificación guardada con éxito!",
-          action = "Ok",
+    private val _viewModelState = MutableStateFlow(
+        NotificationUiState(
+            notificationRequest = Notification.empty().toNotificationRequest(),
+            loading = false,
+            messages = emptyList(),
         )
-        val messages = viewModelState.value.messages.toMutableList()
-        messages.add(successMessage)
-        _viewModelState.update { it.copy(
-          notificationRequest = value.toNotificationRequest(),
-          messages = messages
-        ) }
-        
-      } catch (ex: CancellationException) {
-        return@launch
-      } catch (ex: Exception) {
-        logger.d("EditCreateNotificationViewModel.saveNotification", tr = ex)
-        val messages = viewModelState.value.messages.toMutableList()
-        messages.add(errorParser(ex))
-        _viewModelState.update { it.copy(messages = messages) }
-      }
-      _viewModelState.update { it.copy(loading = false) }
+    )
+    val viewModelState: StateFlow<NotificationUiState> = _viewModelState
+
+    fun setNotification(notification: Notification) {
+        _viewModelState.update { it.copy(notificationRequest = notification.toNotificationRequest()) }
     }
-  }
-  
+
+    fun onMessageDismiss(id: Long) {
+        val newMessages = viewModelState.value.messages.filter { it.id != id }
+        _viewModelState.update { it.copy(messages = newMessages) }
+    }
+
+    fun onNotificationTitleChanged(newTitle: String) {
+        _viewModelState.update {
+            it.copy(
+                notificationRequest = it.notificationRequest.copy(title = newTitle)
+            )
+        }
+    }
+
+    fun onNotificationDescriptionChanged(newDescription: String) {
+        _viewModelState.update {
+            it.copy(
+                notificationRequest = it.notificationRequest.copy(content = newDescription)
+            )
+        }
+    }
+
+    fun addAttachment(newAttachment: com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) {
+        _viewModelState.update {
+            it.copy(
+                notificationRequest = it.notificationRequest.copy(
+                    attachment = newAttachment,
+                    imageName = newAttachment.displayName,
+                )
+            )
+        }
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    fun removeAttachment(newAttachment: com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) {
+        _viewModelState.update {
+            it.copy(
+                notificationRequest = it.notificationRequest.copy(
+                    attachment = null,
+                    imageName = "",
+                )
+            )
+        }
+    }
+
+    fun saveNotification(notification: NotificationRequest) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+
+        val attachment = notification.attachment
+        val domainAttachment =
+            attachment?.getDomainAttachment(application, attachment.displayName.removeExtension())
+
+        viewModelScope.launch {
+            try {
+                _viewModelState.update { it.copy(loading = true) }
+                val value = if (notification.isNew)
+                    notificationRepository.createNotification(notification.toDomain(domainAttachment))
+                else
+                    notificationRepository.editNotification(notification.toDomain(domainAttachment))
+
+                val successMessage = Message.Localized.Informational(
+                    id = UUID.randomUUID().mostSignificantBits,
+                    title = "Éxito!",
+                    message = "Notificación guardada con éxito!",
+                    action = "Ok",
+                )
+                val messages = viewModelState.value.messages.toMutableList()
+                messages.add(successMessage)
+                _viewModelState.update {
+                    it.copy(
+                        notificationRequest = value.toNotificationRequest(),
+                        messages = messages
+                    )
+                }
+            } catch (ex: CancellationException) {
+                return@launch
+            } catch (ex: Exception) {
+                logger.d("EditCreateNotificationViewModel.saveNotification", tr = ex)
+                val messages = viewModelState.value.messages.toMutableList()
+                messages.add(errorParser(ex))
+                _viewModelState.update { it.copy(messages = messages) }
+            }
+            _viewModelState.update { it.copy(loading = false) }
+        }
+    }
 }

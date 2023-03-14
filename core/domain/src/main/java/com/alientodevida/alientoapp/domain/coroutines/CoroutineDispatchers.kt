@@ -7,17 +7,17 @@ import javax.inject.Singleton
 
 @Singleton
 class CoroutineDispatchers @Inject constructor(
-  @DefaultDispatcher
-  val default: CoroutineDispatcher,
-  
-  @IoDispatcher
-  val io: CoroutineDispatcher,
-  
-  @MainDispatcher
-  val main: CoroutineDispatcher,
-  
-  @ImmediateDispatcher
-  val immediate: CoroutineDispatcher,
+    @DefaultDispatcher
+    val default: CoroutineDispatcher,
+
+    @IoDispatcher
+    val io: CoroutineDispatcher,
+
+    @MainDispatcher
+    val main: CoroutineDispatcher,
+
+    @ImmediateDispatcher
+    val immediate: CoroutineDispatcher,
 )
 
 @Qualifier

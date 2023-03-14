@@ -14,5 +14,4 @@ internal class AppModule {
     @Provides
     @Singleton
     fun logger(): Logger = Logger()
-
 }

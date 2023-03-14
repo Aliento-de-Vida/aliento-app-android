@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 @Parcelize
 @Serializable
 data class Image(
-  val name: String,
+    val name: String,
 ) : Parcelable

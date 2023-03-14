@@ -8,12 +8,12 @@ import com.alientodevida.alientoapp.ui.navigation.GenericNavigationActions
 import com.alientodevida.alientoapp.ui.navigation.MainDestination
 
 fun NavGraphBuilder.donations(
-  genericActions: GenericNavigationActions,
+    genericActions: GenericNavigationActions,
 ) {
-  composable(MainDestination.Donations.path) {
-    Donations(
-      viewModel = hiltViewModel(),
-      onBackPressed = genericActions::back,
-    )
-  }
+    composable(MainDestination.Donations.path) {
+        Donations(
+            viewModel = hiltViewModel(),
+            onBackPressed = genericActions::back,
+        )
+    }
 }

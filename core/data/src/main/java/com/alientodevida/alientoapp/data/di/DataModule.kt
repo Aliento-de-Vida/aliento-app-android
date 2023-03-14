@@ -24,63 +24,67 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
-  val contentType = "application/json".toMediaType()
+    val contentType = "application/json".toMediaType()
 
-  @Provides
-  @Singleton
-  fun json(): Json = Json { ignoreUnknownKeys = true }
+    @Provides
+    @Singleton
+    fun json(): Json = Json { ignoreUnknownKeys = true }
 
-  @Provides
-  @Singleton
-  @Named("Client")
-  fun okHttpClient(): OkHttpClient =
-    OkHttpClient.Builder()
-      .connectTimeout(15, TimeUnit.SECONDS)
-      .writeTimeout(15, TimeUnit.SECONDS)
-      .readTimeout(15, TimeUnit.SECONDS)
-      .retryOnConnectionFailure(false)
-      .apply {
-        if (BuildConfig.DEBUG) addInterceptor(
-          HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
+    @Provides
+    @Singleton
+    @Named("Client")
+    fun okHttpClient(): OkHttpClient =
+        OkHttpClient.Builder()
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(false)
+            .apply {
+                if (BuildConfig.DEBUG) addInterceptor(
+                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
+                )
+            }.build()
+
+    @Provides
+    @Singleton
+    @Named("AdminAuthClient")
+    fun okHttpAdminClient(
+        authInterceptor: AdminAuthenticatorInterceptor,
+        authenticator: AdminAuthenticator,
+    ): OkHttpClient =
+        OkHttpClient.Builder()
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(false)
+            .apply {
+                addInterceptor(authInterceptor)
+                authenticator(authenticator)
+                if (BuildConfig.DEBUG) addInterceptor(
+                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
+                )
+            }.build()
+
+    @Provides
+    @Singleton
+    fun preferences(
+        @ApplicationContext
+        context: Context,
+    ): Preferences {
+        val preferences: SharedPreferences = context.sharedPreferences()
+        val preferencesStore: DataStore<androidx.datastore.preferences.core.Preferences> =
+            context.preferencesStore
+
+        return com.alientodevida.alientoapp.data.preferences.PreferencesImpl(
+            preferences = preferences,
+            preferencesStore = preferencesStore,
         )
-      }.build()
-
-  @Provides
-  @Singleton
-  @Named("AdminAuthClient")
-  fun okHttpAdminClient(
-    authInterceptor: AdminAuthenticatorInterceptor,
-    authenticator: AdminAuthenticator,
-  ): OkHttpClient =
-    OkHttpClient.Builder()
-      .connectTimeout(15, TimeUnit.SECONDS)
-      .writeTimeout(15, TimeUnit.SECONDS)
-      .readTimeout(15, TimeUnit.SECONDS)
-      .retryOnConnectionFailure(false)
-      .apply {
-        addInterceptor(authInterceptor)
-        authenticator(authenticator)
-        if (BuildConfig.DEBUG) addInterceptor(
-          HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
-        )
-      }.build()
-
-  @Provides
-  @Singleton
-  fun preferences(
-      @ApplicationContext
-    context: Context,
-  ): Preferences {
-    val preferences: SharedPreferences = context.sharedPreferences()
-    val preferencesStore: DataStore<androidx.datastore.preferences.core.Preferences> = context.preferencesStore
-
-    return com.alientodevida.alientoapp.data.preferences.PreferencesImpl(
-        preferences = preferences,
-        preferencesStore = preferencesStore,
-    )
-  }
-
+    }
 }
 
-private fun Context.sharedPreferences(): SharedPreferences = getSharedPreferences("mobile-preferences", Context.MODE_PRIVATE)
-private val Context.preferencesStore: DataStore<androidx.datastore.preferences.core.Preferences> by preferencesDataStore(name = "preferences")
+private fun Context.sharedPreferences(): SharedPreferences =
+    getSharedPreferences("mobile-preferences", Context.MODE_PRIVATE)
+
+private val Context.preferencesStore: DataStore<androidx.datastore.preferences.core.Preferences> by preferencesDataStore(
+    name = "preferences"
+)

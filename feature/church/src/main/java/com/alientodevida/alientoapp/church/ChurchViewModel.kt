@@ -23,18 +23,17 @@ class ChurchViewModel @Inject constructor(
     application: Application,
     analytics: Analytics,
 ) : BaseViewModel(
-  coroutineDispatchers,
-  errorParser,
-  logger,
-  preferences,
-  savedStateHandle,
-  application,
+    coroutineDispatchers,
+    errorParser,
+    logger,
+    preferences,
+    savedStateHandle,
+    application,
 ) {
 
-  init {
-      analytics.logScreenView("church_screen")
-  }
+    init {
+        analytics.logScreenView("church_screen")
+    }
 
-  val latestVideo = savedStateHandle.get<YoutubeVideo>("latest_video")
-
+    val latestVideo = savedStateHandle.get<YoutubeVideo>("latest_video")
 }

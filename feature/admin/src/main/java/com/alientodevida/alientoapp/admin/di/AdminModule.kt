@@ -18,27 +18,26 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AdminModule {
-  
-  @OptIn(ExperimentalSerializationApi::class)
-  @Singleton
-  @Provides
-  fun adminApi(
-    @Named("base-url")
-    baseUrl: String,
-    @Named("Client")
-    okHttpClient: OkHttpClient,
-    json: Json,
-  ): AdminApi = Retrofit.Builder()
-    .client(okHttpClient)
-    .baseUrl(baseUrl)
-    .addConverterFactory(json.asConverterFactory(DataModule.contentType))
-    .build()
-    .create(AdminApi::class.java)
-  
-  @Singleton
-  @Provides
-  fun campusRepository(
-    adminApi: AdminApi,
-  ): com.alientodevida.alientoapp.admin.domain.AdminRepository = AdminRepositoryImpl(adminApi)
-  
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Singleton
+    @Provides
+    fun adminApi(
+        @Named("base-url")
+        baseUrl: String,
+        @Named("Client")
+        okHttpClient: OkHttpClient,
+        json: Json,
+    ): AdminApi = Retrofit.Builder()
+        .client(okHttpClient)
+        .baseUrl(baseUrl)
+        .addConverterFactory(json.asConverterFactory(DataModule.contentType))
+        .build()
+        .create(AdminApi::class.java)
+
+    @Singleton
+    @Provides
+    fun campusRepository(
+        adminApi: AdminApi,
+    ): com.alientodevida.alientoapp.admin.domain.AdminRepository = AdminRepositoryImpl(adminApi)
 }

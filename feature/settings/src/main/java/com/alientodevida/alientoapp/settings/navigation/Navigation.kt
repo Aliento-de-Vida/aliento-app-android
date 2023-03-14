@@ -8,12 +8,12 @@ import com.alientodevida.alientoapp.ui.navigation.GenericNavigationActions
 import com.alientodevida.alientoapp.ui.navigation.MainDestination
 
 fun NavGraphBuilder.settings(
-  genericActions: GenericNavigationActions,
+    genericActions: GenericNavigationActions,
 ) {
-  composable(MainDestination.Settings.path) {
-    Settings(
-      viewModel = hiltViewModel(),
-      onBackPressed = genericActions::back,
-    )
-  }
+    composable(MainDestination.Settings.path) {
+        Settings(
+            viewModel = hiltViewModel(),
+            onBackPressed = genericActions::back,
+        )
+    }
 }

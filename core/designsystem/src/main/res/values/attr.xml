@@ -1,5 +1,5 @@
 <resources>
-  <declare-styleable name="MyLayout">
-    <attr name="themed_icon" format="integer" />
-  </declare-styleable>
+    <declare-styleable name="MyLayout">
+        <attr name="themed_icon" format="integer" />
+    </declare-styleable>
 </resources>

@@ -10,16 +10,16 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun Gradient(
-  modifier: Modifier = Modifier,
-  startColor: Color = Color(0x00FFFFFF),
-  endColor: Color = Color(0xA6000000),
-  content: @Composable BoxScope.() -> Unit,
+    modifier: Modifier = Modifier,
+    startColor: Color = Color(0x00FFFFFF),
+    endColor: Color = Color(0xA6000000),
+    content: @Composable BoxScope.() -> Unit,
 ) {
-  Box(
-    modifier
-      .background(
-        brush = Brush.verticalGradient(colors = listOf(startColor, endColor))
-      ),
-    content = content,
-  )
+    Box(
+        modifier
+            .background(
+                brush = Brush.verticalGradient(colors = listOf(startColor, endColor))
+            ),
+        content = content,
+    )
 }

@@ -80,5 +80,4 @@ object SpotifyModule {
         roomDao: RoomDao
     ): SpotifyRepository =
         SpotifyRepositoryImpl(spotifyApi, roomDao)
-
 }

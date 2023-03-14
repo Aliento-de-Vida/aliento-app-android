@@ -13,21 +13,21 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Outlined(
-  modifier: Modifier = Modifier,
-  backgroundColor: Color = MaterialTheme.colors.surface,
-  borderWidth: Dp = 1.dp,
-  borderColor: Color = MaterialTheme.colors.primary,
-  shape: Shape = MaterialTheme.shapes.small,
-  content: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = MaterialTheme.colors.surface,
+    borderWidth: Dp = 1.dp,
+    borderColor: Color = MaterialTheme.colors.primary,
+    shape: Shape = MaterialTheme.shapes.small,
+    content: @Composable () -> Unit,
 ) {
-  Surface(
-    modifier = modifier,
-    color = backgroundColor,
-    border = BorderStroke(
-      width = borderWidth,
-      brush = SolidColor(borderColor)
-    ),
-    shape = shape,
-    content = content,
-  )
+    Surface(
+        modifier = modifier,
+        color = backgroundColor,
+        border = BorderStroke(
+            width = borderWidth,
+            brush = SolidColor(borderColor)
+        ),
+        shape = shape,
+        content = content,
+    )
 }

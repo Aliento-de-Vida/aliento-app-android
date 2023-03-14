@@ -1,9 +1,5 @@
-import com.android.build.api.dsl.CommonExtension
-import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
-import com.android.build.gradle.LibraryExtension
 import deps.Java
-import deps.Java.jvmTarget
 import deps.androidx.AndroidX
 import deps.androidx.Compose
 import deps.github.Stfalcon
@@ -12,22 +8,18 @@ import deps.jakewharton.RetrofitCoroutinesAdapter
 import deps.jakewharton.RetrofitSerializationConverter
 import deps.jetbrains.Kotlin
 import deps.square.Retrofit
-import org.gradle.api.Action
-import org.gradle.api.JavaVersion
+import extensions.buildTypes
+import extensions.compileOptions
+import extensions.defaultConfig
+import extensions.java
+import extensions.kotlin
+import extensions.packagingOptions
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.fileTree
-import org.gradle.kotlin.dsl.kotlin
 import org.gradle.kotlin.dsl.project
-import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
-import extensions.java
-import extensions.kotlin
-import extensions.defaultConfig
-import extensions.buildTypes
-import extensions.compileOptions
-import extensions.packagingOptions
 
 class FeaturePlugin : Plugin<Project> {
 

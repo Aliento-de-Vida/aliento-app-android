@@ -48,7 +48,8 @@ enum class MainDestination(override val path: String) : MobileDestination {
         }
 
         fun notificationAdmin(notification: Notification?): String {
-            val galleryString = Uri.encode(Json.encodeToString(notification ?: Notification.empty()))
+            val galleryString =
+                Uri.encode(Json.encodeToString(notification ?: Notification.empty()))
             return "main/admin/notification/$galleryString"
         }
     }

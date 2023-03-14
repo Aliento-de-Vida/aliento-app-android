@@ -12,50 +12,49 @@ import javax.inject.Singleton
 
 @Singleton
 class VideoRepositoryImpl @Inject constructor(
-  private val youtubeApi: YoutubeApi,
-  private val roomDao: RoomDao,
-  @Named("youtube-key")
-  private val youtubeKey: String,
+    private val youtubeApi: YoutubeApi,
+    private val roomDao: RoomDao,
+    @Named("youtube-key")
+    private val youtubeKey: String,
 ) : VideoRepository {
 
-  override suspend fun getYoutubeChannelVideos(
-    channelId: String,
-    maxResults: Int,
-  ): List<YoutubeVideo> {
-    val response = youtubeApi.getYoutubeChannelVideos(
-      "https://www.googleapis.com/youtube/v3/search?" +
-          "key=$youtubeKey" +
-          "&channelId=${channelId}" +
-          "&part=snippet" +
-          "&order=date" +
-          "&maxResults=$maxResults"
-    )
-    
-    val items = response.asDomain()
-    withContext(Dispatchers.IO) { roomDao.insertVideos(items) }
-    return items
-  }
-  
-  override suspend fun getYoutubePlaylist(
-    playListId: String,
-    maxResults: Int,
-  ): List<YoutubeVideo> {
-    
-    val response = youtubeApi.getYoutubePlaylist(
-      "https://www.googleapis.com/youtube/v3/playlistItems?" +
-          "key=$youtubeKey" +
-          "&playlistId=${playListId}" +
-          "&part=snippet" +
-          "&order=date" +
-          "&maxResults=$maxResults"
-    )
-    
-    val items = response.asDomain()
-    withContext(Dispatchers.IO) { roomDao.insertVideos(items) }
-    return items
-  }
-  
-  override suspend fun getCachedVideos(): List<YoutubeVideo> =
-    withContext(Dispatchers.IO) { roomDao.getVideos() }
-  
+    override suspend fun getYoutubeChannelVideos(
+        channelId: String,
+        maxResults: Int,
+    ): List<YoutubeVideo> {
+        val response = youtubeApi.getYoutubeChannelVideos(
+            "https://www.googleapis.com/youtube/v3/search?" +
+                "key=$youtubeKey" +
+                "&channelId=${channelId}" +
+                "&part=snippet" +
+                "&order=date" +
+                "&maxResults=$maxResults"
+        )
+
+        val items = response.asDomain()
+        withContext(Dispatchers.IO) { roomDao.insertVideos(items) }
+        return items
+    }
+
+    override suspend fun getYoutubePlaylist(
+        playListId: String,
+        maxResults: Int,
+    ): List<YoutubeVideo> {
+
+        val response = youtubeApi.getYoutubePlaylist(
+            "https://www.googleapis.com/youtube/v3/playlistItems?" +
+                "key=$youtubeKey" +
+                "&playlistId=${playListId}" +
+                "&part=snippet" +
+                "&order=date" +
+                "&maxResults=$maxResults"
+        )
+
+        val items = response.asDomain()
+        withContext(Dispatchers.IO) { roomDao.insertVideos(items) }
+        return items
+    }
+
+    override suspend fun getCachedVideos(): List<YoutubeVideo> =
+        withContext(Dispatchers.IO) { roomDao.getVideos() }
 }

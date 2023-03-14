@@ -5,8 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.core.analytics.Analytics
-import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
+import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.alientodevida.alientoapp.sermons.domain.audio.Audio
 import com.alientodevida.alientoapp.sermons.domain.audio.SpotifyRepository
@@ -40,63 +40,63 @@ class AudioViewModel @Inject constructor(
     application: Application,
     analytics: Analytics,
 ) : BaseViewModel(
-  coroutineDispatchers,
-  errorParser,
-  logger,
-  preferences,
-  savedStateHandle,
-  application,
+    coroutineDispatchers,
+    errorParser,
+    logger,
+    preferences,
+    savedStateHandle,
+    application,
 ) {
 
-  init {
-      analytics.logScreenView("audio_sermons_screen")
-  }
+    init {
+        analytics.logScreenView("audio_sermons_screen")
+    }
 
-  private val _viewModelState = MutableStateFlow(AudioSermonsUiState(home = preferences.home))
-  val viewModelState: StateFlow<AudioSermonsUiState> = _viewModelState
-  
-  fun onMessageDismiss(id: Long) {
-    val newMessages = viewModelState.value.messages.filter { it.id != id }
-    _viewModelState.update { it.copy(messages = newMessages) }
-  }
-  
-  fun getCachedPodcasts() {
-    viewModelScope.launch {
-      _viewModelState.update { it.copy(loading = true) }
-      try {
-        val audios = spotifyRepository.getCachedPodcasts()
-        _viewModelState.update { it.copy(audios = audios) }
-      } catch (ex: CancellationException) {
-        return@launch
-      } catch (ex: Exception) {
-        logger.e("AudioViewModel.getCachedPodcasts()", tr = ex)
-        val messages = viewModelState.value.messages.toMutableList()
-        messages.add(errorParser(ex))
-        _viewModelState.update { it.copy(messages = messages) }
-      }
-      _viewModelState.update { it.copy(loading = false) }
-  
-      if (viewModelState.value.audios.isEmpty()) refreshContent()
+    private val _viewModelState = MutableStateFlow(AudioSermonsUiState(home = preferences.home))
+    val viewModelState: StateFlow<AudioSermonsUiState> = _viewModelState
+
+    fun onMessageDismiss(id: Long) {
+        val newMessages = viewModelState.value.messages.filter { it.id != id }
+        _viewModelState.update { it.copy(messages = newMessages) }
     }
-  }
-  
-  fun refreshContent() {
-    preferences.home?.socialMedia?.spotifyArtistId?.let {
-      viewModelScope.launch {
-        _viewModelState.update { it.copy(loading = true) }
-        try {
-          val audios = spotifyRepository.refreshAudios(it)
-          _viewModelState.update { it.copy(audios = audios) }
-        } catch (ex: CancellationException) {
-          return@launch
-        } catch (ex: Exception) {
-          logger.e("AudioViewModel.refreshContent()", tr = ex)
-          val messages = viewModelState.value.messages.toMutableList()
-          messages.add(errorParser(ex))
-          _viewModelState.update { it.copy(messages = messages) }
+
+    fun getCachedPodcasts() {
+        viewModelScope.launch {
+            _viewModelState.update { it.copy(loading = true) }
+            try {
+                val audios = spotifyRepository.getCachedPodcasts()
+                _viewModelState.update { it.copy(audios = audios) }
+            } catch (ex: CancellationException) {
+                return@launch
+            } catch (ex: Exception) {
+                logger.e("AudioViewModel.getCachedPodcasts()", tr = ex)
+                val messages = viewModelState.value.messages.toMutableList()
+                messages.add(errorParser(ex))
+                _viewModelState.update { it.copy(messages = messages) }
+            }
+            _viewModelState.update { it.copy(loading = false) }
+
+            if (viewModelState.value.audios.isEmpty()) refreshContent()
         }
-        _viewModelState.update { it.copy(loading = false) }
-      }
     }
-  }
+
+    fun refreshContent() {
+        preferences.home?.socialMedia?.spotifyArtistId?.let {
+            viewModelScope.launch {
+                _viewModelState.update { it.copy(loading = true) }
+                try {
+                    val audios = spotifyRepository.refreshAudios(it)
+                    _viewModelState.update { it.copy(audios = audios) }
+                } catch (ex: CancellationException) {
+                    return@launch
+                } catch (ex: Exception) {
+                    logger.e("AudioViewModel.refreshContent()", tr = ex)
+                    val messages = viewModelState.value.messages.toMutableList()
+                    messages.add(errorParser(ex))
+                    _viewModelState.update { it.copy(messages = messages) }
+                }
+                _viewModelState.update { it.copy(loading = false) }
+            }
+        }
+    }
 }

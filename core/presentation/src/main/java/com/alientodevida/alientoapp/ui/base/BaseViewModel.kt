@@ -10,8 +10,12 @@ import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.alientodevida.alientoapp.ui.errorparser.ErrorParser
 import com.alientodevida.alientoapp.ui.state.ViewModelResult
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel(
     protected val coroutineDispatchers: CoroutineDispatchers,
@@ -21,154 +25,154 @@ abstract class BaseViewModel(
     protected val savedStateHandle: SavedStateHandle,
     application: Application,
 ) : ViewModel() {
-  
-  protected fun <T> stateFlowResult(
-      stateFlow: MutableStateFlow<ViewModelResult<T>>,
-      scope: CoroutineScope = viewModelScope,
-      dispatcher: CoroutineDispatcher = coroutineDispatchers.main,
-      onSuccess: (suspend (T) -> Unit)? = null,
-      onError: (suspend (Exception) -> Unit)? = null,
-      onDone: (suspend () -> Unit)? = null,
-      block: suspend CoroutineScope.() -> T,
-  ): Job {
-    stateFlow.value = ViewModelResult.Loading
-    return scope.launch(dispatcher) {
-      val result = try {
-        val value = block()
-        ViewModelResult.Success(value).apply {
-          onSuccess?.safeInvoke(value, logger)
+
+    protected fun <T> stateFlowResult(
+        stateFlow: MutableStateFlow<ViewModelResult<T>>,
+        scope: CoroutineScope = viewModelScope,
+        dispatcher: CoroutineDispatcher = coroutineDispatchers.main,
+        onSuccess: (suspend (T) -> Unit)? = null,
+        onError: (suspend (Exception) -> Unit)? = null,
+        onDone: (suspend () -> Unit)? = null,
+        block: suspend CoroutineScope.() -> T,
+    ): Job {
+        stateFlow.value = ViewModelResult.Loading
+        return scope.launch(dispatcher) {
+            val result = try {
+                val value = block()
+                ViewModelResult.Success(value).apply {
+                    onSuccess?.safeInvoke(value, logger)
+                }
+            } catch (ex: CancellationException) {
+                return@launch
+            } catch (ex: Exception) {
+                logger.d("ViewModel.stateFlowResult", tr = ex)
+                val message = errorParser(ex)
+                ViewModelResult.Error(message).apply {
+                    onError?.safeInvoke(ex, logger)
+                }
+            }
+            stateFlow.value = result
+            onDone?.safeInvoke(logger)
         }
-      } catch (ex: CancellationException) {
-        return@launch
-      } catch (ex: Exception) {
-        logger.d("ViewModel.stateFlowResult", tr = ex)
-        val message = errorParser(ex)
-        ViewModelResult.Error(message).apply {
-          onError?.safeInvoke(ex, logger)
-        }
-      }
-      stateFlow.value = result
-      onDone?.safeInvoke(logger)
     }
-  }
-  
-  protected fun <T> stateFlowNullableResult(
-      stateFlow: MutableStateFlow<ViewModelResult<T>?>,
-      scope: CoroutineScope = viewModelScope,
-      dispatcher: CoroutineDispatcher = coroutineDispatchers.main,
-      onSuccess: (suspend (T) -> Unit)? = null,
-      onError: (suspend (Exception) -> Unit)? = null,
-      onDone: (suspend () -> Unit)? = null,
-      block: suspend CoroutineScope.() -> T,
-  ): Job {
-    stateFlow.value = ViewModelResult.Loading
-    return scope.launch(dispatcher) {
-      val result = try {
-        val value = block()
-        ViewModelResult.Success(value).apply {
-          onSuccess?.safeInvoke(value, logger)
+
+    protected fun <T> stateFlowNullableResult(
+        stateFlow: MutableStateFlow<ViewModelResult<T>?>,
+        scope: CoroutineScope = viewModelScope,
+        dispatcher: CoroutineDispatcher = coroutineDispatchers.main,
+        onSuccess: (suspend (T) -> Unit)? = null,
+        onError: (suspend (Exception) -> Unit)? = null,
+        onDone: (suspend () -> Unit)? = null,
+        block: suspend CoroutineScope.() -> T,
+    ): Job {
+        stateFlow.value = ViewModelResult.Loading
+        return scope.launch(dispatcher) {
+            val result = try {
+                val value = block()
+                ViewModelResult.Success(value).apply {
+                    onSuccess?.safeInvoke(value, logger)
+                }
+            } catch (ex: CancellationException) {
+                return@launch
+            } catch (ex: Exception) {
+                logger.d("ViewModel.stateFlowNullableResult", tr = ex)
+                val message = errorParser(ex)
+                ViewModelResult.Error(message).apply {
+                    onError?.safeInvoke(ex, logger)
+                }
+            }
+            stateFlow.value = result
+            onDone?.safeInvoke(logger)
         }
-      } catch (ex: CancellationException) {
-        return@launch
-      } catch (ex: Exception) {
-        logger.d("ViewModel.stateFlowNullableResult", tr = ex)
-        val message = errorParser(ex)
-        ViewModelResult.Error(message).apply {
-          onError?.safeInvoke(ex, logger)
-        }
-      }
-      stateFlow.value = result
-      onDone?.safeInvoke(logger)
     }
-  }
-  
-  protected fun <T> liveDataResult(
-      liveData: MutableLiveData<ViewModelResult<T>>,
-      scope: CoroutineScope = viewModelScope,
-      dispatcher: CoroutineDispatcher = coroutineDispatchers.main,
-      onSuccess: (suspend (T) -> Unit)? = null,
-      onError: (suspend (Exception) -> Unit)? = null,
-      onDone: (suspend () -> Unit)? = null,
-      block: suspend CoroutineScope.() -> T,
-  ): Job {
-    liveData.value = ViewModelResult.Loading
-    return scope.launch(dispatcher) {
-      val result = try {
-        val value = block()
-        ViewModelResult.Success(value).apply {
-          onSuccess?.safeInvoke(value, logger)
+
+    protected fun <T> liveDataResult(
+        liveData: MutableLiveData<ViewModelResult<T>>,
+        scope: CoroutineScope = viewModelScope,
+        dispatcher: CoroutineDispatcher = coroutineDispatchers.main,
+        onSuccess: (suspend (T) -> Unit)? = null,
+        onError: (suspend (Exception) -> Unit)? = null,
+        onDone: (suspend () -> Unit)? = null,
+        block: suspend CoroutineScope.() -> T,
+    ): Job {
+        liveData.value = ViewModelResult.Loading
+        return scope.launch(dispatcher) {
+            val result = try {
+                val value = block()
+                ViewModelResult.Success(value).apply {
+                    onSuccess?.safeInvoke(value, logger)
+                }
+            } catch (ex: CancellationException) {
+                return@launch
+            } catch (ex: Exception) {
+                logger.d("ViewModel.liveDataResult", tr = ex)
+                val message = errorParser(ex)
+                ViewModelResult.Error(message).apply {
+                    onError?.safeInvoke(ex, logger)
+                }
+            }
+            liveData.postValue(result)
+            onDone?.safeInvoke(logger)
         }
-      } catch (ex: CancellationException) {
-        return@launch
-      } catch (ex: Exception) {
-        logger.d("ViewModel.liveDataResult", tr = ex)
-        val message = errorParser(ex)
-        ViewModelResult.Error(message).apply {
-          onError?.safeInvoke(ex, logger)
-        }
-      }
-      liveData.postValue(result)
-      onDone?.safeInvoke(logger)
     }
-  }
-  
-  protected fun <T> liveDataNullableResult(
-      liveData: MutableLiveData<ViewModelResult<T>?>,
-      scope: CoroutineScope = viewModelScope,
-      dispatcher: CoroutineDispatcher = coroutineDispatchers.main,
-      onSuccess: (suspend (T) -> Unit)? = null,
-      onError: (suspend (Exception) -> Unit)? = null,
-      onDone: (suspend () -> Unit)? = null,
-      block: suspend CoroutineScope.() -> T,
-  ): Job {
-    liveData.value = ViewModelResult.Loading
-    return scope.launch(dispatcher) {
-      val result = try {
-        val value = block()
-        ViewModelResult.Success(value).apply {
-          onSuccess?.safeInvoke(value, logger)
+
+    protected fun <T> liveDataNullableResult(
+        liveData: MutableLiveData<ViewModelResult<T>?>,
+        scope: CoroutineScope = viewModelScope,
+        dispatcher: CoroutineDispatcher = coroutineDispatchers.main,
+        onSuccess: (suspend (T) -> Unit)? = null,
+        onError: (suspend (Exception) -> Unit)? = null,
+        onDone: (suspend () -> Unit)? = null,
+        block: suspend CoroutineScope.() -> T,
+    ): Job {
+        liveData.value = ViewModelResult.Loading
+        return scope.launch(dispatcher) {
+            val result = try {
+                val value = block()
+                ViewModelResult.Success(value).apply {
+                    onSuccess?.safeInvoke(value, logger)
+                }
+            } catch (ex: CancellationException) {
+                return@launch
+            } catch (ex: Exception) {
+                logger.d("ViewModel.liveDataNullableResult", tr = ex)
+                val message = errorParser(ex)
+                ViewModelResult.Error(message).apply {
+                    onError?.safeInvoke(ex, logger)
+                }
+            }
+            liveData.postValue(result)
+            onDone?.safeInvoke(logger)
         }
-      } catch (ex: CancellationException) {
-        return@launch
-      } catch (ex: Exception) {
-        logger.d("ViewModel.liveDataNullableResult", tr = ex)
-        val message = errorParser(ex)
-        ViewModelResult.Error(message).apply {
-          onError?.safeInvoke(ex, logger)
-        }
-      }
-      liveData.postValue(result)
-      onDone?.safeInvoke(logger)
     }
-  }
 }
 
 private suspend fun <T> (suspend (T) -> Unit).safeInvoke(value: T, logger: Logger) {
-  try {
-    invoke(value)
-  } catch (ex: CancellationException) {
-    return
-  } catch (ex: Exception) {
-    logger.d("(suspend () -> Unit).safeInvoke", tr = ex)
-  }
+    try {
+        invoke(value)
+    } catch (ex: CancellationException) {
+        return
+    } catch (ex: Exception) {
+        logger.d("(suspend () -> Unit).safeInvoke", tr = ex)
+    }
 }
 
 private suspend fun (suspend (Exception) -> Unit).safeInvoke(ex: Exception, logger: Logger) {
-  try {
-    invoke(ex)
-  } catch (ex: CancellationException) {
-    return
-  } catch (ex: Exception) {
-    logger.d("(suspend () -> Unit).safeInvoke", tr = ex)
-  }
+    try {
+        invoke(ex)
+    } catch (ex: CancellationException) {
+        return
+    } catch (ex: Exception) {
+        logger.d("(suspend () -> Unit).safeInvoke", tr = ex)
+    }
 }
 
 private suspend fun (suspend () -> Unit).safeInvoke(logger: Logger) {
-  try {
-    invoke()
-  } catch (ex: CancellationException) {
-    return
-  } catch (ex: Exception) {
-    logger.d("(suspend () -> Unit).safeInvoke", tr = ex)
-  }
+    try {
+        invoke()
+    } catch (ex: CancellationException) {
+        return
+    } catch (ex: Exception) {
+        logger.d("(suspend () -> Unit).safeInvoke", tr = ex)
+    }
 }

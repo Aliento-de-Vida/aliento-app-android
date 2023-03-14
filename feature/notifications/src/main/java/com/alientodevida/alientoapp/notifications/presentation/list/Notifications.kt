@@ -27,13 +27,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.alientodevida.alientoapp.ui.extensions.SnackBar
 import com.alientodevida.alientoapp.domain.common.Notification
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
 import com.alientodevida.alientoapp.domain.extensions.toImageUrl
 import com.alientodevida.alientoapp.notifications.R
 import com.alientodevida.alientoapp.notifications.presentation.detail.NotificationDetail
+import com.alientodevida.alientoapp.ui.extensions.SnackBar
 import kotlinx.coroutines.launch
 
 @Composable
@@ -44,22 +44,22 @@ fun Notifications(
     goToEditNotification: (Notification) -> Unit,
     goToCreateNotification: () -> Unit,
 ) {
-  LaunchedEffect(true) {
-    viewModel.getNotifications()
-  }
-  
-  val viewModelState by viewModel.viewModelState.collectAsState()
-  val isAdmin by viewModel.isAdmin.collectAsState(false)
-  
-  NotificationsWithDialog(
-    viewModelState,
-    isAdmin,
-    selectedNotificationId,
-    viewModel,
-    onBackPressed,
-    goToEditNotification,
-    goToCreateNotification
-  )
+    LaunchedEffect(true) {
+        viewModel.getNotifications()
+    }
+
+    val viewModelState by viewModel.viewModelState.collectAsState()
+    val isAdmin by viewModel.isAdmin.collectAsState(false)
+
+    NotificationsWithDialog(
+        viewModelState,
+        isAdmin,
+        selectedNotificationId,
+        viewModel,
+        onBackPressed,
+        goToEditNotification,
+        goToCreateNotification
+    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -73,17 +73,17 @@ private fun NotificationsWithDialog(
     goToEditNotification: (Notification) -> Unit,
     goToCreateNotification: () -> Unit
 ) {
-  val modalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-  val coroutineScope = rememberCoroutineScope()
-  var notification: Notification? by remember { mutableStateOf(null) }
-  
-  val temp = viewModelState.notifications.firstOrNull { it.id == selectedNotificationId?.toInt() }
-  temp?.let {
-    notification = it
-    LaunchedEffect(it) {
-      modalBottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
+    val modalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+    val coroutineScope = rememberCoroutineScope()
+    var notification: Notification? by remember { mutableStateOf(null) }
+
+    val temp = viewModelState.notifications.firstOrNull { it.id == selectedNotificationId?.toInt() }
+    temp?.let {
+        notification = it
+        LaunchedEffect(it) {
+            modalBottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
+        }
     }
-  }
 
     com.alientodevida.alientoapp.designsystem.components.ModalExpandedOnlyBottomSheetLayout(
         sheetState = modalBottomSheetState,
@@ -123,79 +123,79 @@ fun NotificationsContent(
     goToNotificationsAdmin: (Notification) -> Unit,
     goToCreateNotification: () -> Unit,
 ) {
-  Scaffold(
-    scaffoldState = scaffoldState,
-    topBar = {
-      TopAppBar(onBackPressed = onBackPressed)
-    },
-    floatingActionButton = {
-      if (isAdmin) FloatingActionButton(
-        onClick = { goToCreateNotification() },
-        contentColor = MaterialTheme.colors.surface,
-      ) {
-          com.alientodevida.alientoapp.designsystem.components.Icon(
-              icon = R.drawable.ic_add_24,
-              contentDescription = "Create Notification",
-              tint = MaterialTheme.colors.onSurface
-          )
-      }
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBar(onBackPressed = onBackPressed)
+        },
+        floatingActionButton = {
+            if (isAdmin) FloatingActionButton(
+                onClick = { goToCreateNotification() },
+                contentColor = MaterialTheme.colors.surface,
+            ) {
+                com.alientodevida.alientoapp.designsystem.components.Icon(
+                    icon = R.drawable.ic_add_24,
+                    contentDescription = "Create Notification",
+                    tint = MaterialTheme.colors.onSurface
+                )
+            }
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .padding(paddingValues = paddingValues)
+                .background(color = MaterialTheme.colors.background),
+        ) {
+            NotificationsBody(
+                notifications = uiState.notifications,
+                loading = uiState.loading,
+                refresh = refresh,
+                deleteNotification = deleteNotification,
+                goToNotificationDetail = goToNotificationDetail,
+                goToNotificationsAdmin = goToNotificationsAdmin,
+                isAdmin = isAdmin,
+            )
+            if (uiState.loading) com.alientodevida.alientoapp.designsystem.components.LoadingIndicator()
+
+            uiState.messages.firstOrNull()?.SnackBar(scaffoldState, onMessageDismiss)
+        }
     }
-  ) { paddingValues ->
-    Box(
-      modifier = Modifier
-        .padding(paddingValues = paddingValues)
-        .background(color = MaterialTheme.colors.background),
-    ) {
-      NotificationsBody(
-        notifications = uiState.notifications,
-        loading = uiState.loading,
-        refresh = refresh,
-        deleteNotification = deleteNotification,
-        goToNotificationDetail = goToNotificationDetail,
-        goToNotificationsAdmin = goToNotificationsAdmin,
-        isAdmin = isAdmin,
-      )
-      if (uiState.loading) com.alientodevida.alientoapp.designsystem.components.LoadingIndicator()
-  
-      uiState.messages.firstOrNull()?.SnackBar(scaffoldState, onMessageDismiss)
-    }
-  }
 }
 
 // TODO can we extract a component ?
 @Composable
 fun TopAppBar(
-  onBackPressed: () -> Unit,
+    onBackPressed: () -> Unit,
 ) {
-  val modifier = Modifier.size(width = 60.dp, height = 50.dp)
-  
-  androidx.compose.material.TopAppBar(
-    title = {
-      Image(
-        painter = painterResource(id = R.drawable.logo_negro),
-        colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground),
-        contentScale = ContentScale.Inside,
-        alignment = Alignment.Center,
-        modifier = Modifier
-          .padding(8.dp)
-          .fillMaxWidth(),
-        contentDescription = null,
-      )
-    },
-    navigationIcon = {
-        com.alientodevida.alientoapp.designsystem.components.ClickableIcon(
-            modifier = modifier,
-            icon = R.drawable.ic_back_24,
-            contentDescription = "Back Button",
-            tint = MaterialTheme.colors.onBackground,
-            onClick = onBackPressed,
-        )
-    },
-    actions = {
-      Box(modifier = modifier, contentAlignment = Alignment.Center) { }
-    },
-    backgroundColor = MaterialTheme.colors.background,
-  )
+    val modifier = Modifier.size(width = 60.dp, height = 50.dp)
+
+    androidx.compose.material.TopAppBar(
+        title = {
+            Image(
+                painter = painterResource(id = R.drawable.logo_negro),
+                colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground),
+                contentScale = ContentScale.Inside,
+                alignment = Alignment.Center,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                contentDescription = null,
+            )
+        },
+        navigationIcon = {
+            com.alientodevida.alientoapp.designsystem.components.ClickableIcon(
+                modifier = modifier,
+                icon = R.drawable.ic_back_24,
+                contentDescription = "Back Button",
+                tint = MaterialTheme.colors.onBackground,
+                onClick = onBackPressed,
+            )
+        },
+        actions = {
+            Box(modifier = modifier, contentAlignment = Alignment.Center) { }
+        },
+        backgroundColor = MaterialTheme.colors.background,
+    )
 }
 
 @Composable
@@ -253,87 +253,86 @@ fun NotificationItem(
     goToNotificationDetail: (Notification) -> Unit,
     goToNotificationsAdmin: (Notification) -> Unit,
 ) {
-  var expanded by remember { mutableStateOf(false) }
-  val hapticFeedback = LocalHapticFeedback.current
-  
-  Card(
-    modifier
-      .fillMaxWidth()
-      .height(height)
-      .combinedClickable(
-        onClick = { goToNotificationDetail(notification) },
-        onLongClick = {
-          if (isAdmin) {
-            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-            expanded = expanded.not()
-          }
-        }
-      ),
-  ) {
-    Box {
-      NotificationItemContent(notification)
-      
-      DropdownMenu(
-        modifier = Modifier.background(MaterialTheme.colors.surface),
-        expanded = expanded,
-        onDismissRequest = { expanded = false }
-      ) {
-        DropdownMenuItem(
-          onClick = { deleteNotification(notification) }) {
-            com.alientodevida.alientoapp.designsystem.components.Body2(
-                text = "Eliminar",
-                color = MaterialTheme.colors.onSurface,
-            )
-        }
-        DropdownMenuItem(onClick = { goToNotificationsAdmin(notification) }) {
-            com.alientodevida.alientoapp.designsystem.components.Body2(
-                text = "Editar",
-                color = MaterialTheme.colors.onSurface,
-            )
-        }
-      }
-    }
-  }
-}
+    var expanded by remember { mutableStateOf(false) }
+    val hapticFeedback = LocalHapticFeedback.current
 
-@Composable
-private fun NotificationItemContent(notification: Notification) {
-  Box {
-    // TODO the ViewModel should do this conversion
-      com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(
-          url = notification.image?.name?.toImageUrl(),
-          description = notification.title
-      )
-  
-    Column {
-      Spacer(Modifier.weight(0.38f))
-        com.alientodevida.alientoapp.designsystem.components.Gradient(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.62f),
-        ) {
-            Column(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
-                Spacer(Modifier.weight(1.0f))
-                com.alientodevida.alientoapp.designsystem.components.H5(
-                    text = notification.title,
-                    color = colorResource(R.color.pantone_white_c),
-                )
-                Row {
+    Card(
+        modifier
+            .fillMaxWidth()
+            .height(height)
+            .combinedClickable(
+                onClick = { goToNotificationDetail(notification) },
+                onLongClick = {
+                    if (isAdmin) {
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        expanded = expanded.not()
+                    }
+                }
+            ),
+    ) {
+        Box {
+            NotificationItemContent(notification)
+
+            DropdownMenu(
+                modifier = Modifier.background(MaterialTheme.colors.surface),
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                DropdownMenuItem(
+                    onClick = { deleteNotification(notification) }) {
                     com.alientodevida.alientoapp.designsystem.components.Body2(
-                        text = notification.content,
-                        color = colorResource(R.color.pantone_white_c),
+                        text = "Eliminar",
+                        color = MaterialTheme.colors.onSurface,
                     )
-                    Spacer(Modifier.weight(1.0f))
-                    com.alientodevida.alientoapp.designsystem.components.Caption(
-                        text = notification.date.toDate()?.format("dd MMM yy") ?: ""
-                    ) // TODO the ViewModel should do this conversion
+                }
+                DropdownMenuItem(onClick = { goToNotificationsAdmin(notification) }) {
+                    com.alientodevida.alientoapp.designsystem.components.Body2(
+                        text = "Editar",
+                        color = MaterialTheme.colors.onSurface,
+                    )
                 }
             }
         }
     }
-  }
 }
 
+@Composable
+private fun NotificationItemContent(notification: Notification) {
+    Box {
+        // TODO the ViewModel should do this conversion
+        com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(
+            url = notification.image?.name?.toImageUrl(),
+            description = notification.title
+        )
+
+        Column {
+            Spacer(Modifier.weight(0.38f))
+            com.alientodevida.alientoapp.designsystem.components.Gradient(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.62f),
+            ) {
+                Column(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
+                    Spacer(Modifier.weight(1.0f))
+                    com.alientodevida.alientoapp.designsystem.components.H5(
+                        text = notification.title,
+                        color = colorResource(R.color.pantone_white_c),
+                    )
+                    Row {
+                        com.alientodevida.alientoapp.designsystem.components.Body2(
+                            text = notification.content,
+                            color = colorResource(R.color.pantone_white_c),
+                        )
+                        Spacer(Modifier.weight(1.0f))
+                        com.alientodevida.alientoapp.designsystem.components.Caption(
+                            text = notification.date.toDate()?.format("dd MMM yy") ?: ""
+                        ) // TODO the ViewModel should do this conversion
+                    }
+                }
+            }
+        }
+    }
+}
 
 @Preview
 @Composable

@@ -2,19 +2,17 @@ import com.android.build.gradle.BaseExtension
 import deps.Java
 import deps.androidx.AndroidX
 import deps.google.Hilt
+import extensions.buildTypes
+import extensions.compileOptions
+import extensions.defaultConfig
 import extensions.java
 import extensions.kotlin
+import extensions.packagingOptions
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.fileTree
-import extensions.java
-import extensions.kotlin
-import extensions.defaultConfig
-import extensions.buildTypes
-import extensions.compileOptions
-import extensions.packagingOptions
 
 class CoreLibPlugin : Plugin<Project> {
 

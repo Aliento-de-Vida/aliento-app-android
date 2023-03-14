@@ -21,50 +21,49 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object GalleryModule {
-  
-  @OptIn(ExperimentalSerializationApi::class)
-  @Singleton
-  @Provides
-  fun galleryApi(
-    @Named("base-url")
-    baseUrl: String,
-    @Named("Client")
-    okHttpClient: OkHttpClient,
-    json: Json,
-  ): GalleryApi = Retrofit.Builder()
-    .client(okHttpClient)
-    .baseUrl(baseUrl)
-    .addConverterFactory(json.asConverterFactory(DataModule.contentType))
-    .build()
-    .create(GalleryApi::class.java)
-  
-  @OptIn(ExperimentalSerializationApi::class)
-  @Singleton
-  @Provides
-  fun galleryAdminApi(
-    @Named("base-url")
-    baseUrl: String,
-    @Named("AdminAuthClient")
-    okHttpClient: OkHttpClient,
-    json: Json,
-  ): GalleryAdminApi = Retrofit.Builder()
-    .client(okHttpClient)
-    .baseUrl(baseUrl)
-    .addConverterFactory(json.asConverterFactory(DataModule.contentType))
-    .build()
-    .create(GalleryAdminApi::class.java)
-  
-  @Singleton
-  @Provides
-  fun galleryRepository(
-      galleryApi: GalleryApi,
-      galleryAdminApi: GalleryAdminApi,
-      fileRepository: FileRepository,
-  ): GalleryRepository =
-    GalleryRepositoryImpl(
-      galleryApi,
-      galleryAdminApi,
-      fileRepository
-    )
-  
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Singleton
+    @Provides
+    fun galleryApi(
+        @Named("base-url")
+        baseUrl: String,
+        @Named("Client")
+        okHttpClient: OkHttpClient,
+        json: Json,
+    ): GalleryApi = Retrofit.Builder()
+        .client(okHttpClient)
+        .baseUrl(baseUrl)
+        .addConverterFactory(json.asConverterFactory(DataModule.contentType))
+        .build()
+        .create(GalleryApi::class.java)
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Singleton
+    @Provides
+    fun galleryAdminApi(
+        @Named("base-url")
+        baseUrl: String,
+        @Named("AdminAuthClient")
+        okHttpClient: OkHttpClient,
+        json: Json,
+    ): GalleryAdminApi = Retrofit.Builder()
+        .client(okHttpClient)
+        .baseUrl(baseUrl)
+        .addConverterFactory(json.asConverterFactory(DataModule.contentType))
+        .build()
+        .create(GalleryAdminApi::class.java)
+
+    @Singleton
+    @Provides
+    fun galleryRepository(
+        galleryApi: GalleryApi,
+        galleryAdminApi: GalleryAdminApi,
+        fileRepository: FileRepository,
+    ): GalleryRepository =
+        GalleryRepositoryImpl(
+            galleryApi,
+            galleryAdminApi,
+            fileRepository
+        )
 }

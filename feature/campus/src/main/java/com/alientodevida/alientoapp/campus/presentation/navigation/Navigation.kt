@@ -18,48 +18,48 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 fun NavGraphBuilder.adminCampus(
-  genericActions: GenericNavigationActions,
+    genericActions: GenericNavigationActions,
 ) {
-  composable(
-    route = MainDestination.AdminCampus.path,
-    arguments = listOf(navArgument(CAMPUS_DESTINATION) { type = CampusType() })
-  ) {
-    val campus = it.arguments?.getParcelableValue(CAMPUS_DESTINATION, Campus::class.java)!!
+    composable(
+        route = MainDestination.AdminCampus.path,
+        arguments = listOf(navArgument(CAMPUS_DESTINATION) { type = CampusType() })
+    ) {
+        val campus = it.arguments?.getParcelableValue(CAMPUS_DESTINATION, Campus::class.java)!!
 
-    EditCreateCampus(
-      viewModel = hiltViewModel(),
-      campus = campus,
-      onBackPressed = genericActions::back,
-    )
-  }
+        EditCreateCampus(
+            viewModel = hiltViewModel(),
+            campus = campus,
+            onBackPressed = genericActions::back,
+        )
+    }
 }
 
 fun NavGraphBuilder.campuses(
-  genericActions: GenericNavigationActions,
-  actions: MainActions,
+    genericActions: GenericNavigationActions,
+    actions: MainActions,
 ) {
-  composable(MainDestination.Campuses.path) {
-    Campuses(
-      viewModel = hiltViewModel(),
-      onBackPressed = genericActions::back,
-      goToEditCampus = actions::navigateToAdminCampus,
-      goToCreateCampus = actions::navigateToAdminCampus,
-    )
-  }
+    composable(MainDestination.Campuses.path) {
+        Campuses(
+            viewModel = hiltViewModel(),
+            onBackPressed = genericActions::back,
+            goToEditCampus = actions::navigateToAdminCampus,
+            goToCreateCampus = actions::navigateToAdminCampus,
+        )
+    }
 }
 
 class CampusType : NavType<Campus>(
-  isNullableAllowed = true
+    isNullableAllowed = true
 ) {
-  override fun put(bundle: Bundle, key: String, value: Campus) {
-    bundle.putParcelable(key, value)
-  }
+    override fun put(bundle: Bundle, key: String, value: Campus) {
+        bundle.putParcelable(key, value)
+    }
 
-  override fun get(bundle: Bundle, key: String): Campus {
-    return bundle.getParcelableValue(key, Campus::class.java)
-  }
+    override fun get(bundle: Bundle, key: String): Campus {
+        return bundle.getParcelableValue(key, Campus::class.java)
+    }
 
-  override fun parseValue(value: String): Campus {
-    return Json.decodeFromString(value)
-  }
+    override fun parseValue(value: String): Campus {
+        return Json.decodeFromString(value)
+    }
 }
