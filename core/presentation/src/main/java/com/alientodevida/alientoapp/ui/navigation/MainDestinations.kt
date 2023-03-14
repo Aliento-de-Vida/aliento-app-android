@@ -6,7 +6,7 @@ import com.alientodevida.alientoapp.domain.common.Gallery
 import com.alientodevida.alientoapp.domain.common.Notification
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import com.alientodevida.alientoapp.domain.common.Home as DomainHome
+import com.alientodevida.alientoapp.domain.home.Home as DomainHome
 
 const val HOME_DESTINATION = "home"
 const val GALLERY_DESTINATION = "gallery"

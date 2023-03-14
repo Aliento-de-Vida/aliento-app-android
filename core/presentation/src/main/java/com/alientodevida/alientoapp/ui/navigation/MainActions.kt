@@ -3,7 +3,7 @@ package com.alientodevida.alientoapp.ui.navigation
 import androidx.navigation.NavHostController
 import com.alientodevida.alientoapp.domain.common.Campus
 import com.alientodevida.alientoapp.domain.common.Gallery
-import com.alientodevida.alientoapp.domain.common.Home
+import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.common.Notification
 
 class MainActions(private val controller: NavHostController) {

@@ -16,45 +16,45 @@ import com.alientodevida.alientoapp.designsystem.R
 
 @Composable
 fun SermonsPager(
-    items: List<CarouselItem>,
-    goToSermons: () -> Unit,
-    goToSermon: (CarouselItem) -> Unit,
+  items: List<CarouselItem>,
+  goToSermons: () -> Unit,
+  goToSermon: (CarouselItem) -> Unit,
 ) {
-    com.alientodevida.alientoapp.designsystem.components.Pager(
-        items = items,
-        goToItem = {
-            when {
-                it.youtubeItem != null -> goToSermon(it)
-                it.categoryItem != null -> goToSermons()
-            }
-        }
-    ) { item -> SermonsPageItem(item) }
+  com.alientodevida.alientoapp.designsystem.components.Pager(
+    items = items,
+    goToItem = {
+      when {
+        it.youtubeItem != null -> goToSermon(it)
+        it.categoryItem != null -> goToSermons()
+      }
+    }
+  ) { item -> SermonsPageItem(item) }
 }
 
 @Composable
 private fun SermonsPageItem(item: CarouselItem) {
   Box {
     com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(
-        url = item.imageUrl,
-        description = item.title
+      url = item.imageUrl,
+      description = item.title
     )
-    
+
     Column {
       Spacer(Modifier.weight(0.38f))
-        com.alientodevida.alientoapp.designsystem.components.Gradient(
-            Modifier
-                .fillMaxWidth()
-                .weight(0.62f),
-            startColor = Color.Transparent,
-            endColor = MaterialTheme.colors.background,
-        ) {
-            Column {
-                if (item.categoryItem?.type == CategoryItemType.SERMONS) {
-                    Spacer(Modifier.weight(1.0f))
-                    SeeSermonsCard(Modifier.align(Alignment.Start))
-                }
-            }
+      com.alientodevida.alientoapp.designsystem.components.Gradient(
+        Modifier
+          .fillMaxWidth()
+          .weight(0.62f),
+        startColor = Color.Transparent,
+        endColor = MaterialTheme.colors.background,
+      ) {
+        Column {
+          if (item.categoryItem?.type == CategoryItemType.SERMONS) {
+            Spacer(Modifier.weight(1.0f))
+            SeeSermonsCard(Modifier.align(Alignment.Start))
+          }
         }
+      }
     }
   }
 }
@@ -75,12 +75,12 @@ private fun SeeSermonsCard(modifier: Modifier) {
       Modifier
         .padding(horizontal = 40.dp, vertical = 8.dp)
     ) {
-        com.alientodevida.alientoapp.designsystem.components.Body2(
-            text = "Ver prédicas",
-            color = colorResource(R.color.pantone_white_c),
-        )
+      com.alientodevida.alientoapp.designsystem.components.Body2(
+        text = "Ver prédicas",
+        color = colorResource(R.color.pantone_white_c),
+      )
     }
   }
-  
+
   Spacer(Modifier.height(40.dp))
 }

@@ -27,12 +27,4 @@ object BuildPlugins {
     const val gogleServices = "com.google.gms:google-services:$gogleServicesVersion"
     const val serialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.lib}"
     const val crashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsVersion"
-
-}
-
-object AndroidSdk {
-    const val min = 21
-    const val compile = 33
-    const val target = 33
-    const val buildToolsVersion = "30.0.3"
 }

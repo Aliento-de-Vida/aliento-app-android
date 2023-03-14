@@ -10,7 +10,7 @@ import com.alientodevida.alientoapp.core.analytics.Analytics
 import com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel
 import com.alientodevida.alientoapp.designsystem.components.attachment.getDomainAttachment
 import com.alientodevida.alientoapp.domain.common.Attachment
-import com.alientodevida.alientoapp.domain.common.Home
+import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.extensions.addTimeStamp
 import com.alientodevida.alientoapp.domain.file.FileRepository

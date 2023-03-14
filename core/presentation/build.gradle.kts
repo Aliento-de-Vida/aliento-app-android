@@ -1,4 +1,3 @@
-import deps.Java
 import deps.androidx.AndroidX
 import deps.androidx.Compose
 import deps.google.Firebase
@@ -6,47 +5,18 @@ import deps.google.Hilt
 import deps.jetbrains.Kotlin
 
 plugins {
-    id(BuildPlugins.androidLibrary)
-    id(BuildPlugins.kotlinAndroid)
-    id(BuildPlugins.kotlinKapt)
-    id(BuildPlugins.hiltAndroid)
+    id(CoreLibPlugin.plugin)
 }
 
 android {
     namespace = "com.alientodevida.alientoapp.ui"
-    compileSdk = AndroidSdk.compile
 
-    defaultConfig {
-        minSdk = AndroidSdk.min
-        targetSdk = AndroidSdk.target
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = Java.sourceCompatibility
-        targetCompatibility = Java.targetCompatibility
-    }
-    kotlinOptions {
-        jvmTarget = Java.jvmTarget
-    }
     buildFeatures {
         buildConfig = true
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Compose.compiler
-    }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
+
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
@@ -89,5 +59,4 @@ dependencies {
 
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Kotlin.serialization}")
-
 }

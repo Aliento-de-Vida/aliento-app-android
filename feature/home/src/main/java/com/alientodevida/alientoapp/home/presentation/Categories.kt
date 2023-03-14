@@ -18,22 +18,22 @@ import com.alientodevida.alientoapp.designsystem.R
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Categories(
-    items: List<CarouselItem>,
-    title: String,
-    goToChurch: () -> Unit,
-    goToCampus: () -> Unit,
-    goToGallery: () -> Unit,
-    goToDonations: () -> Unit,
-    goToPrayer: () -> Unit,
-    goToEbook: () -> Unit
+  items: List<CarouselItem>,
+  title: String,
+  goToChurch: () -> Unit,
+  goToCampus: () -> Unit,
+  goToGallery: () -> Unit,
+  goToDonations: () -> Unit,
+  goToPrayer: () -> Unit,
+  goToEbook: () -> Unit
 ) {
   Column(Modifier.padding(8.dp)) {
     com.alientodevida.alientoapp.designsystem.components.H5(
-        modifier = Modifier.padding(horizontal = 8.dp),
-        text = title,
-        color = MaterialTheme.colors.onBackground,
+      modifier = Modifier.padding(horizontal = 8.dp),
+      text = title,
+      color = MaterialTheme.colors.onBackground,
     )
-    
+
     Spacer(modifier = Modifier.height(16.dp))
     LazyRow(
       contentPadding = PaddingValues(bottom = 16.dp),
@@ -57,14 +57,14 @@ fun Categories(
 
 @Composable
 fun CategoryItem(
-    modifier: Modifier,
-    item: CarouselItem,
-    goToChurch: () -> Unit,
-    goToCampus: () -> Unit,
-    goToGallery: () -> Unit,
-    goToDonations: () -> Unit,
-    goToPrayer: () -> Unit,
-    goToEbook: () -> Unit
+  modifier: Modifier,
+  item: CarouselItem,
+  goToChurch: () -> Unit,
+  goToCampus: () -> Unit,
+  goToGallery: () -> Unit,
+  goToDonations: () -> Unit,
+  goToPrayer: () -> Unit,
+  goToEbook: () -> Unit
 ) {
   Card(
     modifier
@@ -96,25 +96,25 @@ fun CategoryItem(
   ) {
     Box {
       com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(
-          url = item.imageUrl,
-          description = item.title
+        url = item.imageUrl,
+        description = item.title
       )
-      
+
       Column {
         Spacer(Modifier.weight(0.38f))
-          com.alientodevida.alientoapp.designsystem.components.Gradient(
-              modifier = Modifier
-                  .fillMaxWidth()
-                  .weight(0.62f),
-          ) {
-              Column(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
-                  Spacer(Modifier.weight(1.0f))
-                  com.alientodevida.alientoapp.designsystem.components.Body2(
-                      text = item.title,
-                      color = colorResource(R.color.pantone_white_c),
-                  )
-              }
+        com.alientodevida.alientoapp.designsystem.components.Gradient(
+          modifier = Modifier
+            .fillMaxWidth()
+            .weight(0.62f),
+        ) {
+          Column(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
+            Spacer(Modifier.weight(1.0f))
+            com.alientodevida.alientoapp.designsystem.components.Body2(
+              text = item.title,
+              color = colorResource(R.color.pantone_white_c),
+            )
           }
+        }
       }
     }
   }

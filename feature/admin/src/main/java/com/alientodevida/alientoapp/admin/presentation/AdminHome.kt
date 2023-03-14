@@ -18,7 +18,7 @@ import com.alientodevida.alientoapp.admin.HomeImages
 import com.alientodevida.alientoapp.admin.HomeUiState
 import com.alientodevida.alientoapp.admin.R
 import com.alientodevida.alientoapp.ui.extensions.Dialog
-import com.alientodevida.alientoapp.domain.common.Home
+import com.alientodevida.alientoapp.domain.home.Home
 
 
 @Composable

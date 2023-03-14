@@ -8,6 +8,7 @@ import deps.jakewharton.RetrofitSerializationConverter
 import deps.jetbrains.Kotlin
 import java.io.FileInputStream
 import java.util.*
+import deps.config
 
 plugins {
     id(BuildPlugins.androidApplication)
@@ -23,15 +24,15 @@ plugins {
 
 android {
     namespace = "com.alientodevida.alientoapp.app"
-    compileSdk = AndroidSdk.compile
-    buildToolsVersion = AndroidSdk.buildToolsVersion
+    compileSdk = config.compileSdk
+    buildToolsVersion = config.buildTools
 
     defaultConfig {
         applicationId = "com.alientodevida.app"
-        minSdk = AndroidSdk.min
-        targetSdk = AndroidSdk.target
-        versionCode = 17
-        versionName = "1.1.0"
+        minSdk = config.minSdk
+        targetSdk = config.targetSdk
+        versionCode = config.versionCode
+        versionName = config.versionName
     }
 
     signingConfigs {
@@ -72,7 +73,7 @@ android {
     }
     kotlin {
         jvmToolchain {
-            languageVersion.set(JavaLanguageVersion.of("11"))
+            languageVersion.set(JavaLanguageVersion.of(Java.jvmTarget))
         }
     }
     buildFeatures {

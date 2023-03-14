@@ -1,4 +1,4 @@
-package com.alientodevida.alientoapp.domain.common
+package com.alientodevida.alientoapp.domain.home
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
