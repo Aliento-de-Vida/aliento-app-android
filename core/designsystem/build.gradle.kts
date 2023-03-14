@@ -1,52 +1,23 @@
-import deps.coil.Coil
-import deps.androidx.Compose
 import deps.androidx.AndroidX
-import deps.google.Material
-import deps.google.Accompanist
+import deps.androidx.Compose
+import deps.coil.Coil
 import deps.github.Glide
-import deps.Java
+import deps.google.Accompanist
+import deps.google.Material
 
 plugins {
-    id(BuildPlugins.androidLibrary)
-    id(BuildPlugins.kotlinAndroid)
-    id(BuildPlugins.kotlinKapt)
+    id(CoreLibPlugin.plugin)
 }
 
 android {
     namespace = "com.alientodevida.alientoapp.designsystem"
-    compileSdk = AndroidSdk.compile
 
-    defaultConfig {
-        minSdk = AndroidSdk.min
-        targetSdk = AndroidSdk.target
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = Java.sourceCompatibility
-        targetCompatibility = Java.targetCompatibility
-    }
-    kotlinOptions {
-        jvmTarget = Java.jvmTarget
-    }
     buildFeatures {
         buildConfig = true
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Compose.compiler
-    }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
+
 
 dependencies {
     // Modules

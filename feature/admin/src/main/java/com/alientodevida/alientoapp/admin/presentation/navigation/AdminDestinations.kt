@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.alientodevida.alientoapp.admin.presentation.AdminHome
 import com.alientodevida.alientoapp.admin.presentation.login.AdminLogin
-import com.alientodevida.alientoapp.domain.common.Home
+import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.ui.extensions.getParcelableValue
 import com.alientodevida.alientoapp.ui.navigation.GenericNavigationActions
 import com.alientodevida.alientoapp.ui.navigation.HOME_DESTINATION

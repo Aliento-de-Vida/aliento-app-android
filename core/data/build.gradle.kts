@@ -8,38 +8,11 @@ import deps.square.OkHttp
 import deps.square.Retrofit
 
 plugins {
-    id(BuildPlugins.androidLibrary)
-    id(BuildPlugins.kotlinAndroid)
-    id(BuildPlugins.kotlinKapt)
-    id(BuildPlugins.hiltAndroid)
+    id(CoreLibPlugin.plugin)
 }
 
 android {
     namespace = "com.alientodevida.alientoapp.core.data"
-    compileSdk = AndroidSdk.compile
-
-    defaultConfig {
-        minSdk = AndroidSdk.min
-        targetSdk = AndroidSdk.target
-    }
-
-    buildFeatures {
-        buildConfig = true
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = deps.Java.sourceCompatibility
-        targetCompatibility = deps.Java.targetCompatibility
-    }
-    kotlinOptions {
-        jvmTarget = deps.Java.jvmTarget
-    }
 }
 
 dependencies {

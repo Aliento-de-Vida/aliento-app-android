@@ -1,13 +1,13 @@
 package com.alientodevida.alientoapp.home.data
 
-import com.alientodevida.alientoapp.domain.common.Home
+import com.alientodevida.alientoapp.domain.home.Home
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface HomeApi {
-  
+
   @GET("/v1/home")
   suspend fun getHome(): Home
 
@@ -27,5 +27,4 @@ interface HomeApi {
     @Field("twitter_url") twitterUrl: String,
     @Field("spotify_artist_id") spotifyArtistId: String,
   ): Home
-  
 }

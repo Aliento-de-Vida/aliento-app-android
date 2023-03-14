@@ -1,6 +1,6 @@
 package com.alientodevida.alientoapp.domain.preferences
 
-import com.alientodevida.alientoapp.domain.common.Home
+import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.common.SpotifyToken
 import kotlinx.coroutines.flow.Flow
 import com.alientodevida.alientoapp.domain.common.Token as AdminToken

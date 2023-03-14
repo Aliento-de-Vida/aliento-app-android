@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.core.analytics.Analytics
-import com.alientodevida.alientoapp.domain.common.Home
+import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.common.Notification
 import com.alientodevida.alientoapp.domain.coroutines.CoroutineDispatchers
 import com.alientodevida.alientoapp.domain.common.CarouselItem
@@ -32,13 +32,13 @@ import java.util.*
 import javax.inject.Inject
 
 data class HomeUiState(
-    val home: Home? = null,
-    val sermonItems: List<CarouselItem> = emptyList(),
-    val categoriesItems: List<CarouselItem> = emptyList(),
-    val quickAccessItems: List<CarouselItem> = emptyList(),
-    val notifications: List<Notification> = emptyList(),
-    val loading: Boolean = true,
-    val messages: List<Message> = emptyList(),
+  val home: Home? = null,
+  val sermonItems: List<CarouselItem> = emptyList(),
+  val categoriesItems: List<CarouselItem> = emptyList(),
+  val quickAccessItems: List<CarouselItem> = emptyList(),
+  val notifications: List<Notification> = emptyList(),
+  val loading: Boolean = true,
+  val messages: List<Message> = emptyList(),
 )
 
 @HiltViewModel
@@ -61,40 +61,42 @@ class HomeViewModel @Inject constructor(
   savedStateHandle,
   application,
 ) {
-  
+
   val isAdmin = preferences.isAdminFlow
-  
+
   private val _viewModelState = MutableStateFlow(
     HomeUiState(
-    categoriesItems = listOf(
-      CarouselItem(title = "Aliento de Vida", categoryItem = CategoryItem(CategoryItemType.CHURCH)),
-      CarouselItem(title = "Campus", categoryItem = CategoryItem(CategoryItemType.CAMPUSES)),
-      CarouselItem(title = "Galería", categoryItem = CategoryItem(CategoryItemType.GALLERY)),
-    ),
-    quickAccessItems = listOf(
-      CarouselItem(title = "Donaciones", categoryItem = CategoryItem(CategoryItemType.DONATIONS)),
-      CarouselItem(title = "Oración", categoryItem = CategoryItem(CategoryItemType.PRAYER)),
-      CarouselItem(title = "Ebook", categoryItem = CategoryItem(CategoryItemType.EBOOK)),
-    ),
-  )
+      categoriesItems = listOf(
+        CarouselItem(
+          title = "Aliento de Vida", categoryItem = CategoryItem(CategoryItemType.CHURCH)
+        ),
+        CarouselItem(title = "Campus", categoryItem = CategoryItem(CategoryItemType.CAMPUSES)),
+        CarouselItem(title = "Galería", categoryItem = CategoryItem(CategoryItemType.GALLERY)),
+      ),
+      quickAccessItems = listOf(
+        CarouselItem(title = "Donaciones", categoryItem = CategoryItem(CategoryItemType.DONATIONS)),
+        CarouselItem(title = "Oración", categoryItem = CategoryItem(CategoryItemType.PRAYER)),
+        CarouselItem(title = "Ebook", categoryItem = CategoryItem(CategoryItemType.EBOOK)),
+      ),
+    )
   )
   val viewModelState: StateFlow<HomeUiState> = _viewModelState
-  
+
   var latestVideo: YoutubeVideo? = null
-  
+
   init {
     analytics.logScreenView("home_screen")
     getHome()
   }
-  
+
   fun onMessageDismiss(id: Long) {
     val newMessages = viewModelState.value.messages.filter { it.id != id }
     _viewModelState.update { it.copy(messages = newMessages) }
   }
-  
+
   fun getHome() {
     _viewModelState.update { it.copy(loading = true) }
-    
+
     viewModelScope.launch {
       try {
         val images = homeRepository.getHomeImages()
@@ -102,16 +104,18 @@ class HomeViewModel @Inject constructor(
         val sermons = getSermonItems(home.youtubeChannelId, images.sermonsImage)
         val carouselItems = getCategoriesItems(images)
         val quickAccessItems = getQuickAccessItems(images)
-        val notifications = notificationRepository.getNotifications().filter { it.image != null }.take(2)
-        
-        _viewModelState.update { it.copy(
-          categoriesItems = carouselItems,
-          quickAccessItems = quickAccessItems,
-          home = home,
-          sermonItems = sermons,
-          notifications = notifications,
-        ) }
-        
+        val notifications =
+          notificationRepository.getNotifications().filter { it.image != null }.take(2)
+
+        _viewModelState.update {
+          it.copy(
+            categoriesItems = carouselItems,
+            quickAccessItems = quickAccessItems,
+            home = home,
+            sermonItems = sermons,
+            notifications = notifications,
+          )
+        }
       } catch (ex: CancellationException) {
         return@launch
       } catch (ex: Exception) {
@@ -120,11 +124,11 @@ class HomeViewModel @Inject constructor(
         messages.add(errorParser(ex))
         _viewModelState.update { it.copy(messages = messages) }
       }
-  
+
       _viewModelState.update { it.copy(loading = false) }
     }
   }
-  
+
   private fun getCategoriesItems(images: HomeImages) =
     listOf(
       CarouselItem(
@@ -146,7 +150,7 @@ class HomeViewModel @Inject constructor(
         null,
       )
     )
-  
+
   private fun getQuickAccessItems(images: HomeImages) =
     listOf(
       CarouselItem(
@@ -168,11 +172,11 @@ class HomeViewModel @Inject constructor(
         null,
       )
     )
-  
+
   private suspend fun getSermonItems(channel: String, sermonsImage: String?): List<CarouselItem> {
     val sermons = videoRepository.getYoutubeChannelVideos(channel)
     latestVideo = sermons.firstOrNull()
-    
+
     val carouselItems = mutableListOf(
       CarouselItem(
         "Ver Prédicas",
@@ -193,19 +197,19 @@ class HomeViewModel @Inject constructor(
       }
     return carouselItems
   }
-  
+
   fun adminLogout() {
     val messages = viewModelState.value.messages.toMutableList()
     messages.add(
-        Message.Localized.Informational(
-      id = UUID.randomUUID().mostSignificantBits,
-      title = "",
-      message = "Logged Out",
-      action = "",
-    ))
+      Message.Localized.Informational(
+        id = UUID.randomUUID().mostSignificantBits,
+        title = "",
+        message = "Logged Out",
+        action = "",
+      )
+    )
     _viewModelState.update { it.copy(messages = messages) }
-  
+
     preferences.adminToken = null
   }
-  
 }

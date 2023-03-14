@@ -23,7 +23,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.ui.extensions.SnackBar
-import com.alientodevida.alientoapp.domain.common.Home
+import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
