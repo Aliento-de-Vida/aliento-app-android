@@ -8,12 +8,12 @@ import com.alientodevida.alientoapp.ui.navigation.GenericNavigationActions
 import com.alientodevida.alientoapp.ui.navigation.MainDestination
 
 fun NavGraphBuilder.prayer(
-  genericActions: GenericNavigationActions,
+    genericActions: GenericNavigationActions,
 ) {
-  composable(MainDestination.Prayer.path) {
-    Prayer(
-      viewModel = hiltViewModel(),
-      onBackPressed = genericActions::back,
-    )
-  }
+    composable(MainDestination.Prayer.path) {
+        Prayer(
+            viewModel = hiltViewModel(),
+            onBackPressed = genericActions::back,
+        )
+    }
 }

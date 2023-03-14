@@ -1,14 +1,14 @@
 import deps.Java
 import deps.androidx.AndroidX
 import deps.androidx.Compose
+import deps.config
 import deps.google.Firebase
 import deps.google.Gson
 import deps.google.Hilt
 import deps.jakewharton.RetrofitSerializationConverter
 import deps.jetbrains.Kotlin
 import java.io.FileInputStream
-import java.util.*
-import deps.config
+import java.util.Properties
 
 plugins {
     id(BuildPlugins.androidApplication)
@@ -53,13 +53,24 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            buildConfigField("String", "YOUTUBE_DEVELOPER_KEY", "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\"")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            buildConfigField(
+                "String",
+                "YOUTUBE_DEVELOPER_KEY",
+                "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\""
+            )
             buildConfigField("String", "BASE_URL", "\"https://todoserver-peter.herokuapp.com\"")
         }
         getByName("debug") {
             isMinifyEnabled = false
-            buildConfigField("String", "YOUTUBE_DEVELOPER_KEY", "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\"")
+            buildConfigField(
+                "String",
+                "YOUTUBE_DEVELOPER_KEY",
+                "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\""
+            )
             buildConfigField("String", "BASE_URL", "\"https://todoserver-peter.herokuapp.com\"")
         }
     }

@@ -11,9 +11,8 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class PresentationBindsModule {
 
-  @Binds
-  abstract fun utils(
-    utilsEntryPoint: UtilsEntryPoint
-  ): Utils
-
+    @Binds
+    abstract fun utils(
+        utilsEntryPoint: UtilsEntryPoint
+    ): Utils
 }

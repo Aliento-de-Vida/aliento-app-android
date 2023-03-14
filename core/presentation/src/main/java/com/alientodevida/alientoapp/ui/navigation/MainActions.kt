@@ -3,8 +3,8 @@ package com.alientodevida.alientoapp.ui.navigation
 import androidx.navigation.NavHostController
 import com.alientodevida.alientoapp.domain.common.Campus
 import com.alientodevida.alientoapp.domain.common.Gallery
-import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.domain.common.Notification
+import com.alientodevida.alientoapp.domain.home.Home
 
 class MainActions(private val controller: NavHostController) {
 
@@ -31,5 +31,4 @@ class MainActions(private val controller: NavHostController) {
         controller.navigate(MainDestination.notificationAdmin(campus))
 
     fun navigateToAdminNotification() = controller.navigate(MainDestination.notificationAdmin(null))
-
 }

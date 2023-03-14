@@ -45,30 +45,30 @@ fun InputField(
     singleLine: Boolean = true,
     enabled: Boolean = true,
 ) {
-  val keyboardController = LocalSoftwareKeyboardController.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
-  TextField(
-    value = value,
-    onValueChange = onChanged,
-    modifier = modifier,
-    singleLine = singleLine,
-    isError = isError,
-    textStyle = textStyle,
-    label = if (label != null) {
-      {
-        Body2(
-          text = if (isError) "$label*" else label,
-          color = if (isError) errorColor else labelColor,
-        )
-      }
-    } else null,
-    placeholder = { Body2(text = placeholder, color = placeholderColor) },
-    keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
-    keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
-    shape = shape,
-    colors = colors,
-    enabled = enabled,
-  )
+    TextField(
+        value = value,
+        onValueChange = onChanged,
+        modifier = modifier,
+        singleLine = singleLine,
+        isError = isError,
+        textStyle = textStyle,
+        label = if (label != null) {
+            {
+                Body2(
+                    text = if (isError) "$label*" else label,
+                    color = if (isError) errorColor else labelColor,
+                )
+            }
+        } else null,
+        placeholder = { Body2(text = placeholder, color = placeholderColor) },
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
+        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
+        shape = shape,
+        colors = colors,
+        enabled = enabled,
+    )
 }
 
 @Composable
@@ -92,31 +92,31 @@ fun OutlinedInputField(
     borderColor: Color = MaterialTheme.colors.primary,
     shape: Shape = MaterialTheme.shapes.small,
 ) {
-  Outlined(
-    modifier = modifier,
-    backgroundColor = backgroundColor,
-    borderWidth = borderWidth,
-    borderColor = borderColor,
-    shape = shape,
-    content = {
-      InputField(
-        value = value,
-        onChanged = onChanged,
-        modifier = inputModifier.fillMaxWidth(),
-        textStyle = textStyle,
-        label = label,
-        labelColor = labelColor,
-        placeholder = placeholder,
-        placeholderColor = placeholderColor,
-        keyboardType = keyboardType,
-        imeAction = imeAction,
+    Outlined(
+        modifier = modifier,
+        backgroundColor = backgroundColor,
+        borderWidth = borderWidth,
+        borderColor = borderColor,
         shape = shape,
-        colors = colors,
-        singleLine = singleLine,
-        enabled = enabled,
-      )
-    },
-  )
+        content = {
+            InputField(
+                value = value,
+                onChanged = onChanged,
+                modifier = inputModifier.fillMaxWidth(),
+                textStyle = textStyle,
+                label = label,
+                labelColor = labelColor,
+                placeholder = placeholder,
+                placeholderColor = placeholderColor,
+                keyboardType = keyboardType,
+                imeAction = imeAction,
+                shape = shape,
+                colors = colors,
+                singleLine = singleLine,
+                enabled = enabled,
+            )
+        },
+    )
 }
 
 @Composable
@@ -139,34 +139,34 @@ fun ErrorInputField(
     enabled: Boolean = true,
     shape: Shape = MaterialTheme.shapes.small,
 ) {
-  Column(
-    modifier = modifier,
-    horizontalAlignment = Alignment.Start,
-  ) {
-    InputField(
-      value = value,
-      onChanged = onChanged,
-      modifier = inputModifier.fillMaxWidth(),
-      textStyle = textStyle,
-      label = label,
-      labelColor = labelColor,
-      placeholder = placeholder,
-      placeholderColor = placeholderColor,
-      isError = error != null,
-      errorColor = errorColor,
-      keyboardType = keyboardType,
-      imeAction = imeAction,
-      shape = shape,
-      colors = colors,
-      singleLine = singleLine,
-      enabled = enabled,
-    )
-    Overline(
-      text = error ?: "",
-      color = MaterialTheme.colors.error,
-      modifier = Modifier.padding(start = 6.dp),
-    )
-  }
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.Start,
+    ) {
+        InputField(
+            value = value,
+            onChanged = onChanged,
+            modifier = inputModifier.fillMaxWidth(),
+            textStyle = textStyle,
+            label = label,
+            labelColor = labelColor,
+            placeholder = placeholder,
+            placeholderColor = placeholderColor,
+            isError = error != null,
+            errorColor = errorColor,
+            keyboardType = keyboardType,
+            imeAction = imeAction,
+            shape = shape,
+            colors = colors,
+            singleLine = singleLine,
+            enabled = enabled,
+        )
+        Overline(
+            text = error ?: "",
+            color = MaterialTheme.colors.error,
+            modifier = Modifier.padding(start = 6.dp),
+        )
+    }
 }
 
 @Composable
@@ -193,43 +193,43 @@ fun OutlinedErrorInputField(
     borderColor: Color = MaterialTheme.colors.primary,
     shape: Shape = MaterialTheme.shapes.small,
 ) {
-  Column(
-    modifier = modifier,
-    horizontalAlignment = Alignment.Start,
-  ) {
-    Outlined(
-      modifier = outlinedModifier.fillMaxWidth(),
-      backgroundColor = backgroundColor,
-      borderWidth = borderWidth,
-      borderColor = borderColor,
-      shape = shape,
-      content = {
-        InputField(
-          value = value,
-          onChanged = onChanged,
-          modifier = inputModifier.fillMaxWidth(),
-          textStyle = textStyle,
-          label = label,
-          labelColor = labelColor,
-          placeholder = placeholder,
-          placeholderColor = placeholderColor,
-          isError = error != null,
-          errorColor = errorColor,
-          keyboardType = keyboardType,
-          imeAction = imeAction,
-          shape = shape,
-          colors = colors,
-          singleLine = singleLine,
-          enabled = enabled,
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.Start,
+    ) {
+        Outlined(
+            modifier = outlinedModifier.fillMaxWidth(),
+            backgroundColor = backgroundColor,
+            borderWidth = borderWidth,
+            borderColor = borderColor,
+            shape = shape,
+            content = {
+                InputField(
+                    value = value,
+                    onChanged = onChanged,
+                    modifier = inputModifier.fillMaxWidth(),
+                    textStyle = textStyle,
+                    label = label,
+                    labelColor = labelColor,
+                    placeholder = placeholder,
+                    placeholderColor = placeholderColor,
+                    isError = error != null,
+                    errorColor = errorColor,
+                    keyboardType = keyboardType,
+                    imeAction = imeAction,
+                    shape = shape,
+                    colors = colors,
+                    singleLine = singleLine,
+                    enabled = enabled,
+                )
+            },
         )
-      },
-    )
-    Overline(
-      text = error ?: "",
-      color = MaterialTheme.colors.error,
-      modifier = Modifier.padding(start = 6.dp),
-    )
-  }
+        Overline(
+            text = error ?: "",
+            color = MaterialTheme.colors.error,
+            modifier = Modifier.padding(start = 6.dp),
+        )
+    }
 }
 
 @Composable
@@ -252,37 +252,37 @@ fun PasswordField(
     singleLine: Boolean = true,
     enabled: Boolean = true,
 ) {
-  val keyboardController = LocalSoftwareKeyboardController.current
-  var passwordShowing by remember { mutableStateOf(false) }
-  TextField(
-    value = value,
-    onValueChange = onChanged,
-    modifier = modifier,
-    singleLine = singleLine,
-    isError = isError,
-    textStyle = textStyle,
-    label = {
-      Caption(
-        text = if (isError) "$label*" else label,
-        color = if (isError) errorColor else labelColor,
-      )
-    },
-    placeholder = { Body2(text = placeholder, color = placeholderColor) },
-    keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
-    keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
-    visualTransformation = if (passwordShowing) VisualTransformation.None else PasswordVisualTransformation(),
-    trailingIcon = {
-      IconButton(onClick = { passwordShowing = !passwordShowing }) {
-        Icon(
-          imageVector = if (passwordShowing) Filled.VisibilityOff else Filled.Visibility,
-          contentDescription = if (passwordShowing) "Hide" else "Show",
-        )
-      }
-    },
-    shape = shape,
-    colors = colors,
-    enabled = enabled,
-  )
+    val keyboardController = LocalSoftwareKeyboardController.current
+    var passwordShowing by remember { mutableStateOf(false) }
+    TextField(
+        value = value,
+        onValueChange = onChanged,
+        modifier = modifier,
+        singleLine = singleLine,
+        isError = isError,
+        textStyle = textStyle,
+        label = {
+            Caption(
+                text = if (isError) "$label*" else label,
+                color = if (isError) errorColor else labelColor,
+            )
+        },
+        placeholder = { Body2(text = placeholder, color = placeholderColor) },
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
+        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
+        visualTransformation = if (passwordShowing) VisualTransformation.None else PasswordVisualTransformation(),
+        trailingIcon = {
+            IconButton(onClick = { passwordShowing = !passwordShowing }) {
+                Icon(
+                    imageVector = if (passwordShowing) Filled.VisibilityOff else Filled.Visibility,
+                    contentDescription = if (passwordShowing) "Hide" else "Show",
+                )
+            }
+        },
+        shape = shape,
+        colors = colors,
+        enabled = enabled,
+    )
 }
 
 @Composable
@@ -305,34 +305,34 @@ fun ErrorPasswordField(
     enabled: Boolean = true,
     shape: Shape = MaterialTheme.shapes.small,
 ) {
-  Column(
-    modifier = modifier,
-    horizontalAlignment = Alignment.Start,
-  ) {
-    PasswordField(
-      value = value,
-      onChanged = onChanged,
-      modifier = inputModifier.fillMaxWidth(),
-      textStyle = textStyle,
-      label = label,
-      labelColor = labelColor,
-      placeholder = placeholder,
-      placeholderColor = placeholderColor,
-      isError = error != null,
-      errorColor = errorColor,
-      keyboardType = keyboardType,
-      imeAction = imeAction,
-      shape = shape,
-      colors = colors,
-      singleLine = singleLine,
-      enabled = enabled,
-    )
-    Overline(
-      text = error ?: "",
-      color = MaterialTheme.colors.error,
-      modifier = Modifier.padding(start = 6.dp),
-    )
-  }
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.Start,
+    ) {
+        PasswordField(
+            value = value,
+            onChanged = onChanged,
+            modifier = inputModifier.fillMaxWidth(),
+            textStyle = textStyle,
+            label = label,
+            labelColor = labelColor,
+            placeholder = placeholder,
+            placeholderColor = placeholderColor,
+            isError = error != null,
+            errorColor = errorColor,
+            keyboardType = keyboardType,
+            imeAction = imeAction,
+            shape = shape,
+            colors = colors,
+            singleLine = singleLine,
+            enabled = enabled,
+        )
+        Overline(
+            text = error ?: "",
+            color = MaterialTheme.colors.error,
+            modifier = Modifier.padding(start = 6.dp),
+        )
+    }
 }
 
 @Composable
@@ -359,88 +359,88 @@ fun OutlinedErrorPasswordField(
     borderColor: Color = MaterialTheme.colors.primary,
     shape: Shape = MaterialTheme.shapes.small,
 ) {
-  Column(
-    modifier = modifier,
-    horizontalAlignment = Alignment.Start,
-  ) {
-    Outlined(
-      modifier = outlinedModifier.fillMaxWidth(),
-      backgroundColor = backgroundColor,
-      borderWidth = borderWidth,
-      borderColor = borderColor,
-      shape = shape,
-      content = {
-        PasswordField(
-          value = value,
-          onChanged = onChanged,
-          modifier = inputModifier.fillMaxWidth(),
-          textStyle = textStyle,
-          label = label,
-          labelColor = labelColor,
-          placeholder = placeholder,
-          placeholderColor = placeholderColor,
-          isError = error != null,
-          errorColor = errorColor,
-          keyboardType = keyboardType,
-          imeAction = imeAction,
-          shape = shape,
-          colors = colors,
-          singleLine = singleLine,
-          enabled = enabled,
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.Start,
+    ) {
+        Outlined(
+            modifier = outlinedModifier.fillMaxWidth(),
+            backgroundColor = backgroundColor,
+            borderWidth = borderWidth,
+            borderColor = borderColor,
+            shape = shape,
+            content = {
+                PasswordField(
+                    value = value,
+                    onChanged = onChanged,
+                    modifier = inputModifier.fillMaxWidth(),
+                    textStyle = textStyle,
+                    label = label,
+                    labelColor = labelColor,
+                    placeholder = placeholder,
+                    placeholderColor = placeholderColor,
+                    isError = error != null,
+                    errorColor = errorColor,
+                    keyboardType = keyboardType,
+                    imeAction = imeAction,
+                    shape = shape,
+                    colors = colors,
+                    singleLine = singleLine,
+                    enabled = enabled,
+                )
+            },
         )
-      },
-    )
-    Overline(
-      text = error ?: "",
-      color = MaterialTheme.colors.error,
-      modifier = Modifier.padding(start = 6.dp),
-    )
-  }
+        Overline(
+            text = error ?: "",
+            color = MaterialTheme.colors.error,
+            modifier = Modifier.padding(start = 6.dp),
+        )
+    }
 }
 
 @Composable
 fun textFieldColors(
-  textColor: Color = LocalContentColor.current.copy(LocalContentAlpha.current),
-  disabledTextColor: Color = textColor.copy(ContentAlpha.disabled),
-  backgroundColor: Color = MaterialTheme.colors.surface,
-  cursorColor: Color = MaterialTheme.colors.primary,
-  errorCursorColor: Color = MaterialTheme.colors.error,
-  focusedIndicatorColor: Color = Color.Transparent,
-  unfocusedIndicatorColor: Color = Color.Transparent,
-  disabledIndicatorColor: Color = Color.Transparent,
-  errorIndicatorColor: Color = Color.Transparent,
-  leadingIconColor: Color = MaterialTheme.colors.onSurface.copy(alpha = IconOpacity),
-  disabledLeadingIconColor: Color = leadingIconColor.copy(alpha = ContentAlpha.disabled),
-  errorLeadingIconColor: Color = leadingIconColor,
-  trailingIconColor: Color = MaterialTheme.colors.onSurface.copy(alpha = IconOpacity),
-  disabledTrailingIconColor: Color = trailingIconColor.copy(alpha = ContentAlpha.disabled),
-  errorTrailingIconColor: Color = MaterialTheme.colors.error,
-  focusedLabelColor: Color = MaterialTheme.colors.primary.copy(alpha = ContentAlpha.high),
-  unfocusedLabelColor: Color = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium),
-  disabledLabelColor: Color = unfocusedLabelColor.copy(ContentAlpha.disabled),
-  errorLabelColor: Color = MaterialTheme.colors.error,
-  placeholderColor: Color = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium),
-  disabledPlaceholderColor: Color = placeholderColor.copy(ContentAlpha.disabled),
+    textColor: Color = LocalContentColor.current.copy(LocalContentAlpha.current),
+    disabledTextColor: Color = textColor.copy(ContentAlpha.disabled),
+    backgroundColor: Color = MaterialTheme.colors.surface,
+    cursorColor: Color = MaterialTheme.colors.primary,
+    errorCursorColor: Color = MaterialTheme.colors.error,
+    focusedIndicatorColor: Color = Color.Transparent,
+    unfocusedIndicatorColor: Color = Color.Transparent,
+    disabledIndicatorColor: Color = Color.Transparent,
+    errorIndicatorColor: Color = Color.Transparent,
+    leadingIconColor: Color = MaterialTheme.colors.onSurface.copy(alpha = IconOpacity),
+    disabledLeadingIconColor: Color = leadingIconColor.copy(alpha = ContentAlpha.disabled),
+    errorLeadingIconColor: Color = leadingIconColor,
+    trailingIconColor: Color = MaterialTheme.colors.onSurface.copy(alpha = IconOpacity),
+    disabledTrailingIconColor: Color = trailingIconColor.copy(alpha = ContentAlpha.disabled),
+    errorTrailingIconColor: Color = MaterialTheme.colors.error,
+    focusedLabelColor: Color = MaterialTheme.colors.primary.copy(alpha = ContentAlpha.high),
+    unfocusedLabelColor: Color = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium),
+    disabledLabelColor: Color = unfocusedLabelColor.copy(ContentAlpha.disabled),
+    errorLabelColor: Color = MaterialTheme.colors.error,
+    placeholderColor: Color = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium),
+    disabledPlaceholderColor: Color = placeholderColor.copy(ContentAlpha.disabled),
 ): TextFieldColors = TextFieldDefaults.textFieldColors(
-  textColor = textColor,
-  disabledTextColor = disabledTextColor,
-  backgroundColor = backgroundColor,
-  cursorColor = cursorColor,
-  errorCursorColor = errorCursorColor,
-  focusedIndicatorColor = focusedIndicatorColor,
-  unfocusedIndicatorColor = unfocusedIndicatorColor,
-  disabledIndicatorColor = disabledIndicatorColor,
-  errorIndicatorColor = errorIndicatorColor,
-  leadingIconColor = leadingIconColor,
-  disabledLeadingIconColor = disabledLeadingIconColor,
-  errorLeadingIconColor = errorLeadingIconColor,
-  trailingIconColor = trailingIconColor,
-  disabledTrailingIconColor = disabledTrailingIconColor,
-  errorTrailingIconColor = errorTrailingIconColor,
-  focusedLabelColor = focusedLabelColor,
-  unfocusedLabelColor = unfocusedLabelColor,
-  disabledLabelColor = disabledLabelColor,
-  errorLabelColor = errorLabelColor,
-  placeholderColor = placeholderColor,
-  disabledPlaceholderColor = disabledPlaceholderColor,
+    textColor = textColor,
+    disabledTextColor = disabledTextColor,
+    backgroundColor = backgroundColor,
+    cursorColor = cursorColor,
+    errorCursorColor = errorCursorColor,
+    focusedIndicatorColor = focusedIndicatorColor,
+    unfocusedIndicatorColor = unfocusedIndicatorColor,
+    disabledIndicatorColor = disabledIndicatorColor,
+    errorIndicatorColor = errorIndicatorColor,
+    leadingIconColor = leadingIconColor,
+    disabledLeadingIconColor = disabledLeadingIconColor,
+    errorLeadingIconColor = errorLeadingIconColor,
+    trailingIconColor = trailingIconColor,
+    disabledTrailingIconColor = disabledTrailingIconColor,
+    errorTrailingIconColor = errorTrailingIconColor,
+    focusedLabelColor = focusedLabelColor,
+    unfocusedLabelColor = unfocusedLabelColor,
+    disabledLabelColor = disabledLabelColor,
+    errorLabelColor = errorLabelColor,
+    placeholderColor = placeholderColor,
+    disabledPlaceholderColor = disabledPlaceholderColor,
 )

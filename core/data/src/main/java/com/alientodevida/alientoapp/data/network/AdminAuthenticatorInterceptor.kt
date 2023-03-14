@@ -6,23 +6,21 @@ import okhttp3.Response
 import javax.inject.Inject
 
 class AdminAuthenticatorInterceptor @Inject constructor(
-  private val preferences: Preferences
+    private val preferences: Preferences
 ) : Interceptor {
-  
-  override fun intercept(chain: Interceptor.Chain): Response {
-    return try {
-      val requestBuilder = chain.request().newBuilder()
-      
-      preferences.adminToken?.let {
-        requestBuilder.addHeader("Authorization", "Bearer ${it.jwt}")
-      }
-      
-      chain.proceed(requestBuilder.build())
-      
-    } catch (e: Exception) {
-      e.printStackTrace()
-      chain.proceed(chain.request().newBuilder().build())
+
+    override fun intercept(chain: Interceptor.Chain): Response {
+        return try {
+            val requestBuilder = chain.request().newBuilder()
+
+            preferences.adminToken?.let {
+                requestBuilder.addHeader("Authorization", "Bearer ${it.jwt}")
+            }
+
+            chain.proceed(requestBuilder.build())
+        } catch (e: Exception) {
+            e.printStackTrace()
+            chain.proceed(chain.request().newBuilder().build())
+        }
     }
-  }
-  
 }

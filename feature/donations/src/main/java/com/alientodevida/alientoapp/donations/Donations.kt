@@ -31,30 +31,30 @@ import com.alientodevida.alientoapp.ui.extensions.goToUrl
 
 @Composable
 fun Donations(
-  viewModel: DonationsViewModel,
-  onBackPressed: () -> Unit,
+    viewModel: DonationsViewModel,
+    onBackPressed: () -> Unit,
 ) {
-  
-  val viewModelState by viewModel.viewModelState.collectAsState()
-  val context = LocalContext.current
-  
-  DonationsContent(
-    uiState = viewModelState,
-    onBackPressed = onBackPressed,
-    onCardClick = { onCardClick(context, it) },
-  )
+
+    val viewModelState by viewModel.viewModelState.collectAsState()
+    val context = LocalContext.current
+
+    DonationsContent(
+        uiState = viewModelState,
+        onBackPressed = onBackPressed,
+        onCardClick = { onCardClick(context, it) },
+    )
 }
 
 private fun onCardClick(context: Context, item: PaymentItem) {
-  when {
-    item.paypal != null -> context.goToUrl(item.paypal!!.url)
-    item.bankAccount != null -> {
-      context.copyToClipboard(
-        name = "Número de tarjeta",
-        value = item.bankAccount!!.cardNumber
-      )
+    when {
+        item.paypal != null -> context.goToUrl(item.paypal!!.url)
+        item.bankAccount != null -> {
+            context.copyToClipboard(
+                name = "Número de tarjeta",
+                value = item.bankAccount!!.cardNumber
+            )
+        }
     }
-  }
 }
 
 @Composable
@@ -64,59 +64,59 @@ fun DonationsContent(
     onBackPressed: () -> Unit,
     onCardClick: (PaymentItem) -> Unit,
 ) {
-  Scaffold(
-    scaffoldState = scaffoldState,
-    topBar = {
-      TopAppBar(onBackPressed = onBackPressed)
-    },
-  ) { paddingValues ->
-    Box(
-      modifier = Modifier
-        .padding(paddingValues = paddingValues)
-        .background(color = MaterialTheme.colors.background),
-    ) {
-      DonationsBody(
-        paymentOptions = uiState.paymentOptions,
-        onCardClick = onCardClick,
-      )
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBar(onBackPressed = onBackPressed)
+        },
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .padding(paddingValues = paddingValues)
+                .background(color = MaterialTheme.colors.background),
+        ) {
+            DonationsBody(
+                paymentOptions = uiState.paymentOptions,
+                onCardClick = onCardClick,
+            )
+        }
     }
-  }
 }
 
 // TODO can we extract a component ?
 @Composable
 fun TopAppBar(
-  onBackPressed: () -> Unit,
+    onBackPressed: () -> Unit,
 ) {
-  val modifier = Modifier.size(width = 60.dp, height = 50.dp)
-  
-  androidx.compose.material.TopAppBar(
-    title = {
-      Image(
-        painter = painterResource(id = R.drawable.logo_negro),
-        colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground),
-        contentScale = ContentScale.Inside,
-        alignment = Alignment.Center,
-        modifier = Modifier
-          .padding(8.dp)
-          .fillMaxWidth(),
-        contentDescription = null,
-      )
-    },
-    navigationIcon = {
-        com.alientodevida.alientoapp.designsystem.components.ClickableIcon(
-            modifier = modifier,
-            icon = R.drawable.ic_back_24,
-            contentDescription = "Back Button",
-            tint = MaterialTheme.colors.onBackground,
-            onClick = onBackPressed,
-        )
-    },
-    actions = {
-      Box(modifier = modifier, contentAlignment = Alignment.Center) { }
-    },
-    backgroundColor = MaterialTheme.colors.background,
-  )
+    val modifier = Modifier.size(width = 60.dp, height = 50.dp)
+
+    androidx.compose.material.TopAppBar(
+        title = {
+            Image(
+                painter = painterResource(id = R.drawable.logo_negro),
+                colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground),
+                contentScale = ContentScale.Inside,
+                alignment = Alignment.Center,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                contentDescription = null,
+            )
+        },
+        navigationIcon = {
+            com.alientodevida.alientoapp.designsystem.components.ClickableIcon(
+                modifier = modifier,
+                icon = R.drawable.ic_back_24,
+                contentDescription = "Back Button",
+                tint = MaterialTheme.colors.onBackground,
+                onClick = onBackPressed,
+            )
+        },
+        actions = {
+            Box(modifier = modifier, contentAlignment = Alignment.Center) { }
+        },
+        backgroundColor = MaterialTheme.colors.background,
+    )
 }
 
 @Composable
@@ -125,33 +125,33 @@ fun DonationsBody(
     paymentOptions: List<PaymentItem>,
     onCardClick: (PaymentItem) -> Unit,
 ) {
-  Column(Modifier.padding(horizontal = 8.dp)) {
-    Spacer(modifier = Modifier.height(8.dp))
-      com.alientodevida.alientoapp.designsystem.components.H5(
-          modifier = Modifier.padding(horizontal = 8.dp),
-          text = "Participa junto con nosotros para avanzar en la obra",
-          color = MaterialTheme.colors.onBackground,
-      )
-    Spacer(modifier = Modifier.height(8.dp))
-      com.alientodevida.alientoapp.designsystem.components.Body2(
-          modifier = Modifier.align(Alignment.End),
-          text = "(Haz click para copiar los datos)",
-          color = MaterialTheme.colors.onBackground,
-      )
-    Spacer(modifier = Modifier.height(16.dp))
-    LazyColumn(
-      contentPadding = PaddingValues(bottom = 16.dp),
-      verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-      items(paymentOptions, key = { it.id }) { item ->
-        DonationItem(
-          modifier = Modifier.animateItemPlacement(),
-          item = item,
-          onClick = onCardClick,
+    Column(Modifier.padding(horizontal = 8.dp)) {
+        Spacer(modifier = Modifier.height(8.dp))
+        com.alientodevida.alientoapp.designsystem.components.H5(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            text = "Participa junto con nosotros para avanzar en la obra",
+            color = MaterialTheme.colors.onBackground,
         )
-      }
+        Spacer(modifier = Modifier.height(8.dp))
+        com.alientodevida.alientoapp.designsystem.components.Body2(
+            modifier = Modifier.align(Alignment.End),
+            text = "(Haz click para copiar los datos)",
+            color = MaterialTheme.colors.onBackground,
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        LazyColumn(
+            contentPadding = PaddingValues(bottom = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            items(paymentOptions, key = { it.id }) { item ->
+                DonationItem(
+                    modifier = Modifier.animateItemPlacement(),
+                    item = item,
+                    onClick = onCardClick,
+                )
+            }
+        }
     }
-  }
 }
 
 @Composable
@@ -160,117 +160,116 @@ fun DonationItem(
     item: PaymentItem,
     onClick: (PaymentItem) -> Unit,
 ) {
-  Card(
-    modifier
-      .fillMaxWidth()
-      .aspectRatio(1.77f)
-      .clickable { onClick(item) },
-  ) {
-    when {
-      item.paypal != null -> PayPalItemContent()
-      item.bankAccount != null -> BankAccountItem(item.bankAccount!!)
+    Card(
+        modifier
+            .fillMaxWidth()
+            .aspectRatio(1.77f)
+            .clickable { onClick(item) },
+    ) {
+        when {
+            item.paypal != null -> PayPalItemContent()
+            item.bankAccount != null -> BankAccountItem(item.bankAccount!!)
+        }
     }
-  }
 }
 
 @Composable
 private fun BankAccountItem(item: BankAccount) {
-  Box {
-    Image(
-      painter = painterResource(item.backgroundResource),
-      contentScale = ContentScale.Crop,
-      alignment = Alignment.Center,
-      contentDescription = null,
-    )
-    
-    Column(Modifier.padding(8.dp)) {
-      Spacer(modifier = Modifier.weight(1.0f))
-        com.alientodevida.alientoapp.designsystem.components.Subtitle1(
-            text = "No. de Cuenta",
-            color = colorResource(R.color.pantone_white_c),
-        )
-        com.alientodevida.alientoapp.designsystem.components.Subtitle1(
-            text = item.accountNumber,
-            color = colorResource(R.color.pantone_white_c),
+    Box {
+        Image(
+            painter = painterResource(item.backgroundResource),
+            contentScale = ContentScale.Crop,
+            alignment = Alignment.Center,
+            contentDescription = null,
         )
 
-        com.alientodevida.alientoapp.designsystem.components.Subtitle1(
-            text = "Clabe",
-            color = colorResource(R.color.pantone_white_c),
-        )
-        com.alientodevida.alientoapp.designsystem.components.Subtitle1(
-            text = item.clabe,
-            color = colorResource(R.color.pantone_white_c),
-        )
+        Column(Modifier.padding(8.dp)) {
+            Spacer(modifier = Modifier.weight(1.0f))
+            com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+                text = "No. de Cuenta",
+                color = colorResource(R.color.pantone_white_c),
+            )
+            com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+                text = item.accountNumber,
+                color = colorResource(R.color.pantone_white_c),
+            )
 
-        com.alientodevida.alientoapp.designsystem.components.Subtitle1(
-            text = "No. de Tarjeta",
-            color = colorResource(R.color.pantone_white_c),
-        )
-        com.alientodevida.alientoapp.designsystem.components.Subtitle1(
-            text = item.cardNumber,
-            color = colorResource(R.color.pantone_white_c),
-        )
+            com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+                text = "Clabe",
+                color = colorResource(R.color.pantone_white_c),
+            )
+            com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+                text = item.clabe,
+                color = colorResource(R.color.pantone_white_c),
+            )
+
+            com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+                text = "No. de Tarjeta",
+                color = colorResource(R.color.pantone_white_c),
+            )
+            com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+                text = item.cardNumber,
+                color = colorResource(R.color.pantone_white_c),
+            )
+        }
     }
-  }
 }
 
 @Composable
 private fun PayPalItemContent() {
-  Box(
-    Modifier
-      .background(Color.White)
-      .padding(8.dp)
-  ) {
-    Image(
-      painter = painterResource(R.drawable.paypal_logo),
-      contentScale = ContentScale.Inside,
-      alignment = Alignment.Center,
-      modifier = Modifier
-        .size(150.dp, 70.dp)
-        .align(Alignment.Center),
-      contentDescription = null,
-    )
-      com.alientodevida.alientoapp.designsystem.components.Subtitle1(
-          modifier = Modifier.align(Alignment.BottomStart),
-          text = "Click para donar",
-          color = Color.Black,
-      )
-  }
+    Box(
+        Modifier
+            .background(Color.White)
+            .padding(8.dp)
+    ) {
+        Image(
+            painter = painterResource(R.drawable.paypal_logo),
+            contentScale = ContentScale.Inside,
+            alignment = Alignment.Center,
+            modifier = Modifier
+                .size(150.dp, 70.dp)
+                .align(Alignment.Center),
+            contentDescription = null,
+        )
+        com.alientodevida.alientoapp.designsystem.components.Subtitle1(
+            modifier = Modifier.align(Alignment.BottomStart),
+            text = "Click para donar",
+            color = Color.Black,
+        )
+    }
 }
-
 
 @Preview
 @Composable
 fun NotificationsPreview() {
-  com.alientodevida.alientoapp.designsystem.theme.AppTheme {
-    DonationsContent(
-      DonationsUiState(
-        listOf(
-          PaymentItem(
-            0,
-            DonationType.OFRENDA,
-            "Aliento de Vida AC",
-            null,
-            BankAccount(
-              R.drawable.bbva_card,
-              "BBVA BANCOMER",
-              "4555 1130 0604 1497",
-              "0113500640",
-              "012910001135006409",
+    com.alientodevida.alientoapp.designsystem.theme.AppTheme {
+        DonationsContent(
+            DonationsUiState(
+                listOf(
+                    PaymentItem(
+                        0,
+                        DonationType.OFRENDA,
+                        "Aliento de Vida AC",
+                        null,
+                        BankAccount(
+                            R.drawable.bbva_card,
+                            "BBVA BANCOMER",
+                            "4555 1130 0604 1497",
+                            "0113500640",
+                            "012910001135006409",
+                        ),
+                    ),
+                    PaymentItem(
+                        1,
+                        DonationType.OFRENDA,
+                        "Aliento de Vida AC",
+                        Paypal("https://www.paypal.com/paypalme/AlientoDeVidaMx"),
+                        null,
+                    ),
+                ),
             ),
-          ),
-          PaymentItem(
-            1,
-            DonationType.OFRENDA,
-            "Aliento de Vida AC",
-            Paypal("https://www.paypal.com/paypalme/AlientoDeVidaMx"),
-            null,
-          ),
-        ),
-      ),
-      onBackPressed = {},
-      onCardClick = {},
-    )
-  }
+            onBackPressed = {},
+            onCardClick = {},
+        )
+    }
 }

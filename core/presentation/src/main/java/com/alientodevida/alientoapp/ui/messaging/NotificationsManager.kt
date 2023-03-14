@@ -27,7 +27,7 @@ import android.app.Notification as AndroidNotification
 private const val CHANNEL_ID = "aliento_channel"
 const val PUSH_NOTIFICATIONS_TOPIC = "push_notifications"
 
-class NotificationsManager @Inject constructor(): FirebaseMessagingService() {
+class NotificationsManager @Inject constructor() : FirebaseMessagingService() {
 
     @Inject
     lateinit var logger: Logger
@@ -52,7 +52,7 @@ class NotificationsManager @Inject constructor(): FirebaseMessagingService() {
     /**
      * Required method to initialize this component, must be called on app startup
      */
-    fun <T: Activity>setActivityClass(activity: Class<T>) {
+    fun <T : Activity> setActivityClass(activity: Class<T>) {
         activityIntent = activity
     }
 
@@ -61,7 +61,9 @@ class NotificationsManager @Inject constructor(): FirebaseMessagingService() {
         else firebaseMessaging.unsubscribeFromTopic(PUSH_NOTIFICATIONS_TOPIC)
     }
 
-    override fun onNewToken(token: String) { logger.d("Refreshed token: $token") }
+    override fun onNewToken(token: String) {
+        logger.d("Refreshed token: $token")
+    }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         val id = remoteMessage.data["id"] ?: return
@@ -72,7 +74,8 @@ class NotificationsManager @Inject constructor(): FirebaseMessagingService() {
         val date = remoteMessage.data["date"]
         var notification: Notification? = null
 
-        if (image != null && date != null) notification = Notification(id.toInt(), title, body, Image(image), date)
+        if (image != null && date != null) notification =
+            Notification(id.toInt(), title, body, Image(image), date)
 
         sendNotification(title, body, notification)
     }
@@ -87,7 +90,8 @@ class NotificationsManager @Inject constructor(): FirebaseMessagingService() {
 
         val androidNotification = getNotification(title, body, pendingIntent)
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.addChannel()
         notificationManager.notify(0, androidNotification)
     }
@@ -147,5 +151,4 @@ class NotificationsManager @Inject constructor(): FirebaseMessagingService() {
             createNotificationChannel(channel)
         }
     }
-
 }

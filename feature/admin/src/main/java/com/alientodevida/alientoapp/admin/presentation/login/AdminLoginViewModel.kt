@@ -27,25 +27,24 @@ class AdminLoginViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     application: Application,
 ) : BaseViewModel(
-  coroutineDispatchers,
-  errorParser,
-  logger,
-  preferences,
-  savedStateHandle,
-  application,
+    coroutineDispatchers,
+    errorParser,
+    logger,
+    preferences,
+    savedStateHandle,
+    application,
 ) {
-  
-  private val _loginResult = MutableStateFlow<ViewModelResult<Unit>?>(null)
-  val loginResult: StateFlow<ViewModelResult<Unit>?> = _loginResult
-  
-  fun login(email: String, password: String) {
-    stateFlowNullableResult(
-      stateFlow = _loginResult,
-    ) {
-      val token = adminRepository.login(email, password)
-      preferences.adminToken = token
-      analytics.logAdminLogin()
+
+    private val _loginResult = MutableStateFlow<ViewModelResult<Unit>?>(null)
+    val loginResult: StateFlow<ViewModelResult<Unit>?> = _loginResult
+
+    fun login(email: String, password: String) {
+        stateFlowNullableResult(
+            stateFlow = _loginResult,
+        ) {
+            val token = adminRepository.login(email, password)
+            preferences.adminToken = token
+            analytics.logAdminLogin()
+        }
     }
-  }
-  
 }

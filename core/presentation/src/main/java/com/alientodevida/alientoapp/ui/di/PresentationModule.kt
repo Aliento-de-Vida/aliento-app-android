@@ -11,8 +11,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class PresentationModule {
 
-  @Provides
-  @Singleton
-  fun firebaseMessaging(): FirebaseMessaging = FirebaseMessaging.getInstance()
-
+    @Provides
+    @Singleton
+    fun firebaseMessaging(): FirebaseMessaging = FirebaseMessaging.getInstance()
 }

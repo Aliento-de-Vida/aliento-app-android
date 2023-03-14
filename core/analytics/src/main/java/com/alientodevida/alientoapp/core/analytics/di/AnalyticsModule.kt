@@ -26,5 +26,4 @@ class AnalyticsModule {
     fun analytics(
         firebaseAnalytics: FirebaseAnalytics
     ): Analytics = FirebaseAnalyticsHelper(firebaseAnalytics)
-
 }

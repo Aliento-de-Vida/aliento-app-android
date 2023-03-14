@@ -18,5 +18,4 @@ class AppModule {
     @Provides
     @Named("youtube-key")
     fun youtubeKey(): String = BuildConfig.YOUTUBE_DEVELOPER_KEY
-
 }

@@ -21,7 +21,7 @@ class UtilsEntryPoint @Inject constructor(
 
 }
 
-class NoOpUtils: Utils {
+class NoOpUtils : Utils {
     override val youtubeKey: String = ""
     override val analytics: Analytics = NoOpAnalytics()
 }

@@ -15,25 +15,24 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DomainModule {
-  
-  @Provides
-  @Singleton
-  @DefaultDispatcher
-  fun defaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
-  
-  @Provides
-  @Singleton
-  @IoDispatcher
-  fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
-  
-  @Provides
-  @Singleton
-  @MainDispatcher
-  fun mainDispatcher(): CoroutineDispatcher = Dispatchers.Main
-  
-  @Provides
-  @Singleton
-  @ImmediateDispatcher
-  fun immediateDispatcher(): CoroutineDispatcher = Dispatchers.Main.immediate
-  
+
+    @Provides
+    @Singleton
+    @DefaultDispatcher
+    fun defaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
+    @Provides
+    @Singleton
+    @IoDispatcher
+    fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @Provides
+    @Singleton
+    @MainDispatcher
+    fun mainDispatcher(): CoroutineDispatcher = Dispatchers.Main
+
+    @Provides
+    @Singleton
+    @ImmediateDispatcher
+    fun immediateDispatcher(): CoroutineDispatcher = Dispatchers.Main.immediate
 }

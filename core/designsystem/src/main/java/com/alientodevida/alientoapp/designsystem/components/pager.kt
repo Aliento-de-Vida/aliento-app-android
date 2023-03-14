@@ -16,45 +16,45 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun <T>Pager(
-  items: List<T>,
-  goToItem: (T) -> Unit,
-  page: @Composable (T) -> Unit,
+fun <T> Pager(
+    items: List<T>,
+    goToItem: (T) -> Unit,
+    page: @Composable (T) -> Unit,
 ) {
-  Box(Modifier.height(250.dp)) {
-    val pagerState = rememberPagerState()
-    
-    LaunchedEffect(pagerState.currentPage) {
-      launch {
-        delay(3000)
-        with(pagerState) {
-          val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
-          animateScrollToPage(page = target)
+    Box(Modifier.height(250.dp)) {
+        val pagerState = rememberPagerState()
+
+        LaunchedEffect(pagerState.currentPage) {
+            launch {
+                delay(3000)
+                with(pagerState) {
+                    val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
+                    animateScrollToPage(page = target)
+                }
+            }
         }
-      }
+
+        HorizontalPager(
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable {
+                    if (items.isNotEmpty()) goToItem(items[pagerState.currentPage])
+                },
+            count = items.size,
+            state = pagerState,
+        ) { page ->
+            page(items[page])
+        }
+
+        Column(Modifier.align(Alignment.Center)) {
+            Spacer(modifier = Modifier.weight(1.0f))
+            HorizontalPagerIndicator(
+                pagerState = pagerState,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(16.dp),
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
     }
-    
-    HorizontalPager(
-      modifier = Modifier
-        .fillMaxSize()
-        .clickable {
-          if (items.isNotEmpty()) goToItem(items[pagerState.currentPage])
-        },
-      count = items.size,
-      state = pagerState,
-    ) { page ->
-      page(items[page])
-    }
-    
-    Column(Modifier.align(Alignment.Center)) {
-      Spacer(modifier = Modifier.weight(1.0f))
-      HorizontalPagerIndicator(
-        pagerState = pagerState,
-        modifier = Modifier
-          .align(Alignment.CenterHorizontally)
-          .padding(16.dp),
-      )
-      Spacer(modifier = Modifier.height(16.dp))
-    }
-  }
 }

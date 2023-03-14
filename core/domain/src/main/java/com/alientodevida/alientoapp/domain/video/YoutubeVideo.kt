@@ -7,11 +7,11 @@ import kotlinx.parcelize.Parcelize
 
 @Entity
 @Parcelize
-data class  YoutubeVideo(
-  var name: String,
-  @PrimaryKey
-  val id: String,
-  val description: String,
-  val date: String,
-  val thumbnailsUrl: String?
+data class YoutubeVideo(
+    var name: String,
+    @PrimaryKey
+    val id: String,
+    val description: String,
+    val date: String,
+    val thumbnailsUrl: String?
 ) : Parcelable

@@ -16,32 +16,31 @@ import javax.inject.Inject
 @HiltAndroidApp
 class AppController : Application(), ImageLoaderFactory {
 
-  @Inject
-  lateinit var notificationsManager: NotificationsManager
+    @Inject
+    lateinit var notificationsManager: NotificationsManager
 
-  @Inject
-  lateinit var preferences: Preferences
+    @Inject
+    lateinit var preferences: Preferences
 
-  override fun onCreate() {
-    super.onCreate()
-    notificationsManager.setActivityClass(activity = MainActivity::class.java)
-    notificationsManager.subscribeToPushNotifications(preferences.pushEnabled)
-  }
+    override fun onCreate() {
+        super.onCreate()
+        notificationsManager.setActivityClass(activity = MainActivity::class.java)
+        notificationsManager.subscribeToPushNotifications(preferences.pushEnabled)
+    }
 
-  override fun newImageLoader(): ImageLoader  = imageLoader
-  
+    override fun newImageLoader(): ImageLoader = imageLoader
 }
 
 val Context.imageLoader: ImageLoader
-  get() = ImageLoader.Builder(this)
-    .okHttpClient { // TODO change this for https://coil-kt.github.io/coil/image_pipeline/#keyers
-      OkHttpClient.Builder()
-        .addNetworkInterceptor(
-          ResponseHeaderInterceptor("Cache-Control", "max-age=31536000,public")
-        ).build()
-    }
-    .memoryCache { MemoryCache.Builder(this).build() }
-    .diskCache {
-      DiskCache.Builder().directory(this.cacheDir.resolve("image_cache")).build()
-    }
-    .build()
+    get() = ImageLoader.Builder(this)
+        .okHttpClient { // TODO change this for https://coil-kt.github.io/coil/image_pipeline/#keyers
+            OkHttpClient.Builder()
+                .addNetworkInterceptor(
+                    ResponseHeaderInterceptor("Cache-Control", "max-age=31536000,public")
+                ).build()
+        }
+        .memoryCache { MemoryCache.Builder(this).build() }
+        .diskCache {
+            DiskCache.Builder().directory(this.cacheDir.resolve("image_cache")).build()
+        }
+        .build()

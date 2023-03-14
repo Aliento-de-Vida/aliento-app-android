@@ -7,14 +7,13 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 
 interface FileApi {
-  
-  @Multipart
-  @POST("/v1/files")
-  suspend fun uploadImage(
-    @Part filePart: MultipartBody.Part?,
-  )
-  
-  @GET("/v1/files")
-  suspend fun geAllImages(): List<String>
-  
+
+    @Multipart
+    @POST("/v1/files")
+    suspend fun uploadImage(
+        @Part filePart: MultipartBody.Part?,
+    )
+
+    @GET("/v1/files")
+    suspend fun geAllImages(): List<String>
 }

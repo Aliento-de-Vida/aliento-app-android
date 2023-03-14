@@ -20,49 +20,49 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NotificationModule {
-  
-  @OptIn(ExperimentalSerializationApi::class)
-  @Singleton
-  @Provides
-  fun notificationApi(
-    @Named("base-url")
-    baseUrl: String,
-    @Named("Client")
-    okHttpClient: OkHttpClient,
-    json: Json,
-  ): NotificationApi = Retrofit.Builder()
-    .client(okHttpClient)
-    .baseUrl(baseUrl)
-    .addConverterFactory(json.asConverterFactory(DataModule.contentType))
-    .build()
-    .create(NotificationApi::class.java)
-  
-  @OptIn(ExperimentalSerializationApi::class)
-  @Singleton
-  @Provides
-  fun notificationAdminApi(
-    @Named("base-url")
-    baseUrl: String,
-    @Named("AdminAuthClient")
-    okHttpClient: OkHttpClient,
-    json: Json,
-  ): NotificationAdminApi = Retrofit.Builder()
-    .client(okHttpClient)
-    .baseUrl(baseUrl)
-    .addConverterFactory(json.asConverterFactory(DataModule.contentType))
-    .build()
-    .create(NotificationAdminApi::class.java)
-  
-  @Singleton
-  @Provides
-  fun notificationRepository(
-      notificationApi: NotificationApi,
-      notificationAdminApi: NotificationAdminApi,
-      fileRepository: FileRepository,
-  ): com.alientodevida.alientoapp.notifications.domain.NotificationRepository = NotificationRepositoryImpl(
-    notificationApi,
-    notificationAdminApi,
-    fileRepository,
-  )
-  
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Singleton
+    @Provides
+    fun notificationApi(
+        @Named("base-url")
+        baseUrl: String,
+        @Named("Client")
+        okHttpClient: OkHttpClient,
+        json: Json,
+    ): NotificationApi = Retrofit.Builder()
+        .client(okHttpClient)
+        .baseUrl(baseUrl)
+        .addConverterFactory(json.asConverterFactory(DataModule.contentType))
+        .build()
+        .create(NotificationApi::class.java)
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Singleton
+    @Provides
+    fun notificationAdminApi(
+        @Named("base-url")
+        baseUrl: String,
+        @Named("AdminAuthClient")
+        okHttpClient: OkHttpClient,
+        json: Json,
+    ): NotificationAdminApi = Retrofit.Builder()
+        .client(okHttpClient)
+        .baseUrl(baseUrl)
+        .addConverterFactory(json.asConverterFactory(DataModule.contentType))
+        .build()
+        .create(NotificationAdminApi::class.java)
+
+    @Singleton
+    @Provides
+    fun notificationRepository(
+        notificationApi: NotificationApi,
+        notificationAdminApi: NotificationAdminApi,
+        fileRepository: FileRepository,
+    ): com.alientodevida.alientoapp.notifications.domain.NotificationRepository =
+        NotificationRepositoryImpl(
+            notificationApi,
+            notificationAdminApi,
+            fileRepository,
+        )
 }

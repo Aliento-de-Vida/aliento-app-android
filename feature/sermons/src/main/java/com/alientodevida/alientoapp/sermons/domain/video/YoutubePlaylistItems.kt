@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class YoutubePlaylistItems(
-  var items: List<PlaylistItem>
+    var items: List<PlaylistItem>
 )
 
 @Serializable
@@ -22,8 +22,8 @@ class Snippet(
 
 @Serializable
 data class ResourceId(
-  val kind: String,
-  val videoId: String
+    val kind: String,
+    val videoId: String
 )
 
 @Serializable
@@ -35,37 +35,36 @@ data class Thumbnails(
 
 @Serializable
 data class Default(
-  val url: String,
-  val width: Int,
-  val height: Int,
+    val url: String,
+    val width: Int,
+    val height: Int,
 )
 
 @Serializable
 data class Medium(
-  val url: String,
-  val width: Int,
-  val height: Int,
+    val url: String,
+    val width: Int,
+    val height: Int,
 )
 
 @Serializable
 data class High(
-  val url: String,
-  val width: Int,
-  val height: Int,
+    val url: String,
+    val width: Int,
+    val height: Int,
 )
-
 
 /**
  * Convert Network results to domain objects
  */
 fun YoutubePlaylistItems.asDomain(): List<YoutubeVideo> {
-  return items.map {
-    YoutubeVideo(
-      it.snippet.title,
-      it.snippet.resourceId!!.videoId,
-      it.snippet.description,
-      it.snippet.publishedAt,
-      it.snippet.thumbnails.high?.url
-    )
-  }
+    return items.map {
+        YoutubeVideo(
+            it.snippet.title,
+            it.snippet.resourceId!!.videoId,
+            it.snippet.description,
+            it.snippet.publishedAt,
+            it.snippet.thumbnails.high?.url
+        )
+    }
 }

@@ -28,45 +28,45 @@ import com.alientodevida.alientoapp.ui.navigation.MobileGraph
 
 @Composable
 fun MainNavigationGraph() {
-  val navController = rememberNavController()
-  val genericActions = remember(navController) { GenericNavigationActions(navController) }
-  val mainActions = remember(navController) { MainActions(navController) }
+    val navController = rememberNavController()
+    val genericActions = remember(navController) { GenericNavigationActions(navController) }
+    val mainActions = remember(navController) { MainActions(navController) }
 
-  NavHost(
-    navController = navController,
-    startDestination = MobileGraph.Main.path,
-  ) {
-    mainNavigation(
-      navController = navController,
-      genericActions = genericActions,
-      mainActions = mainActions,
-    )
-  }
+    NavHost(
+        navController = navController,
+        startDestination = MobileGraph.Main.path,
+    ) {
+        mainNavigation(
+            navController = navController,
+            genericActions = genericActions,
+            mainActions = mainActions,
+        )
+    }
 }
 
 fun NavGraphBuilder.mainNavigation(
-  navController: NavHostController,
-  genericActions: GenericNavigationActions,
-  mainActions: MainActions,
+    navController: NavHostController,
+    genericActions: GenericNavigationActions,
+    mainActions: MainActions,
 ) {
-  navigation(
-    route = MobileGraph.Main.path,
-    startDestination = MainDestination.Home.path,
-  ) {
-    home(mainActions)
-    sermons(navController, genericActions)
-    church(genericActions)
-    campuses(genericActions, mainActions)
-    galleries(genericActions, mainActions)
-    donations(genericActions)
-    prayer(genericActions)
-    notifications(genericActions, mainActions)
-    settings(genericActions)
-    
-    adminHome(genericActions)
-    adminLogin(genericActions)
-    adminCampus(genericActions)
-    adminNotifications(genericActions)
-    adminGallery(genericActions)
-  }
+    navigation(
+        route = MobileGraph.Main.path,
+        startDestination = MainDestination.Home.path,
+    ) {
+        home(mainActions)
+        sermons(navController, genericActions)
+        church(genericActions)
+        campuses(genericActions, mainActions)
+        galleries(genericActions, mainActions)
+        donations(genericActions)
+        prayer(genericActions)
+        notifications(genericActions, mainActions)
+        settings(genericActions)
+
+        adminHome(genericActions)
+        adminLogin(genericActions)
+        adminCampus(genericActions)
+        adminNotifications(genericActions)
+        adminGallery(genericActions)
+    }
 }

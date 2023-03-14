@@ -18,13 +18,13 @@ data class CampusRequest(
     val images: List<String>,
     val attachmentList: List<com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel>,
 ) {
-  val isComplete: Boolean =
-    name.isBlank().not() &&
-        description.isBlank().not() &&
-        shortDescription.isNotBlank() &&
-        imageName.isNotBlank() &&
-        location.isValid &&
-        contact.isNotBlank()
-  
-  val isNew: Boolean get() = id == 0
+    val isComplete: Boolean =
+        name.isBlank().not() &&
+            description.isBlank().not() &&
+            shortDescription.isNotBlank() &&
+            imageName.isNotBlank() &&
+            location.isValid &&
+            contact.isNotBlank()
+
+    val isNew: Boolean get() = id == 0
 }

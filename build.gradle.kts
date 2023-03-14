@@ -9,7 +9,7 @@ buildscript {
 
         classpath(BuildPlugins.hiltPlugin)
         classpath(BuildPlugins.navigationPlugin)
-        classpath(BuildPlugins.gogleServices)
+        classpath(BuildPlugins.googleServicesClassPath)
         classpath(BuildPlugins.serialization)
         classpath(BuildPlugins.crashlyticsPlugin)
     }

@@ -13,8 +13,6 @@ import com.alientodevida.alientoapp.designsystem.theme.AppTheme
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.alientodevida.alientoapp.ui.utils.LocalUtils
 import com.alientodevida.alientoapp.ui.utils.Utils
-import com.google.firebase.FirebaseApp
-import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,37 +20,38 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-  
-  @Inject
-  lateinit var preferences: Preferences
 
-  @Inject
-  lateinit var utilsEntryPoint: Utils
+    @Inject
+    lateinit var preferences: Preferences
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    setTheme(R.style.AppTheme)
-    super.onCreate(savedInstanceState)
-    
-    observe()
+    @Inject
+    lateinit var utilsEntryPoint: Utils
 
-    setContent {
-      CompositionLocalProvider(
-        LocalUtils provides utilsEntryPoint,
-      ) {
-        AppTheme {
-          MainNavigationGraph()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
+        super.onCreate(savedInstanceState)
+
+        observe()
+
+        setContent {
+            CompositionLocalProvider(
+                LocalUtils provides utilsEntryPoint,
+            ) {
+                AppTheme {
+                    MainNavigationGraph()
+                }
+            }
         }
-      }
     }
-  }
 
-  private fun observe() {
-    lifecycleScope.launch {
-      lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-        preferences.isDarkThemeFlow.collectLatest { isDark ->
-          delegate.localNightMode = if (isDark) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+    private fun observe() {
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                preferences.isDarkThemeFlow.collectLatest { isDark ->
+                    delegate.localNightMode =
+                        if (isDark) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+                }
+            }
         }
-      }
     }
-  }
 }

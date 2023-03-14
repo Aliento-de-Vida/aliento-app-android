@@ -27,94 +27,94 @@ import com.alientodevida.alientoapp.sermons.presentation.navigation.NavigationGr
 
 @Composable
 fun Sermons(
-  onBackPressed: () -> Unit,
-){
-  val navController = rememberNavController()
-  
-  Scaffold(
-    topBar = { TopAppBar(onBackPressed = { onBackPressed() }) },
-    bottomBar = { BottomNavigation(navController = navController) },
-  ) { paddingValues ->
-    Box(modifier = Modifier.padding(paddingValues = paddingValues)) {
-      NavigationGraph(navController = navController)
+    onBackPressed: () -> Unit,
+) {
+    val navController = rememberNavController()
+
+    Scaffold(
+        topBar = { TopAppBar(onBackPressed = { onBackPressed() }) },
+        bottomBar = { BottomNavigation(navController = navController) },
+    ) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues = paddingValues)) {
+            NavigationGraph(navController = navController)
+        }
     }
-  }
 }
 
 // TODO can we extract a component ?
 @Composable
 fun TopAppBar(
-  onBackPressed: () -> Unit,
+    onBackPressed: () -> Unit,
 ) {
-  val modifier = Modifier.size(width = 60.dp, height = 50.dp)
-  
-  androidx.compose.material.TopAppBar(
-    title = {
-      Image(
-        painter = painterResource(id = R.drawable.logo_negro),
-        colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground),
-        contentScale = ContentScale.Inside,
-        alignment = Alignment.Center,
-        modifier = Modifier
-          .padding(8.dp)
-          .fillMaxWidth(),
-        contentDescription = null,
-      )
-    },
-    navigationIcon = {
-        com.alientodevida.alientoapp.designsystem.components.ClickableIcon(
-            modifier = modifier,
-            icon = R.drawable.ic_back_24,
-            contentDescription = "Back Button",
-            tint = MaterialTheme.colors.onBackground,
-            onClick = onBackPressed,
-        )
-    },
-    actions = {
-      Box(modifier = modifier, contentAlignment = Alignment.Center) { }
-    },
-    backgroundColor = MaterialTheme.colors.background,
-  )
+    val modifier = Modifier.size(width = 60.dp, height = 50.dp)
+
+    androidx.compose.material.TopAppBar(
+        title = {
+            Image(
+                painter = painterResource(id = R.drawable.logo_negro),
+                colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground),
+                contentScale = ContentScale.Inside,
+                alignment = Alignment.Center,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                contentDescription = null,
+            )
+        },
+        navigationIcon = {
+            com.alientodevida.alientoapp.designsystem.components.ClickableIcon(
+                modifier = modifier,
+                icon = R.drawable.ic_back_24,
+                contentDescription = "Back Button",
+                tint = MaterialTheme.colors.onBackground,
+                onClick = onBackPressed,
+            )
+        },
+        actions = {
+            Box(modifier = modifier, contentAlignment = Alignment.Center) { }
+        },
+        backgroundColor = MaterialTheme.colors.background,
+    )
 }
 
 @Composable
 fun BottomNavigation(navController: NavController) {
-  val items = listOf(
-    BottomNavItem.Video,
-    BottomNavItem.Audio,
-  )
-  androidx.compose.material.BottomNavigation(
-    backgroundColor = MaterialTheme.colors.surface,
-    contentColor = Color.Black
-  ) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-    items.forEach { item ->
-      val isSelected = currentRoute == item.screen_route
-      BottomNavigationItem(
-        icon = { Icon(painterResource(id = item.icon), contentDescription = item.title) },
-        label = {
-            com.alientodevida.alientoapp.designsystem.components.Caption(
-                text = item.title,
-                color = if (isSelected) MaterialTheme.colors.onSurface else MaterialTheme.colors.onSurface.copy(
-                    0.4f
-                ),
+    val items = listOf(
+        BottomNavItem.Video,
+        BottomNavItem.Audio,
+    )
+    androidx.compose.material.BottomNavigation(
+        backgroundColor = MaterialTheme.colors.surface,
+        contentColor = Color.Black
+    ) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+        items.forEach { item ->
+            val isSelected = currentRoute == item.screen_route
+            BottomNavigationItem(
+                icon = { Icon(painterResource(id = item.icon), contentDescription = item.title) },
+                label = {
+                    com.alientodevida.alientoapp.designsystem.components.Caption(
+                        text = item.title,
+                        color = if (isSelected) MaterialTheme.colors.onSurface else MaterialTheme.colors.onSurface.copy(
+                            0.4f
+                        ),
+                    )
+                },
+                selectedContentColor = MaterialTheme.colors.onSurface,
+                unselectedContentColor = MaterialTheme.colors.onSurface.copy(0.4f),
+                alwaysShowLabel = true,
+                selected = isSelected,
+                onClick = {
+                    navController.navigate(item.screen_route) {
+                        navController.graph.startDestinationRoute?.let { screen_route ->
+                            popUpTo(screen_route) { saveState = true }
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
             )
-        },
-        selectedContentColor = MaterialTheme.colors.onSurface,
-        unselectedContentColor = MaterialTheme.colors.onSurface.copy(0.4f),
-        alwaysShowLabel = true,
-        selected = isSelected,
-        onClick = {
-          navController.navigate(item.screen_route) {
-            navController.graph.startDestinationRoute?.let { screen_route ->
-              popUpTo(screen_route) { saveState = true }
-            }
-            launchSingleTop = true
-            restoreState = true
-          }
         }
-      )
     }
-  }
 }
