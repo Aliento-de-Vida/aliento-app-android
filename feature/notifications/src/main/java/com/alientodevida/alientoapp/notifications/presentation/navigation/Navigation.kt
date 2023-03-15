@@ -23,7 +23,7 @@ fun NavGraphBuilder.adminNotifications(
 ) {
     composable(
         route = MainDestination.AdminNotifications.path,
-        arguments = listOf(navArgument(NOTIFICATION_DESTINATION) { type = NotificationType() })
+        arguments = listOf(navArgument(NOTIFICATION_DESTINATION) { type = NotificationType() }),
     ) {
         val notification =
             it.arguments?.getParcelableValue(NOTIFICATION_DESTINATION, Notification::class.java)!!
@@ -42,9 +42,11 @@ fun NavGraphBuilder.notifications(
 ) {
     composable(
         route = MainDestination.Notifications.path,
-        deepLinks = listOf(navDeepLink {
-            uriPattern = "https://todoserver-peter.herokuapp.com/{notification_id}"
-        }),
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern = "https://todoserver-peter.herokuapp.com/{notification_id}"
+            },
+        ),
     ) { backStackEntry ->
         val notificationId = backStackEntry.arguments?.getString("notification_id")
         Notifications(
@@ -58,7 +60,7 @@ fun NavGraphBuilder.notifications(
 }
 
 class NotificationType : NavType<Notification>(
-    isNullableAllowed = true
+    isNullableAllowed = true,
 ) {
     override fun put(bundle: Bundle, key: String, value: Notification) {
         bundle.putParcelable(key, value)

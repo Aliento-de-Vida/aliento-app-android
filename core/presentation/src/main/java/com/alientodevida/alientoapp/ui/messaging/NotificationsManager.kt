@@ -57,8 +57,11 @@ class NotificationsManager @Inject constructor() : FirebaseMessagingService() {
     }
 
     fun subscribeToPushNotifications(subscribe: Boolean) {
-        if (subscribe) firebaseMessaging.subscribeToTopic(PUSH_NOTIFICATIONS_TOPIC)
-        else firebaseMessaging.unsubscribeFromTopic(PUSH_NOTIFICATIONS_TOPIC)
+        if (subscribe) {
+            firebaseMessaging.subscribeToTopic(PUSH_NOTIFICATIONS_TOPIC)
+        } else {
+            firebaseMessaging.unsubscribeFromTopic(PUSH_NOTIFICATIONS_TOPIC)
+        }
     }
 
     override fun onNewToken(token: String) {
@@ -74,8 +77,10 @@ class NotificationsManager @Inject constructor() : FirebaseMessagingService() {
         val date = remoteMessage.data["date"]
         var notification: Notification? = null
 
-        if (image != null && date != null) notification =
-            Notification(id.toInt(), title, body, Image(image), date)
+        if (image != null && date != null) {
+            notification =
+                Notification(id.toInt(), title, body, Image(image), date)
+        }
 
         sendNotification(title, body, notification)
     }
@@ -83,10 +88,13 @@ class NotificationsManager @Inject constructor() : FirebaseMessagingService() {
     private fun sendNotification(
         title: String,
         body: String,
-        notification: Notification?
+        notification: Notification?,
     ) {
-        val pendingIntent = if (notification != null) notification.deepLinkIntent().pendingIntent()
-        else context.appIntent()
+        val pendingIntent = if (notification != null) {
+            notification.deepLinkIntent().pendingIntent()
+        } else {
+            context.appIntent()
+        }
 
         val androidNotification = getNotification(title, body, pendingIntent)
 
@@ -104,14 +112,14 @@ class NotificationsManager @Inject constructor() : FirebaseMessagingService() {
             PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
         } else {
             PendingIntent.FLAG_ONE_SHOT
-        }
+        },
     )
 
     private fun Notification.deepLinkIntent() = Intent(
         Intent.ACTION_VIEW,
         "$baseUrl/$id".toUri(),
         context,
-        activityIntent
+        activityIntent,
     )
 
     private fun Intent.pendingIntent(): PendingIntent? = TaskStackBuilder.create(context).run {
@@ -127,7 +135,7 @@ class NotificationsManager @Inject constructor() : FirebaseMessagingService() {
     private fun getNotification(
         title: String,
         body: String,
-        pendingIntent: PendingIntent?
+        pendingIntent: PendingIntent?,
     ): AndroidNotification {
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
@@ -146,7 +154,7 @@ class NotificationsManager @Inject constructor() : FirebaseMessagingService() {
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 "Notificationes generales",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_DEFAULT,
             )
             createNotificationChannel(channel)
         }

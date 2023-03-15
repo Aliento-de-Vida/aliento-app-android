@@ -20,7 +20,7 @@ fun getDatabase(context: Context): AppDatabase {
             INSTANCE = Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
-                "appdatabase"
+                "appdatabase",
             ).build()
         }
     }

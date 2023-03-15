@@ -25,16 +25,18 @@ class SpotifyAuthenticator @Inject constructor(
                 newSpotifyToken = spotifyAuthApi.getToken(
                     "https://accounts.spotify.com/api/token/",
                     SPOTIFY_TOKEN,
-                    SPOTIFY_GRANT_TYPE
+                    SPOTIFY_GRANT_TYPE,
                 )
             }
             preferences.spotifyToken = newSpotifyToken
             return response.request.newBuilder().header(
-                "Authorization", "Bearer ${newSpotifyToken.accessToken}"
+                "Authorization",
+                "Bearer ${newSpotifyToken.accessToken}",
             ).build()
         } else {
             return response.request.newBuilder().header(
-                "Authorization", "Bearer ${preferences.spotifyToken?.accessToken}"
+                "Authorization",
+                "Bearer ${preferences.spotifyToken?.accessToken}",
             ).build()
         }
     }

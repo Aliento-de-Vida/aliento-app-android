@@ -33,7 +33,7 @@ fun SocialMedia(
     Column(
         Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp)
+            .padding(horizontal = 8.dp),
     ) {
         com.alientodevida.alientoapp.designsystem.components.H5(
             modifier = Modifier.padding(horizontal = 8.dp),

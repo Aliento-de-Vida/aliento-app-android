@@ -46,7 +46,6 @@ android {
             keyPassword = props.getProperty("keyPassword")
         }
         getByName("debug") {
-
         }
     }
 
@@ -55,12 +54,12 @@ android {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
             buildConfigField(
                 "String",
                 "YOUTUBE_DEVELOPER_KEY",
-                "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\""
+                "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\"",
             )
             buildConfigField("String", "BASE_URL", "\"https://todoserver-peter.herokuapp.com\"")
         }
@@ -69,7 +68,7 @@ android {
             buildConfigField(
                 "String",
                 "YOUTUBE_DEVELOPER_KEY",
-                "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\""
+                "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\"",
             )
             buildConfigField("String", "BASE_URL", "\"https://todoserver-peter.herokuapp.com\"")
         }
@@ -158,6 +157,8 @@ dependencies {
 
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Kotlin.serialization}")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${RetrofitSerializationConverter.lib}")
+    implementation(
+        "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${RetrofitSerializationConverter.lib}",
+    )
     implementation("com.google.code.gson:gson:${Gson.lib}")
 }

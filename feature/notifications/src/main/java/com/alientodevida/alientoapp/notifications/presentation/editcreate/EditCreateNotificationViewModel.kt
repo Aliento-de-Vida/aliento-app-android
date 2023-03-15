@@ -74,7 +74,7 @@ class EditCreateNotificationViewModel @Inject constructor(
             notificationRequest = Notification.empty().toNotificationRequest(),
             loading = false,
             messages = emptyList(),
-        )
+        ),
     )
     val viewModelState: StateFlow<NotificationUiState> = _viewModelState
 
@@ -90,7 +90,7 @@ class EditCreateNotificationViewModel @Inject constructor(
     fun onNotificationTitleChanged(newTitle: String) {
         _viewModelState.update {
             it.copy(
-                notificationRequest = it.notificationRequest.copy(title = newTitle)
+                notificationRequest = it.notificationRequest.copy(title = newTitle),
             )
         }
     }
@@ -98,7 +98,7 @@ class EditCreateNotificationViewModel @Inject constructor(
     fun onNotificationDescriptionChanged(newDescription: String) {
         _viewModelState.update {
             it.copy(
-                notificationRequest = it.notificationRequest.copy(content = newDescription)
+                notificationRequest = it.notificationRequest.copy(content = newDescription),
             )
         }
     }
@@ -109,7 +109,7 @@ class EditCreateNotificationViewModel @Inject constructor(
                 notificationRequest = it.notificationRequest.copy(
                     attachment = newAttachment,
                     imageName = newAttachment.displayName,
-                )
+                ),
             )
         }
     }
@@ -121,7 +121,7 @@ class EditCreateNotificationViewModel @Inject constructor(
                 notificationRequest = it.notificationRequest.copy(
                     attachment = null,
                     imageName = "",
-                )
+                ),
             )
         }
     }
@@ -136,10 +136,11 @@ class EditCreateNotificationViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _viewModelState.update { it.copy(loading = true) }
-                val value = if (notification.isNew)
+                val value = if (notification.isNew) {
                     notificationRepository.createNotification(notification.toDomain(domainAttachment))
-                else
+                } else {
                     notificationRepository.editNotification(notification.toDomain(domainAttachment))
+                }
 
                 val successMessage = Message.Localized.Informational(
                     id = UUID.randomUUID().mostSignificantBits,
@@ -152,7 +153,7 @@ class EditCreateNotificationViewModel @Inject constructor(
                 _viewModelState.update {
                     it.copy(
                         notificationRequest = value.toNotificationRequest(),
-                        messages = messages
+                        messages = messages,
                     )
                 }
             } catch (ex: CancellationException) {

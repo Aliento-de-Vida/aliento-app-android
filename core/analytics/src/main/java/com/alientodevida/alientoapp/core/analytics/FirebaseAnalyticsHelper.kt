@@ -2,7 +2,6 @@ package com.alientodevida.alientoapp.core.analytics
 
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.logEvent
-
 import javax.inject.Inject
 
 class FirebaseAnalyticsHelper @Inject constructor(

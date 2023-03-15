@@ -120,17 +120,19 @@ fun GalleriesContent(
             TopAppBar(onBackPressed = onBackPressed)
         },
         floatingActionButton = {
-            if (isAdmin) FloatingActionButton(
-                onClick = { goToCreateGallery() },
-                contentColor = MaterialTheme.colors.surface,
-            ) {
-                com.alientodevida.alientoapp.designsystem.components.Icon(
-                    icon = R.drawable.ic_add_24,
-                    contentDescription = "Create Gallery",
-                    tint = MaterialTheme.colors.onSurface
-                )
+            if (isAdmin) {
+                FloatingActionButton(
+                    onClick = { goToCreateGallery() },
+                    contentColor = MaterialTheme.colors.surface,
+                ) {
+                    com.alientodevida.alientoapp.designsystem.components.Icon(
+                        icon = R.drawable.ic_add_24,
+                        contentDescription = "Create Gallery",
+                        tint = MaterialTheme.colors.onSurface,
+                    )
+                }
             }
-        }
+        },
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -258,7 +260,7 @@ fun GalleryItem(
                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                         expanded = expanded.not()
                     }
-                }
+                },
             ),
     ) {
         Box {
@@ -267,10 +269,11 @@ fun GalleryItem(
             DropdownMenu(
                 modifier = Modifier.background(MaterialTheme.colors.surface),
                 expanded = expanded,
-                onDismissRequest = { expanded = false }
+                onDismissRequest = { expanded = false },
             ) {
                 DropdownMenuItem(
-                    onClick = { deleteGallery(Gallery) }) {
+                    onClick = { deleteGallery(Gallery) },
+                ) {
                     com.alientodevida.alientoapp.designsystem.components.Body2(
                         text = "Eliminar",
                         color = MaterialTheme.colors.onSurface,
@@ -292,7 +295,7 @@ private fun GalleryItemContent(gallery: Gallery) {
     Box {
         com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(
             url = gallery.coverPicture.toImageUrl(),
-            description = gallery.name
+            description = gallery.name,
         )
 
         Column {

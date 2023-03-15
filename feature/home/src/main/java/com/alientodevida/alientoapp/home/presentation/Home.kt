@@ -40,7 +40,6 @@ fun Home(
     goToDonations: () -> Unit,
     goToAdminLogin: () -> Unit,
 ) {
-
     val viewModelState by viewModel.viewModelState.collectAsState()
     val isAdmin by viewModel.isAdmin.collectAsState(false)
     val context = LocalContext.current
@@ -129,7 +128,7 @@ private fun HomeWithDialog(
     goToTwitter: () -> Unit,
     goToSpotify: () -> Unit,
     goToAdminLogin: () -> Unit,
-    adminLogout: () -> Unit
+    adminLogout: () -> Unit,
 ) {
     val modalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
@@ -199,7 +198,7 @@ fun HomeContent(
     goToTwitter: () -> Unit,
     goToSpotify: () -> Unit,
     goToAdminLogin: () -> Unit,
-    adminLogout: () -> Unit
+    adminLogout: () -> Unit,
 ) {
     Scaffold(scaffoldState = scaffoldState, topBar = {
         TopAppBar(
@@ -207,17 +206,19 @@ fun HomeContent(
             goToSettings = goToSettings,
         )
     }, floatingActionButton = {
-        if (isAdmin) FloatingActionButton(
-            onClick = { goToEditHome() },
-            contentColor = MaterialTheme.colors.surface,
-        ) {
-            com.alientodevida.alientoapp.designsystem.components.Icon(
-                icon = R.drawable.ic_edit_24,
-                contentDescription = "Edit Home",
-                tint = MaterialTheme.colors.onSurface
-            )
-        }
-    }) { paddingValues ->
+            if (isAdmin) {
+                FloatingActionButton(
+                    onClick = { goToEditHome() },
+                    contentColor = MaterialTheme.colors.surface,
+                ) {
+                    com.alientodevida.alientoapp.designsystem.components.Icon(
+                        icon = R.drawable.ic_edit_24,
+                        contentDescription = "Edit Home",
+                        tint = MaterialTheme.colors.onSurface,
+                    )
+                }
+            }
+        },) { paddingValues ->
         Box(
             modifier = Modifier
                 .padding(paddingValues = paddingValues)

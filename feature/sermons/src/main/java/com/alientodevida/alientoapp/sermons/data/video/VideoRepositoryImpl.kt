@@ -25,10 +25,10 @@ class VideoRepositoryImpl @Inject constructor(
         val response = youtubeApi.getYoutubeChannelVideos(
             "https://www.googleapis.com/youtube/v3/search?" +
                 "key=$youtubeKey" +
-                "&channelId=${channelId}" +
+                "&channelId=$channelId" +
                 "&part=snippet" +
                 "&order=date" +
-                "&maxResults=$maxResults"
+                "&maxResults=$maxResults",
         )
 
         val items = response.asDomain()
@@ -40,14 +40,13 @@ class VideoRepositoryImpl @Inject constructor(
         playListId: String,
         maxResults: Int,
     ): List<YoutubeVideo> {
-
         val response = youtubeApi.getYoutubePlaylist(
             "https://www.googleapis.com/youtube/v3/playlistItems?" +
                 "key=$youtubeKey" +
-                "&playlistId=${playListId}" +
+                "&playlistId=$playListId" +
                 "&part=snippet" +
                 "&order=date" +
-                "&maxResults=$maxResults"
+                "&maxResults=$maxResults",
         )
 
         val items = response.asDomain()

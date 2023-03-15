@@ -8,7 +8,7 @@ import com.alientodevida.alientoapp.domain.home.HomeRepository
 
 class HomeRepositoryImpl(
     private val api: HomeApi,
-    private val fileRepository: FileRepository
+    private val fileRepository: FileRepository,
 ) : HomeRepository {
 
     override suspend fun getHome() = api.getHome()

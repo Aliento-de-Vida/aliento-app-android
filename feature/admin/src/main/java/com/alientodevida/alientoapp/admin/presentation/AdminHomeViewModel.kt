@@ -77,7 +77,7 @@ class AdminHomeViewModel @Inject constructor(
             images = HomeImages(),
             loading = false,
             messages = emptyList(),
-        )
+        ),
     )
     val viewModelState: StateFlow<HomeUiState> = _viewModelState
 
@@ -181,9 +181,9 @@ class AdminHomeViewModel @Inject constructor(
             it.copy(
                 home = it.home.copy(
                     socialMedia = it.home.socialMedia.copy(
-                        instagramUrl = newInstagramUrl
-                    )
-                )
+                        instagramUrl = newInstagramUrl,
+                    ),
+                ),
             )
         }
     }
@@ -193,9 +193,9 @@ class AdminHomeViewModel @Inject constructor(
             it.copy(
                 home = it.home.copy(
                     socialMedia = it.home.socialMedia.copy(
-                        youtubeChannelUrl = newYoutubeChanelUrl
-                    )
-                )
+                        youtubeChannelUrl = newYoutubeChanelUrl,
+                    ),
+                ),
             )
         }
     }
@@ -205,9 +205,9 @@ class AdminHomeViewModel @Inject constructor(
             it.copy(
                 home = it.home.copy(
                     socialMedia = it.home.socialMedia.copy(
-                        facebookPageId = newFacebookPageId
-                    )
-                )
+                        facebookPageId = newFacebookPageId,
+                    ),
+                ),
             )
         }
     }
@@ -217,9 +217,9 @@ class AdminHomeViewModel @Inject constructor(
             it.copy(
                 home = it.home.copy(
                     socialMedia = it.home.socialMedia.copy(
-                        facebookPageUrl = newFacebookPageUrl
-                    )
-                )
+                        facebookPageUrl = newFacebookPageUrl,
+                    ),
+                ),
             )
         }
     }
@@ -229,9 +229,9 @@ class AdminHomeViewModel @Inject constructor(
             it.copy(
                 home = it.home.copy(
                     socialMedia = it.home.socialMedia.copy(
-                        twitterUserId = newTwitterUserId
-                    )
-                )
+                        twitterUserId = newTwitterUserId,
+                    ),
+                ),
             )
         }
     }
@@ -241,9 +241,9 @@ class AdminHomeViewModel @Inject constructor(
             it.copy(
                 home = it.home.copy(
                     socialMedia = it.home.socialMedia.copy(
-                        twitterUrl = newTwitterUrl
-                    )
-                )
+                        twitterUrl = newTwitterUrl,
+                    ),
+                ),
             )
         }
     }
@@ -253,9 +253,9 @@ class AdminHomeViewModel @Inject constructor(
             it.copy(
                 home = it.home.copy(
                     socialMedia = it.home.socialMedia.copy(
-                        spotifyArtistId = newSpotifyArtistId
-                    )
-                )
+                        spotifyArtistId = newSpotifyArtistId,
+                    ),
+                ),
             )
         }
     }
@@ -282,7 +282,7 @@ class AdminHomeViewModel @Inject constructor(
                 _viewModelState.update {
                     it.copy(
                         home = value,
-                        messages = messages
+                        messages = messages,
                     )
                 }
             } catch (ex: CancellationException) {
@@ -302,31 +302,31 @@ class AdminHomeViewModel @Inject constructor(
         val imagesList = mutableListOf<Attachment?>()
         imagesList += images.sermonsImage?.getDomainAttachment(
             application,
-            DomainHomeImages.SERMONS_IMAGE
+            DomainHomeImages.SERMONS_IMAGE,
         )
         imagesList += images.churchImage?.getDomainAttachment(
             application,
-            DomainHomeImages.CHURCH_IMAGE
+            DomainHomeImages.CHURCH_IMAGE,
         )
         imagesList += images.campusImage?.getDomainAttachment(
             application,
-            DomainHomeImages.CAMPUS_IMAGE
+            DomainHomeImages.CAMPUS_IMAGE,
         )
         imagesList += images.galleriesImage?.getDomainAttachment(
             application,
-            DomainHomeImages.GALLERY_IMAGE
+            DomainHomeImages.GALLERY_IMAGE,
         )
         imagesList += images.donationsImage?.getDomainAttachment(
             application,
-            DomainHomeImages.DONATIONS_IMAGE
+            DomainHomeImages.DONATIONS_IMAGE,
         )
         imagesList += images.prayerImage?.getDomainAttachment(
             application,
-            DomainHomeImages.PRAYER_IMAGE
+            DomainHomeImages.PRAYER_IMAGE,
         )
         imagesList += images.ebookImage?.getDomainAttachment(
             application,
-            DomainHomeImages.EBOOK_IMAGE
+            DomainHomeImages.EBOOK_IMAGE,
         )
 
         imagesList.filterNotNull().forEach {

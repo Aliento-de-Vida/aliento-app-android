@@ -38,9 +38,11 @@ object SpotifyModule {
             .apply {
                 addInterceptor(authInterceptor)
                 authenticator(authenticator)
-                if (BuildConfig.DEBUG) addInterceptor(
-                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
-                )
+                if (BuildConfig.DEBUG) {
+                    addInterceptor(
+                        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC),
+                    )
+                }
             }.build()
 
     @OptIn(ExperimentalSerializationApi::class)
@@ -77,7 +79,7 @@ object SpotifyModule {
     @Provides
     fun spotifyRepository(
         spotifyApi: SpotifyApi,
-        roomDao: RoomDao
+        roomDao: RoomDao,
     ): SpotifyRepository =
         SpotifyRepositoryImpl(spotifyApi, roomDao)
 }

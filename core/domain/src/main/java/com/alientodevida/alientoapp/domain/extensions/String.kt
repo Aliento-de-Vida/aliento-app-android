@@ -7,7 +7,7 @@ import java.util.Locale
 fun String.toDate(pattern: String = "yyyy-MM-dd'T'HH:mm:ss'Z'"): Date? =
     SimpleDateFormat(pattern, Locale("es", "ES")).parse(this)
 
-fun String.toImageUrl() = "https://todoserver-peter.herokuapp.com/v1/files/${this}"
+fun String.toImageUrl() = "https://todoserver-peter.herokuapp.com/v1/files/$this"
 
 fun String.addTimeStamp(): String = "${this}_${System.currentTimeMillis()}"
 

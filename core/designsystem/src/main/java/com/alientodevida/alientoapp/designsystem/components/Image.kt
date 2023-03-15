@@ -61,19 +61,19 @@ private fun ShimmerAnimation() {
         targetValue = 1000f,
         animationSpec = infiniteRepeatable(
             tween(durationMillis = 1200, easing = FastOutSlowInEasing),
-            RepeatMode.Reverse
-        )
+            RepeatMode.Reverse,
+        ),
     )
 
     val brush = Brush.linearGradient(
         colors = ShimmerColorShades,
         start = Offset(10f, 10f),
-        end = Offset(translateAnim, translateAnim)
+        end = Offset(translateAnim, translateAnim),
     )
 
     Spacer(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = brush)
+            .background(brush = brush),
     )
 }

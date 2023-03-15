@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 
 class SpotifyRepositoryImpl(
     private val spotifyApi: SpotifyApi,
-    private val roomDao: RoomDao
+    private val roomDao: RoomDao,
 ) : SpotifyRepository {
 
     override suspend fun refreshPodcasts(podcastId: String):

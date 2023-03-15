@@ -40,7 +40,7 @@ fun NavGraphBuilder.sermons(
 ) {
     composable(MainDestination.Sermons.path) {
         Sermons(
-            onBackPressed = genericActions::back
+            onBackPressed = genericActions::back,
         )
     }
 }

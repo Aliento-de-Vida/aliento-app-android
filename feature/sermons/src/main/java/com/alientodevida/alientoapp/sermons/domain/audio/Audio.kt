@@ -11,5 +11,5 @@ data class Audio(
     val title: String,
     val subtitle: String,
     val duration: Int,
-    val imageUrl: String
+    val imageUrl: String,
 )

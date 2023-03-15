@@ -123,9 +123,8 @@ fun SettingsBody(
         Modifier
             .verticalScroll(scrollState)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
     ) {
-
         Spacer(modifier = Modifier.height(16.dp))
         com.alientodevida.alientoapp.designsystem.components.H5(
             modifier = Modifier.padding(horizontal = 8.dp),

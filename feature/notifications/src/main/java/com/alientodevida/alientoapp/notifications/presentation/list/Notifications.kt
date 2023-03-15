@@ -58,7 +58,7 @@ fun Notifications(
         viewModel,
         onBackPressed,
         goToEditNotification,
-        goToCreateNotification
+        goToCreateNotification,
     )
 }
 
@@ -71,7 +71,7 @@ private fun NotificationsWithDialog(
     viewModel: NotificationsViewModel,
     onBackPressed: () -> Unit,
     goToEditNotification: (Notification) -> Unit,
-    goToCreateNotification: () -> Unit
+    goToCreateNotification: () -> Unit,
 ) {
     val modalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
@@ -129,17 +129,19 @@ fun NotificationsContent(
             TopAppBar(onBackPressed = onBackPressed)
         },
         floatingActionButton = {
-            if (isAdmin) FloatingActionButton(
-                onClick = { goToCreateNotification() },
-                contentColor = MaterialTheme.colors.surface,
-            ) {
-                com.alientodevida.alientoapp.designsystem.components.Icon(
-                    icon = R.drawable.ic_add_24,
-                    contentDescription = "Create Notification",
-                    tint = MaterialTheme.colors.onSurface
-                )
+            if (isAdmin) {
+                FloatingActionButton(
+                    onClick = { goToCreateNotification() },
+                    contentColor = MaterialTheme.colors.surface,
+                ) {
+                    com.alientodevida.alientoapp.designsystem.components.Icon(
+                        icon = R.drawable.ic_add_24,
+                        contentDescription = "Create Notification",
+                        tint = MaterialTheme.colors.onSurface,
+                    )
+                }
             }
-        }
+        },
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -267,7 +269,7 @@ fun NotificationItem(
                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                         expanded = expanded.not()
                     }
-                }
+                },
             ),
     ) {
         Box {
@@ -276,10 +278,11 @@ fun NotificationItem(
             DropdownMenu(
                 modifier = Modifier.background(MaterialTheme.colors.surface),
                 expanded = expanded,
-                onDismissRequest = { expanded = false }
+                onDismissRequest = { expanded = false },
             ) {
                 DropdownMenuItem(
-                    onClick = { deleteNotification(notification) }) {
+                    onClick = { deleteNotification(notification) },
+                ) {
                     com.alientodevida.alientoapp.designsystem.components.Body2(
                         text = "Eliminar",
                         color = MaterialTheme.colors.onSurface,
@@ -302,7 +305,7 @@ private fun NotificationItemContent(notification: Notification) {
         // TODO the ViewModel should do this conversion
         com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(
             url = notification.image?.name?.toImageUrl(),
-            description = notification.title
+            description = notification.title,
         )
 
         Column {
@@ -325,7 +328,7 @@ private fun NotificationItemContent(notification: Notification) {
                         )
                         Spacer(Modifier.weight(1.0f))
                         com.alientodevida.alientoapp.designsystem.components.Caption(
-                            text = notification.date.toDate()?.format("dd MMM yy") ?: ""
+                            text = notification.date.toDate()?.format("dd MMM yy") ?: "",
                         ) // TODO the ViewModel should do this conversion
                     }
                 }
@@ -346,14 +349,14 @@ fun NotificationsPreview() {
                         "Test Notification",
                         "This is a test",
                         com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-                        "2021-12-31T18:58:34Z"
+                        "2021-12-31T18:58:34Z",
                     ),
                     Notification(
                         2,
                         "Test Notification",
                         "This is a test",
                         com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-                        "2021-12-31T18:58:34Z"
+                        "2021-12-31T18:58:34Z",
                     ),
                 ),
                 true,

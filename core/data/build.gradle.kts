@@ -37,6 +37,8 @@ dependencies {
 
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Kotlin.serialization}")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${RetrofitSerializationConverter.lib}")
+    implementation(
+        "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${RetrofitSerializationConverter.lib}",
+    )
     implementation("com.google.code.gson:gson:${Gson.lib}")
 }

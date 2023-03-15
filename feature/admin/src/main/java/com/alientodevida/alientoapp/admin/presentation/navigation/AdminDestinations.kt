@@ -32,7 +32,7 @@ fun NavGraphBuilder.adminHome(
 ) {
     composable(
         route = MainDestination.AdminHome.path,
-        arguments = listOf(navArgument(HOME_DESTINATION) { type = HomeType() })
+        arguments = listOf(navArgument(HOME_DESTINATION) { type = HomeType() }),
     ) {
         val home = it.arguments?.getParcelableValue(HOME_DESTINATION, Home::class.java)!!
 
@@ -45,7 +45,7 @@ fun NavGraphBuilder.adminHome(
 }
 
 class HomeType : NavType<Home>(
-    isNullableAllowed = false
+    isNullableAllowed = false,
 ) {
     override fun put(bundle: Bundle, key: String, value: Home) {
         bundle.putParcelable(key, value)

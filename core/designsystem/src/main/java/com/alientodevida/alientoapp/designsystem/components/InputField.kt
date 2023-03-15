@@ -61,7 +61,9 @@ fun InputField(
                     color = if (isError) errorColor else labelColor,
                 )
             }
-        } else null,
+        } else {
+            null
+        },
         placeholder = { Body2(text = placeholder, color = placeholderColor) },
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),

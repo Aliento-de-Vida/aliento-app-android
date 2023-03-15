@@ -16,7 +16,7 @@ class FileRepositoryImpl(
         val filePart = MultipartBody.Part.createFormData(
             file.name,
             attachment.name,
-            file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+            file.asRequestBody("multipart/form-data".toMediaTypeOrNull()),
         )
         fileApi.uploadImage(filePart = filePart)
     }

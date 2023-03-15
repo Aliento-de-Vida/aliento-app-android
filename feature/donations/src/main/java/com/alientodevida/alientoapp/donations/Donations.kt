@@ -34,7 +34,6 @@ fun Donations(
     viewModel: DonationsViewModel,
     onBackPressed: () -> Unit,
 ) {
-
     val viewModelState by viewModel.viewModelState.collectAsState()
     val context = LocalContext.current
 
@@ -51,7 +50,7 @@ private fun onCardClick(context: Context, item: PaymentItem) {
         item.bankAccount != null -> {
             context.copyToClipboard(
                 name = "Número de tarjeta",
-                value = item.bankAccount!!.cardNumber
+                value = item.bankAccount!!.cardNumber,
             )
         }
     }
@@ -220,7 +219,7 @@ private fun PayPalItemContent() {
     Box(
         Modifier
             .background(Color.White)
-            .padding(8.dp)
+            .padding(8.dp),
     ) {
         Image(
             painter = painterResource(R.drawable.paypal_logo),

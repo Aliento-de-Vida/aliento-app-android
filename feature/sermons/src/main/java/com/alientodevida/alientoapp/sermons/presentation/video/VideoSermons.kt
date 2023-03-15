@@ -190,7 +190,7 @@ fun VideoItem(
                     .fillMaxWidth()
                     .aspectRatio(1.77f),
                 url = video.thumbnailsUrl,
-                description = video.name
+                description = video.name,
             )
             Row {
                 Image(

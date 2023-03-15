@@ -63,6 +63,6 @@ object CampusModule {
     ): CampusRepository = CampusRepositoryImpl(
         campusApi,
         campusAdminApi,
-        fileRepository
+        fileRepository,
     )
 }

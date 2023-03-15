@@ -121,17 +121,19 @@ fun CampusesContent(
             TopAppBar(onBackPressed = onBackPressed)
         },
         floatingActionButton = {
-            if (isAdmin) FloatingActionButton(
-                onClick = { goToCreateCampus() },
-                contentColor = MaterialTheme.colors.surface,
-            ) {
-                com.alientodevida.alientoapp.designsystem.components.Icon(
-                    icon = R.drawable.ic_add_24,
-                    contentDescription = "Create Campus",
-                    tint = MaterialTheme.colors.onSurface
-                )
+            if (isAdmin) {
+                FloatingActionButton(
+                    onClick = { goToCreateCampus() },
+                    contentColor = MaterialTheme.colors.surface,
+                ) {
+                    com.alientodevida.alientoapp.designsystem.components.Icon(
+                        icon = R.drawable.ic_add_24,
+                        contentDescription = "Create Campus",
+                        tint = MaterialTheme.colors.onSurface,
+                    )
+                }
             }
-        }
+        },
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -259,7 +261,7 @@ fun CampusItem(
                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                         expanded = expanded.not()
                     }
-                }
+                },
             ),
     ) {
         Box {
@@ -268,10 +270,11 @@ fun CampusItem(
             DropdownMenu(
                 modifier = Modifier.background(MaterialTheme.colors.surface),
                 expanded = expanded,
-                onDismissRequest = { expanded = false }
+                onDismissRequest = { expanded = false },
             ) {
                 DropdownMenuItem(
-                    onClick = { deleteCampus(campus) }) {
+                    onClick = { deleteCampus(campus) },
+                ) {
                     com.alientodevida.alientoapp.designsystem.components.Body2(
                         text = "Eliminar",
                         color = MaterialTheme.colors.onSurface,
@@ -296,7 +299,7 @@ private fun CampusItemContent(campus: Campus) {
             modifier = Modifier.align(Alignment.Center),
             contentScale = ContentScale.Crop,
             url = campus.imageUrl.toImageUrl(),
-            description = campus.name
+            description = campus.name,
         )
 
         Column {

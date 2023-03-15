@@ -14,7 +14,7 @@ fun LoadingIndicator(
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(color = MaterialTheme.colors.onBackground)
     }

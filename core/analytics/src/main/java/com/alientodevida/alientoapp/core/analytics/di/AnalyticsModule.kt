@@ -18,12 +18,12 @@ class AnalyticsModule {
     @Provides
     @Singleton
     fun firebaseAnalytics(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): FirebaseAnalytics = FirebaseAnalytics.getInstance(context)
 
     @Provides
     @Singleton
     fun analytics(
-        firebaseAnalytics: FirebaseAnalytics
+        firebaseAnalytics: FirebaseAnalytics,
     ): Analytics = FirebaseAnalyticsHelper(firebaseAnalytics)
 }

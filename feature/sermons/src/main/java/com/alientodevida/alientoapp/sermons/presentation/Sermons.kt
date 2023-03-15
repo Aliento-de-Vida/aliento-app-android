@@ -85,7 +85,7 @@ fun BottomNavigation(navController: NavController) {
     )
     androidx.compose.material.BottomNavigation(
         backgroundColor = MaterialTheme.colors.surface,
-        contentColor = Color.Black
+        contentColor = Color.Black,
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -96,9 +96,13 @@ fun BottomNavigation(navController: NavController) {
                 label = {
                     com.alientodevida.alientoapp.designsystem.components.Caption(
                         text = item.title,
-                        color = if (isSelected) MaterialTheme.colors.onSurface else MaterialTheme.colors.onSurface.copy(
-                            0.4f
-                        ),
+                        color = if (isSelected) {
+                            MaterialTheme.colors.onSurface
+                        } else {
+                            MaterialTheme.colors.onSurface.copy(
+                                0.4f,
+                            )
+                        },
                     )
                 },
                 selectedContentColor = MaterialTheme.colors.onSurface,
@@ -113,7 +117,7 @@ fun BottomNavigation(navController: NavController) {
                         launchSingleTop = true
                         restoreState = true
                     }
-                }
+                },
             )
         }
     }

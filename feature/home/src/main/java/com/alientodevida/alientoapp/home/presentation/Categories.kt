@@ -25,7 +25,7 @@ fun Categories(
     goToGallery: () -> Unit,
     goToDonations: () -> Unit,
     goToPrayer: () -> Unit,
-    goToEbook: () -> Unit
+    goToEbook: () -> Unit,
 ) {
     Column(Modifier.padding(8.dp)) {
         com.alientodevida.alientoapp.designsystem.components.H5(
@@ -64,7 +64,7 @@ fun CategoryItem(
     goToGallery: () -> Unit,
     goToDonations: () -> Unit,
     goToPrayer: () -> Unit,
-    goToEbook: () -> Unit
+    goToEbook: () -> Unit,
 ) {
     Card(
         modifier
@@ -92,12 +92,12 @@ fun CategoryItem(
                     }
                     else -> {}
                 }
-            }
+            },
     ) {
         Box {
             com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(
                 url = item.imageUrl,
-                description = item.title
+                description = item.title,
             )
 
             Column {

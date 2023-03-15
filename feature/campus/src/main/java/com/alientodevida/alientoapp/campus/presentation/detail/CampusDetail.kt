@@ -78,7 +78,7 @@ fun CampusDetailContent(
         Modifier
             .verticalScroll(scrollState)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         com.alientodevida.alientoapp.designsystem.components.H5(
@@ -91,7 +91,7 @@ fun CampusDetailContent(
         com.alientodevida.alientoapp.designsystem.components.Pager(
             items = campus.images.map { it.toImageUrl() },
             goToItem = { goToImage(it) },
-            page = { com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(url = it) }
+            page = { com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(url = it) },
         )
 
         Spacer(modifier = Modifier.height(16.dp))

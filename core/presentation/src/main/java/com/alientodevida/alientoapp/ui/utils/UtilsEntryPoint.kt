@@ -17,9 +17,7 @@ class UtilsEntryPoint @Inject constructor(
     @Named("youtube-key")
     override val youtubeKey: String,
     override val analytics: Analytics,
-) : Utils {
-
-}
+) : Utils
 
 class NoOpUtils : Utils {
     override val youtubeKey: String = ""

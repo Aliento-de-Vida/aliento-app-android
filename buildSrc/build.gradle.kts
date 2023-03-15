@@ -1,4 +1,4 @@
-import  org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `java-gradle-plugin`
@@ -46,7 +46,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
     implementation("com.squareup:javapoet:1.13.0")
 }
-
 
 gradlePlugin {
     plugins {

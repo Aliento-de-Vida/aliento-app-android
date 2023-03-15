@@ -68,29 +68,30 @@ class HomeViewModel @Inject constructor(
         HomeUiState(
             categoriesItems = listOf(
                 CarouselItem(
-                    title = "Aliento de Vida", categoryItem = CategoryItem(CategoryItemType.CHURCH)
+                    title = "Aliento de Vida",
+                    categoryItem = CategoryItem(CategoryItemType.CHURCH),
                 ),
                 CarouselItem(
                     title = "Campus",
-                    categoryItem = CategoryItem(CategoryItemType.CAMPUSES)
+                    categoryItem = CategoryItem(CategoryItemType.CAMPUSES),
                 ),
                 CarouselItem(
                     title = "Galería",
-                    categoryItem = CategoryItem(CategoryItemType.GALLERY)
+                    categoryItem = CategoryItem(CategoryItemType.GALLERY),
                 ),
             ),
             quickAccessItems = listOf(
                 CarouselItem(
                     title = "Donaciones",
-                    categoryItem = CategoryItem(CategoryItemType.DONATIONS)
+                    categoryItem = CategoryItem(CategoryItemType.DONATIONS),
                 ),
                 CarouselItem(
                     title = "Oración",
-                    categoryItem = CategoryItem(CategoryItemType.PRAYER)
+                    categoryItem = CategoryItem(CategoryItemType.PRAYER),
                 ),
                 CarouselItem(title = "Ebook", categoryItem = CategoryItem(CategoryItemType.EBOOK)),
             ),
-        )
+        ),
     )
     val viewModelState: StateFlow<HomeUiState> = _viewModelState
 
@@ -160,7 +161,7 @@ class HomeViewModel @Inject constructor(
                 images.galleriesImage,
                 CategoryItem(CategoryItemType.GALLERY),
                 null,
-            )
+            ),
         )
 
     private fun getQuickAccessItems(images: HomeImages) =
@@ -182,7 +183,7 @@ class HomeViewModel @Inject constructor(
                 images.ebookImage,
                 CategoryItem(CategoryItemType.EBOOK),
                 null,
-            )
+            ),
         )
 
     private suspend fun getSermonItems(channel: String, sermonsImage: String?): List<CarouselItem> {
@@ -218,7 +219,7 @@ class HomeViewModel @Inject constructor(
                 title = "",
                 message = "Logged Out",
                 action = "",
-            )
+            ),
         )
         _viewModelState.update { it.copy(messages = messages) }
 

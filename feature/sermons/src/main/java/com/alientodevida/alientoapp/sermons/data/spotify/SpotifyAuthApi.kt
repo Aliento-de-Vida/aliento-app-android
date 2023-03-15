@@ -10,6 +10,6 @@ interface SpotifyAuthApi {
     suspend fun getToken(
         @Url url: String,
         @Header("Authorization") authorization: String,
-        @Field("grant_type") grantType: String
+        @Field("grant_type") grantType: String,
     ): SpotifyToken
 }

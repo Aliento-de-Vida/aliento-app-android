@@ -25,7 +25,7 @@ fun Outlined(
         color = backgroundColor,
         border = BorderStroke(
             width = borderWidth,
-            brush = SolidColor(borderColor)
+            brush = SolidColor(borderColor),
         ),
         shape = shape,
         content = content,

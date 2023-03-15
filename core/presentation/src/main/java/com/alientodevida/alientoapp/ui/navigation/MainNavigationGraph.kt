@@ -7,7 +7,8 @@ interface MobileDestination {
 }
 
 enum class MobileGraph(override val path: String) : MobileDestination {
-    Main("main");
+    Main("main"),
+    ;
 }
 
 class GenericNavigationActions(private val navController: NavHostController) {

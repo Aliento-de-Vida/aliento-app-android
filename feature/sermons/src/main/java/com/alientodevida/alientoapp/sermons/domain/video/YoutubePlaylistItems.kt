@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class YoutubePlaylistItems(
-    var items: List<PlaylistItem>
+    var items: List<PlaylistItem>,
 )
 
 @Serializable
@@ -23,7 +23,7 @@ class Snippet(
 @Serializable
 data class ResourceId(
     val kind: String,
-    val videoId: String
+    val videoId: String,
 )
 
 @Serializable
@@ -64,7 +64,7 @@ fun YoutubePlaylistItems.asDomain(): List<YoutubeVideo> {
             it.snippet.resourceId!!.videoId,
             it.snippet.description,
             it.snippet.publishedAt,
-            it.snippet.thumbnails.high?.url
+            it.snippet.thumbnails.high?.url,
         )
     }
 }
