@@ -18,13 +18,6 @@ buildscript {
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
 repositories {
     google()
     mavenCentral()
@@ -32,10 +25,13 @@ repositories {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "11"
-        apiVersion = "1.8"
-        languageVersion = "1.8"
+        freeCompilerArgs = listOf("-Xjsr305=strict")
+    }
+    kotlin {
+        jvmToolchain {
+            languageVersion.set(JavaLanguageVersion.of(11))
+        }
     }
 }
 
@@ -49,6 +45,11 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        create("apply-basic-plugin") {
+            id = "apply-basic-plugin"
+            implementationClass = "BasicPlugin"
+        }
+
         create("apply-feature-plugin") {
             id = "apply-feature-plugin"
             implementationClass = "FeaturePlugin"

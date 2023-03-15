@@ -30,6 +30,12 @@ subprojects {
             reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
         }
     }
+
+    tasks.withType(org.jlleitschuh.gradle.ktlint.tasks.GenerateReportsTask::class.java) {
+        reportsOutputDirectory.set(
+            rootProject.layout.projectDirectory.dir(".analysis/ktlint/${project.name}-lint-report.txt")
+        )
+    }
 }
 
 tasks.register("clean", Delete::class) {
