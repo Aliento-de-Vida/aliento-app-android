@@ -36,7 +36,7 @@ val Context.imageLoader: ImageLoader
         .okHttpClient { // TODO change this for https://coil-kt.github.io/coil/image_pipeline/#keyers
             OkHttpClient.Builder()
                 .addNetworkInterceptor(
-                    ResponseHeaderInterceptor("Cache-Control", "max-age=31536000,public")
+                    ResponseHeaderInterceptor("Cache-Control", "max-age=31536000,public"),
                 ).build()
         }
         .memoryCache { MemoryCache.Builder(this).build() }

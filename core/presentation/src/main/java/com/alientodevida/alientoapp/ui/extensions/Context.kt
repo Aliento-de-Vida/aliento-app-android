@@ -47,7 +47,7 @@ fun Context.showDialog(title: String, message: String) {
 
 fun Context.copyToClipboard(
     name: String,
-    value: String
+    value: String,
 ) {
     val myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     val myClip = ClipData.newPlainText("clipboard", value)
@@ -67,8 +67,8 @@ fun Context.openInstagramPage(instagramUrl: String) {
         startActivity(
             Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse(instagramUrl)
-            )
+                Uri.parse(instagramUrl),
+            ),
         )
     }
 }
@@ -91,9 +91,9 @@ private fun Context.getFacebookPageURL(pageId: String, pageUrl: String): String 
     return try {
         val versionCode =
             packageManager.getPackageInfo("com.facebook.katana", 0).versionCode
-        if (versionCode >= 3002850) { //newer versions of fb app
+        if (versionCode >= 3002850) { // newer versions of fb app
             "fb://page/$pageId"
-        } else { //older versions of fb app
+        } else { // older versions of fb app
             "fb://page/$pageId"
         }
     } catch (e: PackageManager.NameNotFoundException) {
@@ -123,7 +123,7 @@ fun Context.openSpotifyWith(uri: Uri) {
         intent.data = uri
         intent.putExtra(
             Intent.EXTRA_REFERRER,
-            Uri.parse("android-app://${packageName}")
+            Uri.parse("android-app://$packageName"),
         )
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
@@ -132,15 +132,15 @@ fun Context.openSpotifyWith(uri: Uri) {
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=com.spotify.music")
-                )
+                    Uri.parse("market://details?id=com.spotify.music"),
+                ),
             )
         } catch (ex: ActivityNotFoundException) {
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=com.spotify.music")
-                )
+                    Uri.parse("https://play.google.com/store/apps/details?id=com.spotify.music"),
+                ),
             )
         }
     }

@@ -10,17 +10,17 @@ interface SpotifyApi {
 
     @GET("/v1/shows/{podcast_id}/episodes/?market=MX")
     suspend fun getPodcast(
-        @Path("podcast_id") podcast_id: String
+        @Path("podcast_id") podcast_id: String,
     ): Podcasts
 
     @GET("/v1/artists/{artist_id}/albums")
     suspend fun getAlbums(
-        @Path("artist_id") artist_id: String
+        @Path("artist_id") artist_id: String,
     ): Albums
 
     @GET("/v1/albums/{album_id}/tracks")
     suspend fun getTracks(
-        @Path("album_id") album_id: String
+        @Path("album_id") album_id: String,
     ): Tracks
 
     /*@GET("/v1/playlists/{playlist_id}/")

@@ -8,5 +8,5 @@ data class SpotifyToken(
     @SerialName("access_token")
     var accessToken: String,
     @SerialName("token_type")
-    var tokenType: String
+    var tokenType: String,
 )

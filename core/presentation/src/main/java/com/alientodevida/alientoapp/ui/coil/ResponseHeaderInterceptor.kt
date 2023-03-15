@@ -5,7 +5,7 @@ import okhttp3.Response
 
 class ResponseHeaderInterceptor(
     private val name: String,
-    private val value: String
+    private val value: String,
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

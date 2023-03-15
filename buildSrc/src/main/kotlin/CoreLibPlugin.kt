@@ -25,6 +25,7 @@ class CoreLibPlugin : Plugin<Project> {
         plugins.apply(BuildPlugins.kotlinAndroid)
         plugins.apply(BuildPlugins.kotlinKapt)
         plugins.apply(BuildPlugins.hiltAndroid)
+        tasks.getByPath("preBuild").dependsOn("ktlintFormat")
 
         kotlin {
             jvmToolchain {

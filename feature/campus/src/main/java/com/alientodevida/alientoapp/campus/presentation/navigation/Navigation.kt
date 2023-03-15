@@ -22,7 +22,7 @@ fun NavGraphBuilder.adminCampus(
 ) {
     composable(
         route = MainDestination.AdminCampus.path,
-        arguments = listOf(navArgument(CAMPUS_DESTINATION) { type = CampusType() })
+        arguments = listOf(navArgument(CAMPUS_DESTINATION) { type = CampusType() }),
     ) {
         val campus = it.arguments?.getParcelableValue(CAMPUS_DESTINATION, Campus::class.java)!!
 
@@ -49,7 +49,7 @@ fun NavGraphBuilder.campuses(
 }
 
 class CampusType : NavType<Campus>(
-    isNullableAllowed = true
+    isNullableAllowed = true,
 ) {
     override fun put(bundle: Bundle, key: String, value: Campus) {
         bundle.putParcelable(key, value)

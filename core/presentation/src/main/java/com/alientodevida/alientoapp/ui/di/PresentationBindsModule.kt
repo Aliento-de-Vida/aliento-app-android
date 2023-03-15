@@ -13,6 +13,6 @@ abstract class PresentationBindsModule {
 
     @Binds
     abstract fun utils(
-        utilsEntryPoint: UtilsEntryPoint
+        utilsEntryPoint: UtilsEntryPoint,
     ): Utils
 }

@@ -13,5 +13,5 @@ data class YoutubeVideo(
     val id: String,
     val description: String,
     val date: String,
-    val thumbnailsUrl: String?
+    val thumbnailsUrl: String?,
 ) : Parcelable

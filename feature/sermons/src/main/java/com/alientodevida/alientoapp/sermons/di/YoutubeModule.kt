@@ -40,6 +40,6 @@ abstract class YoutubeBindsModule {
 
     @Binds
     abstract fun videoRepository(
-        videoRepositoryImpl: com.alientodevida.alientoapp.sermons.data.video.VideoRepositoryImpl
+        videoRepositoryImpl: com.alientodevida.alientoapp.sermons.data.video.VideoRepositoryImpl,
     ): VideoRepository
 }

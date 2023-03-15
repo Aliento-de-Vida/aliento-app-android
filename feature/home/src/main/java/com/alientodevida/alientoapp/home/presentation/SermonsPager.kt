@@ -32,7 +32,7 @@ fun SermonsPager(
                 it.youtubeItem != null -> goToSermon(it)
                 it.categoryItem != null -> goToSermons()
             }
-        }
+        },
     ) { item -> SermonsPageItem(item) }
 }
 
@@ -41,7 +41,7 @@ private fun SermonsPageItem(item: CarouselItem) {
     Box {
         com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(
             url = item.imageUrl,
-            description = item.title
+            description = item.title,
         )
 
         Column {
@@ -78,7 +78,7 @@ private fun SeeSermonsCard(modifier: Modifier) {
     ) {
         Box(
             Modifier
-                .padding(horizontal = 40.dp, vertical = 8.dp)
+                .padding(horizontal = 40.dp, vertical = 8.dp),
         ) {
             com.alientodevida.alientoapp.designsystem.components.Body2(
                 text = "Ver prédicas",

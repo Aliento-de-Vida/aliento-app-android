@@ -28,7 +28,8 @@ enum class MainDestination(override val path: String) : MobileDestination {
     AdminHome("main/admin/home/{$HOME_DESTINATION}"),
     AdminCampus("main/admin/campus/{$CAMPUS_DESTINATION}"),
     AdminNotifications("main/admin/notification/{$NOTIFICATION_DESTINATION}"),
-    AdminGallery("main/admin/gallery/{$GALLERY_DESTINATION}");
+    AdminGallery("main/admin/gallery/{$GALLERY_DESTINATION}"),
+    ;
 
     companion object {
 

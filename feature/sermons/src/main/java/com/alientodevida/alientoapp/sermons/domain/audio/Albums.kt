@@ -8,7 +8,7 @@ data class Albums(
     @Serializable
     val href: String? = null,
     @Serializable
-    val items: List<Album>
+    val items: List<Album>,
 )
 
 @Serializable
@@ -20,5 +20,5 @@ data class Album(
     val releaseDate: String,
     @SerialName("duration_ms")
     val duration: Int = 0,
-    val images: List<SpotifyImage>? = null
+    val images: List<SpotifyImage>? = null,
 )

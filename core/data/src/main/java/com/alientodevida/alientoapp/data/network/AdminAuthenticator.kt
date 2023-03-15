@@ -17,7 +17,8 @@ class AdminAuthenticator @Inject constructor(
             return null
         } else {
             return response.request.newBuilder().header(
-                "Authorization", "Bearer ${preferences.adminToken?.jwt}"
+                "Authorization",
+                "Bearer ${preferences.adminToken?.jwt}",
             ).build()
         }
     }

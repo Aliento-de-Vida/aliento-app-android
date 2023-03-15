@@ -15,7 +15,9 @@ class NotificationRepositoryImpl(
 
     override suspend fun deleteNotification(id: Int) = adminApi.deleteNotification(id)
 
-    override suspend fun editNotification(notification: com.alientodevida.alientoapp.notifications.domain.NotificationRequest): Notification {
+    override suspend fun editNotification(
+        notification: com.alientodevida.alientoapp.notifications.domain.NotificationRequest,
+    ): Notification {
         val imageName =
             if (notification.attachment != null) "notification".addTimeStamp() else notification.imageName
         notification.attachment?.let {
@@ -30,7 +32,9 @@ class NotificationRepositoryImpl(
         )
     }
 
-    override suspend fun createNotification(notification: com.alientodevida.alientoapp.notifications.domain.NotificationRequest): Notification {
+    override suspend fun createNotification(
+        notification: com.alientodevida.alientoapp.notifications.domain.NotificationRequest,
+    ): Notification {
         val imageName =
             if (notification.attachment != null) "notification".addTimeStamp() else notification.imageName
         notification.attachment?.let {

@@ -26,7 +26,6 @@ fun EditNotification(
     notification: Notification,
     onBackPressed: () -> Unit,
 ) {
-
     LaunchedEffect(true) {
         viewModel.setNotification(notification)
     }
@@ -63,17 +62,19 @@ fun EditNotificationContent(
             TopAppBar(onBackPressed = onBackPressed)
         },
         floatingActionButton = {
-            if (uiState.notificationRequest.isComplete) FloatingActionButton(
-                onClick = { saveNotification(uiState.notificationRequest) },
-                contentColor = MaterialTheme.colors.surface,
-            ) {
-                com.alientodevida.alientoapp.designsystem.components.Icon(
-                    icon = R.drawable.ic_send_24,
-                    contentDescription = "Create Notification",
-                    tint = MaterialTheme.colors.onSurface
-                )
+            if (uiState.notificationRequest.isComplete) {
+                FloatingActionButton(
+                    onClick = { saveNotification(uiState.notificationRequest) },
+                    contentColor = MaterialTheme.colors.surface,
+                ) {
+                    com.alientodevida.alientoapp.designsystem.components.Icon(
+                        icon = R.drawable.ic_send_24,
+                        contentDescription = "Create Notification",
+                        tint = MaterialTheme.colors.onSurface,
+                    )
+                }
             }
-        }
+        },
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -147,7 +148,7 @@ fun NotificationsBody(
     Column(
         Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
     ) {
         val onSurfaceAlpha = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
 
@@ -201,7 +202,7 @@ fun NotificationsPreview() {
                     "Test Notification",
                     "This is a test",
                     com.alientodevida.alientoapp.domain.common.Image("cursos.png"),
-                    "2021-12-31T18:58:34Z"
+                    "2021-12-31T18:58:34Z",
                 ).toNotificationRequest(),
                 loading = true,
                 messages = emptyList(),

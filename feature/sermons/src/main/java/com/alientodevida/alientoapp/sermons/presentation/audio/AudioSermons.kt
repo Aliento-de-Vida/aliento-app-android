@@ -196,7 +196,7 @@ fun AudioItem(
                     .fillMaxHeight()
                     .width(90.dp),
                 url = audio.imageUrl,
-                description = audio.title
+                description = audio.title,
             )
 
             Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {

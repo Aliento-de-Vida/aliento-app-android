@@ -47,7 +47,6 @@ fun Prayer(
     viewModel: PrayerViewModel,
     onBackPressed: () -> Unit,
 ) {
-
     val viewModelState by viewModel.viewModelState.collectAsState()
 
     val context = LocalContext.current
@@ -84,17 +83,19 @@ fun NotificationsContent(
             TopAppBar(onBackPressed = onBackPressed)
         },
         floatingActionButton = {
-            if (uiState.isValidForm) FloatingActionButton(
-                onClick = { sendPrayerRequest() },
-                contentColor = MaterialTheme.colors.surface,
-            ) {
-                com.alientodevida.alientoapp.designsystem.components.Icon(
-                    icon = R.drawable.ic_send_24,
-                    contentDescription = "Send Prayer Request",
-                    tint = MaterialTheme.colors.onSurface
-                )
+            if (uiState.isValidForm) {
+                FloatingActionButton(
+                    onClick = { sendPrayerRequest() },
+                    contentColor = MaterialTheme.colors.surface,
+                ) {
+                    com.alientodevida.alientoapp.designsystem.components.Icon(
+                        icon = R.drawable.ic_send_24,
+                        contentDescription = "Send Prayer Request",
+                        tint = MaterialTheme.colors.onSurface,
+                    )
+                }
             }
-        }
+        },
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -164,7 +165,7 @@ fun NotificationsBody(
     Column(
         Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         com.alientodevida.alientoapp.designsystem.components.H5(
@@ -248,7 +249,7 @@ fun TopicDropDown(
                 }
                 .padding(8.dp),
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             com.alientodevida.alientoapp.designsystem.components.Body1(
                 modifier = Modifier.padding(end = 8.dp),
@@ -258,18 +259,18 @@ fun TopicDropDown(
             com.alientodevida.alientoapp.designsystem.components.Icon(
                 icon = Icons.Filled.ArrowDropDown,
                 contentDescription = "",
-                tint = MaterialTheme.colors.onSurface
+                tint = MaterialTheme.colors.onSurface,
             )
 
             DropdownMenu(expanded = expanded, onDismissRequest = {
                 expanded = false
-            }) {
+            },) {
                 topics.forEach { topic ->
                     DropdownMenuItem(onClick = {
                         val index = topics.indexOf(topic)
                         expanded = false
                         onTopicChanged(if (index > 0) index else 0)
-                    }) {
+                    },) {
                         com.alientodevida.alientoapp.designsystem.components.Body1(
                             text = topic,
                             color = MaterialTheme.colors.onBackground,
@@ -295,7 +296,7 @@ fun sendMail(context: Context, to: String, subject: String, message: String) {
     } catch (ex: ActivityNotFoundException) {
         context.showDialog(
             "Lo sentimos",
-            "Ha habido un error, por favor intente más tarde"
+            "Ha habido un error, por favor intente más tarde",
         )
     }
 }
@@ -311,7 +312,7 @@ fun getMailMessage(name: String, email: String, whatsapp: String, message: Strin
     mensaje:
     
     $message
-	""".trimIndent()
+    """.trimIndent()
 
 fun sendPrayerRequest(context: Context, viewModelState: PrayerUiState) {
     viewModelState.home?.let { home ->
@@ -324,7 +325,7 @@ fun sendPrayerRequest(context: Context, viewModelState: PrayerUiState) {
                 viewModelState.email,
                 viewModelState.whatsapp!!,
                 viewModelState.message!!,
-            )
+            ),
         )
     }
 }

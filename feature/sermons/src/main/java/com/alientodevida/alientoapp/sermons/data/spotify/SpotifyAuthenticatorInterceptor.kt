@@ -6,7 +6,7 @@ import okhttp3.Response
 import javax.inject.Inject
 
 class SpotifyAuthenticatorInterceptor @Inject constructor(
-    private val preferences: Preferences
+    private val preferences: Preferences,
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

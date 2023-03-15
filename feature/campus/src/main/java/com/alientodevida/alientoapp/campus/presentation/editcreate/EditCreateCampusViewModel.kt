@@ -33,7 +33,7 @@ data class CampusUiState(
 
 private fun CampusRequest.toDomain(
     domainAttachment: DomainAttachment?,
-    domainAttachmentLIst: List<DomainAttachment>
+    domainAttachmentLIst: List<DomainAttachment>,
 ) =
     DomainCampusRequest(
         id = id,
@@ -87,7 +87,7 @@ class EditCreateNotificationViewModel @Inject constructor(
             campusRequest = Campus.empty().toCampusRequest(),
             loading = false,
             messages = emptyList(),
-        )
+        ),
     )
     val viewModelState: StateFlow<CampusUiState> = _viewModelState
 
@@ -123,9 +123,9 @@ class EditCreateNotificationViewModel @Inject constructor(
             it.copy(
                 campusRequest = it.campusRequest.copy(
                     location = it.campusRequest.location.copy(
-                        latitude = newValue
-                    )
-                )
+                        latitude = newValue,
+                    ),
+                ),
             )
         }
     }
@@ -135,9 +135,9 @@ class EditCreateNotificationViewModel @Inject constructor(
             it.copy(
                 campusRequest = it.campusRequest.copy(
                     location = it.campusRequest.location.copy(
-                        longitude = newValue
-                    )
-                )
+                        longitude = newValue,
+                    ),
+                ),
             )
         }
     }
@@ -160,7 +160,7 @@ class EditCreateNotificationViewModel @Inject constructor(
                 campusRequest = it.campusRequest.copy(
                     attachment = newValue,
                     imageName = newValue.displayName,
-                )
+                ),
             )
         }
     }
@@ -213,8 +213,8 @@ class EditCreateNotificationViewModel @Inject constructor(
                     campusRepository.createCampus(
                         campus.toDomain(
                             domainAttachment,
-                            domainAttachments
-                        )
+                            domainAttachments,
+                        ),
                     )
                 } else {
                     val domainAttachments = campus.attachmentList.map {
@@ -223,8 +223,8 @@ class EditCreateNotificationViewModel @Inject constructor(
                     campusRepository.editCampus(
                         campus.toDomain(
                             domainAttachment,
-                            domainAttachments
-                        )
+                            domainAttachments,
+                        ),
                     )
                 }
 
@@ -239,7 +239,7 @@ class EditCreateNotificationViewModel @Inject constructor(
                 _viewModelState.update {
                     it.copy(
                         campusRequest = value.toCampusRequest(),
-                        messages = messages
+                        messages = messages,
                     )
                 }
             } catch (ex: CancellationException) {

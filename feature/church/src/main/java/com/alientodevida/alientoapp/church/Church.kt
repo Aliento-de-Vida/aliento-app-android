@@ -128,7 +128,7 @@ fun EditCreateCampusBody(
     Column(
         Modifier
             .verticalScroll(scrollState)
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
         com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(
             modifier = Modifier

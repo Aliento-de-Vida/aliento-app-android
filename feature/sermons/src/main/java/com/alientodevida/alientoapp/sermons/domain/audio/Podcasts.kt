@@ -9,7 +9,7 @@ data class Podcasts(
     @Serializable
     val href: String? = null,
     @Serializable
-    val items: List<Podcast>
+    val items: List<Podcast>,
 )
 
 @Serializable
@@ -20,12 +20,12 @@ data class Podcast(
     val releaseDate: String,
     @SerialName("duration_ms")
     val duration: Int = 0,
-    val images: List<SpotifyImage>? = null
+    val images: List<SpotifyImage>? = null,
 )
 
 @Serializable
 data class SpotifyImage(
-    val url: String? = null
+    val url: String? = null,
 )
 
 fun Podcasts.asDomain(): List<DomainPodcast> {
@@ -38,5 +38,5 @@ fun Podcast.asDomain() = DomainPodcast(
     this.name,
     this.releaseDate,
     this.duration,
-    this.images?.first()?.url.toString()
+    this.images?.first()?.url.toString(),
 )

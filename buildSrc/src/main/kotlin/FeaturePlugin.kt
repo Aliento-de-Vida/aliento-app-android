@@ -17,9 +17,11 @@ import extensions.packagingOptions
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.fileTree
 import org.gradle.kotlin.dsl.project
+import org.gradle.kotlin.dsl.version
 
 class FeaturePlugin : Plugin<Project> {
 
@@ -34,6 +36,7 @@ class FeaturePlugin : Plugin<Project> {
         plugins.apply(BuildPlugins.hiltAndroid)
         plugins.apply(BuildPlugins.kotlinSerialization)
         plugins.apply(BuildPlugins.kotlinParcelize)
+        tasks.getByPath("preBuild").dependsOn("ktlintFormat")
 
         kotlin {
             jvmToolchain {

@@ -65,8 +65,8 @@ class DonationsViewModel @Inject constructor(
                     Paypal("https://www.paypal.com/paypalme/AlientoDeVidaMx"),
                     null,
                 ),
-            )
-        )
+            ),
+        ),
     )
     val viewModelState: StateFlow<DonationsUiState>
         get() = _viewModelState

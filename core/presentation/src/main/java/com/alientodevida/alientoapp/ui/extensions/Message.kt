@@ -22,16 +22,19 @@ fun Message.localized(): Message.Localized = when (this) {
         type = type,
         image = image,
         title = stringResource(title),
-        message = if (arguments.isEmpty()) stringResource(message)
-        else stringResource(
-            message,
-            *arguments.map { arg: Message.Resource.Argument ->
-                when (arg) {
-                    is Message.Resource.Argument.Localized -> arg.value
-                    is Message.Resource.Argument.Resource -> stringResource(arg.resource)
-                }
-            }.toTypedArray(),
-        ),
+        message = if (arguments.isEmpty()) {
+            stringResource(message)
+        } else {
+            stringResource(
+                message,
+                *arguments.map { arg: Message.Resource.Argument ->
+                    when (arg) {
+                        is Message.Resource.Argument.Localized -> arg.value
+                        is Message.Resource.Argument.Resource -> stringResource(arg.resource)
+                    }
+                }.toTypedArray(),
+            )
+        },
         action = stringResource(action),
     )
 }

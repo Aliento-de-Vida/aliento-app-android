@@ -22,7 +22,7 @@ fun NavGraphBuilder.adminGallery(
 ) {
     composable(
         route = MainDestination.AdminGallery.path,
-        arguments = listOf(navArgument(GALLERY_DESTINATION) { type = GalleryType() })
+        arguments = listOf(navArgument(GALLERY_DESTINATION) { type = GalleryType() }),
     ) {
         val gallery = it.arguments?.getParcelableValue(GALLERY_DESTINATION, Gallery::class.java)!!
 
@@ -49,7 +49,7 @@ fun NavGraphBuilder.galleries(
 }
 
 class GalleryType : NavType<Gallery>(
-    isNullableAllowed = true
+    isNullableAllowed = true,
 ) {
     override fun put(bundle: Bundle, key: String, value: Gallery) {
         bundle.putParcelable(key, value)

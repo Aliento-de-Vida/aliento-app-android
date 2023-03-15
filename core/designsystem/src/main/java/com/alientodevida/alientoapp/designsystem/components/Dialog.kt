@@ -72,7 +72,7 @@ fun Dialog(
         ) {
             ConstraintLayout(
                 constraintSet = constraintSet,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
             ) {
                 H6(
                     text = title,
@@ -118,14 +118,13 @@ fun Dialog(
         },
         properties = properties,
     ) {
-
         Surface(
             color = MaterialTheme.colors.surface,
             shape = MaterialTheme.shapes.medium,
             modifier = Modifier.fillMaxWidth(),
         ) {
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
             ) {
                 H6(
                     text = title,
@@ -240,7 +239,7 @@ fun Dialog(
         ) {
             ConstraintLayout(
                 constraintSet = constraintSet,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
             ) {
                 H6(
                     text = title,

@@ -70,7 +70,7 @@ fun NotificationDetailBody(
             .padding(horizontal = 16.dp)
             .clickable {
                 imageUrl?.let { goToImage(imageUrl) }
-            }
+            },
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         com.alientodevida.alientoapp.designsystem.components.H5(

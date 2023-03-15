@@ -62,7 +62,7 @@ fun AttachmentModel?.getDomainAttachment(context: Context, name: String? = null)
 
                 DomainAttachment(
                     name ?: attachment.displayName,
-                    outputPath.absolutePathString()
+                    outputPath.absolutePathString(),
                 )
             }
         }
@@ -77,7 +77,7 @@ fun AttachmentsWithCurrentImages(
     currentAttachments: List<String>,
     addToNewAttachments: (AttachmentModel) -> Unit,
     removeFromNewAttachments: (AttachmentModel) -> Unit,
-    removeCurrentAttachment: (String) -> Unit
+    removeCurrentAttachment: (String) -> Unit,
 ) {
     Spacer(modifier = Modifier.height(16.dp))
     Attachments(
@@ -139,7 +139,8 @@ private fun CurrentAttachment(
                     Spacer(modifier = Modifier.width(8.dp))
                     Body2(
                         modifier = Modifier.weight(1.0f),
-                        text = imageName, color = MaterialTheme.colors.onBackground
+                        text = imageName,
+                        color = MaterialTheme.colors.onBackground,
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))
@@ -175,7 +176,7 @@ fun Attachments(
                 )
 
             override fun parseResult(resultCode: Int, intent: Intent?): Uri? = intent?.data
-        }
+        },
     ) { result ->
         uri = result
     }
@@ -228,7 +229,8 @@ fun Attachments(
                     Spacer(modifier = Modifier.width(8.dp))
                     Body2(
                         modifier = Modifier.weight(1.0f),
-                        text = attachment.displayName, color = MaterialTheme.colors.onBackground
+                        text = attachment.displayName,
+                        color = MaterialTheme.colors.onBackground,
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))

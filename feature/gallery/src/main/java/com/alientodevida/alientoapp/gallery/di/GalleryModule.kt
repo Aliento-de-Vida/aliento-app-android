@@ -64,6 +64,6 @@ object GalleryModule {
         GalleryRepositoryImpl(
             galleryApi,
             galleryAdminApi,
-            fileRepository
+            fileRepository,
         )
 }

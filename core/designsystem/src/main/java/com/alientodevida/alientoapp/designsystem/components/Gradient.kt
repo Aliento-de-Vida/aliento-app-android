@@ -18,7 +18,7 @@ fun Gradient(
     Box(
         modifier
             .background(
-                brush = Brush.verticalGradient(colors = listOf(startColor, endColor))
+                brush = Brush.verticalGradient(colors = listOf(startColor, endColor)),
             ),
         content = content,
     )

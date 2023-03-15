@@ -31,7 +31,7 @@ fun FilledButton(
         modifier = modifier,
         enabled = enabled,
         colors = colors,
-        shape = shape
+        shape = shape,
     ) {
         Button(
             text = text,

@@ -22,7 +22,7 @@ fun ModalExpandedOnlyBottomSheetLayout(
     sheetBackgroundColor: Color = MaterialTheme.colors.surface,
     sheetContentColor: Color = contentColorFor(sheetBackgroundColor),
     scrimColor: Color = ModalBottomSheetDefaults.scrimColor,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     LaunchedEffect(sheetState) {
         snapshotFlow { sheetState.isAnimationRunning }

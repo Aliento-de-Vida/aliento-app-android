@@ -37,7 +37,6 @@ fun EditCreateGallery(
     gallery: Gallery,
     onBackPressed: () -> Unit,
 ) {
-
     LaunchedEffect(true) {
         viewModel.setGallery(gallery)
     }
@@ -78,17 +77,19 @@ fun EditCreateGalleryContent(
             TopAppBar(onBackPressed = onBackPressed)
         },
         floatingActionButton = {
-            if (uiState.galleryRequest.isComplete) FloatingActionButton(
-                onClick = { saveGallery(uiState.galleryRequest) },
-                contentColor = MaterialTheme.colors.surface,
-            ) {
-                com.alientodevida.alientoapp.designsystem.components.Icon(
-                    icon = R.drawable.ic_send_24,
-                    contentDescription = "Create Gallery",
-                    tint = MaterialTheme.colors.onSurface
-                )
+            if (uiState.galleryRequest.isComplete) {
+                FloatingActionButton(
+                    onClick = { saveGallery(uiState.galleryRequest) },
+                    contentColor = MaterialTheme.colors.surface,
+                ) {
+                    com.alientodevida.alientoapp.designsystem.components.Icon(
+                        icon = R.drawable.ic_send_24,
+                        contentDescription = "Create Gallery",
+                        tint = MaterialTheme.colors.onSurface,
+                    )
+                }
             }
-        }
+        },
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -168,7 +169,7 @@ fun EditCreateGalleryBody(
         Modifier
             .verticalScroll(scrollState)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
     ) {
         val onSurfaceAlpha = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
 
@@ -219,7 +220,7 @@ fun EditCreateGalleryBody(
             currentAttachments = campus.images,
             addToNewAttachments = addAttachmentToList,
             removeFromNewAttachments = removeAttachmentFromList,
-            removeCurrentAttachment = removeImage
+            removeCurrentAttachment = removeImage,
         )
 
         Spacer(modifier = Modifier.height(80.dp))

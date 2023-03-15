@@ -33,7 +33,7 @@ data class GalleryUiState(
 
 private fun GalleryRequest.toDomain(
     domainAttachment: DomainAttachment?,
-    domainAttachmentLIst: List<DomainAttachment>
+    domainAttachmentLIst: List<DomainAttachment>,
 ) =
     DomainGalleryRequest(
         id = id,
@@ -77,7 +77,7 @@ class EditCreateGalleryViewModel @Inject constructor(
             galleryRequest = Gallery.empty().toGalleryRequest(),
             loading = false,
             messages = emptyList(),
-        )
+        ),
     )
     val viewModelState: StateFlow<GalleryUiState> = _viewModelState
 
@@ -102,7 +102,7 @@ class EditCreateGalleryViewModel @Inject constructor(
                 galleryRequest = it.galleryRequest.copy(
                     attachment = newValue,
                     coverPicture = newValue.displayName,
-                )
+                ),
             )
         }
     }
@@ -154,8 +154,8 @@ class EditCreateGalleryViewModel @Inject constructor(
                     galleryRepository.createGallery(
                         gallery.toDomain(
                             domainAttachment,
-                            domainAttachments
-                        )
+                            domainAttachments,
+                        ),
                     )
                 } else {
                     val domainAttachments = gallery.attachmentList.map {
@@ -164,8 +164,8 @@ class EditCreateGalleryViewModel @Inject constructor(
                     galleryRepository.editGallery(
                         gallery.toDomain(
                             domainAttachment,
-                            domainAttachments
-                        )
+                            domainAttachments,
+                        ),
                     )
                 }
 
@@ -180,7 +180,7 @@ class EditCreateGalleryViewModel @Inject constructor(
                 _viewModelState.update {
                     it.copy(
                         galleryRequest = value.toGalleryRequest(),
-                        messages = messages
+                        messages = messages,
                     )
                 }
             } catch (ex: CancellationException) {

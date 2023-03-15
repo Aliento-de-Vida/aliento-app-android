@@ -189,7 +189,7 @@ fun ClickableIcon(
             painter = painterResource(icon),
             contentDescription = contentDescription,
             tint = tint,
-            modifier = modifier.size(24.dp)
+            modifier = modifier.size(24.dp),
         )
     }
 }
@@ -202,7 +202,7 @@ fun IconButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -212,9 +212,9 @@ fun IconButton(
                 enabled = enabled,
                 role = Role.Button,
                 interactionSource = interactionSource,
-                indication = rememberRipple(bounded = false, radius = 24.dp)
+                indication = rememberRipple(bounded = false, radius = 24.dp),
             ),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         val contentAlpha = if (enabled) LocalContentAlpha.current else ContentAlpha.disabled
         CompositionLocalProvider(LocalContentAlpha provides contentAlpha, content = content)

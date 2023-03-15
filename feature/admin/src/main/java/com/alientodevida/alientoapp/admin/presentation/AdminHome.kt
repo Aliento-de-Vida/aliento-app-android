@@ -26,7 +26,6 @@ fun AdminHome(
     home: Home,
     onBackPressed: () -> Unit,
 ) {
-
     LaunchedEffect(true) {
         viewModel.setHome(home)
     }
@@ -107,17 +106,19 @@ fun AdminHomeContent(
             TopAppBar(onBackPressed = onBackPressed)
         },
         floatingActionButton = {
-            if (uiState.home.isComplete) FloatingActionButton(
-                onClick = { saveHome(uiState.home) },
-                contentColor = MaterialTheme.colors.surface,
-            ) {
-                com.alientodevida.alientoapp.designsystem.components.Icon(
-                    icon = R.drawable.ic_send_24,
-                    contentDescription = "Edit",
-                    tint = MaterialTheme.colors.onSurface
-                )
+            if (uiState.home.isComplete) {
+                FloatingActionButton(
+                    onClick = { saveHome(uiState.home) },
+                    contentColor = MaterialTheme.colors.surface,
+                ) {
+                    com.alientodevida.alientoapp.designsystem.components.Icon(
+                        icon = R.drawable.ic_send_24,
+                        contentDescription = "Edit",
+                        tint = MaterialTheme.colors.onSurface,
+                    )
+                }
             }
-        }
+        },
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -240,7 +241,7 @@ fun AdminHomeBody(
         Modifier
             .fillMaxWidth()
             .verticalScroll(scrollState)
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
     ) {
         EditImages(
             images = images,
@@ -273,7 +274,7 @@ fun AdminHomeBody(
             onFacebookPageUrlChanged,
             onTwitterUserIdChanged,
             onTwitterUrlChanged,
-            onSpotifyArtistIdChanged
+            onSpotifyArtistIdChanged,
         )
     }
 }
@@ -425,7 +426,7 @@ private fun AdminHome(
     onFacebookPageUrlChanged: (String) -> Unit,
     onTwitterUserIdChanged: (String) -> Unit,
     onTwitterUrlChanged: (String) -> Unit,
-    onSpotifyArtistIdChanged: (String) -> Unit
+    onSpotifyArtistIdChanged: (String) -> Unit,
 ) {
     Column(Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.height(16.dp))

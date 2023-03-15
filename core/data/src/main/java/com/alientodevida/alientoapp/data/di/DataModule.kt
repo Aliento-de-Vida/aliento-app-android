@@ -40,9 +40,11 @@ object DataModule {
             .readTimeout(15, TimeUnit.SECONDS)
             .retryOnConnectionFailure(false)
             .apply {
-                if (BuildConfig.DEBUG) addInterceptor(
-                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
-                )
+                if (BuildConfig.DEBUG) {
+                    addInterceptor(
+                        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC),
+                    )
+                }
             }.build()
 
     @Provides
@@ -60,9 +62,11 @@ object DataModule {
             .apply {
                 addInterceptor(authInterceptor)
                 authenticator(authenticator)
-                if (BuildConfig.DEBUG) addInterceptor(
-                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
-                )
+                if (BuildConfig.DEBUG) {
+                    addInterceptor(
+                        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC),
+                    )
+                }
             }.build()
 
     @Provides
@@ -86,5 +90,5 @@ private fun Context.sharedPreferences(): SharedPreferences =
     getSharedPreferences("mobile-preferences", Context.MODE_PRIVATE)
 
 private val Context.preferencesStore: DataStore<androidx.datastore.preferences.core.Preferences> by preferencesDataStore(
-    name = "preferences"
+    name = "preferences",
 )

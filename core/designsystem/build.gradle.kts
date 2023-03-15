@@ -18,7 +18,6 @@ android {
     }
 }
 
-
 dependencies {
     // Modules
     implementation(project(":core:analytics"))
