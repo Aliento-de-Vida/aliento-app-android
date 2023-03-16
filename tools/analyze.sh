@@ -45,11 +45,14 @@ detekt() {
   local detekt_formatting="detekt-formatting-$detekt_version.jar"
   local detekt_cli_zip="$detekt_cli.zip"
 
-  resolve "rm -rf $detekt_dir"
+  resolve "rm -rf $detekt_dir/bin"
+  resolve "rm -rf $detekt_dir/lib"
   resolve "curl -JLO $detekt_url/$detekt_cli_zip"
-  resolve "unzip $detekt_cli_zip -d $script_dir"
+  resolve "unzip $detekt_cli_zip -d $detekt_dir/temp"
   resolve "rm $detekt_cli_zip"
-  resolve "mv $script_dir/$detekt_cli $detekt_dir"
+  resolve "mv $detekt_dir/temp/$detekt_cli/lib $detekt_dir"
+  resolve "mv $detekt_dir/temp/$detekt_cli/bin $detekt_dir"
+  resolve "rm -rf $detekt_dir/temp"
   resolve "curl -JLO $detekt_url/$detekt_formatting"
   resolve "mv $detekt_formatting $detekt_dir/lib"
 
@@ -57,11 +60,11 @@ detekt() {
 
   local cmd="$script_dir/detekt/bin/detekt-cli"
   cmd="${cmd} --build-upon-default-config"
-  cmd="${cmd} --config $root_dir/.analysis/detekt.yml"
+  cmd="${cmd} --config $root_dir/tools/detekt/detekt.yml"
   cmd="${cmd} --jvm-target 1.8"
   cmd="${cmd} --language-version 1.4"
   cmd="${cmd} --plugins $script_dir/detekt/lib/detekt-formatting-1.22.0.jar"
-  cmd="${cmd} --report html:$root_dir/.analysis/detekt.html"
+  cmd="${cmd} --report html:$root_dir/tools/detekt/detekt.html"
   cmd="${cmd} --input $root_dir/app/src/"
   resolve "$cmd"
 

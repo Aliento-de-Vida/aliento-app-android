@@ -79,13 +79,14 @@ fastlane/test_output
 fastlane/readme.md
 
 # lint
-.analysis/ktlint
+tools/ktlint/
 
 # detekt
-build-system/detekt/lib/
+tools/detekt/lib/
+tools/detekt/bin/
 
 #symbols
-build-system/symbols/
+tools/symbols/
 
 # Version control
 vcs.xml

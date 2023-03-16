@@ -33,7 +33,7 @@ subprojects {
 
     tasks.withType(org.jlleitschuh.gradle.ktlint.tasks.GenerateReportsTask::class.java) {
         reportsOutputDirectory.set(
-            rootProject.layout.projectDirectory.dir(".analysis/ktlint/${project.name}-lint-report.txt")
+            rootProject.layout.projectDirectory.dir("tools/ktlint/ktlint/${project.name}-lint-report.txt")
         )
     }
 }

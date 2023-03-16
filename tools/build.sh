@@ -16,6 +16,7 @@ script_options=(
   "print_help" "-h|--help" 0 0 "Print help menu"
 )
 source "$script_dir/util.sh"
+source "$script_dir/analyze.sh"
 [ ${print_help-0} -eq 1 ] && { print_usage; exit 0; }
 
 [ -z "${build_type-}" ] && missing_value "$build_type_option"
@@ -35,46 +36,6 @@ script_values=(
 )
 print_parameters "${script_values[@]}"
 unset script_values
-
-ktlint() {
-  echo "Executing Ktlint ..."
-  resolve "$root_dir/gradlew ktlintFormat"
-
-  print_done
-}
-
-detekt() {
-  echo "Downloading detekt ..."
-
-  local detekt_dir="$script_dir/detekt"
-  local detekt_version="1.22.0"
-  local detekt_url="https://github.com/detekt/detekt/releases/download/v$detekt_version"
-  local detekt_cli="detekt-cli-$detekt_version"
-  local detekt_formatting="detekt-formatting-$detekt_version.jar"
-  local detekt_cli_zip="$detekt_cli.zip"
-
-  resolve "rm -rf $detekt_dir"
-  resolve "curl -JLO $detekt_url/$detekt_cli_zip"
-  resolve "unzip $detekt_cli_zip -d $script_dir"
-  resolve "rm $detekt_cli_zip"
-  resolve "mv $script_dir/$detekt_cli $detekt_dir"
-  resolve "curl -JLO $detekt_url/$detekt_formatting"
-  resolve "mv $detekt_formatting $detekt_dir/lib"
-
-  echo "Executing detekt ..."
-
-  local cmd="$script_dir/detekt/bin/detekt-cli"
-  cmd="${cmd} --build-upon-default-config"
-  cmd="${cmd} --config $root_dir/.analysis/detekt.yml"
-  cmd="${cmd} --jvm-target 1.8"
-  cmd="${cmd} --language-version 1.4"
-  cmd="${cmd} --plugins $script_dir/detekt/lib/detekt-formatting-1.22.0.jar"
-  cmd="${cmd} --report html:$root_dir/.analysis/detekt.html"
-  cmd="${cmd} --input $root_dir/app/src/"
-  resolve "$cmd"
-
-  print_done
-}
 
 assemble() {
   echo "Building Variant: $build_variant ..."
