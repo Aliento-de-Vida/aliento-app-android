@@ -81,6 +81,9 @@ fastlane/readme.md
 # lint
 .analysis/ktlint
 
+#symbols
+build-system/symbols/
+
 # Version control
 vcs.xml
 
