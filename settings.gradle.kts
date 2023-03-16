@@ -35,3 +35,5 @@ include(":feature:admin")
 include(":feature:church")
 include(":feature:donations")
 include(":feature:home")
+
+include(":benchmark")

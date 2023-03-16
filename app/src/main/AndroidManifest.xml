@@ -18,6 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <profileable
+            android:shell="true"
+            tools:targetApi="29" />
 
         <activity
             android:name=".MainActivity"
@@ -25,20 +28,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Splashscreen"
             tools:ignore="LockedOrientationActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <data
                     android:host="todoserver-peter.herokuapp.com"
                     android:scheme="https" />
             </intent-filter>
-
         </activity>
-
     </application>
 
 </manifest>
