@@ -36,7 +36,6 @@ class FeaturePlugin : Plugin<Project> {
         plugins.apply(BuildPlugins.hiltAndroid)
         plugins.apply(BuildPlugins.kotlinSerialization)
         plugins.apply(BuildPlugins.kotlinParcelize)
-        tasks.getByPath("preBuild").dependsOn("ktlintFormat")
 
         kotlin {
             jvmToolchain {
