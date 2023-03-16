@@ -1,3 +1,4 @@
+@file:Suppress("UnstableApiUsage")
 
 import deps.androidx.AndroidX
 import deps.config
@@ -5,6 +6,7 @@ import deps.google.Firebase
 import deps.google.Gson
 import deps.jakewharton.RetrofitSerializationConverter
 import deps.jetbrains.Kotlin
+import deps.androidx.Test
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -50,7 +52,8 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        val release by getting {
+            signingConfig = signingConfigs.getByName("release")
             buildConfigField(
                 "String",
                 "YOUTUBE_DEVELOPER_KEY",
@@ -58,18 +61,27 @@ android {
             )
             buildConfigField("String", "BASE_URL", "\"https://todoserver-peter.herokuapp.com\"")
         }
-        getByName("debug") {
+        val debug by getting {
+            signingConfig = signingConfigs.getByName("debug")
             buildConfigField(
                 "String",
                 "YOUTUBE_DEVELOPER_KEY",
                 "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\"",
             )
             buildConfigField("String", "BASE_URL", "\"https://todoserver-peter.herokuapp.com\"")
+        }
+        val benchmark by creating {
+            initWith(getByName("release"))
+            proguardFiles("benchmark-rules.pro")
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
         }
     }
 }
 
 dependencies {
+    implementation("androidx.profileinstaller:profileinstaller:${Test.profileinstaller}")
+
     // Modules
     implementation(project(":feature:gallery"))
     implementation(project(":feature:campus"))
