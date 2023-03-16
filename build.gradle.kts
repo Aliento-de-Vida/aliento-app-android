@@ -13,12 +13,12 @@ buildscript {
         classpath(BuildPlugins.googleServicesClassPath)
         classpath(BuildPlugins.serialization)
         classpath(BuildPlugins.crashlyticsPlugin)
-        classpath("org.jlleitschuh.gradle:ktlint-gradle:11.3.1")
+        classpath("${BuildPlugins.ktlintGradlePlugin}:${deps.jlleitschuh.Ktlint.gradle}")
     }
 }
 
 subprojects {
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    apply(plugin = BuildPlugins.ktlintPlugin)
 
     configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
         android.set(false)

@@ -28,4 +28,6 @@ object BuildPlugins {
     const val serialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.lib}"
     const val crashlyticsPlugin =
         "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsVersion"
+    const val ktlintGradlePlugin = "org.jlleitschuh.gradle:ktlint-gradle"
+    const val ktlintPlugin = "org.jlleitschuh.gradle.ktlint"
 }
