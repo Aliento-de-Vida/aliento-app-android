@@ -1,12 +1,12 @@
 @file:Suppress("UnstableApiUsage")
 
 import deps.androidx.AndroidX
+import deps.androidx.Test
 import deps.config
 import deps.google.Firebase
 import deps.google.Gson
 import deps.jakewharton.RetrofitSerializationConverter
 import deps.jetbrains.Kotlin
-import deps.androidx.Test
 import java.io.FileInputStream
 import java.util.Properties
 

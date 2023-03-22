@@ -13,7 +13,6 @@ class BaselineProfileGenerator {
         packageName = "com.alientodevida.app",
         profileBlock = {
             startActivityAndWait()
-        }
+        },
     )
 }
-
