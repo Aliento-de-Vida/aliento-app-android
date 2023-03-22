@@ -45,18 +45,20 @@ detekt() {
   local detekt_formatting="detekt-formatting-$detekt_version.jar"
   local detekt_cli_zip="$detekt_cli.zip"
 
-  resolve "rm -rf $detekt_dir/bin"
-  resolve "rm -rf $detekt_dir/lib"
-  resolve "curl -JLO $detekt_url/$detekt_cli_zip"
-  resolve "unzip $detekt_cli_zip -d $detekt_dir/temp"
-  resolve "rm $detekt_cli_zip"
-  resolve "mv $detekt_dir/temp/$detekt_cli/lib $detekt_dir"
-  resolve "mv $detekt_dir/temp/$detekt_cli/bin $detekt_dir"
-  resolve "rm -rf $detekt_dir/temp"
-  resolve "curl -JLO $detekt_url/$detekt_formatting"
-  resolve "mv $detekt_formatting $detekt_dir/lib"
+#  resolve "rm -rf $detekt_dir/bin"
+#  resolve "rm -rf $detekt_dir/lib"
+#  resolve "curl -JLO $detekt_url/$detekt_cli_zip"
+#  resolve "unzip $detekt_cli_zip -d $detekt_dir/temp"
+#  resolve "rm $detekt_cli_zip"
+#  resolve "mv $detekt_dir/temp/$detekt_cli/lib $detekt_dir"
+#  resolve "mv $detekt_dir/temp/$detekt_cli/bin $detekt_dir"
+#  resolve "rm -rf $detekt_dir/temp"
+#  resolve "curl -JLO $detekt_url/$detekt_formatting"
+#  resolve "mv $detekt_formatting $detekt_dir/lib"
 
   echo "Executing detekt ..."
+
+  local analyze_dirs=$(./gradlew --no-configuration-cache -q projectsDirs | tail -n 1)
 
   local cmd="$script_dir/detekt/bin/detekt-cli"
   cmd="${cmd} --build-upon-default-config"
@@ -65,7 +67,7 @@ detekt() {
   cmd="${cmd} --language-version 1.4"
   cmd="${cmd} --plugins $script_dir/detekt/lib/detekt-formatting-1.22.0.jar"
   cmd="${cmd} --report html:$root_dir/tools/detekt/detekt.html"
-  cmd="${cmd} --input $root_dir/app/src/"
+  cmd="${cmd} --input $analyze_dirs"
   resolve "$cmd"
 
   print_done

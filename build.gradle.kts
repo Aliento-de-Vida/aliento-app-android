@@ -33,9 +33,21 @@ subprojects {
 
     tasks.withType(org.jlleitschuh.gradle.ktlint.tasks.GenerateReportsTask::class.java) {
         reportsOutputDirectory.set(
-            rootProject.layout.projectDirectory.dir("tools/ktlint/ktlint/${project.name}-lint-report.txt")
+            rootProject.layout.projectDirectory.dir("tools/ktlint/ktlint/${project.name}-lint-report.txt"),
         )
     }
+}
+
+tasks.register("projectsDirs") {
+    allprojects.forEach { println(it.projectDir) }
+    val result = allprojects
+        .filter {
+            it.projectDir.toString().endsWith("/aliento-app-android").not() &&
+                it.projectDir.toString().endsWith("/core").not() &&
+                it.projectDir.toString().endsWith("/feature").not()
+        }
+        .joinToString(",") { "${it.projectDir}/src/" }
+    println(result)
 }
 
 tasks.register("clean", Delete::class) {
