@@ -1,8 +1,22 @@
 package com.alientodevida.alientoapp.admin.presentation
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -17,6 +31,7 @@ import com.alientodevida.alientoapp.admin.AdminHomeViewModel
 import com.alientodevida.alientoapp.admin.HomeImages
 import com.alientodevida.alientoapp.admin.HomeUiState
 import com.alientodevida.alientoapp.admin.R
+import com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel
 import com.alientodevida.alientoapp.domain.home.Home
 import com.alientodevida.alientoapp.ui.extensions.Dialog
 
@@ -71,20 +86,20 @@ fun AdminHomeContent(
     uiState: HomeUiState,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     onMessageDismiss: (Long) -> Unit,
-    addSermonsImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeSermonsImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addChurchImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeChurchImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addCampusImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeCampusImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addGalleriesImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeGalleriesImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addDonationsImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeDonationsImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addPrayerImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removePrayerImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addEbookImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeEbookImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
+    addSermonsImage: (AttachmentModel) -> Unit,
+    removeSermonsImage: (AttachmentModel) -> Unit,
+    addChurchImage: (AttachmentModel) -> Unit,
+    removeChurchImage: (AttachmentModel) -> Unit,
+    addCampusImage: (AttachmentModel) -> Unit,
+    removeCampusImage: (AttachmentModel) -> Unit,
+    addGalleriesImage: (AttachmentModel) -> Unit,
+    removeGalleriesImage: (AttachmentModel) -> Unit,
+    addDonationsImage: (AttachmentModel) -> Unit,
+    removeDonationsImage: (AttachmentModel) -> Unit,
+    addPrayerImage: (AttachmentModel) -> Unit,
+    removePrayerImage: (AttachmentModel) -> Unit,
+    addEbookImage: (AttachmentModel) -> Unit,
+    removeEbookImage: (AttachmentModel) -> Unit,
     onEbookChanged: (String) -> Unit,
     onYoutubePlaylistIdChanged: (String) -> Unit,
     onYoutubeChannelIdChanged: (String) -> Unit,
@@ -174,7 +189,7 @@ fun TopAppBar(
 ) {
     val modifier = Modifier.size(width = 60.dp, height = 50.dp)
 
-    androidx.compose.material.TopAppBar(
+    TopAppBar(
         title = {
             Image(
                 painter = painterResource(id = R.drawable.logo_negro),
@@ -204,24 +219,23 @@ fun TopAppBar(
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 fun AdminHomeBody(
     home: Home,
     images: HomeImages,
-    addSermonsImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeSermonsImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addChurchImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeChurchImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addCampusImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeCampusImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addGalleriesImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeGalleriesImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addDonationsImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeDonationsImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addPrayerImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removePrayerImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addEbookImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeEbookImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
+    addSermonsImage: (AttachmentModel) -> Unit,
+    removeSermonsImage: (AttachmentModel) -> Unit,
+    addChurchImage: (AttachmentModel) -> Unit,
+    removeChurchImage: (AttachmentModel) -> Unit,
+    addCampusImage: (AttachmentModel) -> Unit,
+    removeCampusImage: (AttachmentModel) -> Unit,
+    addGalleriesImage: (AttachmentModel) -> Unit,
+    removeGalleriesImage: (AttachmentModel) -> Unit,
+    addDonationsImage: (AttachmentModel) -> Unit,
+    removeDonationsImage: (AttachmentModel) -> Unit,
+    addPrayerImage: (AttachmentModel) -> Unit,
+    removePrayerImage: (AttachmentModel) -> Unit,
+    addEbookImage: (AttachmentModel) -> Unit,
+    removeEbookImage: (AttachmentModel) -> Unit,
     onEbookChanged: (String) -> Unit,
     onYoutubePlaylistIdChanged: (String) -> Unit,
     onYoutubeChannelIdChanged: (String) -> Unit,
@@ -282,20 +296,20 @@ fun AdminHomeBody(
 @Composable
 private fun EditImages(
     images: HomeImages,
-    addSermonsImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeSermonsImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addChurchImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeChurchImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addCampusImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeCampusImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addGalleriesImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeGalleriesImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addDonationsImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeDonationsImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addPrayerImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removePrayerImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    addEbookImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
-    removeEbookImage: (com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) -> Unit,
+    addSermonsImage: (AttachmentModel) -> Unit,
+    removeSermonsImage: (AttachmentModel) -> Unit,
+    addChurchImage: (AttachmentModel) -> Unit,
+    removeChurchImage: (AttachmentModel) -> Unit,
+    addCampusImage: (AttachmentModel) -> Unit,
+    removeCampusImage: (AttachmentModel) -> Unit,
+    addGalleriesImage: (AttachmentModel) -> Unit,
+    removeGalleriesImage: (AttachmentModel) -> Unit,
+    addDonationsImage: (AttachmentModel) -> Unit,
+    removeDonationsImage: (AttachmentModel) -> Unit,
+    addPrayerImage: (AttachmentModel) -> Unit,
+    removePrayerImage: (AttachmentModel) -> Unit,
+    addEbookImage: (AttachmentModel) -> Unit,
+    removeEbookImage: (AttachmentModel) -> Unit,
 ) {
     Column(Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.height(16.dp))

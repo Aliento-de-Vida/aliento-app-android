@@ -200,12 +200,15 @@ fun HomeContent(
     goToAdminLogin: () -> Unit,
     adminLogout: () -> Unit,
 ) {
-    Scaffold(scaffoldState = scaffoldState, topBar = {
-        TopAppBar(
-            goToNotifications = goToNotifications,
-            goToSettings = goToSettings,
-        )
-    }, floatingActionButton = {
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBar(
+                goToNotifications = goToNotifications,
+                goToSettings = goToSettings,
+            )
+        },
+        floatingActionButton = {
             if (isAdmin) {
                 FloatingActionButton(
                     onClick = { goToEditHome() },
@@ -218,7 +221,8 @@ fun HomeContent(
                     )
                 }
             }
-        },) { paddingValues ->
+        },
+    ) { paddingValues ->
         Box(
             modifier = Modifier
                 .padding(paddingValues = paddingValues)

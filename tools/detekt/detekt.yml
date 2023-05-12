@@ -40,7 +40,7 @@ output-reports:
 
 comments:
   active: true
-  excludes: ['**/test/**', '**/androidTest/**']
+  excludes: [ '**/test/**', '**/androidTest/**' ]
   AbsentOrWrongFileLicense:
     active: false
     #licenseTemplateFile: 'license.template'
@@ -78,10 +78,10 @@ complexity:
     ignoreSingleWhenExpression: true
     ignoreSimpleWhenEntries: true
     ignoreNestingFunctions: false
-    nestingFunctions: [run, let, apply, with, also, use, forEach, isNotNull, ifNull] # TODO: Complex Nesting Functions
+    nestingFunctions: [ run, let, apply, with, also, use, forEach, isNotNull, ifNull ] # TODO: Complex Nesting Functions
   LabeledExpression:
-    active: true
-    ignoredLabels: [] # TODO: Add ignored labels
+    active: false
+    ignoredLabels: [ ] # TODO: Add ignored labels
   LargeClass:
     active: true
     threshold: 600
@@ -94,7 +94,7 @@ complexity:
     constructorThreshold: 10
     ignoreDefaultParameters: true
     ignoreDataClasses: true
-    ignoreAnnotated: [Inject]
+    ignoreAnnotated: [ Inject,Composable ]
   MethodOverloading:
     active: true
     threshold: 3
@@ -108,14 +108,14 @@ complexity:
     active: true
   StringLiteralDuplication:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
     threshold: 2
     ignoreAnnotation: true
     excludeStringsWithLessThan5Characters: false
     #ignoreStringsRegex: '$^'
   TooManyFunctions:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
     thresholdInFiles: 11
     thresholdInClasses: 11
     thresholdInInterfaces: 11
@@ -173,10 +173,10 @@ exceptions:
   active: true
   ExceptionRaisedInUnexpectedLocation:
     active: true
-    methodNames: [toString, hashCode, equals, finalize] # TODO: Method Names which raise Exceptions
+    methodNames: [ toString, hashCode, equals, finalize ] # TODO: Method Names which raise Exceptions
   InstanceOfCheckForException:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   NotImplementedDeclaration:
     active: true
   PrintStackTrace:
@@ -200,7 +200,7 @@ exceptions:
     active: true
   ThrowingExceptionsWithoutMessageOrCause:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
     exceptions: # TODO: Exceptions without Message or Cause
       - IllegalArgumentException
       - IllegalStateException
@@ -209,7 +209,7 @@ exceptions:
     active: true
   TooGenericExceptionCaught:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
     exceptionNames: # TODO: Exceptions generic caught
       - ArrayIndexOutOfBoundsException
       - Error
@@ -233,46 +233,46 @@ naming:
   ClassNaming:
     active: true
     classPattern: '[A-Z][a-zA-Z0-9]*'
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   ConstructorParameterNaming:
     active: true
     parameterPattern: '[a-z][A-Za-z0-9]*'
     privateParameterPattern: '[a-z][A-Za-z0-9]*'
     ignoreOverridden: true
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
     #excludeClassPattern: '$^' # TODO: Exclude Class Constructor Parameter Naming
   EnumNaming:
     active: true
     enumEntryPattern: '[A-Z][_a-zA-Z0-9]*'
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   ForbiddenClassName:
     active: true
-    forbiddenName: [] # TODO: Forbidden Class Name
-    excludes: ['**/test/**', '**/androidTest/**']
+    forbiddenName: [ ] # TODO: Forbidden Class Name
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   FunctionMaxLength:
     active: true
     maximumFunctionNameLength: 25
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   FunctionMinLength:
     active: true
     minimumFunctionNameLength: 1
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   FunctionNaming:
     active: true
     functionPattern: '[a-z][a-zA-Z0-9]*'
     ignoreOverridden: true
-    ignoreAnnotated: ['Composable'] # TODO: Function Name
-    excludes: ['**/test/**', '**/androidTest/**']
+    ignoreAnnotated: [ 'Composable' ] # TODO: Function Name
+    excludes: [ '**/test/**', '**/androidTest/**' ]
     #excludeClassPattern: '$^' # TODO: Exclude Class Function Naming
   FunctionParameterNaming:
     active: true
     parameterPattern: '[a-z][A-Za-z0-9]*'
     ignoreOverridden: true
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
     #excludeClassPattern: '$^' # TODO: Exclude Class Function Parametr Naming
   InvalidPackageDeclaration:
     active: true
-    excludes: ['*.kts']
+    excludes: [ '*.kts' ]
     rootPackage: ''
   MatchingDeclarationName:
     active: true
@@ -282,37 +282,37 @@ naming:
     ignoreOverridden: false
   NonBooleanPropertyPrefixedWithIs:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   ObjectPropertyNaming:
     active: true
     constantPattern: '[A-Za-z][_A-Za-z0-9]*'
     propertyPattern: '[a-z][_A-Za-z0-9]*'
     privatePropertyPattern: '_?[a-z][_A-Za-z0-9]*'
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   PackageNaming:
     active: true
     packagePattern: '[a-z]+(\.[a-z][a-z0-9]*)*'
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   TopLevelPropertyNaming:
     active: true
     constantPattern: '[A-Z][_A-Z0-9]*'
     propertyPattern: '[a-z][_A-Za-z0-9]*'
     privatePropertyPattern: '_?[a-z][_A-Za-z0-9]*'
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   VariableMaxLength:
     active: true
     maximumVariableNameLength: 25
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   VariableMinLength:
     active: true
     minimumVariableNameLength: 2
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   VariableNaming:
     active: true
     variablePattern: '[a-z][A-Za-z0-9]*'
     privateVariablePattern: '_?[a-z][A-Za-z0-9]*'
     ignoreOverridden: true
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
     #excludeClassPattern: '$^' # TODO: Exclude Class Variable Naming
 
 performance:
@@ -321,10 +321,10 @@ performance:
     active: true
   ForEachOnRange:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   SpreadOperator:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   UnnecessaryTemporaryInstantiation:
     active: true
 
@@ -343,7 +343,7 @@ potential-bugs:
   IgnoredReturnValue:
     active: true
     restrictToConfig: true
-    returnValueAnnotations: ['*.CheckReturnValue', '*.CheckResult'] # TODO: Annotations for Return Values
+    returnValueAnnotations: [ '*.CheckReturnValue', '*.CheckResult' ] # TODO: Annotations for Return Values
   ImplicitDefaultLocale:
     active: true
   ImplicitUnitReturnType:
@@ -357,8 +357,8 @@ potential-bugs:
     active: true
   LateinitUsage:
     active: true
-    ignoreAnnotated: [Inject] # TODO: Annotations for lateinit
-    excludes: ['**/test/**', '**/androidTest/**']
+    ignoreAnnotated: [ Inject ] # TODO: Annotations for lateinit
+    excludes: [ '**/test/**', '**/androidTest/**' ]
     #ignoreOnClassesPattern: '' # TODO: Ignore On Class lateinit
   MapGetWithNotNullAssertionOperator:
     active: true
@@ -408,15 +408,15 @@ style:
     includeLineWrapping: true
   ForbiddenComment:
     active: true
-    values: ['TODO:', 'FIXME:', 'STOPSHIP:'] # TODO: Forbidden Comments
+    values: [ 'TODO:', 'FIXME:', 'STOPSHIP:' ] # TODO: Forbidden Comments
     allowedPatterns: '' # TODO: Allowed comment patterns
   ForbiddenImport:
     active: true
-    imports: [] # TODO: Forbidden Imports
+    imports: [ ] # TODO: Forbidden Imports
     forbiddenPatterns: '' # TODO: Forbidden Import Patterns
   ForbiddenMethodCall:
     active: true
-    methods: ['kotlin.io.println', 'kotlin.io.print'] # TODO: Forbidden Method Call Names
+    methods: [ 'kotlin.io.println', 'kotlin.io.print' ] # TODO: Forbidden Method Call Names
   ForbiddenVoid:
     active: true
     ignoreOverridden: false
@@ -424,8 +424,8 @@ style:
   FunctionOnlyReturningConstant:
     active: true
     ignoreOverridableFunction: true
-    excludedFunctions: ['describeContents'] # TODO: Exclude Function Name returning constant
-    ignoreAnnotated: ['dagger.Provides'] # TODO: Exclude Function with Annotation returning constant
+    excludedFunctions: [ 'describeContents' ] # TODO: Exclude Function Name returning constant
+    ignoreAnnotated: [ 'dagger.Provides' ] # TODO: Exclude Function with Annotation returning constant
   LoopWithTooManyJumpStatements:
     active: true
     maxJumpCount: 3
@@ -441,7 +441,7 @@ style:
     ignoreEnums: true
     ignoreRanges: false
     #ignoreNumbers: [] # TODO: Ignore Magic Number
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   MandatoryBracesIfStatements:
     active: false
   MandatoryBracesLoops:
@@ -481,7 +481,7 @@ style:
   ReturnCount:
     active: true
     max: 3
-    excludedFunctions: ['equals'] # TODO: Return Exclude Function Names
+    excludedFunctions: [ 'equals' ] # TODO: Return Exclude Function Names
     excludeLabeled: false
     excludeReturnFromLambda: true
     excludeGuardClauses: false
@@ -501,7 +501,7 @@ style:
     acceptableLength: 5
   UnnecessaryAbstractClass:
     active: true
-    ignoreAnnotated: ['dagger.Module']
+    ignoreAnnotated: [ 'dagger.Module' ]
   UnnecessaryAnnotationUseSiteTarget:
     active: true
   UnnecessaryApply:
@@ -530,7 +530,7 @@ style:
   UseDataClass:
     active: true
     allowVars: false
-    ignoreAnnotated: [] # TODO: Convert to DataClass Exclude Annotations
+    ignoreAnnotated: [ ] # TODO: Convert to DataClass Exclude Annotations
   UseEmptyCounterpart:
     active: true
   UseIfEmptyOrIfBlank:
@@ -549,8 +549,8 @@ style:
     active: true
   WildcardImport:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**']
-    excludeImports: ['java.util.*'] # TODO: Wildcard Imports Exclude
+    excludes: [ '**/test/**', '**/androidTest/**' ]
+    excludeImports: [ 'java.util.*' ] # TODO: Wildcard Imports Exclude
 
 formatting:
   active: true

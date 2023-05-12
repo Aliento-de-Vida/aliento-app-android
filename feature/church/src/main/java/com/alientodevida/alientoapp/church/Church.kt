@@ -24,8 +24,10 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.alientodevida.alientoapp.church.R.string
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 import com.alientodevida.alientoapp.ui.extensions.goToYoutubeVideo
 import com.alientodevida.alientoapp.ui.utils.LocalUtils
@@ -137,56 +139,56 @@ fun EditCreateCampusBody(
                     openVideo()
                 },
             url = usImageUrl,
-            description = "Aliento de Vida",
+            description = stringResource(string.app_name),
         )
 
         Column(Modifier.padding(horizontal = 16.dp)) {
             Spacer(modifier = Modifier.height(16.dp))
             com.alientodevida.alientoapp.designsystem.components.H5(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                text = "Aliento de Vida",
+                text = stringResource(string.app_name),
                 color = MaterialTheme.colors.onBackground,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
             com.alientodevida.alientoapp.designsystem.components.Body1(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                text = "  Aliento de Vida es una congregación creada en el corazón de Dios, para que las personas y familias en Yucatán, México y el mundo de habla hispana, tengan un lugar donde puedan adorar a Jesucristo con libertad, recibir una palabra que transforme su vida y celebrar con nosotros la presencia de Dios. \n\n   Nos sentimos honrados con tu visita, la familia de Aliento te da la bienvenida.",
+                text = stringResource(id = string.church_description),
                 color = MaterialTheme.colors.onBackground,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
             com.alientodevida.alientoapp.designsystem.components.H5(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                text = "Nosotros",
+                text = stringResource(string.us),
                 color = MaterialTheme.colors.onBackground,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
             com.alientodevida.alientoapp.designsystem.components.Subtitle1(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                text = "Misión",
+                text = stringResource(string.mision),
                 color = MaterialTheme.colors.onBackground,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
             com.alientodevida.alientoapp.designsystem.components.Body1(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                text = "• Ganar almas para Jesús. \n• Formar líderes.\n• Provocar un avivamiento.",
+                text = stringResource(string.mision_description),
                 color = MaterialTheme.colors.onBackground,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
             com.alientodevida.alientoapp.designsystem.components.Subtitle1(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                text = "Visión",
+                text = stringResource(string.vision),
                 color = MaterialTheme.colors.onBackground,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
             com.alientodevida.alientoapp.designsystem.components.Body1(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                text = "  Ser una iglesia con rostro a la sociedad, que ayude a la comunidad y bendiga a la gente, buscando una transformación día a día a través de principios bíblicos (la palabra de Dios) y el poder del Espíritu Santo.",
+                text = stringResource(string.church_vision),
                 color = MaterialTheme.colors.onBackground,
             )
 
@@ -196,7 +198,7 @@ fun EditCreateCampusBody(
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
                 textAlign = TextAlign.Center,
-                text = "Mira nuestra última reunión",
+                text = stringResource(string.watch_our_reunion),
                 color = MaterialTheme.colors.onBackground,
             )
 
@@ -209,7 +211,7 @@ fun EditCreateCampusBody(
                     .padding(16.dp)
                     .clickable { latestVideo?.id?.let(goToVideo) },
                 url = latestVideo?.thumbnailsUrl,
-                description = "Aliento de Vida",
+                description = stringResource(string.app_name),
             )
 
             Spacer(modifier = Modifier.height(80.dp))

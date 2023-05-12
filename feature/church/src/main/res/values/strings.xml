@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="church_vision">  Ser una iglesia con rostro a la sociedad, que ayude a la comunidad y bendiga a la gente, buscando una transformación día a día a través de principios bíblicos (la palabra de Dios) y el poder del Espíritu Santo.\</string>
+    <string name="church_description">  Aliento de Vida es una congregación creada en el corazón de Dios, para que las personas y familias en Yucatán, México y el mundo de habla hispana, tengan un lugar donde puedan adorar a Jesucristo con libertad, recibir una palabra que transforme su vida y celebrar con nosotros la presencia de Dios. \n\n   Nos sentimos honrados con tu visita, la familia de Aliento te da la bienvenida.</string>
+    <string name="app_name">Aliento de Vida</string>
+    <string name="watch_our_reunion">Mira nuestra última reunión</string>
+    <string name="vision">Visión</string>
+    <string name="mision_description">• Ganar almas para Jesús. \n• Formar líderes.\n• Provocar un avivamiento.</string>
+    <string name="mision">Misión</string>
+    <string name="us">Nosotros</string>
+</resources>

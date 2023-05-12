@@ -262,15 +262,20 @@ fun TopicDropDown(
                 tint = MaterialTheme.colors.onSurface,
             )
 
-            DropdownMenu(expanded = expanded, onDismissRequest = {
-                expanded = false
-            },) {
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = {
+                    expanded = false
+                },
+            ) {
                 topics.forEach { topic ->
-                    DropdownMenuItem(onClick = {
-                        val index = topics.indexOf(topic)
-                        expanded = false
-                        onTopicChanged(if (index > 0) index else 0)
-                    },) {
+                    DropdownMenuItem(
+                        onClick = {
+                            val index = topics.indexOf(topic)
+                            expanded = false
+                            onTopicChanged(if (index > 0) index else 0)
+                        },
+                    ) {
                         com.alientodevida.alientoapp.designsystem.components.Body1(
                             text = topic,
                             color = MaterialTheme.colors.onBackground,
@@ -304,13 +309,13 @@ fun sendMail(context: Context, to: String, subject: String, message: String) {
 fun getMailMessage(name: String, email: String, whatsapp: String, message: String) =
     """
     Datos de contacto:
-    
+
     nombre: $name
     email: $email
     whatsapp: $whatsapp
-    
+
     mensaje:
-    
+
     $message
     """.trimIndent()
 
