@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.alientodevida.alientoapp.designsystem.components.EmptyView
 import com.alientodevida.alientoapp.domain.common.Notification
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
@@ -88,7 +89,7 @@ private fun NotificationsWithDialog(
     com.alientodevida.alientoapp.designsystem.components.ModalExpandedOnlyBottomSheetLayout(
         sheetState = modalBottomSheetState,
         sheetBackgroundColor = MaterialTheme.colors.background,
-        sheetContent = { if (notification != null) NotificationDetail(notification!!) else com.alientodevida.alientoapp.designsystem.components.EmptyView() },
+        sheetContent = { if (notification != null) NotificationDetail(notification!!) else EmptyView() },
         scrimColor = MaterialTheme.colors.onBackground.copy(alpha = 0.5f),
     ) {
         NotificationsContent(
@@ -171,7 +172,7 @@ fun TopAppBar(
 ) {
     val modifier = Modifier.size(width = 60.dp, height = 50.dp)
 
-    androidx.compose.material.TopAppBar(
+    TopAppBar(
         title = {
             Image(
                 painter = painterResource(id = R.drawable.logo_negro),

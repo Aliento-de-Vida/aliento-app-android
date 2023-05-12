@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import com.alientodevida.alientoapp.campus.domain.CampusRequest as DomainCampusRequest
+import com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel as DesignSystemAttachment
 import com.alientodevida.alientoapp.domain.common.Attachment as DomainAttachment
 
 data class CampusUiState(
@@ -72,7 +73,7 @@ class EditCreateNotificationViewModel @Inject constructor(
     logger: Logger,
     preferences: Preferences,
     savedStateHandle: SavedStateHandle,
-    val application: Application,
+    private val application: Application,
 ) : BaseViewModel(
     coroutineDispatchers,
     errorParser,
@@ -154,7 +155,7 @@ class EditCreateNotificationViewModel @Inject constructor(
         }
     }
 
-    fun addCoverAttachment(newValue: com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) {
+    fun addCoverAttachment(newValue: DesignSystemAttachment) {
         _viewModelState.update {
             it.copy(
                 campusRequest = it.campusRequest.copy(
@@ -166,13 +167,13 @@ class EditCreateNotificationViewModel @Inject constructor(
     }
 
     @Suppress("UNUSED_PARAMETER")
-    fun removeCoverAttachment(value: com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) {
+    fun removeCoverAttachment(value: DesignSystemAttachment) {
         _viewModelState.update {
             it.copy(campusRequest = it.campusRequest.copy(attachment = null, imageName = ""))
         }
     }
 
-    fun addAttachmentToList(newValue: com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) {
+    fun addAttachmentToList(newValue: DesignSystemAttachment) {
         val attachments = viewModelState.value.campusRequest.attachmentList.toMutableList()
         attachments += newValue
         _viewModelState.update {
@@ -180,7 +181,7 @@ class EditCreateNotificationViewModel @Inject constructor(
         }
     }
 
-    fun removeAttachmentFromList(value: com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) {
+    fun removeAttachmentFromList(value: DesignSystemAttachment) {
         val attachments = viewModelState.value.campusRequest.attachmentList.toMutableList()
         attachments.removeAll { it.displayName == value.displayName }
         _viewModelState.update {
@@ -207,9 +208,9 @@ class EditCreateNotificationViewModel @Inject constructor(
             try {
                 _viewModelState.update { it.copy(loading = true) }
                 val value = if (campus.isNew) {
-                    val domainAttachments = campus.attachmentList.map {
+                    val domainAttachments = campus.attachmentList.mapNotNull {
                         it.getDomainAttachment(application, it.displayName.removeExtension())
-                    }.filterNotNull()
+                    }
                     campusRepository.createCampus(
                         campus.toDomain(
                             domainAttachment,
@@ -217,9 +218,9 @@ class EditCreateNotificationViewModel @Inject constructor(
                         ),
                     )
                 } else {
-                    val domainAttachments = campus.attachmentList.map {
+                    val domainAttachments = campus.attachmentList.mapNotNull {
                         it.getDomainAttachment(application, it.displayName.removeExtension())
-                    }.filterNotNull()
+                    }
                     campusRepository.editCampus(
                         campus.toDomain(
                             domainAttachment,

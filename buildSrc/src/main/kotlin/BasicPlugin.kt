@@ -4,10 +4,8 @@ import deps.androidx.AndroidX
 import deps.androidx.Compose
 import deps.github.Stfalcon
 import deps.google.Hilt
-import deps.jakewharton.RetrofitCoroutinesAdapter
 import deps.jakewharton.RetrofitSerializationConverter
 import deps.jetbrains.Kotlin
-import deps.square.Retrofit
 import extensions.buildTypes
 import extensions.compileOptions
 import extensions.defaultConfig
@@ -87,7 +85,7 @@ private fun Project.dependencies() {
         add("implementation", "androidx.compose.material:material:${Compose.material}")
         add(
             "implementation",
-            "androidx.navigation:navigation-compose:${AndroidX.composeNavigation}"
+            "androidx.navigation:navigation-compose:${AndroidX.composeNavigation}",
         )
 
         // images
@@ -99,11 +97,11 @@ private fun Project.dependencies() {
         // Serialization
         add(
             "implementation",
-            "org.jetbrains.kotlinx:kotlinx-serialization-json:${Kotlin.serialization}"
+            "org.jetbrains.kotlinx:kotlinx-serialization-json:${Kotlin.serialization}",
         )
         add(
             "implementation",
-            "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${RetrofitSerializationConverter.lib}"
+            "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${RetrofitSerializationConverter.lib}",
         )
     }
 }

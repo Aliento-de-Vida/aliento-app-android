@@ -1,3 +1,5 @@
+@file:Suppress("LongMethod")
+
 package com.alientodevida.alientoapp.designsystem.components
 
 import androidx.annotation.DrawableRes

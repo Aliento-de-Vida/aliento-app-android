@@ -20,6 +20,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
+import androidx.datastore.preferences.core.Preferences as DataStorePreferences
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -89,6 +90,6 @@ object DataModule {
 private fun Context.sharedPreferences(): SharedPreferences =
     getSharedPreferences("mobile-preferences", Context.MODE_PRIVATE)
 
-private val Context.preferencesStore: DataStore<androidx.datastore.preferences.core.Preferences> by preferencesDataStore(
+private val Context.preferencesStore: DataStore<DataStorePreferences> by preferencesDataStore(
     name = "preferences",
 )

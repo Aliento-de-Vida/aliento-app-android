@@ -21,7 +21,8 @@ import com.alientodevida.alientoapp.domain.common.Token as AdminToken
 
 class PreferencesImpl(
     private val preferences: SharedPreferences,
-    private val preferencesStore: DataStore<DataStorePreferences>, // TODO use datastore correctly and remove sharedpreferences
+    // TODO use datastore correctly and remove sharedpreferences
+    private val preferencesStore: DataStore<DataStorePreferences>,
 ) : Preferences {
     companion object {
         private val ADMIN_TOKEN = stringPreferencesKey("admin-token")

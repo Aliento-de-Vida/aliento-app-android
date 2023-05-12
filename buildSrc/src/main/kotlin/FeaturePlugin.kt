@@ -17,11 +17,9 @@ import extensions.packagingOptions
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.jvm.toolchain.JavaLanguageVersion
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.fileTree
 import org.gradle.kotlin.dsl.project
-import org.gradle.kotlin.dsl.version
 
 class FeaturePlugin : Plugin<Project> {
 
@@ -89,14 +87,14 @@ private fun Project.dependencies() {
         add("implementation", "androidx.compose.material:material:${Compose.material}")
         add(
             "implementation",
-            "androidx.navigation:navigation-compose:${AndroidX.composeNavigation}"
+            "androidx.navigation:navigation-compose:${AndroidX.composeNavigation}",
         )
 
         // Networking
         add("implementation", "com.squareup.retrofit2:retrofit:${Retrofit.lib}")
         add(
             "implementation",
-            "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${RetrofitCoroutinesAdapter.lib}"
+            "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${RetrofitCoroutinesAdapter.lib}",
         )
 
         // images
@@ -108,11 +106,11 @@ private fun Project.dependencies() {
         // Serialization
         add(
             "implementation",
-            "org.jetbrains.kotlinx:kotlinx-serialization-json:${Kotlin.serialization}"
+            "org.jetbrains.kotlinx:kotlinx-serialization-json:${Kotlin.serialization}",
         )
         add(
             "implementation",
-            "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${RetrofitSerializationConverter.lib}"
+            "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${RetrofitSerializationConverter.lib}",
         )
     }
 }

@@ -15,8 +15,7 @@ import androidx.compose.ui.unit.Dp
 fun ModalExpandedOnlyBottomSheetLayout(
     sheetContent: @Composable ColumnScope.() -> Unit,
     modifier: Modifier = Modifier,
-    sheetState: ModalBottomSheetState =
-        rememberModalBottomSheetState(ModalBottomSheetValue.Hidden),
+    sheetState: ModalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden),
     sheetShape: Shape = MaterialTheme.shapes.large,
     sheetElevation: Dp = ModalBottomSheetDefaults.Elevation,
     sheetBackgroundColor: Color = MaterialTheme.colors.surface,
@@ -28,10 +27,10 @@ fun ModalExpandedOnlyBottomSheetLayout(
         snapshotFlow { sheetState.isAnimationRunning }
             .collect {
                 with(sheetState) {
-                    val isOpening =
-                        currentValue == ModalBottomSheetValue.Hidden && targetValue == ModalBottomSheetValue.HalfExpanded
-                    val isClosing =
-                        currentValue == ModalBottomSheetValue.Expanded && targetValue == ModalBottomSheetValue.HalfExpanded
+                    val isOpening = currentValue == ModalBottomSheetValue.Hidden &&
+                        targetValue == ModalBottomSheetValue.HalfExpanded
+                    val isClosing = currentValue == ModalBottomSheetValue.Expanded &&
+                        targetValue == ModalBottomSheetValue.HalfExpanded
                     when {
                         isOpening -> animateTo(ModalBottomSheetValue.Expanded)
                         isClosing -> animateTo(ModalBottomSheetValue.Hidden)

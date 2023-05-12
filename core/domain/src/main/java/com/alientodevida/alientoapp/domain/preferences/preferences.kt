@@ -5,6 +5,7 @@ import com.alientodevida.alientoapp.domain.home.Home
 import kotlinx.coroutines.flow.Flow
 import com.alientodevida.alientoapp.domain.common.Token as AdminToken
 
+@Suppress("ComplexInterface")
 interface Preferences {
     companion object {
         const val DEFAULT_BOOLEAN = false

@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
+import com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel as DesignSystemAttachment
 import com.alientodevida.alientoapp.domain.common.Attachment as DomainAttachment
 import com.alientodevida.alientoapp.gallery.domain.GalleryRequest as DomainGalleryRequest
 
@@ -62,7 +63,7 @@ class EditCreateGalleryViewModel @Inject constructor(
     logger: Logger,
     preferences: Preferences,
     savedStateHandle: SavedStateHandle,
-    val application: Application,
+    private val application: Application,
 ) : BaseViewModel(
     coroutineDispatchers,
     errorParser,
@@ -96,7 +97,7 @@ class EditCreateGalleryViewModel @Inject constructor(
         }
     }
 
-    fun addCoverAttachment(newValue: com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) {
+    fun addCoverAttachment(newValue: DesignSystemAttachment) {
         _viewModelState.update {
             it.copy(
                 galleryRequest = it.galleryRequest.copy(
@@ -107,13 +108,13 @@ class EditCreateGalleryViewModel @Inject constructor(
         }
     }
 
-    fun removeCoverAttachment(value: com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) {
+    fun removeCoverAttachment(value: DesignSystemAttachment) {
         _viewModelState.update {
             it.copy(galleryRequest = it.galleryRequest.copy(attachment = null, coverPicture = ""))
         }
     }
 
-    fun addAttachmentToList(newValue: com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) {
+    fun addAttachmentToList(newValue: DesignSystemAttachment) {
         val attachments = viewModelState.value.galleryRequest.attachmentList.toMutableList()
         attachments += newValue
         _viewModelState.update {
@@ -121,7 +122,7 @@ class EditCreateGalleryViewModel @Inject constructor(
         }
     }
 
-    fun removeAttachmentFromList(value: com.alientodevida.alientoapp.designsystem.components.attachment.AttachmentModel) {
+    fun removeAttachmentFromList(value: DesignSystemAttachment) {
         val attachments = viewModelState.value.galleryRequest.attachmentList.toMutableList()
         attachments.removeAll { it.displayName == value.displayName }
         _viewModelState.update {
@@ -148,9 +149,9 @@ class EditCreateGalleryViewModel @Inject constructor(
             try {
                 _viewModelState.update { it.copy(loading = true) }
                 val value = if (gallery.isNew) {
-                    val domainAttachments = gallery.attachmentList.map {
+                    val domainAttachments = gallery.attachmentList.mapNotNull {
                         it.getDomainAttachment(application, it.displayName.removeExtension())
-                    }.filterNotNull()
+                    }
                     galleryRepository.createGallery(
                         gallery.toDomain(
                             domainAttachment,
@@ -158,9 +159,9 @@ class EditCreateGalleryViewModel @Inject constructor(
                         ),
                     )
                 } else {
-                    val domainAttachments = gallery.attachmentList.map {
+                    val domainAttachments = gallery.attachmentList.mapNotNull {
                         it.getDomainAttachment(application, it.displayName.removeExtension())
-                    }.filterNotNull()
+                    }
                     galleryRepository.editGallery(
                         gallery.toDomain(
                             domainAttachment,
