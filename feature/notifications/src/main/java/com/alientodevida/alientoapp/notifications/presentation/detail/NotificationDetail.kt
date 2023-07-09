@@ -13,6 +13,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -22,19 +23,30 @@ import com.alientodevida.alientoapp.notifications.R
 import com.bumptech.glide.Glide
 import com.stfalcon.imageviewer.StfalconImageViewer
 
-private fun openGallery(context: Context, images: List<String>) {
-    StfalconImageViewer.Builder(context, images) { view, imageUrl ->
-        Glide.with(context).load(imageUrl).into(view)
-    }.show()
+private fun openGallery(
+    context: Context,
+    images: List<String>,
+    backgroundColor: Int,
+) {
+    StfalconImageViewer
+        .Builder(context, images) { view, imageUrl ->
+            Glide.with(context).load(imageUrl).into(view)
+        }
+        .withBackgroundColor(backgroundColor)
+        .allowSwipeToDismiss(true)
+        .show()
 }
 
 @Composable
 fun NotificationDetail(notification: Notification) {
     val context = LocalContext.current
+    val backgroundColor = MaterialTheme.colors.background
 
     NotificationDetailContent(
         notification = notification,
-        goToImage = { openGallery(context, listOf(it)) },
+        goToImage = {
+            openGallery(context, listOf(it), backgroundColor.toArgb())
+        },
     )
 }
 
