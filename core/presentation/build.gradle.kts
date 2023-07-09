@@ -55,6 +55,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:${deps.github.Glide.lib}")
     kapt("com.github.bumptech.glide:compiler:${deps.github.Glide.lib}")
     implementation("io.coil-kt:coil-compose:${deps.coil.Coil.lib}")
+    add("implementation", "com.github.stfalcon-studio:StfalconImageViewer:${deps.github.Stfalcon.lib}")
 
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Kotlin.serialization}")

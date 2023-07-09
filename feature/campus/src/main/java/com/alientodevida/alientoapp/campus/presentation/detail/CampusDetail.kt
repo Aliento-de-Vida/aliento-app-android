@@ -19,6 +19,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -26,8 +27,7 @@ import androidx.core.content.ContextCompat.startActivity
 import com.alientodevida.alientoapp.campus.R
 import com.alientodevida.alientoapp.domain.common.Campus
 import com.alientodevida.alientoapp.domain.extensions.toImageUrl
-import com.bumptech.glide.Glide
-import com.stfalcon.imageviewer.StfalconImageViewer
+import com.alientodevida.alientoapp.ui.imageviewer.openFullScreenImage
 
 private fun openMap(context: Context, latitude: String, longitude: String, name: String) {
     val gmmIntentUri = Uri.parse("geo:$latitude,$longitude?q=$latitude,$longitude($name)")
@@ -38,15 +38,10 @@ private fun openMap(context: Context, latitude: String, longitude: String, name:
     }
 }
 
-private fun openGallery(context: Context, images: List<String>) {
-    StfalconImageViewer.Builder(context, images) { view, imageUrl ->
-        Glide.with(context).load(imageUrl).into(view)
-    }.show()
-}
-
 @Composable
 fun CampusDetail(campus: Campus) {
     val context = LocalContext.current
+    val backgroundColor = MaterialTheme.colors.background
 
     CampusDetailContent(
         campus = campus,
@@ -59,9 +54,9 @@ fun CampusDetail(campus: Campus) {
             )
         },
         openGallery = {
-            openGallery(context, campus.images.map { it.toImageUrl() })
+            openFullScreenImage(context, campus.images.map { it.toImageUrl() }, backgroundColor.toArgb())
         },
-        goToImage = { openGallery(context, listOf(it)) },
+        goToImage = { openFullScreenImage(context, listOf(it), backgroundColor.toArgb()) },
     )
 }
 
