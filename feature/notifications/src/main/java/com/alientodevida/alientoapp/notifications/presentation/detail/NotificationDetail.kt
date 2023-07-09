@@ -1,6 +1,5 @@
 package com.alientodevida.alientoapp.notifications.presentation.detail
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,22 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.domain.common.Notification
 import com.alientodevida.alientoapp.domain.extensions.toImageUrl
 import com.alientodevida.alientoapp.notifications.R
-import com.bumptech.glide.Glide
-import com.stfalcon.imageviewer.StfalconImageViewer
-
-private fun openGallery(
-    context: Context,
-    images: List<String>,
-    backgroundColor: Int,
-) {
-    StfalconImageViewer
-        .Builder(context, images) { view, imageUrl ->
-            Glide.with(context).load(imageUrl).into(view)
-        }
-        .withBackgroundColor(backgroundColor)
-        .allowSwipeToDismiss(true)
-        .show()
-}
+import com.alientodevida.alientoapp.ui.imageviewer.openFullScreenImage
 
 @Composable
 fun NotificationDetail(notification: Notification) {
@@ -45,7 +29,7 @@ fun NotificationDetail(notification: Notification) {
     NotificationDetailContent(
         notification = notification,
         goToImage = {
-            openGallery(context, listOf(it), backgroundColor.toArgb())
+            openFullScreenImage(context, listOf(it), backgroundColor.toArgb())
         },
     )
 }

@@ -1,6 +1,5 @@
 package com.alientodevida.alientoapp.gallery.presentation.detail
 
-import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,27 +11,21 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.domain.common.Gallery
 import com.alientodevida.alientoapp.domain.extensions.toImageUrl
-import com.alientodevida.alientoapp.ui.extensions.load
-import com.stfalcon.imageviewer.StfalconImageViewer
-
-private fun openGallery(context: Context, images: List<String>) {
-    StfalconImageViewer.Builder(context, images) { view, imageUrl ->
-        view.load(imageUrl, false)
-    }
-        .show()
-}
+import com.alientodevida.alientoapp.ui.imageviewer.openFullScreenImage
 
 @Composable
 fun Gallery(gallery: Gallery) {
     val context = LocalContext.current
+    val backgroundColor = MaterialTheme.colors.background
 
     GalleryContent(
         gallery = gallery,
-        goToImage = { openGallery(context, listOf(it)) },
+        goToImage = { openFullScreenImage(context, listOf(it), backgroundColor.toArgb()) },
     )
 }
 
