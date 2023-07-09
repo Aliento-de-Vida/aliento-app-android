@@ -1,12 +1,16 @@
 package com.alientodevida.alientoapp.data.di
 
+import android.content.Context
+import com.alientodevida.alientoapp.common.logger.Logger
 import com.alientodevida.alientoapp.data.file.FileApi
 import com.alientodevida.alientoapp.data.file.FileRepositoryImpl
+import com.alientodevida.alientoapp.domain.di.BaseUrl
 import com.alientodevida.alientoapp.domain.file.FileRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
@@ -21,7 +25,7 @@ object FileModule {
     @Singleton
     @Provides
     fun fileApi(
-        @Named("base-url")
+        @BaseUrl
         baseUrl: String,
         @Named("AdminAuthClient")
         okHttpClient: OkHttpClient,
@@ -36,6 +40,8 @@ object FileModule {
     @Singleton
     @Provides
     fun fileRepository(
+        @ApplicationContext context: Context,
         fileApi: FileApi,
-    ): FileRepository = FileRepositoryImpl(fileApi)
+        logger: Logger,
+    ): FileRepository = FileRepositoryImpl(context, fileApi, logger)
 }

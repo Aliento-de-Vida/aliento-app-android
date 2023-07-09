@@ -18,6 +18,7 @@ android {
 dependencies {
     // Modules
     implementation(project(":core:domain"))
+    implementation(project(":core:common"))
 
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Kotlin.lib}")
@@ -41,4 +42,7 @@ dependencies {
         "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${RetrofitSerializationConverter.lib}",
     )
     implementation("com.google.code.gson:gson:${Gson.lib}")
+
+    // Image compression
+    implementation("id.zelory:compressor:3.0.1")
 }

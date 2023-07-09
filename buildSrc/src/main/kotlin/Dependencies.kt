@@ -13,7 +13,7 @@ object BuildPlugins {
     const val kotlinSerialization = "org.jetbrains.kotlin.plugin.serialization"
     const val kotlinParcelize = "kotlin-parcelize"
 
-    const val gradleVersion = "7.4.2"
+    const val gradleVersion = "8.0.1"
     const val hiltPluginVersion = "2.44"
     const val navigationVersion = "2.4.1"
     const val gogleServicesVersion = "4.3.15"

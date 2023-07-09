@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.alientodevida.alientoapp.designsystem.components.EmptyView
+import com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering
 import com.alientodevida.alientoapp.domain.common.Notification
 import com.alientodevida.alientoapp.domain.extensions.format
 import com.alientodevida.alientoapp.domain.extensions.toDate
@@ -304,7 +305,8 @@ fun NotificationItem(
 private fun NotificationItemContent(notification: Notification) {
     Box {
         // TODO the ViewModel should do this conversion
-        com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(
+        ImageWithShimmering(
+            modifier = Modifier.fillMaxWidth(),
             url = notification.image?.name?.toImageUrl(),
             description = notification.title,
         )

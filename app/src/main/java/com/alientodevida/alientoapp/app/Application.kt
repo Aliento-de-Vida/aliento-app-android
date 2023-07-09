@@ -9,6 +9,7 @@ import coil.memory.MemoryCache
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import com.alientodevida.alientoapp.ui.coil.ResponseHeaderInterceptor
 import com.alientodevida.alientoapp.ui.messaging.NotificationsManager
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp
 import okhttp3.OkHttpClient
 import javax.inject.Inject
@@ -24,7 +25,7 @@ class AppController : Application(), ImageLoaderFactory {
 
     override fun onCreate() {
         super.onCreate()
-        notificationsManager.setActivityClass(activity = MainActivity::class.java)
+        FirebaseApp.initializeApp(this)
         notificationsManager.subscribeToPushNotifications(preferences.pushEnabled)
     }
 

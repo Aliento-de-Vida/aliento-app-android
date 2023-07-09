@@ -58,13 +58,13 @@ data class High(
  * Convert Network results to domain objects
  */
 fun YoutubePlaylistItems.asDomain(): List<YoutubeVideo> {
-    return items.map {
+    return items.filter { it.snippet.thumbnails.high != null }.map {
         YoutubeVideo(
             it.snippet.title,
             it.snippet.resourceId!!.videoId,
             it.snippet.description,
             it.snippet.publishedAt,
-            it.snippet.thumbnails.high?.url,
+            it.snippet.thumbnails.high!!.url,
         )
     }
 }

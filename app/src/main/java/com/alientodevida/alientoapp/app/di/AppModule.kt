@@ -1,6 +1,9 @@
 package com.alientodevida.alientoapp.app.di
 
 import com.alientodevida.alientoapp.app.BuildConfig
+import com.alientodevida.alientoapp.app.MainActivity
+import com.alientodevida.alientoapp.domain.di.ActivityIntent
+import com.alientodevida.alientoapp.domain.di.BaseUrl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,8 +15,12 @@ import javax.inject.Named
 class AppModule {
 
     @Provides
-    @Named("base-url")
+    @BaseUrl
     fun baseUrl(): String = BuildConfig.BASE_URL
+
+    @Provides
+    @ActivityIntent
+    fun notificationClass(): Class<*> = MainActivity::class.java
 
     @Provides
     @Named("youtube-key")

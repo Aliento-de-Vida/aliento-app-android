@@ -40,6 +40,7 @@ fun SermonsPager(
 private fun SermonsPageItem(item: CarouselItem) {
     Box {
         com.alientodevida.alientoapp.designsystem.components.ImageWithShimmering(
+            modifier = Modifier.fillMaxWidth(),
             url = item.imageUrl,
             description = item.title,
         )
