@@ -1,6 +1,7 @@
 package com.alientodevida.alientoapp.gallery.di
 
 import com.alientodevida.alientoapp.data.di.DataModule
+import com.alientodevida.alientoapp.domain.di.BaseUrl
 import com.alientodevida.alientoapp.domain.file.FileRepository
 import com.alientodevida.alientoapp.gallery.data.GalleryAdminApi
 import com.alientodevida.alientoapp.gallery.data.GalleryApi
@@ -26,7 +27,7 @@ object GalleryModule {
     @Singleton
     @Provides
     fun galleryApi(
-        @Named("base-url")
+        @BaseUrl
         baseUrl: String,
         @Named("Client")
         okHttpClient: OkHttpClient,
@@ -42,7 +43,7 @@ object GalleryModule {
     @Singleton
     @Provides
     fun galleryAdminApi(
-        @Named("base-url")
+        @BaseUrl
         baseUrl: String,
         @Named("AdminAuthClient")
         okHttpClient: OkHttpClient,

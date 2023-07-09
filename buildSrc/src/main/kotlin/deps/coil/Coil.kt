@@ -1,5 +1,5 @@
 package deps.coil
 
 object Coil {
-    const val lib = "2.2.2"
+    const val lib = "2.4.0"
 }

@@ -1,6 +1,7 @@
 package com.alientodevida.alientoapp.home.di
 
 import com.alientodevida.alientoapp.data.di.DataModule
+import com.alientodevida.alientoapp.domain.di.BaseUrl
 import com.alientodevida.alientoapp.domain.file.FileRepository
 import com.alientodevida.alientoapp.domain.home.HomeRepository
 import com.alientodevida.alientoapp.home.data.HomeApi
@@ -25,7 +26,7 @@ object HomeModule {
     @Singleton
     @Provides
     fun homeApi(
-        @Named("base-url")
+        @BaseUrl
         baseUrl: String,
         @Named("Client")
         okHttpClient: OkHttpClient,

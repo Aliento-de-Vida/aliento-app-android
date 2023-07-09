@@ -21,13 +21,13 @@ data class VideoId(val videoId: String? = null)
  * Convert Network results to domain objects
  */
 fun YoutubeChannelItems.asDomain(): List<YoutubeVideo> {
-    return items.filter { it.id.videoId != null }.map {
+    return items.filter { it.id.videoId != null && it.snippet.thumbnails.high?.url != null }.map {
         YoutubeVideo(
             it.snippet.title,
             it.id.videoId!!,
             it.snippet.description,
             it.snippet.publishedAt,
-            it.snippet.thumbnails.high?.url,
+            it.snippet.thumbnails.high!!.url,
         )
     }
 }

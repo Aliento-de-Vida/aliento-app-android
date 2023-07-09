@@ -199,11 +199,11 @@ class HomeViewModel @Inject constructor(
             ),
         )
         carouselItems += sermons
-            .filter { it.thumbnailsUrl != null }
+            .take(2)
             .map {
                 CarouselItem(
                     it.name,
-                    it.thumbnailsUrl!!.replace("hqdefault.jpg", "maxresdefault.jpg"),
+                    it.thumbnailsUrl,
                     null,
                     YoutubeItem(it.id),
                 )

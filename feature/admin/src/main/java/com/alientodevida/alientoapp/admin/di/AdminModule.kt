@@ -3,6 +3,7 @@ package com.alientodevida.alientoapp.admin.di
 import com.alientodevida.alientoapp.admin.data.AdminApi
 import com.alientodevida.alientoapp.admin.data.AdminRepositoryImpl
 import com.alientodevida.alientoapp.data.di.DataModule
+import com.alientodevida.alientoapp.domain.di.BaseUrl
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -23,7 +24,7 @@ object AdminModule {
     @Singleton
     @Provides
     fun adminApi(
-        @Named("base-url")
+        @BaseUrl
         baseUrl: String,
         @Named("Client")
         okHttpClient: OkHttpClient,

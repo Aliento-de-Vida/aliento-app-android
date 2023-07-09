@@ -5,6 +5,7 @@ import com.alientodevida.alientoapp.campus.data.CampusApi
 import com.alientodevida.alientoapp.campus.data.CampusRepositoryImpl
 import com.alientodevida.alientoapp.campus.domain.CampusRepository
 import com.alientodevida.alientoapp.data.di.DataModule
+import com.alientodevida.alientoapp.domain.di.BaseUrl
 import com.alientodevida.alientoapp.domain.file.FileRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -26,7 +27,7 @@ object CampusModule {
     @Singleton
     @Provides
     fun campusApi(
-        @Named("base-url")
+        @BaseUrl
         baseUrl: String,
         @Named("Client")
         okHttpClient: OkHttpClient,
@@ -42,7 +43,7 @@ object CampusModule {
     @Singleton
     @Provides
     fun campusAdminApi(
-        @Named("base-url")
+        @BaseUrl
         baseUrl: String,
         @Named("AdminAuthClient")
         okHttpClient: OkHttpClient,

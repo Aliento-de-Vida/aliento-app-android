@@ -1,6 +1,7 @@
 package com.alientodevida.alientoapp.notifications.di
 
 import com.alientodevida.alientoapp.data.di.DataModule
+import com.alientodevida.alientoapp.domain.di.BaseUrl
 import com.alientodevida.alientoapp.domain.file.FileRepository
 import com.alientodevida.alientoapp.notifications.data.NotificationAdminApi
 import com.alientodevida.alientoapp.notifications.data.NotificationApi
@@ -25,7 +26,7 @@ object NotificationModule {
     @Singleton
     @Provides
     fun notificationApi(
-        @Named("base-url")
+        @BaseUrl
         baseUrl: String,
         @Named("Client")
         okHttpClient: OkHttpClient,
@@ -41,7 +42,7 @@ object NotificationModule {
     @Singleton
     @Provides
     fun notificationAdminApi(
-        @Named("base-url")
+        @BaseUrl
         baseUrl: String,
         @Named("AdminAuthClient")
         okHttpClient: OkHttpClient,
