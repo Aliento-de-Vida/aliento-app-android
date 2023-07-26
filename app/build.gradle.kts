@@ -26,6 +26,9 @@ android {
     }
 }
 
+val localProps = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "local.properties")))
+}
 android {
     namespace = "com.alientodevida.alientoapp.app"
     compileSdk = config.compileSdk
@@ -57,7 +60,12 @@ android {
             buildConfigField(
                 "String",
                 "YOUTUBE_DEVELOPER_KEY",
-                "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\"",
+                localProps.getProperty("youtubeApiKey"),
+            )
+            buildConfigField(
+                "String",
+                "SPOTIFY_BASIC_TOKEN",
+                localProps.getProperty("spotifyBasicToken"),
             )
             buildConfigField("String", "BASE_URL", "\"https://todoserver-peter.herokuapp.com\"")
         }
@@ -66,7 +74,12 @@ android {
             buildConfigField(
                 "String",
                 "YOUTUBE_DEVELOPER_KEY",
-                "\"AIzaSyD3-lHPYrGTHPUEP_ZpdQEPwx2IXKfznj0\"",
+                localProps.getProperty("youtubeApiKey"),
+            )
+            buildConfigField(
+                "String",
+                "SPOTIFY_BASIC_TOKEN",
+                localProps.getProperty("spotifyBasicToken"),
             )
             buildConfigField("String", "BASE_URL", "\"https://todoserver-peter.herokuapp.com\"")
         }

@@ -1,6 +1,8 @@
 package com.alientodevida.alientoapp.sermons.data.spotify
 
 import com.alientodevida.alientoapp.domain.common.SpotifyToken
+import com.alientodevida.alientoapp.domain.di.SpotifyBasicToken
+import com.alientodevida.alientoapp.domain.di.YoutubeKey
 import com.alientodevida.alientoapp.domain.preferences.Preferences
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
@@ -12,10 +14,9 @@ import javax.inject.Inject
 class SpotifyAuthenticator @Inject constructor(
     private val preferences: Preferences,
     private val spotifyAuthApi: SpotifyAuthApi,
+    @SpotifyBasicToken private val spotifyBasicToken: String,
 ) : Authenticator {
 
-    val SPOTIFY_TOKEN =
-        "Basic ZTBlNDMyMWYxNTI4NGU5YzkwNzRmMDFjNjAwOTdkOGY6YTQyNjk2MzViYzMyNDkxNjlkNjRhZWYzZTgwNGM1NGM="
     val SPOTIFY_GRANT_TYPE = "client_credentials"
 
     override fun authenticate(route: Route?, response: Response): Request? {
@@ -24,7 +25,7 @@ class SpotifyAuthenticator @Inject constructor(
             runBlocking {
                 newSpotifyToken = spotifyAuthApi.getToken(
                     "https://accounts.spotify.com/api/token/",
-                    SPOTIFY_TOKEN,
+                    spotifyBasicToken,
                     SPOTIFY_GRANT_TYPE,
                 )
             }

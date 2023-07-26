@@ -1,5 +1,6 @@
 package com.alientodevida.alientoapp.sermons.data.video
 
+import com.alientodevida.alientoapp.domain.di.YoutubeKey
 import com.alientodevida.alientoapp.domain.video.VideoRepository
 import com.alientodevida.alientoapp.domain.video.YoutubeVideo
 import com.alientodevida.alientoapp.sermons.data.storage.RoomDao
@@ -14,8 +15,7 @@ import javax.inject.Singleton
 class VideoRepositoryImpl @Inject constructor(
     private val youtubeApi: YoutubeApi,
     private val roomDao: RoomDao,
-    @Named("youtube-key")
-    private val youtubeKey: String,
+    @YoutubeKey private val youtubeKey: String,
 ) : VideoRepository {
 
     override suspend fun getYoutubeChannelVideos(
