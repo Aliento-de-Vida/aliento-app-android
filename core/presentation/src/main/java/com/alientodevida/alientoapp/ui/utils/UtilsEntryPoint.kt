@@ -3,6 +3,7 @@ package com.alientodevida.alientoapp.ui.utils
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.alientodevida.alientoapp.core.analytics.Analytics
 import com.alientodevida.alientoapp.core.analytics.NoOpAnalytics
+import com.alientodevida.alientoapp.domain.di.YoutubeKey
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
@@ -14,8 +15,7 @@ interface Utils {
 
 @Singleton
 class UtilsEntryPoint @Inject constructor(
-    @Named("youtube-key")
-    override val youtubeKey: String,
+    @YoutubeKey override val youtubeKey: String,
     override val analytics: Analytics,
 ) : Utils
 

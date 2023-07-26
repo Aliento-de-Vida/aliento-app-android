@@ -70,7 +70,7 @@ fun AttachmentModel?.getDomainAttachment(context: Context, name: String? = null)
 
 @Composable
 fun AttachmentsWithCurrentImages(
-    attachmentLimit: Int = 5,
+    attachmentLimit: Int = 12,
     newAttachmentsTitle: String? = null,
     currentAttachmentsTitle: String? = null,
     newAttachments: List<AttachmentModel>,

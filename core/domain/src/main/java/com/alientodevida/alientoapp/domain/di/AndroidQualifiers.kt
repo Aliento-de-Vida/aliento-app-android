@@ -10,3 +10,11 @@ annotation class BaseUrl
 @Qualifier
 @Retention(RUNTIME)
 annotation class ActivityIntent
+
+@Qualifier
+@Retention(RUNTIME)
+annotation class YoutubeKey
+
+@Qualifier
+@Retention(RUNTIME)
+annotation class SpotifyBasicToken
